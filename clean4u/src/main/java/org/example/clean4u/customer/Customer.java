@@ -3,13 +3,15 @@ package org.example.clean4u.customer;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.clean4u.utils.BaseTimeEntity;
+
 import java.time.LocalDate;
 
 @NoArgsConstructor
 @Data
 @Table(name = "customer_tb")
 @Entity
-public class Customer {
+public class Customer extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
