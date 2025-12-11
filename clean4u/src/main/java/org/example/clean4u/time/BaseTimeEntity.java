@@ -1,4 +1,4 @@
-package org.example.clean4u.utils;
+package org.example.clean4u.time;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
