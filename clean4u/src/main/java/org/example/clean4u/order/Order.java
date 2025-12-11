@@ -8,8 +8,6 @@ import org.example.clean4u.customer.Customer;
 import org.example.clean4u.time.BaseTimeEntity;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "order_tb")
@@ -21,12 +19,8 @@ public class Order extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false, updatable = false)
     private Customer customer;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Column(name = "order_item")
-    private List<OrderItem> orderItem = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -42,17 +36,27 @@ public class Order extends BaseTimeEntity {
     private String memo;
 
     @Builder
-    public Order(Long id, Customer customer, List<OrderItem> orderItem, OrderStatus status, Long totalPrice, LocalDate orderDate, String memo) {
+    public Order(Long id, Customer customer, OrderStatus status, Long totalPrice, LocalDate orderDate, String memo) {
         this.id = id;
         this.customer = customer;
-        this.orderItem = orderItem;
         this.status = status;
         this.totalPrice = totalPrice;
-        this.orderDate = orderDate;
+        this.orderDate = orderDate == null ? LocalDate.now() : orderDate;
         this.memo = memo;
     }
 
-    public void updateOrder() {
+    public void updateOrder(OrderRequest.UpdateDto updateDto) {
+        updateDto.validate();
+        this.status = updateDto.getStatus();
+        this.totalPrice = updateDto.getTotalPrice();
+        this.orderDate = updateDto.orderDate == null ? LocalDate.now() : updateDto.orderDate;
+        this.memo = updateDto.getMemo();
+    }
 
+    public void updateStatus(OrderStatus newStatus) {
+        if(newStatus == null) {
+            throw new IllegalArgumentException("주문 상태는 null일 수 없습니다.");
+        }
+        this.status = newStatus;
     }
 }
