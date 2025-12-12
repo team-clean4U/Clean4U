@@ -41,5 +41,12 @@ public class OrderItemRepository {
     }
 
     // 주문 품목 삭제
+    public void deleteById(Long id) {
+        OrderItem orderItem = em.find(OrderItem.class, id);
+        if(orderItem == null) {
+            throw new Exception404("해당 주문 품목을 찾을 수 없습니다.");
+        }
+        em.remove(orderItem);
+    }
 
 }
