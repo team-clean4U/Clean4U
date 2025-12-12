@@ -1,0 +1,27 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="card">
+        <div class="card-header"><b>고객 등록</b></div>
+        <div class="card-body">
+            <form action="/customer" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="이름" name="name">
+                </div>
+                <div class="mb-3">
+                    <input type="date" class="form-control" placeholder="생년월일" name="birth">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="연락처" name="phone">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="메모를 입력하세요" name="memo">
+                </div>
+                <button type="submit" class="btn btn-primary form-control">등록</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}

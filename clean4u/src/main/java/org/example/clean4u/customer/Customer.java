@@ -1,6 +1,7 @@
 package org.example.clean4u.customer;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.time.BaseTimeEntity;
@@ -9,7 +10,13 @@ import java.time.LocalDate;
 
 @NoArgsConstructor
 @Data
-@Table(name = "customer_tb")
+@Table(
+        name = "customer_tb",
+        indexes = {
+                @Index(name = "idx_customer_name", columnList = "name"),
+                @Index(name = "idx_customer_phone", columnList = "phone")
+        }
+)
 @Entity
 public class Customer extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +39,24 @@ public class Customer extends BaseTimeEntity {
     @Column(name = "memo", length = 1000)
     private String memo;
 
-    public Customer(String name, LocalDate birth, String phone, Grade grade) {
+    @Builder
+    public Customer(String name, LocalDate birth, String phone, String memo) {
         this.name = name;
         this.birth = birth;
         this.phone = phone;
-        this.grade = grade;
+        this.memo = memo;
+    }
+
+    public void update(CustomerRequest.updateDto dto) {
+        dto.validate();
+
+        this.name = dto.getName();
+        this.birth = dto.getBirth();
+        this.phone = dto.getPhone();
+        this.memo = dto.getMemo();
+    }
+
+    public void updateMemo(String newMemo) {
+        this.memo = newMemo;
     }
 }
