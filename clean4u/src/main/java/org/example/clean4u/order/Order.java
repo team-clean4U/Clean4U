@@ -36,8 +36,7 @@ public class Order extends BaseTimeEntity {
     private String memo;
 
     @Builder
-    public Order(Long id, Customer customer, OrderStatus status, Long totalPrice, LocalDate orderDate, String memo) {
-        this.id = id;
+    public Order(Customer customer, OrderStatus status, Long totalPrice, LocalDate orderDate, String memo) {
         this.customer = customer;
         this.status = status;
         this.totalPrice = totalPrice;
@@ -46,7 +45,6 @@ public class Order extends BaseTimeEntity {
     }
 
     public void updateOrder(OrderRequest.UpdateDto updateDto) {
-        updateDto.validate();
         this.status = updateDto.getStatus();
         this.totalPrice = updateDto.getTotalPrice();
         this.orderDate = updateDto.orderDate == null ? LocalDate.now() : updateDto.orderDate;

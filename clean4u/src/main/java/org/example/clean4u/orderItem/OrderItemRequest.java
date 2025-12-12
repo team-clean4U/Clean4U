@@ -1,21 +1,34 @@
 package org.example.clean4u.orderItem;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.clean4u.laundryItem.LaundryItem;
+import org.example.clean4u.order.Order;
 
 public class OrderItemRequest {
     @Data
-    public static class UpdateDto {
-        private LaundryItem laundryItem;
+    public static class saveDto {
+        @NotNull(message = "세탁 품목 입력은 필수입니다.")
+        private Long laundryItemId;
+
+        @NotNull(message = "수량 입력은 필수입니다.")
         private Integer quantity;
 
-        public void validate() {
-            if (laundryItem == null) {
-                throw new IllegalArgumentException("세탁 품목 입력은 필수입니다.");
-            }
-            if(quantity == null) {
-                throw new IllegalArgumentException("수량 입력은 필수입니다.");
-            }
+        public OrderItem toEntity(Order order, LaundryItem laundryItem) {
+            return OrderItem.builder()
+                    .order(order)
+                    .laundryItem(laundryItem)
+                    .quantity(quantity)
+                    .build();
         }
+    }
+
+    @Data
+    public static class UpdateDto {
+        @NotNull(message = "세탁 품목 입력은 필수입니다.")
+        private Long laundryItemId;
+
+        @NotNull(message = "수량 입력은 필수입니다.")
+        private Integer quantity;
     }
 }
