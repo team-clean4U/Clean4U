@@ -30,4 +30,32 @@ public class SupplyItem {
         this.unit = unit;
         this.stockQuantity = stockQuantity;
     }
+
+    public void update(SupplyItemRequest.UpdateDTO updateDTO) {
+        updateDTO.validate();
+        this.name = updateDTO.getName();
+        this.unit = updateDTO.getUnit();
+        this.stockQuantity = updateDTO.getStockQuantity();
+    }
+
+    public void updateName(String newName) {
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException("자재 이름은 필수입니다.");
+        }
+        this.name = newName;
+    }
+
+    public void updateUnit(String newUnit) {
+        if (newUnit == null || newUnit.trim().isEmpty()) {
+            throw new IllegalArgumentException("단위는 필수입니다.");
+        }
+        this.unit = newUnit;
+    }
+
+    public void updateStockQuantity(Integer newStockQuantity) {
+        if (newStockQuantity == null || newStockQuantity < 0) {
+            throw new IllegalArgumentException("재고 수량은 0 이상 이어야 합니다.");
+        }
+        this.stockQuantity = newStockQuantity;
+    }
 }
