@@ -1,4 +1,4 @@
-package org.example.clean4u.orderOption;
+package org.example.clean4u.orderItemOption;
 
 import jakarta.persistence.*;
 import lombok.Builder;
