@@ -10,10 +10,10 @@ public class LaundryItemRequest {
         @NotBlank(message = "세탁물 이름은 필수입니다.")
         private String name;
 
-        @NotBlank(message = "카테고리는 필수입니다")
+        @NotBlank(message = "카테고리는 필수입니다.")
         private LaundryCategory category;
 
-        @NotBlank(message = "기본 요금은 필수입니다")
+        @NotBlank(message = "기본 요금은 필수입니다.")
         private Integer basePrice;
 
         public LaundryItem toEntity() {
@@ -30,10 +30,10 @@ public class LaundryItemRequest {
         @NotBlank(message = "세탁물 이름은 필수입니다.")
         private String name;
 
-        @NotBlank(message = "카테고리는 필수입니다")
+        @NotBlank(message = "카테고리는 필수입니다.")
         private LaundryCategory category;
 
-        @NotBlank(message = "기본 요금은 필수입니다")
+        @NotBlank(message = "기본 요금은 필수입니다.")
         private Integer basePrice;
 
         public void validate() {
