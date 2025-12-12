@@ -31,7 +31,7 @@ public class LaundryOptionRepository {
     }
 
     @Transactional
-    public LaundryOption update(Long id, LaundryOptionRequest.UpdateDTO updateDTO) {
+    public LaundryOption updateById(Long id, LaundryOptionRequest.UpdateDTO updateDTO) {
         LaundryOption laundryOption = em.find(LaundryOption.class, id);
         if (laundryOption == null) {
             throw new IllegalArgumentException("수정할 옵션이 없습니다.");
@@ -41,7 +41,7 @@ public class LaundryOptionRepository {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         LaundryOption laundryOption = em.find(LaundryOption.class, id);
         if (laundryOption == null) {
             throw new IllegalArgumentException("삭제할 옵션이 없습니다.");
