@@ -13,7 +13,7 @@ public class LaundryItemRequest {
         @NotBlank(message = "카테고리는 필수입니다")
         private LaundryCategory category;
 
-        @NotBlank(message = "기본요금은 필수입니다")
+        @NotBlank(message = "기본 요금은 필수입니다")
         private Integer basePrice;
 
         public LaundryItem toEntity() {
@@ -33,7 +33,7 @@ public class LaundryItemRequest {
         @NotBlank(message = "카테고리는 필수입니다")
         private LaundryCategory category;
 
-        @NotBlank(message = "기본 가격은 필수입니다")
+        @NotBlank(message = "기본 요금은 필수입니다")
         private Integer basePrice;
 
         public void validate() {
@@ -46,7 +46,7 @@ public class LaundryItemRequest {
             }
 
             if (basePrice == null || basePrice < 0) {
-                throw new IllegalArgumentException("기본 가격은 0이상 이어야 합니다.");
+                throw new IllegalArgumentException("기본 요금은 0 이상 이어야 합니다.");
             }
         }
     }
