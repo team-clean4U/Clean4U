@@ -2,6 +2,7 @@ package org.example.clean4u.customer;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.errors.exception.Exception401;
 import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class CustomerController {
         Employee userSession = (Employee) session.getAttribute("sessionUser");
 
         if (userSession == null) {
-            throw new IllegalArgumentException("로그인 후 사용 가능합니다.");
+            throw new Exception401("로그인 후 사용 가능합니다.");
         }
 
         return "customer/create-form";
@@ -36,7 +37,7 @@ public class CustomerController {
         Employee userSession = (Employee) session.getAttribute("sessionUser");
 
         if (userSession == null) {
-            throw new IllegalArgumentException("로그인 후 사용 가능합니다.");
+            throw new Exception401("로그인 후 사용 가능합니다.");
         }
 
         Customer customer = dto.toEntity();
@@ -50,7 +51,7 @@ public class CustomerController {
     public String customerList(Model model, HttpSession session) {
         Employee userSession = (Employee) session.getAttribute("sessionUser");
         if (userSession == null) {
-            throw new IllegalArgumentException("로그인 후 사용 가능합니다.");
+            throw new Exception401("로그인 후 사용 가능합니다.");
         }
 
         List<Customer> customerList = repository.findAll();
@@ -63,7 +64,7 @@ public class CustomerController {
     public String getCustomerById(@PathVariable Long id, Model model, HttpSession session) {
         Employee userSession = (Employee) session.getAttribute("sessionUser");
         if (userSession == null) {
-            throw new IllegalArgumentException("로그인 후 사용 가능합니다.");
+            throw new Exception401("로그인 후 사용 가능합니다.");
         }
 
         Customer customer = repository.findById(id);
@@ -77,17 +78,16 @@ public class CustomerController {
     public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
         Employee userSession = (Employee) session.getAttribute("sessionUser");
         if (userSession == null) {
-            throw new IllegalArgumentException("로그인 후 사용 가능합니다.");
+            throw new Exception401("로그인 후 사용 가능합니다.");
         }
 
         Customer customer = repository.findById(id);
         if (customer == null) {
             throw new IllegalArgumentException("고객이 존재하지 않습니다.");
-
         }
 
         model.addAttribute("customer", customer);
 
-        return "/";
+        return "customer/update";
     }
 }
