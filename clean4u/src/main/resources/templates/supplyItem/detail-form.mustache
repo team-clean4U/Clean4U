@@ -1,0 +1,22 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="d-flex justify-content-end">
+        <form action="/supply-item/{{supplyItem.id}}/delete" method="post">
+            <button class="btn btn-danger">삭제</button>
+        </form>
+        <a href="/supply-item/{{supplyItem.id}}/update" class="btn btn-warning me-1">수정</a>
+
+    </div>
+
+    <div>
+        <h2><b>{{supplyItem.name}}</b></h2>
+        <hr/>
+        <h4><b>{{supplyItem.stockQuantity}}</b></h4>
+        <hr/>
+        <h4><b>{{supplyItem.unit}}</b></h4>
+    </div>
+</div>
+
+{{> layout/footer}}

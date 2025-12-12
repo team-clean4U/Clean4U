@@ -1,0 +1,26 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="card">
+        <div class="card-header"><b>자재 정보 수정 화면입니다.</b></div>
+        <div class="card-body">
+
+            <form action="/supply-item/{{supplyItem.id}}/update" method="post">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Enter name" name="name" value="{{supplyItem.name}}">
+                </div>
+                <div class="mb-3">
+                    <input type="number" class="form-control" name="stockQuantity" placeholder="Enter stockQuantity" min="0" value="{{supplyItem.stockQuantity}}">
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Enter unit" name="unit" value="{{supplyItem.unit}}">
+                </div>
+                <button class="btn btn-primary form-control">수정 완료</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}
