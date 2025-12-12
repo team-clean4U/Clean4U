@@ -32,10 +32,10 @@ public class Customer extends BaseTimeEntity {
     @Column(name = "memo", length = 1000)
     private String memo;
 
-    public Customer(String name, LocalDate birth, String phone, Grade grade) {
+    public Customer(String name, LocalDate birth, String phone, String memo) {
         this.name = name;
         this.birth = birth;
         this.phone = phone;
-        this.grade = grade;
+        this.memo = memo;
     }
 }
