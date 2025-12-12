@@ -9,7 +9,12 @@ import org.example.clean4u.order.Order;
 import org.example.clean4u.time.BaseTimeEntity;
 
 @Entity
-@Table(name = "order_item_tb")
+@Table(
+        name = "order_item_tb",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_order_laundry_item", columnNames = {"order_id", "laundry_item_id"})
+        }
+)
 @Data
 @NoArgsConstructor
 public class OrderItem extends BaseTimeEntity {
@@ -29,16 +34,14 @@ public class OrderItem extends BaseTimeEntity {
     private Integer quantity;
 
     @Builder
-    public OrderItem(Long id, Order order, LaundryItem laundryItem, Integer quantity) {
-        this.id = id;
+    public OrderItem(Order order, LaundryItem laundryItem, Integer quantity) {
         this.order = order;
         this.laundryItem = laundryItem;
         this.quantity = quantity;
     }
 
-    public void updateOrderItem(OrderItemRequest.UpdateDto updateDto) {
-        updateDto.validate();
-        this.laundryItem = updateDto.getLaundryItem();
-        this.quantity = updateDto.getQuantity();
+    public void updateOrderItem(LaundryItem laundryItem, Integer quantity) {
+        this.laundryItem = laundryItem;
+        this.quantity = quantity;
     }
 }

@@ -1,4 +1,4 @@
-package org.example.clean4u.orderOption;
+package org.example.clean4u.orderItemOption;
 
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -9,7 +9,12 @@ import org.example.clean4u.orderItem.OrderItem;
 import org.example.clean4u.time.BaseTimeEntity;
 
 @Entity
-@Table(name = "order_item_option_tb")
+@Table(
+        name = "order_item_option_tb",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_order_laundry_option", columnNames = {"order_item_id", "laundry_option_id"})
+        }
+)
 @NoArgsConstructor
 @Data
 public class OrderItemOption extends BaseTimeEntity {
