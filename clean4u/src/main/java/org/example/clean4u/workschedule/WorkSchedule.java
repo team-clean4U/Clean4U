@@ -1,8 +1,10 @@
-package org.example.clean4u.employee;
+package org.example.clean4u.workschedule;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.clean4u.employee.Employee;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -28,4 +30,21 @@ public class WorkSchedule {
 
     private LocalTime startTime;
     private LocalTime endTime;
+
+    @Builder
+    public WorkSchedule (LocalTime startTime, LocalTime endTime, Employee employee, List<DayOfWeek> days) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.employee = employee;
+        this.days = days;
+    }
+
+    public void update(WorkScheduleRequest.UpdateDTO req, Employee employee) {
+        req.validate(employee);
+
+        this.startTime = req.getStartTime();
+        this.endTime = req.getEndTime();
+        this.employee = employee;
+        this.days = req.getDays();
+    }
 }

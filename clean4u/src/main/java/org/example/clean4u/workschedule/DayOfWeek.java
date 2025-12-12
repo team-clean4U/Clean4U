@@ -1,4 +1,4 @@
-package org.example.clean4u.employee;
+package org.example.clean4u.workschedule;
 
 public enum DayOfWeek {
     MONDAY,
