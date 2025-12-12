@@ -1,0 +1,31 @@
+{{> layout/header}}
+
+<div class="container p-5">
+    <div class="card">
+        <div class="card-body">
+            <form action="/laundry-item/save" method="post">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Enter name" name="name">
+                </div>
+                <div class="mb-3">
+                    <select name="category" class="form-select">
+                        <option value="TOP" {{#isTop}}selected{{/isTop}}>상의</option>
+                        <option value="BOTTOM" {{#isBottom}}selected{{/isBottom}}>하의</option>
+                        <option value="OUTER" {{#isOuter}}selected{{/isOuter}}>아우터</option>
+                        <option value="UNDEREWEAR" {{#isUnderwear}}selected{{/isUnderwear}}>속옷</option>
+                        <option value="BEDDING" {{#isBedding}}selected{{/isBedding}}>침구</option>
+                        <option value="ACCESSORY" {{#isAccessory}}selected{{/isAccessory}}>잡화</option>
+                        <option value="SPECIAL" {{#isSpecial}}selected{{/isSpecial}}>특수</option>
+                        <option value="ETC" {{#isEtc}}selected{{/isEtc}}>기타</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <input type="number" class="form-control" name="basePrice" placeholder="기본 가격" step="1000" min="0">
+                </div>
+                <button class="btn btn-primary form-control">완료</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}
