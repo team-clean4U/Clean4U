@@ -18,12 +18,12 @@ public class LaundryOption {
     private String name;
 
     @Column(nullable = false)
-    private Integer extraprice;
+    private Integer extraPrice;
 
     @Builder
-    public LaundryOption(Long id, String name, Integer extraprice) {
+    public LaundryOption(Long id, String name, Integer extraPrice) {
         this.id = id;
         this.name = name;
-        this.extraprice = extraprice;
+        this.extraPrice = extraPrice;
     }
 }
