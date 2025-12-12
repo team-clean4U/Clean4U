@@ -10,7 +10,7 @@ public class LaundryOptionRequest {
         @NotBlank(message = "옵션 이름은 필수입니다.")
         private String name;
 
-        @NotBlank(message = "추가 요금은 필수입니다")
+        @NotBlank(message = "추가 요금은 필수입니다.")
         private Integer extraPrice;
 
         public LaundryOption toEntity() {
@@ -26,7 +26,7 @@ public class LaundryOptionRequest {
         @NotBlank(message = "옵션 이름은 필수입니다.")
         private String name;
 
-        @NotBlank(message = "추가 요금은 필수입니다")
+        @NotBlank(message = "추가 요금은 필수입니다.")
         private Integer extraPrice;
 
         public void validate() {
