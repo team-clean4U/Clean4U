@@ -13,6 +13,7 @@ public class LaundryItemRepository {
 
     private final EntityManager em;
 
+    @Transactional
     public LaundryItem save(LaundryItem laundryItem) {
         em.persist(laundryItem);
         return laundryItem;
