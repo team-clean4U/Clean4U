@@ -1,0 +1,20 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="d-flex justify-content-end">
+        <form action="/laundry-option/{{laundryOption.id}}/delete" method="post">
+            <button class="btn btn-danger">삭제</button>
+        </form>
+        <a href="/laundry-option/{{laundryOption.id}}/update" class="btn btn-warning me-1">수정</a>
+
+    </div>
+
+    <div>
+        <h2><b>{{laundryOption.name}}</b></h2>
+        <hr/>
+        <h4><b>{{laundryOption.extraPrice}}</b></h4>
+    </div>
+</div>
+
+{{> layout/footer}}
