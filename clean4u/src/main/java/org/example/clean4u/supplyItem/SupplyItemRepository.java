@@ -31,7 +31,7 @@ public class SupplyItemRepository {
     }
 
     @Transactional
-    public SupplyItem update(Long id, SupplyItemRequest.UpdateDTO updateDTO) {
+    public SupplyItem updateById(Long id, SupplyItemRequest.UpdateDTO updateDTO) {
         SupplyItem supplyItem = em.find(SupplyItem.class, id);
         if (supplyItem == null) {
             throw new IllegalArgumentException("수정할 자재가 없습니다.");
@@ -41,7 +41,7 @@ public class SupplyItemRepository {
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         SupplyItem supplyItem = em.find(SupplyItem.class, id);
         if (supplyItem == null) {
             throw new IllegalArgumentException("삭제할 자재가 없습니다.");
