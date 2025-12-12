@@ -54,7 +54,7 @@ public class LaundryItem {
 
     public void updateBasePrice(Integer newBasePrice) {
         if (newBasePrice == null || newBasePrice < 0) {
-            throw new IllegalArgumentException("기본 가격은 0 이상이어야 합니다.");
+            throw new IllegalArgumentException("기본 요금은 0 이상이어야 합니다.");
         }
         this.basePrice = newBasePrice;
     }
