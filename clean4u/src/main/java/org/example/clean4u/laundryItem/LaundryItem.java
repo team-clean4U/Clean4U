@@ -30,4 +30,32 @@ public class LaundryItem {
         this.category = category;
         this.basePrice = basePrice;
     }
+
+    public void update(LaundryItemRequest.UpdateDTO updateDTO) {
+        updateDTO.validate();
+        this.name = updateDTO.getName();
+        this.category = updateDTO.getCategory();
+        this.basePrice = updateDTO.getBasePrice();
+    }
+
+    public void updateName(String newName) {
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException("세탁물 이름은 필수입니다.");
+        }
+        this.name = newName;
+    }
+
+    public void updateCategory(LaundryCategory newCategory) {
+        if (newCategory == null) {
+            throw new IllegalArgumentException("카테고리는 필수입니다.");
+        }
+        this.category = newCategory;
+    }
+
+    public void updateBasePrice(Integer newBasePrice) {
+        if (newBasePrice == null || newBasePrice < 0) {
+            throw new IllegalArgumentException("기본 가격은 0 이상이어야 합니다.");
+        }
+        this.basePrice = newBasePrice;
+    }
 }
