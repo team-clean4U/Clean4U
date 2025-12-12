@@ -13,6 +13,7 @@ public class LaundryOptionRepository {
 
     private final EntityManager em;
 
+    @Transactional
     public LaundryOption save(LaundryOption laundryOption) {
         em.persist(laundryOption);
         return laundryOption;

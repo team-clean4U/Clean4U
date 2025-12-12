@@ -1,0 +1,37 @@
+{{> layout/header}}
+
+<div class="container p-5">
+
+    <div class="card">
+        <div class="card-header"><b>세탁물 수정 화면입니다.</b></div>
+        <div class="card-body">
+
+            <form action="/laundry-item/{{laundryItem.id}}/update" method="post">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="name" value="{{laundryItem.name}}">
+                </div>
+                <div class="mb-3">
+                    <select name="category" class="form-select">
+                        <option value="TOP" {{#isTop}}selected{{/isTop}}>상의</option>
+                        <option value="BOTTOM" {{#isBottom}}selected{{/isBottom}}>하의</option>
+                        <option value="OUTER" {{#isOuter}}selected{{/isOuter}}>아우터</option>
+                        <option value="UNDEREWEAR" {{#isUnderwear}}selected{{/isUnderwear}}>속옷</option>
+                        <option value="BEDDING" {{#isBedding}}selected{{/isBedding}}>침구</option>
+                        <option value="ACCESSORY" {{#isAccessory}}selected{{/isAccessory}}>잡화</option>
+                        <option value="SPECIAL" {{#isSpecial}}selected{{/isSpecial}}>특수</option>
+                        <option value="ETC" {{#isEtc}}selected{{/isEtc}}>기타</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <input type="number" class="form-control" name="basePrice" value="{{laundryItem.basePrice}}"
+                           step="1000">
+                </div>
+
+                <button class="btn btn-primary form-control">수정 완료</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}

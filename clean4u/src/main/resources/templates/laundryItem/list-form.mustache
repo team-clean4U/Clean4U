@@ -1,0 +1,22 @@
+{{> layout/header}}
+
+<div class="container p-5">
+    <h2 class="mb-4">세탁물 목록
+    <a href="/laundry-item/save" class="btn btn-primary">생성</a>
+    </h2>
+    {{#laundryItemList}}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title mb-3">{{name}}</h4>
+                <a href="/laundry-item/{{id}}" class="btn btn-primary">상세보기</a>
+            </div>
+        </div>
+    {{/laundryItemList}}
+    {{^laundryItemList}}
+        <div class="alert alert-info" role="alert">
+            등록된 세탁물이 없습니다.
+        </div>
+    {{/laundryItemList}}
+</div>
+
+{{> layout/footer}}

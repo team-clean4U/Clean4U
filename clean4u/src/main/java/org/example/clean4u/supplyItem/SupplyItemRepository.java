@@ -13,6 +13,7 @@ public class SupplyItemRepository {
 
     private final EntityManager em;
 
+    @Transactional
     public SupplyItem save(SupplyItem supplyItem) {
         em.persist(supplyItem);
         return supplyItem;
