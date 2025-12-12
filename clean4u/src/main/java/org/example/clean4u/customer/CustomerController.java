@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Controller
 public class CustomerController {
-    private final CustomerPersistRepository repository;
+    private final CustomerRepository repository;
 
     // 고객 생성 화면
     // http://localhost:8080/customer/save
@@ -25,7 +25,7 @@ public class CustomerController {
             throw new IllegalArgumentException("로그인 후 사용 가능합니다.");
         }
 
-        return "redirect:/";
+        return "customer/create-form";
     }
 
     // 생성 요청
