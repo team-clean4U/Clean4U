@@ -8,12 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 public class CustomerController {
     private final CustomerPersistRepository repository;
 
     // 고객 생성 화면
+    // http://localhost:8080/customer/save
     @GetMapping("/customer/save")
     public String saveForm (HttpSession session) {
         Employee userSession = (Employee) session.getAttribute("sessionUser");
@@ -42,8 +45,15 @@ public class CustomerController {
     }
 
     @GetMapping("/customer")
-    public String customerList(Model model) {
+    public String customerList(Model model, HttpSession session) {
+        Employee userSession = (Employee) session.getAttribute("sessionUser");
+        if (userSession == null) {
+            throw new IllegalArgumentException("로그인 후 사용 가능합니다.");
+        }
 
+        List<Customer> customerList = repository.findAll();
+        model.addAttribute("customerList", customerList);
+        return "customer/list";
     }
 
 }
