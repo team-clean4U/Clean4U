@@ -1,9 +1,8 @@
-package org.example.clean4u.orderItem;
+package org.example.clean4u.order;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.clean4u.laundryItem.LaundryItem;
-import org.example.clean4u.order.Order;
 
 public class OrderItemRequest {
     @Data
