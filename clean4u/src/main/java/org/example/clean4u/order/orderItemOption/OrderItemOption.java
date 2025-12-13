@@ -10,7 +10,7 @@ import org.example.clean4u.time.BaseTimeEntity;
 
 @Entity
 @Table(
-        name = "order_item_laundry_option_tb",
+        name = "order_item_option_tb",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_order_laundry_option", columnNames = {"order_item_id", "laundry_option_id"})
         }
@@ -35,4 +35,5 @@ public class OrderItemOption extends BaseTimeEntity {
         this.laundryOption = laundryOption;
         this.orderItem = orderItem;
     }
+
 }
