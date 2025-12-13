@@ -6,6 +6,7 @@ import org.example.clean4u._core.exception.Exception401;
 import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.customer.CustomerRepository;
+import org.example.clean4u.customer.Grade;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.laundryItem.LaundryItem;
 import org.example.clean4u.laundryItem.LaundryItemRepository;
@@ -184,6 +185,17 @@ public class OrderController {
         Order order = orderRepository.findById(id);
         order.updateStatus(newStatus);
 
+        if (newStatus == OrderStatus.COMPLETED) {
+            Customer customer = order.getCustomer();
+
+            Long completedCount = orderRepository.countByCustomerAndStatus(customer, OrderStatus.COMPLETED);
+
+            if (completedCount >= 30) {
+                customer.setGrade(Grade.REGULAR);
+            } else if (completedCount >= 5) {
+                customer.setGrade(Grade.VIP);
+            }
+        }
         return "redirect:/order/" + order.getId();
     }
 
@@ -202,13 +214,13 @@ public class OrderController {
     public Long calculateTotalPrice(List<? extends OrderItemDto> items) {
         long totalPrice = 0L;
 
-        for(OrderItemDto item: items) {
+        for (OrderItemDto item : items) {
             LaundryItem laundryItem = laundryItemRepository.findById(item.getLaundryItemId());
 
             long itemPrice = (long) laundryItem.getBasePrice() * item.getQuantity();
 
-            if(item.getOptionIds() != null) {
-                for(Long optionId: item.getOptionIds()) {
+            if (item.getOptionIds() != null) {
+                for (Long optionId : item.getOptionIds()) {
                     LaundryOption option = laundryOptionRepository.findById(optionId);
                     itemPrice += option.getExtraPrice();
                 }
