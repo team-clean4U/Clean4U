@@ -3,6 +3,7 @@ package org.example.clean4u.order;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception404;
+import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,7 @@ public class OrderRepository {
 
     // 주문 전체 조회
     public List<Order> findAll() {
-        return em.createQuery("SELECT o FROM Order o ORDER BY o.createdAt DESC")
+        return em.createQuery("SELECT o FROM Order o ORDER BY o.createdAt DESC", Order.class)
                 .getResultList();
     }
 

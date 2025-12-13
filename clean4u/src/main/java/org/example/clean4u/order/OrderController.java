@@ -141,7 +141,9 @@ public class OrderController {
         Long totalPrice = calculateTotalPrice(updateDto.getItems());
 
         // 2. 주문 기본 정보 수정(더티 체크)
-        order.updateOrder(updateDto, totalPrice, sessionUser);
+        orderRepository.updateById(id, updateDto);
+        order.updatePrice(totalPrice);
+        order.updateEditor(sessionUser);
 
         // 3. 기존 주문 옵션 모두 삭제
         orderItemOptionRepository.deleteByOrderId(order.getId());
