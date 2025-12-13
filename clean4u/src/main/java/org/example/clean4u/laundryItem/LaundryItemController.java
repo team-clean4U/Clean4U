@@ -61,7 +61,6 @@ public class LaundryItemController {
         model.addAttribute("isTop", category == LaundryCategory.TOP);
         model.addAttribute("isBottom", category == LaundryCategory.BOTTOM);
         model.addAttribute("isOuter", category == LaundryCategory.OUTER);
-        model.addAttribute("isUnderwear", category == LaundryCategory.UNDEREWEAR);
         model.addAttribute("isBedding", category == LaundryCategory.BEDDING);
         model.addAttribute("isAccessory", category == LaundryCategory.ACCESSORY);
         model.addAttribute("isSpecial", category == LaundryCategory.SPECIAL);
