@@ -1,10 +1,11 @@
-package org.example.clean4u.order;
+package org.example.clean4u.order.orderItem;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.laundryItem.LaundryItem;
+import org.example.clean4u.order.Order;
 import org.example.clean4u.time.BaseTimeEntity;
 
 @Entity
