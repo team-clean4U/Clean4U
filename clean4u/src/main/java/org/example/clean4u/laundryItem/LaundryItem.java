@@ -58,4 +58,8 @@ public class LaundryItem {
         }
         this.basePrice = newBasePrice;
     }
+
+    public String getIcon() {
+        return category != null ? category.getIcon() : "box-open";
+    }
 }
