@@ -2,7 +2,7 @@ package org.example.clean4u.order;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.exception.Exception404;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
