@@ -3,6 +3,7 @@ package org.example.clean4u.order;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception404;
+import org.example.clean4u.customer.Customer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,17 @@ public class OrderRepository {
             throw new Exception404("해당 주문을 찾을 수 없습니다.");
         }
         return order;
+    }
+
+    public Long countByCustomerAndStatus(Customer customer, OrderStatus status) {
+        return em.createQuery("""
+                    SELECT COUNT(o) FROM Order o
+                    WHERE o.customer = :customer
+                        AND o.status = :status
+                    """, Long.class)
+                .setParameter("customer", customer)
+                .setParameter("status", status)
+                .getSingleResult();
     }
 
     // 주문 생성(저장)
