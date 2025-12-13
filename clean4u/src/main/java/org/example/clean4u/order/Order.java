@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.customer.Customer;
+import org.example.clean4u.employee.Employee;
 import org.example.clean4u.time.BaseTimeEntity;
 
 import java.time.LocalDate;
@@ -35,20 +36,26 @@ public class Order extends BaseTimeEntity {
     @Column(name = "memo", length = 50)
     private String memo;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "created_by", nullable = false)
+    private Employee editor;
+
     @Builder
-    public Order(Customer customer, OrderStatus status, Long totalPrice, LocalDate orderDate, String memo) {
+    public Order(Customer customer, OrderStatus status, Long totalPrice, LocalDate orderDate, String memo, Employee editor) {
         this.customer = customer;
         this.status = status;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate == null ? LocalDate.now() : orderDate;
         this.memo = memo;
+        this.editor = editor;
     }
 
-    public void updateOrder(OrderRequest.UpdateDto updateDto) {
+    public void updateOrder(OrderRequest.UpdateDto updateDto, Long totalPrice, Employee editor) {
         this.status = updateDto.getStatus();
-        this.totalPrice = updateDto.getTotalPrice();
-        this.orderDate = updateDto.orderDate == null ? LocalDate.now() : updateDto.orderDate;
+        this.totalPrice = totalPrice;
+        this.orderDate = updateDto.getOrderDate() == null ? LocalDate.now() : updateDto.getOrderDate();
         this.memo = updateDto.getMemo();
+        this.editor = editor;
     }
 
     public void updateStatus(OrderStatus newStatus) {

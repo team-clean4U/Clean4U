@@ -1,11 +1,11 @@
-package org.example.clean4u.orderItemOption;
+package org.example.clean4u.order.orderItemOption;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.laundryOption.LaundryOption;
-import org.example.clean4u.orderItem.OrderItem;
+import org.example.clean4u.order.orderItem.OrderItem;
 import org.example.clean4u.time.BaseTimeEntity;
 
 @Entity
@@ -31,9 +31,9 @@ public class OrderItemOption extends BaseTimeEntity {
     private OrderItem orderItem;
 
     @Builder
-    public OrderItemOption(Long id, LaundryOption laundryOption, OrderItem orderItem) {
-        this.id = id;
+    public OrderItemOption(LaundryOption laundryOption, OrderItem orderItem) {
         this.laundryOption = laundryOption;
         this.orderItem = orderItem;
     }
+
 }
