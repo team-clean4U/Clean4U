@@ -1,35 +1,40 @@
 package org.example.clean4u.order;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.clean4u.customer.Customer;
+import org.example.clean4u.employee.Employee;
+import org.example.clean4u.order.orderItem.OrderItemRequest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class OrderRequest {
     @Data
     public static class SaveDto {
         @NotNull(message = "고객 id를 입력하세요")
-        Long customerId;
+        private Long customerId;
 
         @NotNull(message = "주문 상태를 입력하세요")
-        OrderStatus status;
-
-        @NotNull(message = "총 금액을 입력하세요")
-        Long totalPrice;
+        private OrderStatus status;
 
         @NotNull(message = "주문 날짜를 입력하세요")
-        LocalDate orderDate;
+        private LocalDate orderDate;
 
-        String memo;
+        private String memo;
 
-        public Order toEntity(Customer customer) {
+        @NotNull(message = "주문 품목을 입력하세요")
+        private List<OrderItemRequest.SaveDto> items;
+
+        public Order toEntity(Customer customer, Long totalPrice, Employee editor) {
             return Order.builder()
                     .customer(customer)
-                    .status(this.status)
-                    .totalPrice(this.totalPrice)
-                    .orderDate(this.orderDate)
-                    .memo(this.memo)
+                    .status(status)
+                    .totalPrice(totalPrice)
+                    .orderDate(orderDate)
+                    .memo(memo)
+                    .editor(editor)
                     .build();
         }
     }
@@ -37,14 +42,14 @@ public class OrderRequest {
     @Data
     public static class UpdateDto {
         @NotNull(message = "주문 상태를 입력하세요")
-        OrderStatus status;
-
-        @NotNull(message = "총 금액을 입력하세요")
-        Long totalPrice;
+        private OrderStatus status;
 
         @NotNull(message = "주문 날짜를 입력하세요")
-        LocalDate orderDate;
+        private LocalDate orderDate;
 
-        String memo;
+        private String memo;
+
+        @NotNull(message = "주문 품목을 입력하세요")
+        private List<OrderItemRequest.UpdateDto> items;
     }
 }

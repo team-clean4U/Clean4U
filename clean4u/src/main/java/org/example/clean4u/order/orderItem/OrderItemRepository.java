@@ -1,11 +1,11 @@
-package org.example.clean4u.orderItem;
+package org.example.clean4u.order.orderItem;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.laundryItem.LaundryItem;
-import org.example.clean4u.order.Order;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,9 +14,15 @@ import java.util.List;
 public class OrderItemRepository {
     private final EntityManager em;
 
+    @Transactional
+    public OrderItem save(OrderItem orderItem) {
+        em.persist(orderItem);
+        return orderItem;
+    }
+
     // 주문(세탁) 품목 전체 조회
-    public List<OrderItem> findAll(Order order) {
-        return em.createQuery("SELECT i FROM OrderItem i WHERE i.order.id = i.id")
+    public List<OrderItem> findAllByOrderId(Long id) {
+        return em.createQuery("SELECT oi FROM OrderItem oi WHERE oi.order.id = :id")
                 .getResultList();
     }
 
@@ -29,7 +35,8 @@ public class OrderItemRepository {
         return orderItem;
     }
 
-    // 주문 품목 변경
+    // 단일 주문 품목 변경
+    @Transactional
     public OrderItem updateById(Long id, LaundryItem laundryItem, Integer quantity) {
         OrderItem orderItem = em.find(OrderItem.class, id);
         if(orderItem == null) {
@@ -40,7 +47,8 @@ public class OrderItemRepository {
         return orderItem;
     }
 
-    // 주문 품목 삭제
+    // 단일 주문 품목 삭제
+    @Transactional
     public void deleteById(Long id) {
         OrderItem orderItem = em.find(OrderItem.class, id);
         if(orderItem == null) {
@@ -49,4 +57,15 @@ public class OrderItemRepository {
         em.remove(orderItem);
     }
 
+    // 주문내에 있는 모든 주문 품목 삭제
+    @Transactional
+    public void deleteByOrderId(Long id) {
+        int deletedCount = em.createQuery("DELETE FROM OrderItem i WHERE i.order.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+
+        if(deletedCount == 0) {
+            throw new Exception404("해당 주문의 주문 품목을 찾을 수 없습니다.");
+        }
+    }
 }
