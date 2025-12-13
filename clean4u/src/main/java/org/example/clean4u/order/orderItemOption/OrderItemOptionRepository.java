@@ -2,8 +2,6 @@ package org.example.clean4u.order.orderItemOption;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception404;
-import org.example.clean4u.order.orderItem.OrderItem;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

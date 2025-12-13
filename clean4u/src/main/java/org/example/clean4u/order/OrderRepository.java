@@ -15,7 +15,7 @@ public class OrderRepository {
 
     // 주문 전체 조회
     public List<Order> findAll() {
-        return em.createQuery("SELECT o FROM Order o ORDER BY o.createdAt DESC")
+        return em.createQuery("SELECT o FROM Order o ORDER BY o.createdAt DESC", Order.class)
                 .getResultList();
     }
 
