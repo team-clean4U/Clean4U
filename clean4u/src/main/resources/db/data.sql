@@ -3,7 +3,9 @@ insert into laundry_item_tb(name, category, base_price) values
                                                            ('바지', 'BOTTOM', 4000),
                                                            ('코트', 'OUTER', 8000),
                                                            ('이불', 'BEDDING', 12000),
-                                                           ('패딩', 'OUTER', 15000);
+                                                           ('모자', 'ACCESSORY', 2000),
+                                                           ('드라이클리닝', 'SPECIAL', 20000),
+                                                           ('기타', 'ETC', 5000);
 
 insert into laundry_option_tb(name, extra_price) values
                                                      ('표백', 2000),
