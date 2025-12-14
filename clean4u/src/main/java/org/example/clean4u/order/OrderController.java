@@ -36,9 +36,9 @@ public class OrderController {
     private final LaundryItemRepository laundryItemRepository;
     private final LaundryOptionRepository laundryOptionRepository;
 
-    // 주문 생성 화면 요청 - http://localhost:8080/order
+    // 주문 생성 화면 요청 - http://localhost:8080/order/save
     // 인증(o), 인가(x)
-    @GetMapping("/order")
+    @GetMapping("/order/save")
     public String saveForm(HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         if (sessionUser == null) {
@@ -49,7 +49,7 @@ public class OrderController {
 
     // 주문 생성 기능
     // 인증(o), 인가(x)
-    @PostMapping("/order")
+    @PostMapping("/order/save")
     public String saveProc(OrderRequest.SaveDto saveDto, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         if (sessionUser == null) {
@@ -86,7 +86,7 @@ public class OrderController {
         return "redirect:/order/" + order.getId();
     }
 
-    // 주문 목록 조회 화면 요청: http://localhost:8080/order/list
+    // 주문 목록 조회 화면: http://localhost:8080/order/list
     // 인증(o), 인가(x)
     @GetMapping("/order/list")
     public String orderList(Model model, HttpSession session) {
@@ -100,7 +100,7 @@ public class OrderController {
         return "order/list-form";
     }
 
-    // 주문 상세 조회 화면 요청: http://localhost:8080/order/{id}
+    // 주문 상세 조회 화면: http://localhost:8080/order/{id}
     // 인증(o), 인가(x)
     @GetMapping("/order/{id}")
     public String detail(@PathVariable Long id, Model model, HttpSession session) {
