@@ -1,5 +1,6 @@
 package org.example.clean4u.supplyItem;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,7 @@ public class SupplyItemController {
 
     // http://localhost:8080/supply-item/save
     @PostMapping("/supply-item/save")
-    public String saveProc(SupplyItemRequest.SaveDTO saveDTO) {
+    public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO) {
         SupplyItem supplyItem = saveDTO.toEntity();
         repository.save(supplyItem);
         return "redirect:/supply-item";
@@ -56,7 +57,7 @@ public class SupplyItemController {
 
     // http://localhost:8080/supply-item/{id}/update
     @PostMapping("/supply-item/{id}/update")
-    public String updateProc(@PathVariable Long id, SupplyItemRequest.UpdateDTO updateDTO) {
+    public String updateProc(@PathVariable Long id, @Valid SupplyItemRequest.UpdateDTO updateDTO) {
         repository.updateById(id, updateDTO);
         return "redirect:/supply-item/{id}";
     }

@@ -1,5 +1,6 @@
 package org.example.clean4u.laundryItem;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,7 @@ public class LaundryItemController {
 
     // http://localhost:8080/laundry-item/save
     @PostMapping("/laundry-item/save")
-    public String saveProc(LaundryItemRequest.SaveDTO saveDTO) {
+    public String saveProc(@Valid LaundryItemRequest.SaveDTO saveDTO) {
         LaundryItem laundryItem = saveDTO.toEntity();
         repository.save(laundryItem);
         return "redirect:/laundry-item";
@@ -66,7 +67,7 @@ public class LaundryItemController {
 
     // http://localhost:8080/laundry-item/{id}/update
     @PostMapping("/laundry-item/{id}/update")
-    public String updateProc(@PathVariable Long id, LaundryItemRequest.UpdateDTO updateDTO) {
+    public String updateProc(@PathVariable Long id, @Valid LaundryItemRequest.UpdateDTO updateDTO) {
         repository.updateById(id, updateDTO);
         return "redirect:/laundry-item";
     }
