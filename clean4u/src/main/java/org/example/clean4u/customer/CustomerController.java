@@ -47,7 +47,7 @@ public class CustomerController {
     }
 
     // 고객 전체 리스트
-    @GetMapping("/customer")
+    @GetMapping("/customer/list")
     public String customerList(Model model, HttpSession session) {
         Employee userSession = (Employee) session.getAttribute("sessionUser");
         if (userSession == null) {
@@ -89,5 +89,20 @@ public class CustomerController {
         model.addAttribute("customer", customer);
 
         return "customer/update";
+    }
+
+    // 고객 삭제
+    @GetMapping("/customer/{id}/delete")
+    public String deleteById(@PathVariable Long id, HttpSession session) {
+        Employee userSession = (Employee) session.getAttribute("sessionUser");
+        if (userSession == null) {
+            throw new Exception401("로그인 후 사용 가능합니다.");
+        }
+
+        // 관리자 권한 체크 해야함
+        repository.findById(id);
+
+        return "redirect:customer/list";
+
     }
 }
