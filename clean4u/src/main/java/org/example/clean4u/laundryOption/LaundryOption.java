@@ -21,16 +21,21 @@ public class LaundryOption {
     @Column(name = "extra_price", nullable = false)
     private Integer extraPrice;
 
+    @Column(name = "description")
+    private String description;
+
     @Builder
-    public LaundryOption(Long id, String name, Integer extraPrice) {
+    public LaundryOption(Long id, String name, Integer extraPrice, String description) {
         this.id = id;
         this.name = name;
         this.extraPrice = extraPrice;
+        this.description = description;
     }
 
     public void update(LaundryOptionRequest.UpdateDTO updateDTO) {
         this.name = updateDTO.getName();
         this.extraPrice = updateDTO.getExtraPrice();
+        this.description = updateDTO.getDescription();
     }
 
     public void updateName(String newName) {
@@ -45,5 +50,9 @@ public class LaundryOption {
             throw new IllegalArgumentException("추가 요금은 0 이상이어야 합니다.");
         }
         this.extraPrice = newExtraPrice;
+    }
+
+    public void updateDescription(String newDescription) {
+        this.description = newDescription;
     }
 }
