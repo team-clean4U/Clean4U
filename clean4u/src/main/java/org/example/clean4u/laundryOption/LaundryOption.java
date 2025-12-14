@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.clean4u.time.BaseTimeEntity;
 
 @NoArgsConstructor
 @Data
 @Entity
 @Table(name = "laundry_option_tb")
-public class LaundryOption {
+public class LaundryOption extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "laundry_option_id")
