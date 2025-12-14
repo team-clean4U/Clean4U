@@ -2,6 +2,7 @@ package org.example.clean4u.laundryItem;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.exception.Exception404;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,14 +28,18 @@ public class LaundryItemRepository {
     }
 
     public LaundryItem findById(Long id) {
-        return em.find(LaundryItem.class, id);
+        LaundryItem laundryItem = em.find(LaundryItem.class, id);
+        if (laundryItem == null) {
+            throw new Exception404("해당 세탁물을 찾을 수 없습니다.");
+        }
+        return laundryItem;
     }
 
     @Transactional
     public LaundryItem updateById(Long id, LaundryItemRequest.UpdateDTO reqDTO) {
         LaundryItem laundryItem = em.find(LaundryItem.class, id);
         if (laundryItem == null) {
-            throw new IllegalArgumentException("수정할 세탁물을 찾을 수 없습니다.");
+            throw new Exception404("해당 세탁물을 찾을 수 없습니다.");
         }
         laundryItem.update(reqDTO);
         return laundryItem;
@@ -44,7 +49,7 @@ public class LaundryItemRepository {
     public void deleteById(Long id) {
         LaundryItem laundryItem = em.find(LaundryItem.class, id);
         if (laundryItem == null) {
-            throw new IllegalArgumentException("삭제할 세탁물을 찾을 수 없습니다.");
+            throw new Exception404("해당 세탁물을 찾을 수 없습니다.");
         }
         em.remove(laundryItem);
     }

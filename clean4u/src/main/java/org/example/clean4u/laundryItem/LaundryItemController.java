@@ -27,9 +27,6 @@ public class LaundryItemController {
     @GetMapping("/laundry-item/{id}")
     public String detail(@PathVariable Long id, Model model) {
         LaundryItem laundryItem = repository.findById(id);
-        if (laundryItem == null) {
-            throw new RuntimeException("세탁물을 찾을 수 없습니다. : " + id);
-        }
         model.addAttribute("laundryItem", laundryItem);
 
         return "laundryItem/detail-form";
@@ -41,6 +38,7 @@ public class LaundryItemController {
         return "laundryItem/save-form";
     }
 
+    // http://localhost:8080/laundry-item/save
     @PostMapping("/laundry-item/save")
     public String saveProc(LaundryItemRequest.SaveDTO saveDTO) {
         LaundryItem laundryItem = saveDTO.toEntity();
@@ -52,9 +50,6 @@ public class LaundryItemController {
     @GetMapping("/laundry-item/{id}/update")
     public String updateForm(@PathVariable Long id, Model model) {
         LaundryItem laundryItem = repository.findById(id);
-        if (laundryItem == null) {
-            throw new RuntimeException("수정할 세탁물을 찾을 수 없습니다.");
-        }
         model.addAttribute("laundryItem", laundryItem);
 
         LaundryCategory category = laundryItem.getCategory();
@@ -69,16 +64,14 @@ public class LaundryItemController {
         return "laundryItem/update-form";
     }
 
+    // http://localhost:8080/laundry-item/{id}/update
     @PostMapping("/laundry-item/{id}/update")
     public String updateProc(@PathVariable Long id, LaundryItemRequest.UpdateDTO updateDTO) {
-        try {
-            repository.updateById(id, updateDTO);
-        } catch (Exception e) {
-            throw new RuntimeException("세탁물 수정을 실패했습니다.");
-        }
+        repository.updateById(id, updateDTO);
         return "redirect:/laundry-item";
     }
 
+    // http://localhost:8080/laundry-item/{id}/delete
     @PostMapping("/laundry-item/{id}/delete")
     public String delete(@PathVariable Long id) {
         repository.deleteById(id);
