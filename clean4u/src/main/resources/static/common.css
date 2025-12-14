@@ -231,9 +231,9 @@ li{
     white-space: nowrap;
 }
 
-.nav-link:active {
+.nav-link.active {
     background: linear-gradient(135deg, var(--color-light-blue), var(--color-blue));
-    color: var(--color-white); !important;
+    color: var(--color-white);
     padding: 0.5rem 1rem;
     border-radius: 50px;
     display: inline-flex;
