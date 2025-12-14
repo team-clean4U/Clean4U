@@ -18,11 +18,15 @@ public class LaundryOptionRequest {
 
         private String description;
 
+        @NotNull(message = "옵션 활성 여부는 필수입니다.")
+        private Boolean isActive;
+
         public LaundryOption toEntity() {
             return LaundryOption.builder()
                     .name(name)
                     .extraPrice(extraPrice)
                     .description(description)
+                    .isActive(isActive)
                     .build();
         }
     }
@@ -37,5 +41,8 @@ public class LaundryOptionRequest {
         private Integer extraPrice;
 
         private String description;
+
+        @NotNull(message = "옵션 활성 여부는 필수입니다.")
+        private Boolean isActive;
     }
 }

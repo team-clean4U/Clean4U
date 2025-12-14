@@ -24,18 +24,23 @@ public class LaundryOption {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+
     @Builder
-    public LaundryOption(Long id, String name, Integer extraPrice, String description) {
+    public LaundryOption(Long id, String name, Integer extraPrice, String description, Boolean isActive) {
         this.id = id;
         this.name = name;
         this.extraPrice = extraPrice;
         this.description = description;
+        this.isActive = isActive != null ? isActive : true;
     }
 
     public void update(LaundryOptionRequest.UpdateDTO updateDTO) {
         this.name = updateDTO.getName();
         this.extraPrice = updateDTO.getExtraPrice();
         this.description = updateDTO.getDescription();
+        this.isActive = updateDTO.getIsActive();
     }
 
     public void updateName(String newName) {
@@ -54,5 +59,9 @@ public class LaundryOption {
 
     public void updateDescription(String newDescription) {
         this.description = newDescription;
+    }
+
+    public void updateIsActive(Boolean newIsActive) {
+        this.isActive = newIsActive;
     }
 }
