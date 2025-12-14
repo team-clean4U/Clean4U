@@ -13,8 +13,9 @@
     --color-light-gray: #e0e0e0;
     --color-black: #000000;
 
-    --status-pending: #FFB74D;
-    --status-processing: #81D4FA;
+    --status-received: #FFB74D;
+    --status-washing: #81D4FA;
+    --status-drying: #1EAABE;
     --status-completed: #66BB6A;
     --status-cancelled: #EF5350;
 
@@ -427,3 +428,4 @@ footer {
         flex-direction: row;
     }
 }
+

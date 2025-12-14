@@ -1,14 +1,15 @@
 .status-received {
-    font-weight: 600;
-    color: var(--status-received);
+    background-color: var(--status-received);
 }
 
-.status-processing {
-    font-weight: 600;
-    color: var(--status-processing);
+.status-washing {
+    background-color: var(--status-washing);
+}
+
+.status-drying {
+    background-color: var(--status-drying);
 }
 
 .status-completed {
-    font-weight: 600;
-    color: var(--status-completed);
+    background-color: var(--status-completed);
 }
