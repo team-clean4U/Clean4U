@@ -1,0 +1,14 @@
+.status-received {
+    font-weight: 600;
+    color: var(--status-received);
+}
+
+.status-processing {
+    font-weight: 600;
+    color: var(--status-processing);
+}
+
+.status-completed {
+    font-weight: 600;
+    color: var(--status-completed);
+}
