@@ -19,11 +19,14 @@ public class LaundryItemRequest {
         @Min(value = 0, message = "기본 요금은 0 이상 이어야 합니다.")
         private Integer basePrice;
 
+        private String description;
+
         public LaundryItem toEntity() {
             return LaundryItem.builder()
                     .name(name)
                     .category(category)
                     .basePrice(basePrice)
+                    .description(description)
                     .build();
         }
     }
@@ -39,5 +42,7 @@ public class LaundryItemRequest {
         @NotNull(message = "기본 요금은 필수입니다.")
         @Min(value = 0, message = "기본 요금은 0 이상 이어야 합니다.")
         private Integer basePrice;
+
+        private String description;
     }
 }

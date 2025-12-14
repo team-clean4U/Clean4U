@@ -25,18 +25,23 @@ public class LaundryItem {
     @Column(name = "base_price", nullable = false)
     private Integer basePrice;
 
+    @Column(name = "description")
+    private String description;
+
     @Builder
-    public LaundryItem(Long id, String name, LaundryCategory category, Integer basePrice) {
+    public LaundryItem(Long id, String name, LaundryCategory category, Integer basePrice, String description) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.basePrice = basePrice;
+        this.description = description;
     }
 
     public void update(LaundryItemRequest.UpdateDTO updateDTO) {
         this.name = updateDTO.getName();
         this.category = updateDTO.getCategory();
         this.basePrice = updateDTO.getBasePrice();
+        this.description = updateDTO.getDescription();
     }
 
     public void updateName(String newName) {
@@ -58,6 +63,10 @@ public class LaundryItem {
             throw new IllegalArgumentException("기본 요금은 0 이상이어야 합니다.");
         }
         this.basePrice = newBasePrice;
+    }
+
+    public void updateDescription(String newDescription) {
+        this.description = newDescription;
     }
 
     public String getIcon() {
