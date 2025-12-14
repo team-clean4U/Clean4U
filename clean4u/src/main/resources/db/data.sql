@@ -1,11 +1,11 @@
-insert into laundry_item_tb(name, category, base_price) values
-                                                           ('셔츠', 'TOP', 3000),
-                                                           ('바지', 'BOTTOM', 4000),
-                                                           ('코트', 'OUTER', 8000),
-                                                           ('이불', 'BEDDING', 12000),
-                                                           ('모자', 'ACCESSORY', 2000),
-                                                           ('드라이클리닝', 'SPECIAL', 20000),
-                                                           ('기타', 'ETC', 5000);
+insert into laundry_item_tb(name, category, base_price, description, created_at) values
+                                                                                     ('셔츠', 'TOP', 3000, '일상적으로 착용하는 일반 셔츠 세탁입니다.', now()),
+                                                                                     ('바지', 'BOTTOM', 4000, '면바지, 슬랙스 등 일반 바지 세탁입니다.', now()),
+                                                                                     ('코트', 'OUTER', 8000, '겨울용 코트 및 두꺼운 아우터 세탁입니다.', now()),
+                                                                                     ('이불', 'BEDDING', 12000, '이불, 담요 등 침구류 세탁 서비스입니다.', now()),
+                                                                                     ('모자', 'ACCESSORY', 2000, '캡모자, 비니 등 모자류 세탁입니다.', now()),
+                                                                                     ('드라이클리닝', 'SPECIAL', 20000, '드라이클리닝이 필요한 의류 전용 세탁입니다.', now()),
+                                                                                     ('기타', 'ETC', 5000, '분류되지 않은 기타 세탁물 항목입니다.', now());
 
 insert into laundry_option_tb(name, extra_price) values
                                                      ('표백', 2000),
