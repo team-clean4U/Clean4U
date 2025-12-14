@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{{> layout/header}}
+{{> layout/background}}
+<!-- http://localhost:8080/order/list -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fa-solid fa-tshirt"></i>주문 목록
+            </h2>
+            <a href="/order/save" class="btn btn-create">
+                <span>+</span>생성
+            </a>
+        </div>
+        
+        <div class="card-list">
+            {{#orderList}}
+                <a href="/order/{{id}}" class="card">
+                    <div class="card-header">
+                        <h4>{{customer.name}} <span class="info-label">님 주문</span></h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-info">
+                            <span class="info-label">주문 접수일: </span>
+                            <span class="info-value">{{orderDate}}</span>
+                        </div>
+                        <div class="card-info">
+                            <span class="info-label">세탁상태:</span>
+                            <span class="status-badge {{status.cssClass}}">{{status.displayName}}</span>
+                        </div>
+                    </div>
+                </a>
+            {{/orderList}}
+        </div>
+    </div>
+</div>
+<!--sessionUser 추가 (-) -->

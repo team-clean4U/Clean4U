@@ -38,7 +38,7 @@ public class Order extends BaseTimeEntity {
     private String memo;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "created_by", nullable = false)
+    @JoinColumn(name = "editor_id", nullable = false)
     private Employee editor;
 
     @Builder
