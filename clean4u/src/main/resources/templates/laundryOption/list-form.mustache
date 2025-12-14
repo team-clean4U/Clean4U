@@ -1,22 +1,39 @@
 {{> layout/header}}
 
-<div class="container p-5">
-    <h2 class="mb-4">세탁물 옵션
-    <a href="/laundry-option/save" class="btn btn-primary">생성</a>
-    </h2>
-    {{#laundryOptionList}}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h4 class="card-title mb-3">{{name}}</h4>
-                <a href="/laundry-option/{{id}}" class="btn btn-primary">상세보기</a>
-            </div>
+{{> layout/background}}
+
+<!-- http://localhost:8080/laundry-option -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fa-solid fa-shirt"></i>세탁물 목록
+            </h2>
+            <a href="/laundry-option/save" class="btn btn-create">
+                <span>+</span>생성
+            </a>
         </div>
-    {{/laundryOptionList}}
-    {{^laundryOptionList}}
-        <div class="alert alert-info" role="alert">
-            등록된 세탁물 옵션이 없습니다.
+
+        <div class="card-list">
+            {{#laundryOptionList}}
+                <a href="/laundry-option/{{id}}" class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-tag"></i>
+                        <h4>{{name}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-info">
+                            <span class="info-label">추가요금:</span>
+                            <span class="info-value price">{{extraPrice}}</span>
+                        </div>
+                    </div>
+                </a>
+            {{/laundryOptionList}}
         </div>
-    {{/laundryOptionList}}
+        {{^laundryOptionList}}
+            <p class="blank">등록된 세탁물이 없습니다.</p>
+        {{/laundryOptionList}}
+    </div>
 </div>
 
 {{> layout/footer}}
