@@ -7,10 +7,12 @@ insert into laundry_item_tb(name, category, base_price, description, created_at)
                                                                                      ('드라이클리닝', 'SPECIAL', 20000, '드라이클리닝이 필요한 의류 전용 세탁입니다.', now()),
                                                                                      ('기타', 'ETC', 5000, '분류되지 않은 기타 세탁물 항목입니다.', now());
 
-insert into laundry_option_tb(name, extra_price) values
-                                                     ('표백', 2000),
-                                                     ('향 추가', 1000),
-                                                     ('프리미엄 세제', 6000);
+insert into laundry_option_tb(name, extra_price, description, is_active, created_at) values
+         ('표백', 2000, '표백 처리를 통해 얼룩과 변색을 개선합니다.', true, now()),
+         ('향 추가', 1000, '세탁 후 은은한 향을 추가해 드립니다.', true, now()),
+         ('프리미엄 세제', 6000, '프리미엄 세제를 사용해 섬유 손상을 줄입니다.', true, now()),
+         ('얼룩 집중 제거', 4000, '목, 소매 등 심한 얼룩을 집중적으로 제거합니다.', false, now()),
+         ('저자극 세탁', 3000, '피부 자극을 줄인 저자극 세탁 옵션입니다.', false, now());
 
 insert into supply_item_tb(name, unit, stock_quantity, safety_stock) values
                                                            ('세탁세제', 'ml', 5, 10),
