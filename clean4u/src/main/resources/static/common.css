@@ -268,8 +268,7 @@ footer {
     justify-content: space-between;
     align-items: center;
 
-    padding: 1rem 1.5rem;
-    gap: 0.75rem;
+    padding: 1rem 2rem 1.25rem;
 }
 
 .f-brand {
@@ -278,8 +277,35 @@ footer {
     color: var(--color-dark-blue);
 }
 
+.f-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    gap: 0.5rem;
+}
+
 .f-copyrights {
     color: var(--color-gray);
+}
+
+.github-icon {
+    display: inline-flex;
+    align-items: center;
+
+    font-size: 1.25rem;
+    color: var(--color-white);
+    transition: 0.2s ease;
+
+    border: none;
+    border-radius: 15px;
+    background: var(--color-light-blue);
+    opacity: 0.75;
+    padding: 0.5rem 1rem;
+}
+
+.github-icon:hover {
+    opacity: 1;
 }
 
 /* 컨테이너 */
