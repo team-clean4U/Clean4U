@@ -12,18 +12,19 @@ import lombok.NoArgsConstructor;
 public class SupplyItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "supply_item_id")
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "unit", nullable = false)
     private String unit;
 
-    @Column(nullable = false)
+    @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
 
-    @Column(nullable = false)
+    @Column(name = "safety_stock", nullable = false)
     private Integer safetyStock;
 
     @Builder
