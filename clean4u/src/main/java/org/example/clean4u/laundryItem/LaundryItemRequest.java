@@ -1,6 +1,8 @@
 package org.example.clean4u.laundryItem;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 public class LaundryItemRequest {
@@ -10,10 +12,11 @@ public class LaundryItemRequest {
         @NotBlank(message = "세탁물 이름은 필수입니다.")
         private String name;
 
-        @NotBlank(message = "카테고리는 필수입니다.")
+        @NotNull(message = "카테고리는 필수입니다.")
         private LaundryCategory category;
 
-        @NotBlank(message = "기본 요금은 필수입니다.")
+        @NotNull(message = "기본 요금은 필수입니다.")
+        @Min(value = 0, message = "기본 요금은 0 이상 이어야 합니다.")
         private Integer basePrice;
 
         public LaundryItem toEntity() {
@@ -30,24 +33,11 @@ public class LaundryItemRequest {
         @NotBlank(message = "세탁물 이름은 필수입니다.")
         private String name;
 
-        @NotBlank(message = "카테고리는 필수입니다.")
+        @NotNull(message = "카테고리는 필수입니다.")
         private LaundryCategory category;
 
-        @NotBlank(message = "기본 요금은 필수입니다.")
+        @NotNull(message = "기본 요금은 필수입니다.")
+        @Min(value = 0, message = "기본 요금은 0 이상 이어야 합니다.")
         private Integer basePrice;
-
-        public void validate() {
-            if (name == null || name.trim().isEmpty()) {
-                throw new IllegalArgumentException("세탁물 이름은 필수입니다.");
-            }
-
-            if (category == null) {
-                throw new IllegalArgumentException("카테고리는 필수입니다.");
-            }
-
-            if (basePrice == null || basePrice < 0) {
-                throw new IllegalArgumentException("기본 요금은 0 이상 이어야 합니다.");
-            }
-        }
     }
 }

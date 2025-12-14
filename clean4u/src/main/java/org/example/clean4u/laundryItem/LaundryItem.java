@@ -18,6 +18,7 @@ public class LaundryItem {
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private LaundryCategory category;
 
     @Column(nullable = false)
@@ -32,7 +33,6 @@ public class LaundryItem {
     }
 
     public void update(LaundryItemRequest.UpdateDTO updateDTO) {
-        updateDTO.validate();
         this.name = updateDTO.getName();
         this.category = updateDTO.getCategory();
         this.basePrice = updateDTO.getBasePrice();
