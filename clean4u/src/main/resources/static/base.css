@@ -22,6 +22,9 @@
     --warning: #FFB74D;
     --success: #66BB6A;
 
+    --status-active: #22CC71;
+    --status-inactive: #95A5A6;
+
     --action-edit: #FFB74D;
     --action-edit-hover: #FFA726;
     --action-delete: #EF5350;

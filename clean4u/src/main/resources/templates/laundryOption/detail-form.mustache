@@ -1,19 +1,68 @@
 {{> layout/header}}
 
-<div class="container p-5">
+{{> layout/background}}
 
-    <div class="d-flex justify-content-end">
-        <form action="/laundry-option/{{laundryOption.id}}/delete" method="post">
-            <button class="btn btn-danger">삭제</button>
-        </form>
-        <a href="/laundry-option/{{laundryOption.id}}/update" class="btn btn-warning me-1">수정</a>
-
-    </div>
-
-    <div>
-        <h2><b>{{laundryOption.name}}</b></h2>
-        <hr/>
-        <h4><b>{{laundryOption.extraPrice}}</b></h4>
+<!-- http://localhost:8080/laundry-option/1 -->
+<div class="detail-container">
+    <div class="detail-container-content">
+        <div class="buttons">
+            <form action="/laundry-option" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            </form>
+            <div class="button-right">
+                <form action="/laundry-option/{{laundryOption.id}}/update" method="post">
+                    <button class="btn btn-edit"><i class="fa-solid fa-edit"></i> 수정</button>
+                </form>
+                <form action="/laundry-option/{{laundryOption.id}}/delete" method="post">
+                    <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
+                </form>
+            </div>
+        </div>
+        <div class="detail-card">
+            <div class="detail-header">
+                <i class="fa-solid fa-tag"></i>
+                <h4>{{laundryOption.name}}</h4>
+            </div>
+            <div class="detail-body">
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-won-sign"></i>
+                        기본 가격
+                    </span>
+                    <span class="detail-value price">
+                        {{laundryOption.extraPrice}}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-circle-info"></i>
+                        설명
+                    </span>
+                    <span class="detail-value">
+                        {{laundryOption.description}}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-heart"></i>
+                        활성 여부
+                    </span>
+                    <span class="detail-value {{#laundryOption.isActive}}status-active{{/laundryOption.isActive}} {{^laundryOption.isActive}}status-inactive{{/laundryOption.isActive}}">
+                        {{#laundryOption.isActive}}활성{{/laundryOption.isActive}}
+                        {{^laundryOption.isActive}}비활성{{/laundryOption.isActive}}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-hourglass"></i>
+                        생성일
+                    </span>
+                    <span class="detail-value">
+                        {{laundryOption.createdAt}}
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
