@@ -23,7 +23,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -86,16 +88,24 @@ public class OrderController {
         return "redirect:/order/" + order.getId();
     }
 
-    // 주문 목록 조회 화면: http://localhost:8080/order/list
+    // 주문 목록 조회, 검색 화면: http://localhost:8080/order/list
     // 인증(o), 인가(x)
     @GetMapping("/order/list")
-    public String orderList(Model model, HttpSession session) {
+    public String orderList(
+            Model model,
+            HttpSession session,
+            @RequestParam(required = false) OrderStatus status,
+            @RequestParam(required = false) String customerName,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) LocalDate fromDate,
+            @RequestParam(required = false) LocalDate toDate
+            ) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
 
-        List<Order> orderList = orderRepository.findAll();
+        List<Order> orderList = orderRepository.searchOrder(status, customerName, phone, fromDate, toDate);
         model.addAttribute("orderList", orderList);
         return "order/list-form";
     }
