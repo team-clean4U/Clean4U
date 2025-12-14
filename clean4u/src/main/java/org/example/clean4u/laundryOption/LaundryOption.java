@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 public class LaundryOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "laundry_option_id")
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "extra_price", nullable = false)
     private Integer extraPrice;
 
     @Builder
@@ -28,7 +29,6 @@ public class LaundryOption {
     }
 
     public void update(LaundryOptionRequest.UpdateDTO updateDTO) {
-        updateDTO.validate();
         this.name = updateDTO.getName();
         this.extraPrice = updateDTO.getExtraPrice();
     }

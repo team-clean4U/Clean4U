@@ -1,5 +1,6 @@
 package org.example.clean4u.supplyItem;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ public class SupplyItemController {
 
     private final SupplyItemRepository repository;
 
+    // http://localhost:8080/supply-item
     @GetMapping("/supply-item")
     public String supplyItemList(Model model) {
         List<SupplyItem> supplyItemList = repository.findAll();
@@ -22,49 +24,45 @@ public class SupplyItemController {
         return "supplyItem/list-form";
     }
 
+    // http://localhost:8080/supply-item/{id}
     @GetMapping("/supply-item/{id}")
     public String supplyItem(@PathVariable Long id, Model model) {
         SupplyItem supplyItem = repository.findById(id);
-        if (supplyItem == null) {
-            throw new RuntimeException("자재를 찾을 수 없습니다. : " + id);
-        }
         model.addAttribute("supplyItem", supplyItem);
 
         return "supplyItem/detail-form";
     }
 
+    // http://localhost:8080/supply-item/save
     @GetMapping("/supply-item/save")
     public String saveForm() {
         return "supplyItem/save-form";
     }
 
+    // http://localhost:8080/supply-item/save
     @PostMapping("/supply-item/save")
-    public String saveProc(SupplyItemRequest.SaveDTO saveDTO) {
+    public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO) {
         SupplyItem supplyItem = saveDTO.toEntity();
         repository.save(supplyItem);
         return "redirect:/supply-item";
     }
 
+    // http://localhost:8080/supply-item/{id}/update
     @GetMapping("/supply-item/{id}/update")
     public String updateForm(@PathVariable Long id, Model model) {
         SupplyItem supplyItem = repository.findById(id);
-        if (supplyItem == null) {
-            throw new RuntimeException("수정할 자재를 찾을 수 없습니다.");
-        }
         model.addAttribute("supplyItem", supplyItem);
         return "supplyItem/update-form";
     }
 
+    // http://localhost:8080/supply-item/{id}/update
     @PostMapping("/supply-item/{id}/update")
-    public String updateProc(@PathVariable Long id, SupplyItemRequest.UpdateDTO updateDTO) {
-        try {
-            repository.updateById(id, updateDTO);
-        } catch (Exception e) {
-            throw new RuntimeException("자재 수정을 실패했습니다.");
-        }
+    public String updateProc(@PathVariable Long id, @Valid SupplyItemRequest.UpdateDTO updateDTO) {
+        repository.updateById(id, updateDTO);
         return "redirect:/supply-item/{id}";
     }
 
+    // http://localhost:8080/supply-item/{id}/delete
     @PostMapping("/supply-item/{id}/delete")
     public String delete(@PathVariable Long id) {
         repository.deleteById(id);

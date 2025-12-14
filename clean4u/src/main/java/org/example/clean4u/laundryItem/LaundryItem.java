@@ -12,15 +12,17 @@ import lombok.NoArgsConstructor;
 public class LaundryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "laundry_item_id")
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false)
     private LaundryCategory category;
 
-    @Column(nullable = false)
+    @Column(name = "base_price", nullable = false)
     private Integer basePrice;
 
     @Builder
@@ -32,7 +34,6 @@ public class LaundryItem {
     }
 
     public void update(LaundryItemRequest.UpdateDTO updateDTO) {
-        updateDTO.validate();
         this.name = updateDTO.getName();
         this.category = updateDTO.getCategory();
         this.basePrice = updateDTO.getBasePrice();
