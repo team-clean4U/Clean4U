@@ -12,14 +12,14 @@ insert into laundry_option_tb(name, extra_price) values
                                                      ('향 추가', 1000),
                                                      ('프리미엄 세제', 6000);
 
-insert into supply_item_tb(name, unit, stock_quantity) values
-                                                           ('세탁세제', 'ml', 50000),
-                                                           ('섬유유연제', 'ml', 30000),
-                                                           ('표백제', 'ml', 20000),
-                                                           ('비닐포장지', 'ea', 1000),
-                                                           ('종이포장봉투', 'ea', 500),
-                                                           ('옷걸이', 'ea', 300),
-                                                           ('세탁망', 'ea', 150);
+insert into supply_item_tb(name, unit, stock_quantity, safety_stock) values
+                                                           ('세탁세제', 'ml', 5, 10),
+                                                           ('섬유유연제', 'ml', 30, 10),
+                                                           ('표백제', 'ml', 5, 3),
+                                                           ('비닐포장지', 'ea', 100, 100),
+                                                           ('종이포장봉투', 'ea', 500, 100),
+                                                           ('옷걸이', 'ea', 300, 100),
+                                                           ('세탁망', 'ea', 150, 100);
 
 INSERT INTO employee_tb (name, username, password, email, user_role) VALUES
     ('김관리', 'admin01', '$2a$10$adminhashedpassword', 'admin01@clean4u.com', 'ADMIN'),
@@ -44,7 +44,3 @@ INSERT INTO order_tb (customer_id, status, total_price, order_date, memo, editor
     (3, 'COMPLETED',  27000, '2025-12-08', '빠른 처리 감사', 2),
     (4, 'RECEIVED',   19000, '2025-12-09', NULL, 1),
     (5, 'COMPLETED',  52000, '2025-12-10', '정기 고객', 3);
-
-
-
-
