@@ -28,7 +28,6 @@ public class LaundryOption {
     }
 
     public void update(LaundryOptionRequest.UpdateDTO updateDTO) {
-        updateDTO.validate();
         this.name = updateDTO.getName();
         this.extraPrice = updateDTO.getExtraPrice();
     }

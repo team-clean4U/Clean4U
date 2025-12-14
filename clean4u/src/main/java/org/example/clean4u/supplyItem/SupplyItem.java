@@ -32,7 +32,6 @@ public class SupplyItem {
     }
 
     public void update(SupplyItemRequest.UpdateDTO updateDTO) {
-        updateDTO.validate();
         this.name = updateDTO.getName();
         this.unit = updateDTO.getUnit();
         this.stockQuantity = updateDTO.getStockQuantity();

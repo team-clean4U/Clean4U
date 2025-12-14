@@ -1,6 +1,8 @@
 package org.example.clean4u.supplyItem;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 public class SupplyItemRequest {
@@ -13,7 +15,8 @@ public class SupplyItemRequest {
         @NotBlank(message = "단위는 필수입니다.")
         private String unit;
 
-        @NotBlank(message = "재고 수량은 필수입니다.")
+        @NotNull(message = "재고 수량은 필수입니다.")
+        @Min(value = 0, message = "재고 수량은 0 이상 이어야 합니다.")
         private Integer stockQuantity;
 
         public SupplyItem toEntity() {
@@ -33,21 +36,8 @@ public class SupplyItemRequest {
         @NotBlank(message = "단위는 필수입니다.")
         private String unit;
 
-        @NotBlank(message = "재고 수량은 필수입니다.")
+        @NotNull(message = "재고 수량은 필수입니다.")
+        @Min(value = 0, message = "재고 수량은 0 이상 이어야 합니다.")
         private Integer stockQuantity;
-
-        public void validate() {
-            if (name == null || name.trim().isEmpty()) {
-                throw new IllegalArgumentException("자재 이름은 필수입니다.");
-            }
-
-            if (unit == null) {
-                throw new IllegalArgumentException("단위는 필수입니다.");
-            }
-
-            if (stockQuantity == null || stockQuantity < 0) {
-                throw new IllegalArgumentException("재고 수량은 0 이상 이어야 합니다.");
-            }
-        }
     }
 }
