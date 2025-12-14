@@ -1,21 +1,49 @@
 {{> layout/header}}
 
-<div class="container p-5">
+{{> layout/background}}
 
-    <div class="d-flex justify-content-end">
-        <form action="/laundry-item/{{laundryItem.id}}/delete" method="post">
-            <button class="btn btn-danger">삭제</button>
-        </form>
-        <a href="/laundry-item/{{laundryItem.id}}/update" class="btn btn-warning me-1">수정</a>
-
-    </div>
-
-    <div>
-        <h2><b>{{laundryItem.name}}</b></h2>
-        <hr/>
-        <h4><b>{{laundryItem.category}}</b></h4>
-        <hr/>
-        <h2><b>{{laundryItem.basePrice}}</b></h2>
+<!-- http://localhost:8080/laundry-item/1 -->
+<div class="detail-container">
+    <div class="detail-container-content">
+        <div class="buttons">
+            <form action="/laundry-item" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            </form>
+            <div class="button-right">
+                <form action="/laundry-item/{{laundryItem.id}}/update" method="post">
+                    <button class="btn btn-edit"><i class="fa-solid fa-edit"></i> 수정</button>
+                </form>
+                <form action="/laundry-item/{{laundryItem.id}}/delete" method="post">
+                    <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
+                </form>
+            </div>
+        </div>
+        <div class="detail-card">
+            <div class="detail-header">
+                <i class="fa-solid fa-{{laundryItem.icon}}"></i>
+                <h4>{{laundryItem.name}}</h4>
+            </div>
+            <div class="detail-body">
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-list"></i>
+                        카테고리
+                    </span>
+                    <span class="detail-value category">
+                        {{laundryItem.category}}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-won-sign"></i>
+                        기본 가격
+                    </span>
+                    <span class="detail-value price">
+                        {{laundryItem.basePrice}}
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -1,0 +1,247 @@
+html {
+    background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 50%, #90CAF9 100%) fixed;
+    background-size: cover;
+}
+
+body {
+    background: transparent;
+}
+
+/* 배경 버블 */
+.bg-bubble {
+    position: absolute;
+    bottom: -100px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: rise 15s infinite ease-in;
+    filter: blur(2px);
+}
+
+.bg-bubble:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    left: 10%;
+    animation-duration: 8s;
+    animation-delay: 0s;
+}
+
+.bg-bubble:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    left: 20%;
+    animation-duration: 10s;
+    animation-delay: 1s;
+}
+
+.bg-bubble:nth-child(3) {
+    width: 100px;
+    height: 100px;
+    left: 35%;
+    animation-duration: 12s;
+    animation-delay: 2s;
+}
+
+.bg-bubble:nth-child(4) {
+    width: 50px;
+    height: 50px;
+    left: 50%;
+    animation-duration: 9s;
+    animation-delay: 0.5s;
+}
+
+.bg-bubble:nth-child(5) {
+    width: 70px;
+    height: 70px;
+    left: 65%;
+    animation-duration: 11s;
+    animation-delay: 1.5s;
+}
+
+.bg-bubble:nth-child(6) {
+    width: 90px;
+    height: 90px;
+    left: 75%;
+    animation-duration: 13s;
+    animation-delay: 2.5s;
+}
+
+.bg-bubble:nth-child(7) {
+    width: 55px;
+    height: 55px;
+    left: 85%;
+    animation-duration: 10s;
+    animation-delay: 0.8s;
+}
+
+.bg-bubble:nth-child(8) {
+    width: 75px;
+    height: 75px;
+    left: 15%;
+    animation-duration: 14s;
+    animation-delay: 3s;
+}
+
+.bg-bubble:nth-child(9) {
+    width: 65px;
+    height: 65px;
+    left: 40%;
+    animation-duration: 9s;
+    animation-delay: 1.2s;
+}
+
+.bg-bubble:nth-child(10) {
+    width: 85px;
+    height: 85px;
+    left: 60%;
+    animation-duration: 11s;
+    animation-delay: 2.2s;
+}
+
+@keyframes rise {
+    0% {
+        bottom: -100px;
+        transform: translateX(0);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateX(100px);
+        opacity: 0.8;
+    }
+    100% {
+        bottom: 100vh;
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+}
+
+.bg-bubbles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 헤더 */
+nav {
+    background: var(--color-cream);
+    box-shadow: 0 4px 20px var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    padding: 0.8rem 2rem;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-cyan);
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.75rem;
+
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-black);
+
+    white-space: nowrap;
+}
+
+.nav-link.active {
+    background: linear-gradient(135deg, var(--color-light-blue), var(--color-blue));
+    color: var(--color-white);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.25s ease;
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.35rem;
+    }
+
+    .nav-link {
+        font-size: 1.0rem;
+    }
+
+    .navbar-nav {
+        gap: 1rem;
+    }
+}
+
+/* 푸터 */
+footer {
+    background: var(--color-cream-blue);
+}
+
+.f-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem 2rem 1.25rem;
+}
+
+.f-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-dark-blue);
+}
+
+.f-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    gap: 0.5rem;
+}
+
+.f-copyrights {
+    color: var(--color-gray);
+}
+
+.github-icon {
+    display: inline-flex;
+    align-items: center;
+
+    font-size: 1.25rem;
+    color: var(--color-white);
+    transition: 0.2s ease;
+
+    border: none;
+    border-radius: 15px;
+    background: var(--color-light-blue);
+    opacity: 0.75;
+    padding: 0.5rem 1rem;
+}
+
+.github-icon:hover {
+    opacity: 1;
+}
