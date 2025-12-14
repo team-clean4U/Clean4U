@@ -2,6 +2,7 @@ package org.example.clean4u.supplyItem;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.exception.Exception404;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,14 +28,18 @@ public class SupplyItemRepository {
     }
 
     public SupplyItem findById(Long id) {
-        return em.find(SupplyItem.class, id);
+        SupplyItem supplyItem = em.find(SupplyItem.class, id);
+        if (supplyItem == null) {
+            throw new Exception404("해당 자재를 찾을 수 없습니다.");
+        }
+        return supplyItem;
     }
 
     @Transactional
     public SupplyItem updateById(Long id, SupplyItemRequest.UpdateDTO updateDTO) {
         SupplyItem supplyItem = em.find(SupplyItem.class, id);
         if (supplyItem == null) {
-            throw new IllegalArgumentException("수정할 자재가 없습니다.");
+            throw new Exception404("해당 자재를 찾을 수 없습니다.");
         }
         supplyItem.update(updateDTO);
         return supplyItem;
@@ -44,7 +49,7 @@ public class SupplyItemRepository {
     public void deleteById(Long id) {
         SupplyItem supplyItem = em.find(SupplyItem.class, id);
         if (supplyItem == null) {
-            throw new IllegalArgumentException("삭제할 자재가 없습니다.");
+            throw new Exception404("해당 자재를 찾을 수 없습니다.");
         }
         em.remove(supplyItem);
     }
