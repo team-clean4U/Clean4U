@@ -28,12 +28,12 @@ INSERT INTO employee_tb (name, username, password, email, user_role) VALUES
     ('이직원', 'employee01', '$2a$10$employeehashedpassword1', 'employee01@clean4u.com', 'EMPLOYEE'),
     ('박직원', 'employee02', '$2a$10$employeehashedpassword2', 'employee02@clean4u.com', 'EMPLOYEE');
 
-INSERT INTO customer_tb (name, birth, phone, grade, memo) VALUES
-    ('김민수', '1990-03-15', '010-1234-5678', 'NEW', '첫 방문 고객'),
-    ('이서연', '1985-07-22', '010-2345-6789', 'REGULAR', '월 2회 이용'),
-    ('박지훈', '1978-11-05', '010-3456-7890', 'VIP', '장기 고객, 프리미엄 서비스 선호'),
-    ('최은지', '1995-01-30', '010-4567-8901', 'REGULAR', '알레르기 주의'),
-    ('정우성', '1988-09-12', '010-5678-9012', 'NEW', NULL);
+INSERT INTO customer_tb (name, birth, phone, grade, memo, created_at) VALUES
+    ('김민수', '1990-03-15', '010-1234-5678', 'NEW', '첫 방문 고객', '2025-01-15'),
+    ('이서연', '1985-07-22', '010-2345-6789', 'REGULAR', '월 2회 이용', '2025-03-30'),
+    ('박지훈', '1978-11-05', '010-3456-7890', 'VIP', '장기 고객, 프리미엄 서비스 선호', '2025-07-06'),
+    ('최은지', '1995-01-30', '010-4567-8901', 'REGULAR', '알레르기 주의', '2025-10-15'),
+    ('정우성', '1988-09-12', '010-5678-9012', 'NEW', null, '2025-12-03');
 
 INSERT INTO order_tb (customer_id, status, total_price, order_date, memo, editor_id) VALUES
     (1, 'RECEIVED',   15000, '2025-12-01', '일반 세탁', 1),

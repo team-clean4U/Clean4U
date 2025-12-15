@@ -1,0 +1,77 @@
+.info-value.grade {
+    background: var(--color-light-blue);
+    border-radius: 50px;
+    color: var(--color-white);
+    padding: 0.3rem 0.7rem;
+    font-size: 1rem;
+}
+
+.grade-NEW {
+    background: var(--color-cream-blue);
+    border-radius: 50px;
+    color: var(--color-cyan);
+    padding: 0.3rem 0.7rem;
+    font-size: 1rem;
+}
+
+.grade-REGULAR {
+    background: var(--color-light-blue);
+    border-radius: 50px;
+    color: var(--color-white);
+    padding: 0.3rem 0.7rem;
+    font-size: 1rem;
+}
+
+.grade-VIP {
+    background: var(--color-dark-blue);
+    border-radius: 50px;
+    color: var(--color-white);
+    padding: 0.3rem 0.7rem;
+    font-size: 1rem;
+}
+
+.info-value.phone {
+    color: var(--color-black);
+}
+
+.detail-items {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px dashed var(--color-light-gray);
+    align-items: center;
+}
+
+.detail-items-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 0 8rem 0;
+    border-bottom: 1px dashed var(--color-light-gray);
+    align-items: flex-start;
+}
+
+.detail-label-info {
+    color: var(--color-gray);
+    font-weight: 600;
+    padding: 1rem 0;
+}
+
+.detail-label-info i {
+    color: var(--color-blue);
+    margin-right: 0.5rem;
+}
+
+.detail-value.grade {
+    background: var(--color-light-blue);
+    border-radius: 50px;
+    color: var(--color-white);
+    padding: 0.3rem 0.7rem;
+    font-size: 1rem;
+}
+
+.detail-value.phone {
+    color: var(--color-black);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
