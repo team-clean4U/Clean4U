@@ -1,0 +1,47 @@
+{{> layout/header}}
+
+{{> layout/background}}
+
+<!-- http://localhost:8080/laundry-item -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fa-solid fa-users"></i>고객 목록
+            </h2>
+            <a href="/customer/save" class="btn btn-create">
+                <span>+</span>생성
+            </a>
+        </div>
+
+        <div class="card-list">
+            {{#customerList}}
+                <a href="/customer/{{id}}" class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-user"></i>
+                        <h4>{{name}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-info">
+                            <span class="info-label">이름:</span>
+                            <span class="info-value">{{name}}</span>
+                        </div>
+                        <div class="card-info">
+                            <span class="info-label">휴대폰번호:</span>
+                            <span class="info-value price">{{birth}}</span>
+                        </div>
+                        <div class="card-info">
+                            <span class="info-label">등급:</span>
+                            <span class="info-value price">{{grade}}</span>
+                        </div>
+                    </div>
+                </a>
+            {{/customerList}}
+        </div>
+        {{^customerList}}
+            <p class="blank">존재하지 않습니다.</p>
+        {{/customerList}}
+    </div>
+</div>
+
+{{> layout/footer}}
