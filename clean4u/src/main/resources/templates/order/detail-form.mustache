@@ -1,10 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{{> layout/header}}
+{{> layout/background}}
+<div class="detail-container">
+    <div class="detail-container-content">
+        <div class="buttons">
+            <form action="/order/list" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            </form>
+            <div class="button-right">
+                <form action="/order/{{orderId}}/update" method="get">
+                    <button class="btn btn-edit"><i class="fa-solid fa-edit"></i>수정</button>
+                </form>
+                <form action="/order/{{orderId}}/delete" method="post"></form>
+                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
+            </div>
+        </div>
+        <div class="detail-card">
+            <div class="detail-header">
+                <i class="fa-solid fa-shirt"></i>
+                <h4>{{order.customer.name}} <span class="info-label">님의 주문 내역</span></h4>
+            </div>
+            <div class="detail-body">
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-list"></i>
+                            주문 접수일
+                    </span>
+                    <span class="detail-value">
+                        {{order.orderDate}}
+                    </span>
+                </div>
+                <div class="detail-item">
+                     <span class="detail-label">
+                        <i class="fa-solid fa-list"></i>
+                            세탁 상태
+                    </span>
+                    <span class="detail-value">
+                        <span class="status-badge {{order.status.cssClass}}">{{order.status.displayName}}</span>
+                    </span>
+                </div>
+                <div class="detail-item">
+                     <span class="detail-label">
+                        <i class="fa-solid fa-circle-info"></i>
+                            세탁 물품
+                    </span>
+<!--                    <span class="detail-value">-->
+<!--                       {{! 세탁 물품 리스트}}-->
+<!--                        {{#orderItem}}-->
+<!--                            {{laundryItem}}-->
+<!--                            {{quantity}}-->
+<!--                        {{/orderItem}}-->
+<!--                    </span>-->
+                </div>
 
-</body>
-</html>
+            </div>
+        </div>
+    </div>
+</div>
