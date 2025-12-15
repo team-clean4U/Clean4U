@@ -4,22 +4,34 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.clean4u.time.BaseTimeEntity;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "employee_tb")
-public class Employee {
+public class Employee extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", nullable = false, length = 20)
     private String name;
+
+    @Column(name = "username", nullable = false, length = 20)
     private String username;
+
+    @Column(name = "password", nullable = false, length = 50)
     private String password;
+
+    @Column(name = "email", nullable = false, length = 50)
     private String email;
-    
+
+    @Enumerated(EnumType.STRING)
     private UserRole userRole = UserRole.EMPLOYEE;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus = UserStatus.PENDING;
 
     @Builder
     public Employee(String name, String username, String password, String email) {
@@ -28,11 +40,10 @@ public class Employee {
         this.password = password;
         this.email = email;
         this.userRole = UserRole.EMPLOYEE;
+        this.userStatus = UserStatus.PENDING;
     }
 
     public void update(EmployeeRequest.UpdateDTD req) {
-        req.validate();
-
         this.password = req.getPassword();
         this.email = req.getEmail();
     }

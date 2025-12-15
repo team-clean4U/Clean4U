@@ -3,7 +3,6 @@ package org.example.clean4u.order;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.customer.Customer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,8 +62,8 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(jpql.toString(), Order.class);
 
         if(status != null) query.setParameter("status", status);
-        if(customerName != null) query.setParameter("customerName", customerName);
-        if(phone != null) query.setParameter("phone", phone);
+        if(customerName != null && !customerName.isEmpty()) query.setParameter("customerName", customerName);
+        if(phone != null && !phone.isEmpty()) query.setParameter("phone", phone);
         if(fromDate != null) query.setParameter("fromDate", fromDate);
         if(toDate != null) query.setParameter("toDate", toDate);
 
