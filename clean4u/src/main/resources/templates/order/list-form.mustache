@@ -11,10 +11,28 @@
                 <span>+</span>생성
             </a>
         </div>
-        
+
+        <div class="search-box">
+            <form method="get" action="/order/list" class="search-form">
+                <select name="status">
+                    <option value="">전체 상태</option>
+                    <option value="RECEIVED">접수</option>
+                    <option value="WASHING">세탁중</option>
+                    <option value="DRYING">건조중</option>
+                    <option value="COMPLETED">완료</option>
+                </select>
+                <input type="text" name="customerName" placeholder="고객 이름">
+                <input type="tel" name="phone" placeholder="전화번호">
+                <input type="date" name="fromDate" class="date-input">
+                <span>~</span>
+                <input type="date" name="toDate" class="date-input">
+                <button type="submit" class="btn btn-search"><span>검색</span></button>
+            </form>
+        </div>
+
         <div class="card-list">
             {{#orderList}}
-                <a href="/order/{{id}}" class="card">
+                <a href="/order/{{orderId}}" class="card">
                     <div class="card-header">
                         <h4>{{customer.name}} <span class="info-label">님 주문</span></h4>
                     </div>
@@ -34,3 +52,15 @@
     </div>
 </div>
 <!--sessionUser 추가 (-) -->
+
+<script>
+    document.querySelectorAll('.date-input').forEach(input => {
+        input.addEventListener('change', () => {
+            input.classList.toggle('has-value', !!input.value);
+        });
+
+        if(input.value) {
+            input.classList.add('has-value');
+        }
+    });
+</script>
