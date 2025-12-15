@@ -2,62 +2,70 @@
 
 {{> layout/background}}
 
-<!-- http://localhost:8080/laundry-item/1 -->
 <div class="detail-container">
     <div class="detail-container-content">
         <div class="buttons">
-            <form action="/laundry-item" method="get">
+            <form action="/customer" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
-                <form action="/laundry-item/{{laundryItem.id}}/update" method="post">
+                <form action="/customer/{{customer.id}}/update" method="post">
                     <button class="btn btn-edit"><i class="fa-solid fa-edit"></i> 수정</button>
                 </form>
-                <form action="/laundry-item/{{laundryItem.id}}/delete" method="post">
+                <form action="/customer/{{customer.id}}/delete" method="post">
                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
                 </form>
             </div>
         </div>
         <div class="detail-card">
             <div class="detail-header">
-                <i class="fa-solid fa-{{laundryItem.icon}}"></i>
-                <h4>{{laundryItem.name}}</h4>
+                <i class="fa-solid fa-user"></i>
+                <h4>{{customer.name}}</h4>
             </div>
             <div class="detail-body">
-                <div class="detail-item">
+                <div class="detail-items">
                     <span class="detail-label">
-                        <i class="fa-solid fa-list"></i>
-                        카테고리
+                        <i class="fa-solid fa-award"></i>
+                        등급
                     </span>
-                    <span class="detail-value category">
-                        {{laundryItem.category}}
+                    <span class="detail-value grade-{{customer.grade}}">
+                        {{customer.grade}}
                     </span>
                 </div>
-                <div class="detail-item">
+                <div class="detail-items">
                     <span class="detail-label">
-                        <i class="fa-solid fa-won-sign"></i>
-                        기본 가격
+                        <i class="fa-solid fa-mobile-screen"></i>
+                        연락처
                     </span>
-                    <span class="detail-value price">
-                        {{laundryItem.basePrice}}
+                    <span class="detail-value phone">
+                        {{customer.phone}}
                     </span>
                 </div>
-                <div class="detail-item">
+                <div class="detail-items">
                     <span class="detail-label">
-                        <i class="fa-solid fa-circle-info"></i>
-                        설명
+                        <i class="fa-solid fa-cake-candles"></i>
+                        생년월일
                     </span>
                     <span class="detail-value">
-                        {{laundryItem.description}}
+                        {{customer.birth}}
                     </span>
                 </div>
-                <div class="detail-item">
+                <div class="detail-items">
                     <span class="detail-label">
                         <i class="fa-solid fa-hourglass"></i>
                         생성일
                     </span>
                     <span class="detail-value">
-                        {{laundryItem.createdAt}}
+                        {{createdAt}}
+                    </span>
+                </div>
+                <div class="detail-items-info">
+                    <span class="detail-label-info">
+                        <i class="fa-solid fa-circle-info"></i>
+                        설명
+                    </span>
+                    <span class="detail-value">
+                        {{memo}}
                     </span>
                 </div>
             </div>

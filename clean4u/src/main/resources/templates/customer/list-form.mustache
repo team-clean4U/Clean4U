@@ -23,16 +23,12 @@
                     </div>
                     <div class="card-body">
                         <div class="card-info">
-                            <span class="info-label">이름:</span>
-                            <span class="info-value">{{name}}</span>
+                            <span class="info-label">등급:</span>
+                            <span class="info-value {{#grade}}grade-{{grade}}{{/grade}}">{{grade}}</span>
                         </div>
                         <div class="card-info">
                             <span class="info-label">휴대폰번호:</span>
-                            <span class="info-value price">{{birth}}</span>
-                        </div>
-                        <div class="card-info">
-                            <span class="info-label">등급:</span>
-                            <span class="info-value price">{{grade}}</span>
+                            <span class="info-value phone">{{phone}}</span>
                         </div>
                     </div>
                 </a>
