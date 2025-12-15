@@ -39,6 +39,8 @@
 }
 
 .detail-header {
+    display: flex;
+    flex-direction: column;
     text-align: center;
     padding: 2.5rem;
     background: var(--background-blue);
@@ -48,6 +50,7 @@
 }
 
 .detail-header i {
+    width: 100%;
     margin-bottom: 1rem;
     color: var(--color-light-blue);
 }
@@ -112,4 +115,10 @@
 
 .status-inactive {
     background: var(--status-inactive);
+}
+
+@media (max-width: 1024px) {
+    .detail-container-content {
+        width: 70%;
+    }
 }

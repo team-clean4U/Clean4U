@@ -1,35 +1,62 @@
 {{> layout/header}}
 
-<div class="container p-5">
+{{> layout/background}}
 
-    <div class="card">
-        <div class="card-header"><b>세탁물 수정 화면입니다.</b></div>
-        <div class="card-body">
-
-            <form action="/laundry-item/{{laundryItem.id}}/update" method="post">
-                <div class="mb-3">
-                    <input type="text" class="form-control" name="name" value="{{laundryItem.name}}">
+<!-- http://localhost:8080/laundry-item/1/update -->
+<div class="update-container">
+    <div class="update-container-content">
+        <div class="update-card">
+            <div class="update-header">
+                <i class="fa-solid fa-{{laundryItem.icon}}"></i>
+                <label>
+                    <input type="text" value="{{laundryItem.name}}">
+                </label>
+            </div>
+            <div class="update-body">
+                <div class="update-item">
+                    <span class="update-label">
+                        <i class="fa-solid fa-list"></i>
+                        카테고리
+                    </span>
+                    <ul class="update-value category" data-selected="{{laundryItem.category}}">
+                        <li datatype="TOP">TOP</li>
+                        <li datatype="BOTTOM">BOTTOM</li>
+                        <li datatype="OUTER">OUTER</li>
+                        <li datatype="BEDDING">BEDDING</li>
+                        <li datatype="ACCESSORY">ACCESSORY</li>
+                        <li datatype="SPECIAL">SPECIAL</li>
+                        <li datatype="ETC">ETC</li>
+                    </ul>
                 </div>
-                <div class="mb-3">
-                    <select name="category" class="form-select">
-                        <option value="TOP" {{#isTop}}selected{{/isTop}}>상의</option>
-                        <option value="BOTTOM" {{#isBottom}}selected{{/isBottom}}>하의</option>
-                        <option value="OUTER" {{#isOuter}}selected{{/isOuter}}>아우터</option>
-                        <option value="UNDEREWEAR" {{#isUnderwear}}selected{{/isUnderwear}}>속옷</option>
-                        <option value="BEDDING" {{#isBedding}}selected{{/isBedding}}>침구</option>
-                        <option value="ACCESSORY" {{#isAccessory}}selected{{/isAccessory}}>잡화</option>
-                        <option value="SPECIAL" {{#isSpecial}}selected{{/isSpecial}}>특수</option>
-                        <option value="ETC" {{#isEtc}}selected{{/isEtc}}>기타</option>
-                    </select>
+                <div class="update-item">
+                    <span class="update-label">
+                        <i class="fa-solid fa-won-sign"></i>
+                        기본 가격
+                    </span>
+                    <label>
+                        <input type="number" min="0" step="1000" class="update-value price"
+                               value="{{laundryItem.basePrice}}">
+                    </label>
                 </div>
-                <div class="mb-3">
-                    <input type="number" class="form-control" name="basePrice" value="{{laundryItem.basePrice}}"
-                           step="1000">
+                <div class="update-item">
+                    <span class="update-label">
+                        <i class="fa-solid fa-circle-info"></i>
+                        설명
+                    </span>
+                    <label>
+                        <textarea class="update-value">{{laundryItem.description}}</textarea>
+                    </label>
                 </div>
-
-                <button class="btn btn-primary form-control">수정 완료</button>
-            </form>
-
+                <div class="update-item">
+                    <span class="update-label">
+                        <i class="fa-solid fa-hourglass"></i>
+                        생성일
+                    </span>
+                    <span class="update-value">
+                        {{laundryItem.createdAt}}
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
