@@ -7,17 +7,16 @@
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
-                <form action="/order/{{id}}/update" method="get">
+                <form action="/order/{{order.orderId}}/update" method="get">
                     <button class="btn btn-edit"><i class="fa-solid fa-edit"></i>수정</button>
                 </form>
-                <form action="/order/{{id}}/delete" method="post"></form>
+                <form action="/order/{{order.orderId}}/delete" method="post"></form>
                      <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
             </div>
         </div>
         <div class="detail-card">
             <div class="detail-header">
-                <i class="fa-solid fa-shirt"></i>
-                <h4>{{order.customer.name}} <span class="info-label">님의 주문 내역</span></h4>
+                <h4>{{order.customerName}} <span class="info-label">님의 주문 내역</span></h4>
             </div>
             <div class="detail-body">
                 <div class="detail-item">
@@ -43,13 +42,49 @@
                         <i class="fa-solid fa-circle-info"></i>
                             세탁 물품
                     </span>
-<!--                    <span class="detail-value">-->
-<!--                       {{! 세탁 물품 리스트}}-->
-<!--                        {{#orderItem}}-->
-<!--                            {{laundryItem}}-->
-<!--                            {{quantity}}-->
-<!--                        {{/orderItem}}-->
-<!--                    </span>-->
+                    <span class="detail-value">
+                        <ul style="width: 100%">
+                            {{#items}}
+                                <li style="margin-bottom: 1.2rem">
+                                    <div style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                    ">
+                                        <strong>{{laundryItemName}}</strong>
+                                        <span>{{quantity}}개</span>
+                                    </div>
+
+                                    <div class="info-value price">
+                                        기본 가격: {{basePrice}}원
+                                    </div>
+
+                                    {{#options}}
+                                        <div style="
+                                           margin-left: 1rem;
+                                           font-size: 0.95rem;
+                                           color: #555;
+                                        ">
+                                            + {{optionName}} ({{extraPrice}}원)
+                                        </div>
+                                    {{/options}}
+
+                                    <div style="
+                                        margin-top: 0.3rem;
+                                        font-size: 0.95rem;
+                                    ">
+                                        옵션 합계: {{optionalTotalPrice}}원
+                                    </div>
+
+                                    <div class="detail-value price">
+                                        가격: {{itemTotalPrice}}원
+                                    </div>
+                                </li>
+                            {{/items}}
+                            <div class="detail-value price">
+                                        총 가격: {{order.totalPrice}}원
+                            </div>
+                        </ul>
+                    </span>
                 </div>
 
             </div>

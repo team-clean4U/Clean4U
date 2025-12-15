@@ -46,3 +46,39 @@ INSERT INTO order_tb (customer_id, status, total_price, order_date, memo, editor
     (3, 'COMPLETED',  27000, '2025-12-08', '빠른 처리 감사', 2),
     (4, 'RECEIVED',   19000, '2025-12-09', NULL, 1),
     (5, 'COMPLETED',  52000, '2025-12-10', '정기 고객', 3);
+
+INSERT INTO order_item_tb (order_id, laundry_item_id, quantity, created_at) VALUES
+    (1, 1, 2, now()),
+    (1, 2, 1, now()),
+    (2, 4, 1, now()),
+    (2, 1, 3, now()),
+    (3, 3, 1, now()),
+    (4, 2, 2, now()),
+    (4, 5, 1, now()),
+    (5, 6, 1, now()),
+    (6, 4, 2, now()),
+    (6, 1, 2, now()),
+    (7, 3, 1, now()),
+    (7, 2, 1, now()),
+    (8, 1, 1, now()),
+    (8, 5, 2, now()),
+    (9, 7, 1, now()),
+    (10, 4, 1, now()),
+    (10, 6, 1, now());
+
+INSERT INTO order_item_option_tb (order_item_id, laundry_option_id, created_at) VALUES
+    (1, 1, now()),
+    (1, 2, now()),
+    (3, 3, now()),
+    (4, 2, now()),
+    (5, 4, now()),
+    (6, 1, now()),
+    (9, 3, now()),
+    (10, 2, now()),
+    (11, 4, now()),
+    (12, 1, now()),
+    (13, 2, now()),
+    (15, 3, now());
+
+
+

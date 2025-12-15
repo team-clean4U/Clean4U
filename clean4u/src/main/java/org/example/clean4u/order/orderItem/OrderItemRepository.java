@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.laundryItem.LaundryItem;
+import org.example.clean4u.order.Order;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +22,9 @@ public class OrderItemRepository {
     }
 
     // 주문(세탁) 품목 전체 조회
-    public List<OrderItem> findAllByOrderId(Long id) {
-        return em.createQuery("SELECT oi FROM OrderItem oi WHERE oi.order.id = :id")
+    public List<OrderItem> findAllByOrderId(Long orderId) {
+        return em.createQuery("SELECT oi FROM OrderItem oi WHERE oi.order.id = :orderId", OrderItem.class)
+                .setParameter("orderId", orderId)
                 .getResultList();
     }
 
@@ -59,9 +61,9 @@ public class OrderItemRepository {
 
     // 주문내에 있는 모든 주문 품목 삭제
     @Transactional
-    public void deleteByOrderId(Long id) {
-        int deletedCount = em.createQuery("DELETE FROM OrderItem i WHERE i.order.id = :id")
-                .setParameter("id", id)
+    public void deleteByOrderId(Long orderId) {
+        int deletedCount = em.createQuery("DELETE FROM OrderItem i WHERE i.order.id = :orderId")
+                .setParameter("orderId", orderId)
                 .executeUpdate();
 
         if(deletedCount == 0) {
