@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.employee.Employee;
+import org.example.clean4u.time.BaseTimeEntity;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Table(name = "work_schedule_tb")
-public class WorkSchedule {
+public class WorkSchedule extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +29,10 @@ public class WorkSchedule {
     @Enumerated(EnumType.STRING)
     private List<DayOfWeek> days;
 
+    @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
+
+    @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
 
     @Builder
@@ -40,8 +44,6 @@ public class WorkSchedule {
     }
 
     public void update(WorkScheduleRequest.UpdateDTO req, Employee employee) {
-        req.validate(employee);
-
         this.startTime = req.getStartTime();
         this.endTime = req.getEndTime();
         this.employee = employee;
