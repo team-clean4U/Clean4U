@@ -26,13 +26,13 @@ public class Order extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.RECEIVED;
 
     @Column(name = "total_price", nullable = false)
     private Long totalPrice;
 
     @Column(name = "order_date", nullable = false)
-    private LocalDate orderDate;
+    private LocalDate orderDate = LocalDate.now();
 
     @Column(name = "memo", length = 50)
     private String memo;
@@ -44,8 +44,8 @@ public class Order extends BaseTimeEntity {
     @Builder
     public Order(Customer customer, OrderStatus status, Long totalPrice, LocalDate orderDate, String memo, Employee editor) {
         this.customer = customer;
-        this.status = status;
-        this.totalPrice = totalPrice;
+        this.status = status == null ? OrderStatus.RECEIVED : status;
+        this.totalPrice = totalPrice ;
         this.orderDate = orderDate == null ? LocalDate.now() : orderDate;
         this.memo = memo;
         this.editor = editor;

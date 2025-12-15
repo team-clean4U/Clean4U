@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u.customer.Customer;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.example.clean4u._core.exception.Exception404;
 
 import java.time.LocalDate;
 import java.util.List;
