@@ -29,6 +29,16 @@ public class OrderItemOptionRepository {
                 .getResultList();
     }
 
+    public List<OrderItemOption> findByOrderId(Long orderId) {
+        return em.createQuery("""
+                        SELECT o FROM OrderItemOption o
+                        WHERE o.orderItem.order.id = :orderId
+                        ORDER BY o.createdAt DESC
+                """, OrderItemOption.class)
+                .setParameter("orderId", orderId)
+                .getResultList();
+    }
+
     // 주문 단위 전체 삭제
     public void deleteByOrderId(Long id) {
         em.createQuery("""
