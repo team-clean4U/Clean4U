@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class CustomerController {
     private final CustomerRepository repository;
 
     // 고객 생성 화면
-    // http://localhost:8080/customer/save
+    // http://localhost:8080/customer/list
     @GetMapping("/customer/save")
     public String saveForm(HttpSession session) {
         Employee userSession = (Employee) session.getAttribute("sessionUser");
@@ -56,7 +57,7 @@ public class CustomerController {
 
         List<Customer> customerList = repository.findAll();
         model.addAttribute("customerList", customerList);
-        return "customer/list";
+        return "customer/list-form";
     }
 
     // 고객 단건 조회
@@ -68,9 +69,14 @@ public class CustomerController {
         }
 
         Customer customer = repository.findById(id);
-        model.addAttribute("customer", customer);
 
-        return "/customer/detail";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        model.addAttribute("customer", customer);
+        model.addAttribute("memo", customer.getMemo() == null ? "-" : customer.getMemo());
+        model.addAttribute("createdAt", customer.getCreatedAt().toLocalDateTime().format(formatter));
+
+        return "customer/detail-form";
     }
 
     // 고객 수정
