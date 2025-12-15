@@ -21,14 +21,11 @@ public class Employee extends BaseTimeEntity {
     @Column(name = "username", nullable = false, length = 20)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 20)
+    @Column(name = "password", nullable = false, length = 50)
     private String password;
 
     @Column(name = "email", nullable = false, length = 50)
     private String email;
-
-    @Column(name = "phone", nullable = false, length = 50)
-    private String phone;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole = UserRole.EMPLOYEE;

@@ -1,0 +1,64 @@
+<!-- http://localhost:8080/login -->
+
+{{> layout/header}}
+
+<div class="container">
+    <div class="detail-container">
+        <div class="detail-container-content">
+
+            <div class="detail-card">
+                <div class="detail-header">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <div>직원 등록</div>
+                </div>
+
+                <div class="detail-body">
+                    {{#msg}}
+                        <div class="status-badge status-inactive" style="margin-bottom: 1rem;">
+                            {{msg}}
+                        </div>
+                    {{/msg}}
+
+                    <form action="/join" method="post">
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fa-solid fa-id-badge"></i> 이름
+                            </div>
+                            <input type="text" name="name" placeholder="이름 입력" required>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fa-solid fa-user"></i> 아이디
+                            </div>
+                            <input type="text" name="username" placeholder="아이디 입력" required>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fa-solid fa-lock"></i> 비밀번호
+                            </div>
+                            <input type="password" name="password" placeholder="8자 이상" required>
+                        </div>
+
+                        <div class="detail-item">
+                            <div class="detail-label">
+                                <i class="fa-solid fa-envelope"></i> 이메일
+                            </div>
+                            <input type="email" name="email" placeholder="이메일 입력" required>
+                        </div>
+
+                        <div style="margin-top: 2rem; text-align: center;">
+                            <button type="submit" class="btn btn-create">
+                                <span>+</span> 등록하기
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}
