@@ -1,5 +1,6 @@
 package org.example.clean4u.workschedule;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.clean4u.employee.Employee;
 
@@ -9,10 +10,15 @@ import java.time.LocalTime;
 public class WorkScheduleOverrideRequest {
     @Data
     public static class SaveDTO {
+        @NotNull(message = "날짜는 비워둘 수 없습니다.")
         private LocalDate date;
+        @NotNull(message = "기존 근무자의 ID는 비워둘 수 없습니다.")
         private Long originalEmployeeId;
+        @NotNull(message = "교체 근무자의 ID는 비워둘 수 없습니다.")
         private Long overrideEmployeeId;
+        @NotNull(message = "시작 시간은 비워둘 수 없습니다.")
         private LocalTime startTime;
+        @NotNull(message = "종료 시간은 비워둘 수 없습니다.")
         private LocalTime endTime;
 
         public WorkScheduleOverride toEntity(Employee originalEmployee, Employee overrideEmployee) {
@@ -22,33 +28,15 @@ public class WorkScheduleOverrideRequest {
 
     @Data
     public static class UpdateDTO {
+        @NotNull(message = "날짜는 비워둘 수 없습니다.")
         private LocalDate date;
+        @NotNull(message = "기존 근무자의 ID는 비워둘 수 없습니다.")
         private Long originalEmployeeId;
+        @NotNull(message = "교체 근무자의 ID는 비워둘 수 없습니다.")
         private Long overrideEmployeeId;
+        @NotNull(message = "시작 시간은 비워둘 수 없습니다.")
         private LocalTime startTime;
+        @NotNull(message = "종료 시간은 비워둘 수 없습니다.")
         private LocalTime endTime;
-
-        // 검증 메서드
-        public void validate(Employee originalEmployee, Employee overrideEmployee) {
-            if (startTime == null) {
-                throw new IllegalArgumentException("시작 근무 시간은 필수 입력값 입니다,");
-            }
-
-            if (endTime == null) {
-                throw new IllegalArgumentException("종료 근무 시간은 필수 입력값 입니다");
-            }
-
-            if (startTime.isAfter(endTime) || endTime.isBefore(startTime)) {
-                throw new IllegalArgumentException("시작 시간은 종료 시간보다 빨라야합니다");
-            }
-
-            if (originalEmployee == null) {
-                throw new IllegalArgumentException("해당 직원을 찾을 수 없습니다.");
-            }
-
-            if (overrideEmployee == null) {
-                throw new IllegalArgumentException("해당 직원을 찾을 수 없습니다.");
-            }
-        }
     }
 }

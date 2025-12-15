@@ -18,6 +18,7 @@ public class WorkScheduleOverride {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "date", nullable = false)
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,8 +27,12 @@ public class WorkScheduleOverride {
     @ManyToOne(fetch = FetchType.LAZY)
     private Employee overrideEmployee;
 
+    @Column(name = "start_time", nullable = false)
     private LocalTime startTime;
+
+    @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
+
 
     @Builder
     public WorkScheduleOverride(LocalDate date, Employee originalEmployee, Employee overrideEmployee, LocalTime startTime, LocalTime endTime) {
@@ -39,8 +44,6 @@ public class WorkScheduleOverride {
     }
 
     public void update(WorkScheduleOverrideRequest.UpdateDTO req, Employee originalEmployee, Employee overrideEmployee) {
-        req.validate(originalEmployee, overrideEmployee);
-
         this.date = req.getDate();
         this.originalEmployee = originalEmployee;
         this.overrideEmployee = overrideEmployee;
