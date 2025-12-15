@@ -81,9 +81,10 @@ input, textarea, select {
     font-family: inherit;
     font-size: inherit;
     color: inherit;
-    border: none;
     outline: none;
     background: none;
+    border: 3px solid var(--color-light-blue);
+    border-radius: 15px;
 }
 
 ul, ol {
