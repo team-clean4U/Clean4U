@@ -30,6 +30,9 @@ public class Employee extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private UserRole userRole = UserRole.EMPLOYEE;
 
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus = UserStatus.PENDING;
+
     @Builder
     public Employee(String name, String username, String password, String email) {
         this.name = name;
@@ -37,6 +40,7 @@ public class Employee extends BaseTimeEntity {
         this.password = password;
         this.email = email;
         this.userRole = UserRole.EMPLOYEE;
+        this.userStatus = UserStatus.PENDING;
     }
 
     public void update(EmployeeRequest.UpdateDTD req) {
