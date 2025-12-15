@@ -8,7 +8,7 @@ import java.util.List;
 public interface WorkScheduleOverrideRepository extends JpaRepository<WorkScheduleOverride, Long> {
     List<WorkScheduleOverride> findByDate(LocalDate date);
 
-    List<WorkScheduleOverride> findByOriginalEmployee(Long employeeId);
+    List<WorkScheduleOverride> findByOriginalEmployeeId(Long employeeId);
 
-    List<WorkScheduleOverride> findByOverrideEmployee(Long employeeId);
+    List<WorkScheduleOverride> findByOverrideEmployeeId(Long employeeId);
 }
