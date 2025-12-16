@@ -47,9 +47,7 @@ public class Customer extends BaseTimeEntity {
         this.memo = memo;
     }
 
-    public void update(CustomerRequest.updateDto dto) {
-        dto.validate();
-
+    public void update(CustomerRequest.UpdateDTO dto) {
         this.name = dto.getName();
         this.birth = dto.getBirth();
         this.phone = dto.getPhone();
