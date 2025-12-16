@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderRepositoryCustom {
-    public List<Order> searchOrder(
+     List<Order> searchOrder(
             OrderStatus status,
             String customerName,
             String phone,
