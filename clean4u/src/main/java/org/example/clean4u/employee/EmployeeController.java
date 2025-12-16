@@ -75,7 +75,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee/update")
-    public String updateProc(EmployeeRequest.UpdateDTD updateDTD, HttpSession session) {
+    public String updateProc(@Valid EmployeeRequest.UpdateDTD updateDTD, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         try {
