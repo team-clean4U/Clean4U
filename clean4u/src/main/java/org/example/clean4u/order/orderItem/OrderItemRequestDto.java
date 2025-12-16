@@ -2,7 +2,7 @@ package org.example.clean4u.order.orderItem;
 
 import java.util.List;
 
-public interface OrderItemDto {
+public interface OrderItemRequestDto {
     Long getLaundryItemId();
     Integer getQuantity();
     List<Long> getOptionIds();

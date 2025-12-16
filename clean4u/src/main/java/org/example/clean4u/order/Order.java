@@ -29,9 +29,9 @@ public class Order extends BaseTimeEntity {
     private OrderStatus status = OrderStatus.RECEIVED;
 
     @Column(name = "total_price", nullable = false)
-    private Long totalPrice;
+    private Integer totalPrice;
 
-    @Column(name = "order_date", nullable = false)
+    @Column(name = "order_date", nullable = false, updatable = false)
     private LocalDate orderDate = LocalDate.now();
 
     @Column(name = "memo", length = 50)
@@ -42,7 +42,7 @@ public class Order extends BaseTimeEntity {
     private Employee editor;
 
     @Builder
-    public Order(Customer customer, OrderStatus status, Long totalPrice, LocalDate orderDate, String memo, Employee editor) {
+    public Order(Customer customer, OrderStatus status, Integer totalPrice, LocalDate orderDate, String memo, Employee editor) {
         this.customer = customer;
         this.status = status == null ? OrderStatus.RECEIVED : status;
         this.totalPrice = totalPrice ;
@@ -53,11 +53,10 @@ public class Order extends BaseTimeEntity {
 
     public void updateOrder(OrderRequest.UpdateDto updateDto) {
         this.status = updateDto.getStatus();
-        this.orderDate = updateDto.getOrderDate() == null ? LocalDate.now() : updateDto.getOrderDate();
         this.memo = updateDto.getMemo();
     }
 
-    public void updatePrice(Long totalPrice) {
+    public void updatePrice(Integer totalPrice) {
         if(totalPrice == null) {
             throw new Exception400("주문 금액 입력은 필수입니다.");
         }

@@ -11,3 +11,4 @@ public interface OrderRepositoryCustom {
             LocalDate fromDate,
             LocalDate toDate
     );
+}
