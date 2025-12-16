@@ -26,7 +26,7 @@
         </a>
         <div class="navbar-menu">
             <ul class="navbar-nav">
-                {{!#sessionUser}}
+                {{#sessionUser}}
                     <li class="nav-item">
                         <a class="nav-link" href="/main">
                             <i class="fa-solid fa-home"></i> 대시보드
@@ -62,20 +62,20 @@
                             <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
                         </a>
                     </li>
-                {{!/sessionUser}}
+                {{/sessionUser}}
 
-                {{!^sessionUser}}
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="/join">-->
-<!--                            <i class="fa-solid fa-user"></i> 회원가입-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="/login">-->
-<!--                            <i class="fa-solid fa-right-to-bracket"></i> 로그인-->
-<!--                        </a>-->
-<!--                    </li>-->
-                {{!/sessionUser}}
+                {{^sessionUser}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/join">
+                            <i class="fa-solid fa-user"></i> 회원가입
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="fa-solid fa-right-to-bracket"></i> 로그인
+                        </a>
+                    </li>
+                {{/sessionUser}}
 
             </ul>
         </div>
