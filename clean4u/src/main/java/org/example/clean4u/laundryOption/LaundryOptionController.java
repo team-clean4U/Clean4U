@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception401;
+import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,8 @@ public class LaundryOptionController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        LaundryOption laundryOption = repository.findById(id);
+        LaundryOption laundryOption = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 옵션을 찾을 수 없습니다."));
         model.addAttribute("laundryOption", laundryOption);
 
         return "/laundryOption/detail-form";
@@ -73,7 +75,8 @@ public class LaundryOptionController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        LaundryOption laundryOption = repository.findById(id);
+        LaundryOption laundryOption = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 옵션을 찾을 수 없습니다."));
         model.addAttribute("laundryOption", laundryOption);
         return "laundryOption/update-form";
     }
@@ -85,7 +88,9 @@ public class LaundryOptionController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        repository.updateById(id, updateDTO);
+        LaundryOption laundryOption = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 옵션을 찾을 수 없습니다."));
+        laundryOption.update(updateDTO);
         return "redirect:/laundry-option/{id}";
     }
 

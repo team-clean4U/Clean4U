@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception401;
+import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,8 @@ public class SupplyItemController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        SupplyItem supplyItem = repository.findById(id);
+        SupplyItem supplyItem = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
         model.addAttribute("supplyItem", supplyItem);
 
         return "supplyItem/detail-form";
@@ -73,7 +75,8 @@ public class SupplyItemController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        SupplyItem supplyItem = repository.findById(id);
+        SupplyItem supplyItem = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
         model.addAttribute("supplyItem", supplyItem);
         return "supplyItem/update-form";
     }
@@ -85,7 +88,9 @@ public class SupplyItemController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        repository.updateById(id, updateDTO);
+        SupplyItem supplyItem = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+        supplyItem.update(updateDTO);
         return "redirect:/supply-item/{id}";
     }
 
