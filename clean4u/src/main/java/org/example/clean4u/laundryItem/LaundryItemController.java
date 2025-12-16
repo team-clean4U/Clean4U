@@ -82,7 +82,7 @@ public class LaundryItemController {
     @PostMapping("/laundry-item/{laundryItemId}/update")
     public String updateProc(@PathVariable Long laundryItemId, @Valid LaundryItemRequest.UpdateDTO updateDTO) {
         service.update(laundryItemId, updateDTO);
-        return "redirect:/laundry-item";
+        return "redirect:/laundry-item/" + laundryItemId;
     }
 
     // http://localhost:8080/laundry-item/{laundryItemId}/delete
