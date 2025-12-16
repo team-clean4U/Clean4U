@@ -10,21 +10,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
-//    private final AccessInterceptor accessInterceptor;
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(accessInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns(
-//                        "/login",
-//                        "/join",
-//                        "/logout",
-//                        "/css/**",
-//                        "/js/**",
-//                        "/images/**",
-//                        "/favicon.ico",
-//                        "/h2-console/**"
-//                );
-//    }
+    private final AccessInterceptor accessInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(accessInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/login", "/login/**",
+                        "/join", "/join/**",
+                        "/logout",
+                        "/error",
+                        "/**/*.css",
+                        "/js/**",
+                        "/images/**",
+                        "/favicon.ico",
+                        "/h2-console/**"
+                );
+    }
 }
