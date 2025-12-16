@@ -9,7 +9,7 @@ import java.util.List;
 
 public class OrderItemRequest {
     @Data
-    public static class SaveDto implements OrderItemDto {
+    public static class SaveDto implements OrderItemRequestDto {
         @NotNull(message = "세탁 품목 입력은 필수입니다.")
         private Long laundryItemId;
 
@@ -28,7 +28,7 @@ public class OrderItemRequest {
     }
 
     @Data
-    public static class UpdateDto implements OrderItemDto {
+    public static class UpdateDto implements OrderItemRequestDto {
         @NotNull(message = "세탁 품목 입력은 필수입니다.")
         private Long laundryItemId;
 
