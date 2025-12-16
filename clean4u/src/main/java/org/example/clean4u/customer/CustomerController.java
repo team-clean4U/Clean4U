@@ -1,116 +1,77 @@
 package org.example.clean4u.customer;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception401;
-import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 public class CustomerController {
-    private final CustomerRepository repository;
+    private final CustomerService customerService;
 
     // 고객 생성 화면
     // http://localhost:8080/customer/list
     @GetMapping("/customer/save")
     public String saveForm(Model model) {
-//        Employee userSession = (Employee) session.getAttribute("sessionUser");
-//
-//        if (userSession == null) {
-//            throw new Exception401("로그인 후 사용 가능합니다.");
-//        }
-        model.addAttribute("grade", "NEW");
-
+        CustomerResponse.SaveDTO dto = new CustomerResponse.SaveDTO();
+        dto.setGrade(Grade.NEW);
+        model.addAttribute("grade", dto);
         return "customer/create-form";
     }
 
     // 생성 요청
     @PostMapping("/customer/save")
-    public String saveProc(@Valid CustomerRequest.saveDto dto) {
-        // 1. 로그인 - 인증
-//        Employee userSession = (Employee) session.getAttribute("sessionUser");
-//
-//        if (userSession == null) {
-//            throw new Exception401("로그인 후 사용 가능합니다.");
-//        }
-
-        Customer customer = dto.toEntity();
-        repository.save(customer);
+    public String saveProc(@Valid CustomerRequest.SaveDTO dto) {
+        customerService.save(dto);
         
-        return "redirect:customer/save";
+        return "redirect:/customer/list";
     }
 
     // 고객 전체 리스트
     @GetMapping("/customer/list")
     public String customerList(Model model) {
-//        Employee userSession = (Employee) session.getAttribute("sessionUser");
-//        if (userSession == null) {
-//            throw new Exception401("로그인 후 사용 가능합니다.");
-//        }
-
-        List<Customer> customerList = repository.findAll();
+        List<CustomerResponse.ListDTO> customerList =  customerService.getAllCustomers();
         model.addAttribute("customerList", customerList);
+
         return "customer/list-form";
     }
 
     // 고객 단건 조회
-    @GetMapping("/customer/{id}")
-    public String getCustomerById(@PathVariable Long id, Model model) {
-//        Employee userSession = (Employee) session.getAttribute("sessionUser");
-//        if (userSession == null) {
-//            throw new Exception401("로그인 후 사용 가능합니다.");
-//        }
-
-        Customer customer = repository.findById(id);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @GetMapping("/customer/{customerId}")
+    public String detail(@PathVariable Long customerId, Model model) {
+        CustomerResponse.DetailDTO customer = customerService.getDetail(customerId);
 
         model.addAttribute("customer", customer);
-        model.addAttribute("memo", customer.getMemo() == null ? "-" : customer.getMemo());
-        model.addAttribute("createdAt", customer.getCreatedAt().toLocalDateTime().format(formatter));
 
         return "customer/detail-form";
     }
 
-    // 고객 수정
-    @GetMapping("/customer/{id}/update")
-    public String updateForm(@PathVariable Long id, Model model) {
-//        Employee userSession = (Employee) session.getAttribute("sessionUser");
-//        if (userSession == null) {
-//            throw new Exception401("로그인 후 사용 가능합니다.");
-//        }
+    // 고객 수정 화면
+    @GetMapping("/customer/{customerId}/update")
+    public String updateForm(@PathVariable Long customerId, Model model) {
+        CustomerResponse.DetailDTO dto = customerService.getFormForUpdate(customerId);
+        model.addAttribute("customer", dto);
 
-        Customer customer = repository.findById(id);
-        if (customer == null) {
-            throw new IllegalArgumentException("고객이 존재하지 않습니다.");
-        }
+        return "customer/update-form";
+    }
 
-        model.addAttribute("customer", customer);
+    @PostMapping("/customer/{customerId}/update")
+    public String updateProc(@PathVariable Long customerId, @Valid CustomerRequest.UpdateDTO updateDTO) {
+        customerService.update(customerId, updateDTO);
 
-        return "customer/update";
+        return "redirect:/customer/" + customerId;
     }
 
     // 고객 삭제
-    @GetMapping("/customer/{id}/delete")
-    public String deleteById(@PathVariable Long id) {
-//        Employee userSession = (Employee) session.getAttribute("sessionUser");
-//        if (userSession == null) {
-//            throw new Exception401("로그인 후 사용 가능합니다.");
-//        }
-
-        // 관리자 권한 체크 해야함
-        repository.findById(id);
-
-        return "redirect:customer/list";
-
+    @PostMapping("/customer/{customerId}/delete")
+    public String deleteById(@PathVariable Long customerId) {
+        customerService.delete(customerId);
+        return "redirect:/customer/list";
     }
 }
