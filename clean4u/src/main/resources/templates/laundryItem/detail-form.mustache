@@ -10,9 +10,9 @@
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
-                <form action="/laundry-item/{{laundryItem.id}}/update" method="post">
-                    <button class="btn btn-edit"><i class="fa-solid fa-edit"></i> 수정</button>
-                </form>
+                <a href="/laundry-item/{{laundryItem.id}}/update" class="btn btn-edit">
+                    <i class="fa-solid fa-edit"></i> 수정
+                </a>
                 <form action="/laundry-item/{{laundryItem.id}}/delete" method="post">
                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
                 </form>

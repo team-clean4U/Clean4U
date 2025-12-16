@@ -1,16 +1,13 @@
 package org.example.clean4u.supplyItem;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception401;
-import org.example.clean4u._core.exception.Exception404;
-import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,29 +15,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SupplyItemController {
 
-    private final SupplyItemRepository repository;
+    private final SupplyItemService service;
 
     // http://localhost:8080/supply-item
     @GetMapping("/supply-item")
-    public String supplyItemList(Model model, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다.");
+    public String supplyItemList(
+            Model model,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Boolean lowStock
+    ) {
+        List<SupplyItemResponse.ListDTO> supplyItemList;
+        if (lowStock != null && lowStock) {
+            supplyItemList = service.findLowStockItems();
+        } else if (name != null && !name.isBlank()) {
+            supplyItemList = service.findByNameContaining(name);
+        } else {
+            supplyItemList = service.getAllSupplyItems();
         }
-        List<SupplyItem> supplyItemList = repository.findAll();
         model.addAttribute("supplyItemList", supplyItemList);
         return "supplyItem/list-form";
     }
 
-    // http://localhost:8080/supply-item/{id}
-    @GetMapping("/supply-item/{id}")
-    public String supplyItem(@PathVariable Long id, Model model, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다.");
-        }
-        SupplyItem supplyItem = repository.findById(id)
-                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+    // http://localhost:8080/supply-item/{supplyItemId}
+    @GetMapping("/supply-item/{supplyItemId}")
+    public String detail(@PathVariable Long supplyItemId, Model model) {
+        SupplyItemResponse.DetailDTO supplyItem = service.getDetail(supplyItemId);
         model.addAttribute("supplyItem", supplyItem);
 
         return "supplyItem/detail-form";
@@ -48,60 +47,36 @@ public class SupplyItemController {
 
     // http://localhost:8080/supply-item/save
     @GetMapping("/supply-item/save")
-    public String saveForm(HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다.");
-        }
+    public String saveForm() {
         return "supplyItem/save-form";
     }
 
     // http://localhost:8080/supply-item/save
     @PostMapping("/supply-item/save")
-    public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다.");
-        }
-        SupplyItem supplyItem = saveDTO.toEntity();
-        repository.save(supplyItem);
+    public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO) {
+        service.save(saveDTO);
         return "redirect:/supply-item";
     }
 
-    // http://localhost:8080/supply-item/{id}/update
-    @GetMapping("/supply-item/{id}/update")
-    public String updateForm(@PathVariable Long id, Model model, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다.");
-        }
-        SupplyItem supplyItem = repository.findById(id)
-                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+    // http://localhost:8080/supply-item/{supplyItemId}/update
+    @GetMapping("/supply-item/{supplyItemId}/update")
+    public String updateForm(@PathVariable Long supplyItemId, Model model) {
+        SupplyItemResponse.UpdateFormDTO supplyItem = service.getFormForUpdate(supplyItemId);
         model.addAttribute("supplyItem", supplyItem);
         return "supplyItem/update-form";
     }
 
-    // http://localhost:8080/supply-item/{id}/update
-    @PostMapping("/supply-item/{id}/update")
-    public String updateProc(@PathVariable Long id, @Valid SupplyItemRequest.UpdateDTO updateDTO, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다.");
-        }
-        SupplyItem supplyItem = repository.findById(id)
-                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
-        supplyItem.update(updateDTO);
-        return "redirect:/supply-item/{id}";
+    // http://localhost:8080/supply-item/{supplyItemId}/update
+    @PostMapping("/supply-item/{supplyItemId}/update")
+    public String updateProc(@PathVariable Long supplyItemId, @Valid SupplyItemRequest.UpdateDTO updateDTO) {
+        service.update(supplyItemId, updateDTO);
+        return "redirect:/supply-item/" + supplyItemId;
     }
 
-    // http://localhost:8080/supply-item/{id}/delete
-    @PostMapping("/supply-item/{id}/delete")
-    public String delete(@PathVariable Long id, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다.");
-        }
-        repository.deleteById(id);
+    // http://localhost:8080/supply-item/{supplyItemId}/delete
+    @PostMapping("/supply-item/{supplyItemId}/delete")
+    public String delete(@PathVariable Long supplyItemId) {
+        service.delete(supplyItemId);
         return "redirect:/supply-item";
     }
 }
