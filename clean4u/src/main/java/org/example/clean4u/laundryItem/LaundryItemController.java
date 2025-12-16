@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception401;
+import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,8 @@ public class LaundryItemController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        LaundryItem laundryItem = repository.findById(id);
+        LaundryItem laundryItem = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 세탁물을 찾을 수 없습니다."));
         model.addAttribute("laundryItem", laundryItem);
 
         return "laundryItem/detail-form";
@@ -73,7 +75,8 @@ public class LaundryItemController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        LaundryItem laundryItem = repository.findById(id);
+        LaundryItem laundryItem = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 세탁물을 찾을 수 없습니다."));
         model.addAttribute("laundryItem", laundryItem);
 
         LaundryCategory category = laundryItem.getCategory();
@@ -95,7 +98,9 @@ public class LaundryItemController {
         if (sessionUser == null) {
             throw new Exception401("로그인이 필요합니다.");
         }
-        repository.updateById(id, updateDTO);
+        LaundryItem laundryItem = repository.findById(id)
+                .orElseThrow(() -> new Exception404("해당 세탁물을 찾을 수 없습니다."));
+        laundryItem.update(updateDTO);
         return "redirect:/laundry-item";
     }
 
