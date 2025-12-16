@@ -3,8 +3,6 @@ package org.example.clean4u.employee;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception404;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +35,8 @@ public class EmployeeController {
     @PostMapping("/login")
     public String loginProc(EmployeeRequest.LoginDTO loginDTO, HttpSession session) {
         try {
-            Employee sessionEmployee = employeeService.login(loginDTO);
-            session.setAttribute("sessionEmployee", sessionEmployee);
+            Employee sessionUser = employeeService.login(loginDTO);
+            session.setAttribute("sessionUser", sessionUser);
             return "redirect:/main";
         } catch (Exception e) {
             return "user/login-form";
@@ -53,13 +51,13 @@ public class EmployeeController {
 
     @GetMapping("/main")
     public String dashboard(HttpSession session) {
-        Employee sessionEmployee = (Employee) session.getAttribute("sessionEmployee");
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        if (sessionEmployee == null) {
+        if (sessionUser == null) {
             return "redirect:/login";
         }
 
-        if (sessionEmployee.getUserRole() == UserRole.ADMIN) {
+        if (sessionUser.getUserRole() == UserRole.ADMIN) {
             return "user/dashboard-admin";
         }
 
@@ -68,9 +66,9 @@ public class EmployeeController {
 
     @GetMapping("/employee/update")
     public String update(Model model, HttpSession session) {
-        Employee sessionEmployee = (Employee) session.getAttribute("sessionEmployee");
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        Employee employee = employeeService.update(sessionEmployee.getId());
+        Employee employee = employeeService.update(sessionUser.getId());
         model.addAttribute("employee", employee);
 
         return "user/update-form";
@@ -78,11 +76,11 @@ public class EmployeeController {
 
     @PostMapping("/employee/update")
     public String updateProc(EmployeeRequest.UpdateDTD updateDTD, HttpSession session) {
-        Employee sessionEmployee = (Employee) session.getAttribute("sessionEmployee");
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         try {
-            Employee updateEmployee = employeeService.updateProc(updateDTD, sessionEmployee.getId());
-            session.setAttribute("sessionEmployee", updateEmployee);
+            Employee updateEmployee = employeeService.updateProc(updateDTD, sessionUser.getId());
+            session.setAttribute("sessionUser", updateEmployee);
             return "redirect:/main";
         } catch (Exception e) {
             return "user/update-form";
