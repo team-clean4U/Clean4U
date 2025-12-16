@@ -38,17 +38,21 @@ public class OrderService {
     // 주문 생성
     @Transactional
     public Order save(OrderRequest.@Valid SaveDto saveDto, Employee sessionUser) {
-        Customer customer = customerRepository.findById(saveDto.getCustomerId());
+        Customer customer = customerRepository.findById(saveDto.getCustomerId())
+                .orElseThrow(() -> new Exception404("해당 고객을 찾을 수 없습니다."));
+
         int totalPrice = calculateTotalPrice(saveDto.getItems());
         Order order = saveDto.toEntity(customer, totalPrice, sessionUser);
 
         for (OrderItemRequest.SaveDto item : saveDto.getItems()) {
-            LaundryItem laundryItem = laundryItemRepository.findById(item.getLaundryItemId());
+            LaundryItem laundryItem = laundryItemRepository.findById(item.getLaundryItemId())
+                    .orElseThrow(() -> new Exception404("해당 세탁 품목을 찾을 수 없습니다."));
             OrderItem orderItem = orderItemRepository.save(item.toEntity(order, laundryItem));
 
             if (item.getOptionIds() != null) {
                 for (Long optionId : item.getOptionIds()) {
-                    LaundryOption option = laundryOptionRepository.findById(optionId);
+                    LaundryOption option = laundryOptionRepository.findById(optionId)
+                            .orElseThrow(() -> new Exception404("해당 세탁 옵션을 찾을 수 없습니다."));
                     OrderItemOption orderItemOption = OrderItemOption.builder()
                             .laundryOption(option)
                             .orderItem(orderItem)
@@ -173,7 +177,9 @@ public class OrderService {
 
         // 5. 새로운 주문 품목 생성
         for (OrderItemRequest.UpdateDto item : updateDto.getItems()) {
-            LaundryItem laundryItem = laundryItemRepository.findById(item.getLaundryItemId());
+            LaundryItem laundryItem = laundryItemRepository.findById(item.getLaundryItemId())
+                    .orElseThrow(() -> new Exception404("해당 세탁 품목을 찾을 수 없습니다."));
+
             OrderItem orderItem = item.toEntity(order, laundryItem);
             orderItemRepository.save(orderItem);
 
@@ -181,11 +187,14 @@ public class OrderService {
 
             if (options != null) {
                 for (Long optionId : options) {
-                    LaundryOption laundryOption = laundryOptionRepository.findById(optionId);
+                    LaundryOption laundryOption = laundryOptionRepository.findById(optionId)
+                            .orElseThrow(() -> new Exception404("해당 세탁 옵션을 찾을 수 없습니다."));
+
                     OrderItemOption orderItemOption = OrderItemOption.builder()
                             .laundryOption(laundryOption)
                             .orderItem(orderItem)
                             .build();
+
                     orderItemOptionRepository.save(orderItemOption);
                 }
             }
@@ -225,13 +234,15 @@ public class OrderService {
         int totalPrice = 0;
 
         for (OrderItemRequestDto item : items) {
-            LaundryItem laundryItem = laundryItemRepository.findById(item.getLaundryItemId());
+            LaundryItem laundryItem = laundryItemRepository.findById(item.getLaundryItemId())
+                    .orElseThrow(() -> new Exception404("해당 세탁 품목을 찾을 수 없습니다."));
 
             int itemPrice = laundryItem.getBasePrice() * item.getQuantity();
 
             if (item.getOptionIds() != null) {
                 for (Long optionId : item.getOptionIds()) {
-                    LaundryOption option = laundryOptionRepository.findById(optionId);
+                    LaundryOption option = laundryOptionRepository.findById(optionId)
+                            .orElseThrow(() -> new Exception404("해당 세탁 옵션을 찾을 수 없습니다."));
                     itemPrice += option.getExtraPrice();
                 }
             }
