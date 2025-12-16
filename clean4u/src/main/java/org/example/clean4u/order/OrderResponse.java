@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.employee.Employee;
+import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderStatus;
 
 import java.time.LocalDate;
@@ -11,7 +12,6 @@ import java.util.List;
 
 public class OrderResponse {
     @Data
-    @NoArgsConstructor
     public static class DetailDto {
         private Long orderId;
         private String customerName;
@@ -23,15 +23,14 @@ public class OrderResponse {
         private Integer totalPrice;
         private List<OrderItemDto> items;
 
-        @Builder
-        public DetailDto(Long orderId, String customerName, LocalDate orderDate, OrderStatus status, String memo, Employee editor, Integer totalPrice, List<OrderItemDto> items) {
-            this.orderId = orderId;
-            this.customerName = customerName;
-            this.orderDate = orderDate;
-            this.status = status;
-            this.memo = memo;
-            this.editor = editor;
-            this.totalPrice = totalPrice;
+        public DetailDto(Order order, List<OrderItemDto> items) {
+            this.orderId = order.getId();
+            this.customerName = order.getCustomer().getName();
+            this.orderDate = order.getOrderDate();
+            this.status = order.getStatus();
+            this.memo = order.getMemo();
+            this.editor = order.getEditor();
+            this.totalPrice = order.getTotalPrice();
             this.items = items;
         }
     }
