@@ -21,7 +21,7 @@ public class CustomerController {
     public String saveForm(Model model) {
         CustomerResponse.SaveDTO dto = new CustomerResponse.SaveDTO();
         dto.setGrade(Grade.NEW);
-        model.addAttribute("grade", dto);
+        model.addAttribute("dto", dto);
         return "customer/create-form";
     }
 
