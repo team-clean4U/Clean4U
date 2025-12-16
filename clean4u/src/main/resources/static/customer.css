@@ -12,6 +12,7 @@
     color: var(--color-cyan);
     padding: 0.3rem 0.7rem;
     font-size: 1rem;
+    text-align: center;
 }
 
 .grade-REGULAR {
@@ -20,6 +21,7 @@
     color: var(--color-white);
     padding: 0.3rem 0.7rem;
     font-size: 1rem;
+    text-align: center;
 }
 
 .grade-VIP {
@@ -28,6 +30,7 @@
     color: var(--color-white);
     padding: 0.3rem 0.7rem;
     font-size: 1rem;
+    text-align: center;
 }
 
 .info-value.phone {
@@ -74,4 +77,39 @@
     color: var(--color-black);
     font-size: 1.5rem;
     font-weight: 800;
+}
+
+/* create-form */
+.cards {
+    background: var(--color-white);
+    border-radius: 25px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 30px var(--shadow);
+    border: 5px solid transparent;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.save-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+input {
+    box-sizing: border-box;
+    width: 60%;
+}
+
+.form-control {
+    padding: 1.25rem;
+}
+
+.btn-customer {
+    width: 100%;
+    font-size: 1rem;
 }
