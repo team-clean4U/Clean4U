@@ -22,12 +22,13 @@ public class CustomerController {
     // 고객 생성 화면
     // http://localhost:8080/customer/list
     @GetMapping("/customer/save")
-    public String saveForm() {
+    public String saveForm(Model model) {
 //        Employee userSession = (Employee) session.getAttribute("sessionUser");
 //
 //        if (userSession == null) {
 //            throw new Exception401("로그인 후 사용 가능합니다.");
 //        }
+        model.addAttribute("grade", "NEW");
 
         return "customer/create-form";
     }
@@ -44,8 +45,8 @@ public class CustomerController {
 
         Customer customer = dto.toEntity();
         repository.save(customer);
-
-        return "redirect:/";
+        
+        return "redirect:customer/save";
     }
 
     // 고객 전체 리스트
