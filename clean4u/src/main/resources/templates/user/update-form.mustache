@@ -1,0 +1,77 @@
+<!-- http://localhost:8080/employee/update -->
+
+{{> layout/header}}
+
+<div class="update-container">
+    <div class="update-container-content">
+
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="bi bi-person-gear"></i>
+                내 정보 수정
+            </h2>
+            <a href="/main" class="btn btn-back">
+                <i class="bi bi-arrow-left"></i>
+                돌아가기
+            </a>
+        </div>
+
+        <form action="/employee/update" method="post">
+            <div class="update-card">
+
+                <div class="update-header">
+                    <i class="bi bi-person-circle"></i>
+                    <span>{{! sessionUser.username }}</span>
+                </div>
+
+                <div class="update-body">
+
+                    <!-- 이메일 -->
+                    <div class="update-item">
+                        <div class="update-label">
+                            <i class="bi bi-envelope"></i>
+                            이메일
+                        </div>
+                        <input
+                                type="email"
+                                name="email"
+                                class="update-value"
+                                value="{{! sessionUser.email }}"
+                                placeholder="이메일을 입력하세요"
+                                required
+                        />
+                    </div>
+
+                    <!-- 비밀번호 -->
+                    <div class="update-item">
+                        <div class="update-label">
+                            <i class="bi bi-lock"></i>
+                            새 비밀번호
+                        </div>
+                        <input
+                                type="password"
+                                name="password"
+                                class="update-value"
+                                placeholder="8~20자 비밀번호"
+                                required
+                        />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="buttons">
+                <div></div>
+                <div class="button-right">
+                    <button type="submit" class="btn btn-edit">
+                        <i class="bi bi-check-circle"></i>
+                        수정 완료
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+{{> layout/footer}}
