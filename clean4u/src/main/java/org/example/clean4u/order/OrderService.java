@@ -1,5 +1,6 @@
 package org.example.clean4u.order;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.customer.Customer;
@@ -36,7 +37,7 @@ public class OrderService {
 
     // 주문 생성
     @Transactional
-    public Order save(OrderRequest.SaveDto saveDto, Employee sessionUser) {
+    public Order save(OrderRequest.@Valid SaveDto saveDto, Employee sessionUser) {
         Customer customer = customerRepository.findById(saveDto.getCustomerId());
         int totalPrice = calculateTotalPrice(saveDto.getItems());
         Order order = saveDto.toEntity(customer, totalPrice, sessionUser);
@@ -152,7 +153,7 @@ public class OrderService {
 
     // 주문 변경 기능 요청
     @Transactional
-    public Order updateProc(Long orderId, OrderRequest.UpdateDto updateDto, Employee editor) {
+    public Order updateProc(Long orderId, OrderRequest.@Valid UpdateDto updateDto, Employee editor) {
         // 1. 주문 조회
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
