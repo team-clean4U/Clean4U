@@ -47,4 +47,8 @@ public class Employee extends BaseTimeEntity {
         this.password = req.getPassword();
         this.email = req.getEmail();
     }
+
+    public boolean isOwner(Long employeeId) {
+        return this.id.equals(employeeId);
+    }
 }
