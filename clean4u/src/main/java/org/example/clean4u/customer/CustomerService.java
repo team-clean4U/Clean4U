@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CustomerService {
-    private CustomerRepository repository;
+    private final CustomerRepository repository;
 
     public Customer save(@Valid CustomerRequest.SaveDTO dto) {
         Customer customer = dto.toEntity();
