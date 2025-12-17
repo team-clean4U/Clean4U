@@ -32,7 +32,7 @@
                     <span class="detail-value">{{order.orderDate}}</span>
                 </div>
 
-                <div class="detail-item" style="border-bottom: 1px dashed var(--color-light-gray);">
+                <div class="detail-item">
                     <span class="detail-label">
                          <i class="fa-solid fa-soap"></i>
                         세탁 상태
@@ -43,6 +43,16 @@
                         </span>
                     </span>
                 </div>
+                <div class="detail-item" style="border-bottom: 1px dashed var(--color-light-gray);">
+                    <span class="detail-label">
+                         <i class="fa-solid fa-hourglass"></i>
+                        메모
+                    </span>
+                    {{#order.memo}}
+                    <span class="detail-value">{{order.memo}}</span>
+                    {{/order.memo}}
+                </div>
+
             </div>
 
             <div style="padding: 24px 40px; flex-direction: column; gap: 1rem;">
@@ -52,10 +62,10 @@
                 </span>
 
                 {{#items}}
-                    <div style="width: 100%; padding: 1.5rem 3rem">
+                    <div style="width: 100%; padding: 1.5rem 2rem">
 
                         <div class="card-info">
-                            <strong class="detail-value" style="font-weight: 500;">{{laundryItemName}}</strong>
+                            <span class="detail-value" style="font-weight: 500;">{{laundryItemName}}</span>
                             <span class="detail-value" style="font-weight: 500;">{{quantity}}개</span>
                         </div>
 
@@ -80,7 +90,7 @@
                     </div>
                 {{/items}}
 
-                 <div style="
+                <div style="
                     padding: 20px 48px;
                     display: flex;
                     justify-content:
@@ -88,20 +98,15 @@
                     gap: 2rem;
                     align-items: center;
                 ">
-                    <span class="detail-label" style="font-size: 1.2rem">
+                    <span class="detail-label" style="font-size: 1.2rem;">
                         <i class="fa-solid fa-circle-info"></i>
                         총 결제금액
                     </span>
-                    <span class="detail-value">
+                    <span class="detail-value" style="font-size: 1.3rem;">
                         {{order.totalPrice}}원
                     </span>
                 </div>
             </div>
-<!--            .info-value {-->
-<!--            font-weight: 600;-->
-<!--            color: var(--color-dark-blue);-->
-<!--            }-->
-
         </div>
     </div>
 </div>

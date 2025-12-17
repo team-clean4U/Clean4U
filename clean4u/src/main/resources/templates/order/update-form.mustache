@@ -1,10 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{{> layout/header}}
 
-</body>
-</html>
+{{> layout/background}}
+
+<div class="update-container">
+    <div class="update-container-content">
+        <div class="update-card">
+            <form action="/order/{{order.orderId}}/update" method="post">
+                <div class="detail-header">
+                    <i class="fa-solid fa-user"></i>
+                    <h4>{{order.customerName}}</h4>
+                </div>
+                <div class="update-body">
+                    <div class="update-item">
+                        <span class="update-label">
+                            <i class="fa-solid fa-soap"></i>
+                            세탁 상태
+                        </span>
+                        <div class="update-value category">
+                            <input type="hidden" name="status" id="category" value="{{order.status}}">
+                            <div class="category-select" data-selected="{{order.status}}">
+                                <span class="category-selected">{{order.status.displayName}}</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <ul class="category-dropdown" data-selected="{{order.status}}">
+                                <li data-type="RECEIVED">접수</li>
+                                <li data-type="WASHING">세탁중</li>
+                                <li data-type="DRYING">건조중</li>
+                                <li data-type="COMPLETED">세탁완료</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="update-item">
+                        <label for="memo" class="update-label">
+                            <i class="fa-solid fa-hourglass"></i>
+                            메모
+                        </label>
+                        <input type="text" id="memo" name="memo"
+                               placeholder="메모를 작성해주세요" class="update-value">
+                    </div>
+
+                    <div style="padding: 24px 0px; flex-direction: column; gap: 1rem;">
+                        <label for="items" class="update-label">
+                            <i class="fa-solid fa-circle-info"></i>
+                            세탁 물품
+                        </label>
+                        {{#items}}
+                            <div style="width: 100%; padding: 1.5rem 2rem">
+
+                                <div class="update-item">
+                                    <label class="update-value" style="font-weight: 500;">{{laundryItemName}}</label>
+                                    <input
+                                            class="update-value"
+                                            type="number"
+                                            name="items[{{index}}].quantity"
+                                            min="1"
+                                            value="{{quantity}}">
+                                </div>
+
+                                {{#options}}
+                                    <div class="update-item option-row"
+                                        style="display: flex; align-items: center;">
+                                        <span class="option-label">옵션</span>
+                                        <label style="
+                                            display: flex;
+                                            align-items: center;
+                                            white-space: nowrap;
+                                            gap: 0.3rem;
+                                        ">
+                                            <input
+                                                    type="checkbox"
+                                                    name="items[{{index}}].optionIds"
+                                                    value="{{optionName}}"
+                                                    checked>
+                                            {{optionName}}
+                                        </label>
+                                    </div>
+                                {{/options}}
+
+                            </div>
+                        {{/items}}
+                    </div>
+
+                </div>
+                <div class="bottom-buttons">
+                    <a href="/laundry-item/" class="btn btn-back">취소</a>
+                    <button type="submit" class="btn btn-create">수정 완료</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{{> layout/footer}}
