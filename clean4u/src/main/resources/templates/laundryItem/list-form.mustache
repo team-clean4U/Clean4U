@@ -20,9 +20,10 @@
                     <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{name}}" name="name">
                 </div>
                 <div class="update-value category">
-                    <input type="hidden" name="category" id="category">
-                    <div class="category-select">
-                        <span class="category-selected">선택</span>
+                    <input type="hidden" name="category" id="category" {{#category}}value="{{category}}" {{/category}}>
+                    <div class="category-select search-category" {{#category}}data-selected="{{category}}" {{/category}}>
+                        <i class="fa-solid fa-list"></i>
+                        <span class="category-selected">{{#category}}{{category}}{{/category}}{{^category}}전체 카테고리{{/category}}</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <ul class="category-dropdown">
@@ -35,7 +36,7 @@
                         <li data-type="ETC">ETC</li>
                     </ul>
                 </div>
-                <button type="submit" class="btn btn-create">조회</button>
+                <button type="submit" class="btn btn-submit">조회</button>
             </form>
         </div>
 
