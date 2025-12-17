@@ -22,3 +22,29 @@
 .badge-safe {
     background: var(--badge-safe);
 }
+
+.supply-item .update-item{
+    gap: 7rem;
+}
+
+.supply-item {
+    width: 45%;
+}
+
+@media (max-width: 1024px) {
+    .supply-item {
+        width: 50%;
+    }
+}
+
+@media (max-width: 784px) {
+    .supply-item {
+        width: 80%;
+    }
+}
+
+@media (max-width: 320px) {
+    .supply-item {
+        width: 95%;
+    }
+}
