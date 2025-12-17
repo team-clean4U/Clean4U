@@ -79,6 +79,10 @@
     font-weight: 800;
 }
 
+.memo {
+    white-space: pre-wrap;
+}
+
 /* create-form */
 .cards {
     background: var(--color-white);

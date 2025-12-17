@@ -1,6 +1,7 @@
 package org.example.clean4u.customer;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -12,11 +13,11 @@ public class CustomerRequest {
     public static class SaveDTO {
         @NotBlank(message = "이름은 비어있을 수 없습니다.")
         private String name;
-        @NotBlank(message = "생년월일은 비어있을 수 없습니다.")
+        @NotNull(message = "생년월일은 비어있을 수 없습니다.")
         private LocalDate birth;
         @NotBlank(message = "휴대폰 번호는 비어있을 수 없습니다.")
         private String phone;
-        @Size(message = "메모는 1000자 이상일 수 없습니다.")
+        @Size(max = 1000, message = "1000자 이상 작성할 수 없습니다.")
         private String memo;
 
         public Customer toEntity() {
@@ -28,11 +29,12 @@ public class CustomerRequest {
     public static class UpdateDTO {
         @NotBlank(message = "이름은 비어있을 수 없습니다.")
         private String name;
-        @NotBlank(message = "생년월일은 비어있을 수 없습니다.")
+        @NotNull(message = "생년월일은 비어있을 수 없습니다.")
         private LocalDate birth;
         @NotBlank(message = "휴대폰 번호는 비어있을 수 없습니다.")
         private String phone;
-        @Size(message = "메모는 1000자 이상일 수 없습니다.")
+        @Size(max = 1000, message = "1000자 이상 작성할 수 없습니다.")
         private String memo;
     }
+    
 }
