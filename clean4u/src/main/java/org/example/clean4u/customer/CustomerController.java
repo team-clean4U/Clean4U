@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,14 +56,21 @@ public class CustomerController {
     // 고객 수정 화면
     @GetMapping("/customer/{customerId}/update")
     public String updateForm(@PathVariable Long customerId, Model model) {
-        CustomerResponse.DetailDTO dto = customerService.getFormForUpdate(customerId);
+        CustomerResponse.UpdateViewDTO dto = customerService.getFormForUpdate(customerId);
         model.addAttribute("customer", dto);
 
         return "customer/update-form";
     }
 
     @PostMapping("/customer/{customerId}/update")
-    public String updateProc(@PathVariable Long customerId, @Valid CustomerRequest.UpdateDTO updateDTO) {
+    public String updateProc(@PathVariable Long customerId,
+                             @Valid CustomerRequest.UpdateDTO updateDTO,
+                             BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("customer", customerService.getFormForUpdate(customerId));
+            return "customer/update-form";
+        }
+
         customerService.update(customerId, updateDTO);
 
         return "redirect:/customer/" + customerId;
