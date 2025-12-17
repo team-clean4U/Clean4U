@@ -3,6 +3,8 @@ package org.example.clean4u.customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception400;
+import org.example.clean4u.order.Order;
+import org.example.clean4u.order.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class CustomerService {
     private final CustomerRepository repository;
+    private final OrderRepository orderRepository;
 
     public Customer save(@Valid CustomerRequest.SaveDTO dto) {
         Customer customer = dto.toEntity();
@@ -32,22 +35,27 @@ public class CustomerService {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
-        return new CustomerResponse.DetailDTO(customer);
+        List<Order> orders = orderRepository.findByCustomerId(customerId);
+
+        return new CustomerResponse.DetailDTO(customer, orders);
     }
 
     public CustomerResponse.DetailDTO getFormForUpdate(Long customerId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
-        return new CustomerResponse.DetailDTO(customer);
+        List<Order> orders = orderRepository.findByCustomerId(customerId);
+
+        return new CustomerResponse.DetailDTO(customer, orders);
     }
 
-    public CustomerResponse.DetailDTO update(Long customerId, @Valid CustomerRequest.UpdateDTO updateDTO) {
+    public CustomerResponse.UpdateDTO update(Long customerId, @Valid CustomerRequest.UpdateDTO updateDTO) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
         customer.update(updateDTO);
-        return new CustomerResponse.DetailDTO(customer);
+
+        return new CustomerResponse.UpdateDTO(customer);
     }
 
     public void delete(Long customerId) {
