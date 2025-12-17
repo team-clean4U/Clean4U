@@ -10,7 +10,7 @@
 .detail-container-content {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 60%;
 }
 
 .buttons {
@@ -18,6 +18,11 @@
     margin-bottom: 0.5rem;
     justify-content: space-between;
     align-items: flex-end;
+    font-size: 0.85rem;
+}
+
+.buttons i {
+    margin-right: 0.25rem;
 }
 
 .buttons>form {

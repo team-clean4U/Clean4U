@@ -1,23 +1,52 @@
 {{> layout/header}}
 
-<div class="container p-5">
+{{> layout/background}}
 
-    <div class="card">
-        <div class="card-header"><b>세탁물 수정 화면입니다.</b></div>
-        <div class="card-body">
-
+<!-- http://localhost:8080/laundry-option/1/update -->
+<!-- http://localhost:8080/login -->
+<div class="update-container">
+    <div class="update-container-content">
+        <div class="update-card">
             <form action="/laundry-option/{{laundryOption.id}}/update" method="post">
-                <div class="mb-3">
-                    <input type="text" class="form-control" name="name" value="{{laundryOption.name}}">
+                <div class="update-header">
+                    <i class="fa-solid fa-tag"></i>
+                    <input type="text" name="name" placeholder="세탁물 옵션을 입력해주세요." value="{{laundryOption.name}}"
+                           required>
                 </div>
-                <div class="mb-3">
-                    <input type="number" class="form-control" name="extraPrice" value="{{laundryOption.extraPrice}}"
-                           step="500">
+                <div class="update-body"><div class="update-item">
+                        <label for="extraPrice" class="update-label">
+                            <i class="fa-solid fa-won-sign"></i>
+                            추가 요금
+                        </label>
+                        <input type="number" id="extraPrice" name="extraPrice" min="0" step="1000"
+                               placeholder="추가 요금을 입력해주세요." class="update-value price"
+                               value="{{laundryOption.extraPrice}}">
+                    </div>
+                    <div class="update-item">
+                        <label for="description" class="update-label">
+                            <i class="fa-solid fa-circle-info"></i>
+                            설명
+                        </label>
+                        <textarea id="description" name="description" placeholder="설명을 입력해주세요." rows="5"
+                                  class="update-value">{{laundryOption.description}}</textarea>
+                    </div>
+                    <div class="update-item">
+                    <label class="update-label">
+                        <i class="fa-solid fa-heart"></i>
+                        활성 여부
+                    </label>
+                        <input type="hidden" name="isActive" value="false">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="isActive" name="isActive" value="true" {{#laundryOption.isActive}}checked{{/laundryOption.isActive}}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
-
-                <button class="btn btn-primary form-control">수정 완료</button>
+                <div class="bottom-buttons">
+                    <a href="/laundry-option/{{laundryOption.id}}" class="btn btn-back">취소</a>
+                    <button type="submit" class="btn btn-create">수정 완료</button>
+                </div>
             </form>
-
         </div>
     </div>
 </div>
