@@ -139,7 +139,7 @@ public class OrderService {
 
             itemDtos.add(itemDto);
         }
-        return new OrderResponse.DetailDto(order, itemDtos);
+        return new OrderResponse.DetailDto(order, itemDtos, totalPrice);
     }
 
     // 주문 변경 화면 요청
