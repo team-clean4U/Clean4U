@@ -40,13 +40,13 @@ public class CustomerService {
         return new CustomerResponse.DetailDTO(customer, orders);
     }
 
-    public CustomerResponse.DetailDTO getFormForUpdate(Long customerId) {
+    public CustomerResponse.UpdateViewDTO getFormForUpdate(Long customerId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
         List<Order> orders = orderRepository.findByCustomerId(customerId);
 
-        return new CustomerResponse.DetailDTO(customer, orders);
+        return new CustomerResponse.UpdateViewDTO(customer);
     }
 
     public CustomerResponse.UpdateDTO update(Long customerId, @Valid CustomerRequest.UpdateDTO updateDTO) {
