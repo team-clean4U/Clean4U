@@ -1,10 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{{> layout/header}}
 
-</body>
-</html>
+{{> layout/background}}
+
+<div class="update-container">
+    <div class="update-container-content">
+        <div class="update-card">
+            <form action="/customer/{{customer.customerId}}/update" method="post">
+                <div class="update-header">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="name" placeholder="고객 이름을 입력해주세요." value="{{customer.name}}"
+                           required>
+                </div>
+                <div class="update-body">
+                    <div class="update-items">
+                        <label class="update-label">
+                            <i class="fa-solid fa-award"></i>
+                            등급
+                        </label>
+                        <span class="update-value grade-{{customer.grade}}">
+                            {{customer.grade}}
+                        </span>
+                    </div>
+                    <div class="update-item">
+                        <label for="phone" class="update-label">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            연락처:
+                        </label>
+                        <input type="text" id="phone" name="phone"
+                               placeholder="연락처를 입력해주세요." class="update-value price"
+                               value="{{customer.phone}}">
+                    </div>
+                    <div class="update-item">
+                        <label for="birth" class="update-label">
+                            <i class="fa-solid fa-cake-candles"></i>
+                            생년월일:
+                        </label>
+                        <input type="date" id="birth" name="birth"
+                               class="update-value price"
+                               value="{{customer.birth}}">
+                    </div>
+                    <div class="update-item">
+                        <label for="memo" class="update-label">
+                            <i class="fa-solid fa-circle-info"></i>
+                            메모
+                        </label>
+                        <textarea id="memo" name="memo" placeholder="설명을 입력해주세요." rows="5"
+                                  class="update-value">{{customer.memo}}</textarea>
+                    </div>
+                </div>
+                <div class="bottom-buttons">
+                    <a href="/customer/{{customer.customerId}}" class="btn btn-back">취소</a>
+                    <button type="submit" class="btn btn-create">수정 완료</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}
