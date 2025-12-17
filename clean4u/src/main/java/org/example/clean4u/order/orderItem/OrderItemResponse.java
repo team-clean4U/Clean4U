@@ -8,6 +8,8 @@ import java.util.List;
 public class OrderItemResponse {
     @Data
     public static class DetailDto {
+        private Integer index;
+
         private String laundryItemName;
         private Integer quantity;
 
@@ -17,7 +19,8 @@ public class OrderItemResponse {
 
         private List<OrderItemOptionResponse.DetailDto> options;
 
-        public DetailDto(OrderItem orderItem, List<OrderItemOptionResponse.DetailDto> options) {
+        public DetailDto(int index, OrderItem orderItem, List<OrderItemOptionResponse.DetailDto> options) {
+            this.index = index;
             this.laundryItemName = orderItem.getLaundryItem().getName();
             this.quantity = orderItem.getQuantity();
             int base = orderItem.getLaundryItem().getBasePrice();
