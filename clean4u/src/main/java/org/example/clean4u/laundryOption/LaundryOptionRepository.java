@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LaundryOptionRepository extends JpaRepository<LaundryOption, Long> {
     @Query("SELECT lo FROM LaundryOption lo ORDER BY lo.createdAt DESC")
@@ -14,4 +15,6 @@ public interface LaundryOptionRepository extends JpaRepository<LaundryOption, Lo
     List<LaundryOption> findByNameContaining(String name);
 
     List<LaundryOption> findByNameContainingAndIsActive(String name, Boolean isActive);
+
+    Optional<LaundryOption> findByName(String name);
 }
