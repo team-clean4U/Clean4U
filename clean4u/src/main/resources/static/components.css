@@ -59,6 +59,15 @@
     color: var(--color-white);
 }
 
+.btn-submit {
+    height: auto;
+    padding: 0 2rem;
+    background: var(--color-cyan);
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 .btn-edit {
     padding: 0.5rem 1rem;
     background: var(--action-edit);

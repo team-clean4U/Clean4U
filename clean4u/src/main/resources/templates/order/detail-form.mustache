@@ -1,5 +1,6 @@
 {{> layout/header}}
 {{> layout/background}}
+
 <div class="detail-container">
     <div class="detail-container-content">
         <div class="buttons">
@@ -7,98 +8,101 @@
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
-                <form action="/order/{{order.orderId}}/update" method="get">
-                    <button class="btn btn-edit"><i class="fa-solid fa-edit"></i>수정</button>
+                <a href="/order/{{order.orderId}}/update" class="btn btn-edit">
+                    <i class="fa-solid fa-edit"></i> 수정
+                </a>
+                <form action="/laundry-item/{{order.orderId}}/delete" method="post">
+                    <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
                 </form>
-                <form action="/order/{{order.orderId}}/delete" method="post"></form>
-                <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
             </div>
         </div>
+
         <div class="detail-card">
             <div class="detail-header">
-                <h4>{{order.customerName}} <span class="info-label">님의 주문 내역</span></h4>
+                <i class="fa-solid fa-user"></i>
+                <h4>{{order.customerName}}</h4>
             </div>
+
             <div class="detail-body">
                 <div class="detail-item">
                     <span class="detail-label">
-                        <i class="fa-solid fa-list"></i>
-                            주문 접수일
+                         <i class="fa-solid fa-hourglass"></i>
+                        주문 접수일
+                    </span>
+                    <span class="detail-value">{{order.orderDate}}</span>
+                </div>
+
+                <div class="detail-item" style="border-bottom: 1px dashed var(--color-light-gray);">
+                    <span class="detail-label">
+                         <i class="fa-solid fa-soap"></i>
+                        세탁 상태
                     </span>
                     <span class="detail-value">
-                        {{order.orderDate}}
-                    </span>
-                </div>
-                <div class="detail-item">
-                     <span class="detail-label">
-                        <i class="fa-solid fa-list"></i>
-                            세탁 상태
-                    </span>
-                    <span class="detail-value">
-                        <span class="status-badge {{order.status.cssClass}}">{{order.status.displayName}}</span>
-                    </span>
-                </div>
-                <div class="detail-item">
-                     <span class="detail-label">
-                        <i class="fa-solid fa-circle-info"></i>
-                            세탁 물품
-                    </span>
-                    <span class="detail-value" style="width: 50%">
-                        <ul style="width: 100%">
-                            {{#items}}
-                            <li style="margin-bottom: 1.2rem">
-                                <div style="
-                                        display: flex;
-                                        justify-content: space-between;
-                                    ">
-                                        <strong>{{laundryItemName}}</strong>
-                                        <span>{{quantity}}개</span>
-                                    </div>
-
-                                <div style="
-                                        display: flex;
-                                        justify-content: space-between;
-                                        color: var(--color-cyan);
-                                    ">
-                                        <span>기본 가격: </span>
-                                        <span>{{basePrice}}원</span>
-                                    </div>
-
-                                <div style="
-                                        display: flex;
-                                        flex-direction: column;
-                                        align-items: flex-end;
-                                    ">
-                                    {{#options}}
-                                        <div style="
-                                               font-size: 0.95rem;
-                                               color: #555;
-                                            ">
-                                                + {{optionName}} ({{extraPrice}}원)
-                                            </div>
-                                    {{/options}}
-                                </div>
-                                <div style="
-                                            font-size: 0.95rem;
-                                            display: flex;
-                                            flex-direction: column;
-                                            align-items: flex-end;
-                                        ">
-                                            옵션 합계: {{optionalTotalPrice}}원
-                                    </div>
-
-                                    <div class="detail-value price"
-                                        style="
-                                            display: flex;
-                                            justify-content: space-between;
-                                    ">
-                                    가격: {{itemTotalPrice}}원
-                                    </div>
-                                    </li>
-                            {{/items}}
-                                </ul>
+                        <span class="status-badge {{order.status.cssClass}}">
+                            {{order.status.displayName}}
+                        </span>
                     </span>
                 </div>
             </div>
+
+            <div style="padding: 24px 40px; flex-direction: column; gap: 1rem;">
+                <span class="detail-label" style="padding: 24px 0">
+                    <i class="fa-solid fa-circle-info"></i>
+                    세탁 물품
+                </span>
+
+                {{#items}}
+                    <div style="width: 100%; padding: 1.5rem 3rem">
+
+                        <div class="card-info">
+                            <strong class="detail-value" style="font-weight: 500;">{{laundryItemName}}</strong>
+                            <span class="detail-value" style="font-weight: 500;">{{quantity}}개</span>
+                        </div>
+
+                        <div class="card-info option-row">
+                            <span class="detail-value" style="font-weight: 500;">{{basePrice}}원</span>
+                        </div>
+
+                        {{#options}}
+                            <div class="card-info option-row">
+                                <span class="option-label">옵션</span>
+                                <span class="info-label">{{optionName}}</span>
+                                <span class="info-value price" style="font-weight: 500;">{{extraPrice}}원</span>
+                            </div>
+                        {{/options}}
+
+                        <div class="card-info">
+                            <span class="info-label" style="font-weight: 500; font-size: 1.2rem">소계</span>
+                            <span class="detail-value">
+                            총 {{itemTotalPrice}}원
+                        </span>
+                        </div>
+                    </div>
+                {{/items}}
+
+                 <div style="
+                    padding: 20px 48px;
+                    display: flex;
+                    justify-content:
+                    flex-end;
+                    gap: 2rem;
+                    align-items: center;
+                ">
+                    <span class="detail-label" style="font-size: 1.2rem">
+                        <i class="fa-solid fa-circle-info"></i>
+                        총 결제금액
+                    </span>
+                    <span class="detail-value">
+                        {{order.totalPrice}}원
+                    </span>
+                </div>
+            </div>
+<!--            .info-value {-->
+<!--            font-weight: 600;-->
+<!--            color: var(--color-dark-blue);-->
+<!--            }-->
+
         </div>
     </div>
 </div>
+{{>layout/footer}}

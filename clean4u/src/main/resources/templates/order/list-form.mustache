@@ -3,31 +3,51 @@
 <!-- http://localhost:8080/order/list -->
 <div class="content-section">
     <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">
-                <i class="fa-solid fa-tshirt"></i>주문 목록
-            </h2>
-            <a href="/order/save" class="btn btn-create">
-                <span>+</span>생성
-            </a>
-        </div>
+        <div class="header-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-tshirt"></i>주문 목록
+                </h2>
+                <a href="/order/save" class="btn btn-create">
+                    <span>+</span>생성
+                </a>
+            </div>
 
-        <div class="search-box">
-            <form method="get" action="/order/list" class="search-form">
-                <select name="status">
-                    <option value="">전체 상태</option>
-                    <option value="RECEIVED">접수</option>
-                    <option value="WASHING">세탁중</option>
-                    <option value="DRYING">건조중</option>
-                    <option value="COMPLETED">완료</option>
-                </select>
-                <input type="text" name="customerName" placeholder="고객 이름">
-                <input type="tel" name="phone" placeholder="전화번호">
-                <input type="date" name="fromDate" class="date-input">
-                <span>~</span>
-                <input type="date" name="toDate" class="date-input">
-                <button type="submit" class="btn btn-search"><span>검색</span></button>
+            <form class="search-wrapper" method="get" action="/order/list">
+                <div class="search-input-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input class="search-input" type="text" placeholder="고객명" name="customerName">
+                </div>
+
+                <div class="search-input-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input class="search-input" type="tel" name="phone" placeholder="전화번호">
+                </div>
+                <div class="update-value category"
+                    style="min-width: 120px;">
+                    <input type="hidden" name="status" id="category">
+                    <div class="category-select">
+                        <span class="category-selected">상태</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="category-dropdown">
+                        <li data-type="RECEIVED">접수</li>
+                        <li data-type="WASHING">세탁중</li>
+                        <li data-type="DRYING">건조중</li>
+                        <li data-type="COMPLETED">세탁완료</li>
+                    </ul>
+                </div>
+
+                <div class="search-input-box">
+                    <input type="date" name="fromDate" class="search-input date-input">
+                </div>
+                <span class="date-separator">~</span>
+                <div class="search-input-box date">
+                    <input type="date" name="toDate" class="search-input date-input">
+                </div>
+                <button type="submit" class="btn btn-create">조회</button>
             </form>
+
         </div>
 
         <div class="card-list">
@@ -49,6 +69,8 @@
                 </a>
             {{/orderList}}
         </div>
+
     </div>
 </div>
 <!--sessionUser 추가 (-) -->
+{{>layout/footer}}
