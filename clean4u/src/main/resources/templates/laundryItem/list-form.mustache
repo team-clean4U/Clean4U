@@ -5,13 +5,38 @@
 <!-- http://localhost:8080/laundry-item -->
 <div class="content-section">
     <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">
-                <i class="fa-solid fa-tshirt"></i>세탁물 목록
-            </h2>
-            <a href="/laundry-item/save" class="btn btn-create">
-                <span>+</span>생성
-            </a>
+        <div class="header-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-shirt"></i>세탁물 목록
+                </h2>
+                <a href="/laundry-item/save" class="btn btn-create">
+                    <span>+</span>생성
+                </a>
+            </div>
+            <form class="search-wrapper" method="get" action="/laundry-item">
+                <div class="search-input-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{name}}" name="name">
+                </div>
+                <div class="update-value category">
+                    <input type="hidden" name="category" id="category">
+                    <div class="category-select">
+                        <span class="category-selected">선택</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="category-dropdown">
+                        <li data-type="TOP">TOP</li>
+                        <li data-type="BOTTOM">BOTTOM</li>
+                        <li data-type="OUTER">OUTER</li>
+                        <li data-type="BEDDING">BEDDING</li>
+                        <li data-type="ACCESSORY">ACCESSORY</li>
+                        <li data-type="SPECIAL">SPECIAL</li>
+                        <li data-type="ETC">ETC</li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn btn-create">조회</button>
+            </form>
         </div>
 
         <div class="card-list">
