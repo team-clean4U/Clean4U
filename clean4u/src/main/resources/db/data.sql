@@ -23,11 +23,12 @@ insert into supply_item_tb(name, unit, stock_quantity, safety_stock) values
                                                            ('옷걸이', 'ea', 300, 100),
                                                            ('세탁망', 'ea', 150, 100);
 
-INSERT INTO employee_tb (name, username, password, email,  user_role) VALUES
-    ('김관리', 'admin01', '$2a$10$admin', 'admin01@clean4u.com', 'ADMIN'),
-    ('이직원', 'employee01', '$2a$10$employee', 'employee01@clean4u.com', 'EMPLOYEE'),
-    ('박직원', 'employee02', '$2a$10$employee2', 'employee02@clean4u.com', 'EMPLOYEE');
-
+INSERT INTO employee_tb
+(name, username, password, email, user_role, user_status)
+VALUES
+    ('김관리', 'admin01', '00000000', 'admin01@clean4u.com', 'ADMIN', 'ACTIVE'),
+    ('이직원', 'employee01', '00000000', 'employee01@clean4u.com', 'EMPLOYEE', 'ACTIVE'),
+    ('박직원', 'employee02', '00000000', 'employee02@clean4u.com', 'EMPLOYEE', 'ACTIVE');
 INSERT INTO customer_tb (name, birth, phone, grade, memo, created_at) VALUES
     ('김민수', '1990-03-15', '010-1234-5678', 'NEW', '첫 방문 고객', '2025-01-15'),
     ('이서연', '1985-07-22', '010-2345-6789', 'REGULAR', '월 2회 이용', '2025-03-30'),
