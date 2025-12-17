@@ -3,6 +3,10 @@ package org.example.clean4u.order;
 import org.example.clean4u.customer.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface OrderRepository extends OrderRepositoryCustom, JpaRepository<Order, Long> {
     Long countByCustomerAndStatus(Customer customer, OrderStatus status);
+
+    List<Order> findByCustomerId(Long customer);
 }

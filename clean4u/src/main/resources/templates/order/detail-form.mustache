@@ -11,7 +11,7 @@
                     <button class="btn btn-edit"><i class="fa-solid fa-edit"></i>수정</button>
                 </form>
                 <form action="/order/{{order.orderId}}/delete" method="post"></form>
-                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
+                <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
             </div>
         </div>
         <div class="detail-card">
@@ -42,11 +42,11 @@
                         <i class="fa-solid fa-circle-info"></i>
                             세탁 물품
                     </span>
-                    <span class="detail-value">
+                    <span class="detail-value" style="width: 50%">
                         <ul style="width: 100%">
                             {{#items}}
-                                <li style="margin-bottom: 1.2rem">
-                                    <div style="
+                            <li style="margin-bottom: 1.2rem">
+                                <div style="
                                         display: flex;
                                         justify-content: space-between;
                                     ">
@@ -54,39 +54,50 @@
                                         <span>{{quantity}}개</span>
                                     </div>
 
-                                    <div class="info-value price">
-                                        기본 가격: {{basePrice}}원
+                                <div style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                        color: var(--color-cyan);
+                                    ">
+                                        <span>기본 가격: </span>
+                                        <span>{{basePrice}}원</span>
                                     </div>
 
+                                <div style="
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: flex-end;
+                                    ">
                                     {{#options}}
                                         <div style="
-                                           margin-left: 1rem;
-                                           font-size: 0.95rem;
-                                           color: #555;
-                                        ">
-                                            + {{optionName}} ({{extraPrice}}원)
-                                        </div>
+                                               font-size: 0.95rem;
+                                               color: #555;
+                                            ">
+                                                + {{optionName}} ({{extraPrice}}원)
+                                            </div>
                                     {{/options}}
+                                </div>
+                                <div style="
+                                            font-size: 0.95rem;
+                                            display: flex;
+                                            flex-direction: column;
+                                            align-items: flex-end;
+                                        ">
+                                            옵션 합계: {{optionalTotalPrice}}원
+                                    </div>
 
-                                    <div style="
-                                        margin-top: 0.3rem;
-                                        font-size: 0.95rem;
+                                    <div class="detail-value price"
+                                        style="
+                                            display: flex;
+                                            justify-content: space-between;
                                     ">
-                                        옵션 합계: {{optionalTotalPrice}}원
+                                    가격: {{itemTotalPrice}}원
                                     </div>
-
-                                    <div class="detail-value price">
-                                        가격: {{itemTotalPrice}}원
-                                    </div>
-                                </li>
+                                    </li>
                             {{/items}}
-                            <div class="detail-value price">
-                                        총 가격: {{order.totalPrice}}원
-                            </div>
-                        </ul>
+                                </ul>
                     </span>
                 </div>
-
             </div>
         </div>
     </div>

@@ -7,6 +7,7 @@ import org.example.clean4u.customer.Customer;
 import org.example.clean4u.customer.CustomerRepository;
 import org.example.clean4u.customer.Grade;
 import org.example.clean4u.employee.Employee;
+import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.laundryItem.LaundryItem;
 import org.example.clean4u.laundryItem.LaundryItemRepository;
 import org.example.clean4u.laundryOption.LaundryOption;
@@ -34,10 +35,14 @@ public class OrderService {
     private final OrderItemOptionRepository orderItemOptionRepository;
     private final LaundryItemRepository laundryItemRepository;
     private final LaundryOptionRepository laundryOptionRepository;
+    private final EmployeeRepository employeeRepository;
 
     // 주문 생성
     @Transactional
-    public Order save(OrderRequest.@Valid SaveDto saveDto, Employee sessionUser) {
+    public Order saveProc(OrderRequest.@Valid SaveDto saveDto, Long sessionUserId) {
+        Employee sessionUser = employeeRepository.findById(sessionUserId)
+                .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
+
         Customer customer = customerRepository.findById(saveDto.getCustomerId())
                 .orElseThrow(() -> new Exception404("해당 고객을 찾을 수 없습니다."));
 
@@ -70,7 +75,12 @@ public class OrderService {
             String customerName,
             String phone,
             LocalDate fromDate,
-            LocalDate toDate) {
+            LocalDate toDate,
+            Long sessionUserId) {
+        boolean existingUser = employeeRepository.existsById(sessionUserId);
+        if(!existingUser) {
+            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
         List<Order> orderList = orderRepository.searchOrder(status, customerName, phone, fromDate, toDate);
         return orderList.stream()
                 .map(OrderResponse.ListDto::new)
@@ -78,7 +88,11 @@ public class OrderService {
     }
 
     // 주문 상세 조회
-    public OrderResponse.DetailDto detailDto(Long orderId) {
+    public OrderResponse.DetailDto detail(Long orderId, Long sessionUserId) {
+        boolean existingUser = employeeRepository.existsById(sessionUserId);
+        if(!existingUser) {
+            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
         List<OrderItem> orderItems = orderItemRepository.findAllByOrderId(orderId);
@@ -157,12 +171,15 @@ public class OrderService {
 
     // 주문 변경 기능 요청
     @Transactional
-    public Order updateProc(Long orderId, OrderRequest.@Valid UpdateDto updateDto, Employee editor) {
+    public Order updateProc(Long orderId, OrderRequest.@Valid UpdateDto updateDto, Long sessionUserId) {
         // 1. 주문 조회
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
         int totalPrice = calculateTotalPrice(updateDto.getItems());
+
+        Employee editor = employeeRepository.findById(sessionUserId)
+                .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
 
         // 2. 주문 기본 정보 수정
         order.updateOrder(updateDto);
@@ -204,7 +221,12 @@ public class OrderService {
 
     // 주문 처리 상태 변경 기능 요청
     @Transactional
-    public Order updateStatusProc(Long orderId, OrderStatus newStatus) {
+    public Order updateStatusProc(Long orderId, OrderStatus newStatus, Long sessionUserId) {
+        boolean existingUser = employeeRepository.existsById(sessionUserId);
+        if(!existingUser) {
+            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
+
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문이 없습니다."));
         order.updateStatus(newStatus);
@@ -225,7 +247,14 @@ public class OrderService {
 
     // 주문 삭제 기능 요청
     @Transactional
-    public void deleteByOrderId(Long orderId) {
+    public void deleteByOrderId(Long orderId, Long sessionUserId) {
+        boolean existingUser = employeeRepository.existsById(sessionUserId);
+        if(!existingUser) {
+            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
+
+        orderItemOptionRepository.deleteByOrderId(orderId);
+        orderItemRepository.deleteByOrderId(orderId);
         orderRepository.deleteById(orderId);
     }
 

@@ -3,6 +3,9 @@ package org.example.clean4u.employee;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.exception.Exception400;
+import org.example.clean4u._core.exception.Exception403;
+import org.example.clean4u._core.exception.Exception404;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +41,10 @@ public class EmployeeController {
             Employee sessionUser = employeeService.login(loginDTO);
             session.setAttribute("sessionUser", sessionUser);
             return "redirect:/main";
-        } catch (Exception e) {
-            return "user/login-form";
+        } catch (Exception400 e) {
+            throw e;
+        } catch (Exception404 e) {
+            throw e;
         }
     }
 
@@ -82,8 +87,10 @@ public class EmployeeController {
             Employee updateEmployee = employeeService.updateProc(updateDTD, sessionUser.getId());
             session.setAttribute("sessionUser", updateEmployee);
             return "redirect:/main";
-        } catch (Exception e) {
-            return "user/update-form";
+        } catch (Exception403 e) {
+            throw e;
+        } catch (Exception404 e) {
+            throw e;
         }
     }
 }
