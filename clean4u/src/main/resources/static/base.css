@@ -30,6 +30,9 @@
     --action-delete: #EF5350;
     --action-delete-hover: #E53935;
 
+    --badge-warning: #FF0000;
+    --badge-safe: #33FF33;
+
     --background-blue: rgba(79, 195, 247, 0.1);
     --background-border: rgba(79, 195, 247, 0.2);
 

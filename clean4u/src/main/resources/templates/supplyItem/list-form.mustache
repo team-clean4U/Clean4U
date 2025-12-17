@@ -1,22 +1,44 @@
 {{> layout/header}}
 
-<div class="container p-5">
-    <h2 class="mb-4">자재 관리
-    <a href="/supply-item/save" class="btn btn-primary">생성</a>
-    </h2>
-    {{#supplyItemList}}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h4 class="card-title mb-3">{{name}}</h4>
-                <a href="/supply-item/{{id}}" class="btn btn-primary">상세보기</a>
-            </div>
+{{> layout/background}}
+
+<!-- http://localhost:8080/supply-item -->
+<!-- http://localhost:8080/login -->
+<div class="content-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">
+                <i class="fa-solid fa-box"></i>자재 목록
+            </h2>
+            <a href="/supply-item/save" class="btn btn-create">
+                <span>+</span>생성
+            </a>
         </div>
-    {{/supplyItemList}}
-    {{^supplyItemList}}
-        <div class="alert alert-info" role="alert">
-            등록된 자재가 없습니다.
+
+        <div class="card-list">
+            {{#supplyItemList}}
+                <a href="/supply-item/{{id}}" class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-spray-can"></i>
+                        <h4>{{name}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-info">
+                            <span class="info-label">재고 수량:</span>
+                            <span class="info-value">{{stockQuantity}}</span>
+                        </div>
+                        <div class="card-info">
+                            <span class="info-label">단위:</span>
+                            <span class="info-value">{{unit}}</span>
+                        </div>
+                    </div>
+                </a>
+            {{/supplyItemList}}
         </div>
-    {{/supplyItemList}}
+        {{^supplyItemList}}
+            <p class="blank">등록된 자재가 없습니다.</p>
+        {{/supplyItemList}}
+    </div>
 </div>
 
 {{> layout/footer}}
