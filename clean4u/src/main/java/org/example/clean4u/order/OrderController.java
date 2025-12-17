@@ -3,6 +3,7 @@ package org.example.clean4u.order;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.exception.Exception400;
 import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,8 +51,15 @@ public class OrderController {
     ) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        List<OrderResponse.ListDto> orderList = orderService.orderList(status, customerName, phone, fromDate, toDate, sessionUser.getId());
+        if((fromDate == null && toDate != null) || (fromDate != null && toDate == null)) {
+            throw new Exception400("검색 시작 날짜와 종료 날짜는 함께 입력해야 합니다.");
+        }
 
+        if(fromDate != null && fromDate.isAfter(toDate)) {
+            throw new Exception400("검색 시작 날짜는 검색 종료 날짜보다 우선이어야 합니다.");
+        }
+
+        List<OrderResponse.ListDto> orderList = orderService.orderList(status, customerName, phone, fromDate, toDate, sessionUser.getId());
         model.addAttribute("orderList", orderList);
         return "order/list-form";
     }
@@ -61,11 +69,20 @@ public class OrderController {
     @GetMapping("/order/{orderId}")
     public String detail(@PathVariable Long orderId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        OrderResponse.DetailDto dto = orderService.detail(orderId, sessionUser.getId());
-        model.addAttribute("order", dto);
-        model.addAttribute("items", dto.getItems());
+        OrderResponse.DetailDto order = orderService.detail(orderId, sessionUser.getId());
+        model.addAttribute("order", order);
+        model.addAttribute("items", order.getItems());
         return "order/detail-form";
+    }
+
+    // 주문 변경 화면 요청
+    @GetMapping("/order/{orderId}/update")
+    public String updateForm(@PathVariable Long orderId, Model model, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+        OrderResponse.UpdateFormDto order = orderService.updateForm(orderId, sessionUser.getId());
+        model.addAttribute("order", order);
+        model.addAttribute("items", order.getItems());
+        return "order/update-form";
     }
 
     // 주문 변경 기능 요청: http://localhost:8080/order/{id}/update
