@@ -16,7 +16,7 @@
     display: flex;
     justify-content: space-between;
     align-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .section-title {
@@ -156,4 +156,35 @@
     .card-info {
         flex-direction: row;
     }
+}
+
+/* 검색창 */
+.header-container {
+    margin-bottom: 1rem;
+}
+
+.search-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    background: var(--color-white);
+    padding: 15px;
+    background: var(--color-white);
+    border-radius: 15px;
+}
+
+.search-input-box {
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding-left: 2.5rem;
+}
+
+.search-input-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
 }
