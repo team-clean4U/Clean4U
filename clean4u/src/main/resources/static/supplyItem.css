@@ -1,0 +1,24 @@
+.stock-quantity {
+    font-size: 1.5rem;
+}
+
+.safety-stock {
+    color: var(--color-cyan);
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.stock-badge {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    color: var(--color-white);
+}
+
+.badge-warn {
+    background: var(--badge-warning);
+}
+
+.badge-safe {
+    background: var(--badge-safe);
+}
