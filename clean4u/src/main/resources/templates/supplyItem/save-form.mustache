@@ -1,19 +1,46 @@
 {{> layout/header}}
 
-<div class="container p-5">
-    <div class="card">
-        <div class="card-body">
+{{> layout/background}}
+
+<!-- http://localhost:8080/supply-item/1/update -->
+<!-- http://localhost:8080/login -->
+<div class="update-container">
+    <div class="update-container-content supply-item">
+        <div class="update-card">
             <form action="/supply-item/save" method="post">
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter name" name="name">
+                <div class="update-header">
+                    <i class="fa-solid fa-spray-can"></i>
+                    <input type="text" name="name" placeholder="자재 이름을 입력해주세요." required>
                 </div>
-                <div class="mb-3">
-                    <input type="number" class="form-control" name="stockQuantity" placeholder="Enter stockQuantity" min="0">
+                <div class="update-body supply-item-body">
+                    <div class="update-item">
+                        <label for="unit" class="update-label">
+                            <i class="fa-solid fa-boxes"></i>
+                            재고 수량
+                        </label>
+                        <input type="number" id="stockQuantity" name="stockQuantity" min="0" step="1"
+                               placeholder="자재 수량을 입력해주세요." class="update-value">
+                    </div>
+                    <div class="update-item">
+                        <label for="description" class="update-label">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            단위
+                        </label>
+                        <input type="text" name="unit" placeholder="자재 단위를 입력해주세요." class="update-value  stock-quantity">
+                    </div>
+                    <div class="update-item">
+                        <label class="update-label">
+                            <i class="fa-solid fa-heart"></i>
+                            안전 재고
+                        </label>
+                        <input type="number" id="safetyStock" name="safetyStock" min="0" step="1"
+                               placeholder="안전 재고 수량을 입력해주세요." class="update-value price">
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter unit" name="unit">
+                <div class="bottom-buttons">
+                    <a href="/supply-item" class="btn btn-back">취소</a>
+                    <button type="submit" class="btn btn-create">완료</button>
                 </div>
-                <button class="btn btn-primary form-control">완료</button>
             </form>
         </div>
     </div>
