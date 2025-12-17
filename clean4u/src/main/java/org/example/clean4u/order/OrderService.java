@@ -2,6 +2,7 @@ package org.example.clean4u.order;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.exception.Exception400;
 import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.customer.CustomerRepository;
@@ -81,6 +82,7 @@ public class OrderService {
         if(!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
+
         List<Order> orderList = orderRepository.searchOrder(status, customerName, phone, fromDate, toDate);
         return orderList.stream()
                 .map(OrderResponse.ListDto::new)
@@ -111,7 +113,9 @@ public class OrderService {
         int totalPrice = 0; // 하나의 Order 의 총 가격
         List<OrderItemResponse.DetailDto> itemDtos = new ArrayList<>();
 
-        for (OrderItem item : orderItems) {
+        for (int i = 0; i < orderItems.size(); i++) {
+            OrderItem item = orderItems.get(i);
+
             int basePrice = item.getLaundryItem().getBasePrice();
             int quantity = item.getQuantity();
 
@@ -135,7 +139,7 @@ public class OrderService {
                     }).toList();
 
             OrderItemResponse.DetailDto itemDto = new OrderItemResponse.DetailDto(
-                    item, optionDtos);
+                    i, item, optionDtos);
 
             itemDtos.add(itemDto);
         }
@@ -143,7 +147,12 @@ public class OrderService {
     }
 
     // 주문 변경 화면 요청
-    public OrderResponse.UpdateFormDto updateForm(Long orderId) {
+    public OrderResponse.UpdateFormDto updateForm(Long orderId, Long sessionUserId) {
+        boolean existingUser = employeeRepository.existsById(sessionUserId);
+        if(!existingUser) {
+            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
+
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
@@ -152,19 +161,23 @@ public class OrderService {
             throw new Exception404("주문 상세 내역을 찾을 수 없습니다.");
         }
 
-        List<OrderItemResponse.DetailDto> itemDtos = items.stream()
-                .map(oi -> {
-                    List<OrderItemOption> options = orderItemOptionRepository.findByOrderItemId(oi.getId());
-                    if (options == null) {
-                        throw new Exception404("해당 옵션을 찾을 수 없습니다.");
-                    }
-                    List<OrderItemOptionResponse.DetailDto> optionDtos = options.stream()
-                            .map(OrderItemOptionResponse.DetailDto::new)
-                            .toList();
+        List<OrderItemResponse.DetailDto> itemDtos = new ArrayList<>();
 
-                    return new OrderItemResponse.DetailDto(oi, optionDtos);
-                })
-                .toList();
+        for(int i = 0; i < items.size(); i++) {
+            OrderItem item = items.get(i);
+
+            List<OrderItemOption> options = orderItemOptionRepository.findByOrderItemId(item.getId());
+            if(options == null) {
+                throw new Exception404("해당 옵션을 찾을 수 없습니다.");
+            }
+
+            List<OrderItemOptionResponse.DetailDto> optionDtos = options.stream()
+                    .map(OrderItemOptionResponse.DetailDto::new)
+                    .toList();
+
+            OrderItemResponse.DetailDto dto = new OrderItemResponse.DetailDto(i, item, optionDtos);
+            itemDtos.add(dto);
+        }
 
         return new OrderResponse.UpdateFormDto(order, itemDtos);
     }

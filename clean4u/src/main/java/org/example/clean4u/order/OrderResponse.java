@@ -1,7 +1,6 @@
 package org.example.clean4u.order;
 
 import lombok.Data;
-import org.example.clean4u.employee.Employee;
 import org.example.clean4u.order.orderItem.OrderItemResponse;
 
 import java.time.LocalDate;
@@ -33,7 +32,6 @@ public class OrderResponse {
         private LocalDate orderDate;
         private OrderStatus status;
         private String memo;
-        private Employee editor;
 
         private Integer totalPrice;
         private List<OrderItemResponse.DetailDto> items;
@@ -46,7 +44,6 @@ public class OrderResponse {
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();
             this.memo = order.getMemo();
-            this.editor = order.getEditor();
             this.totalPrice = totalPrice;
             this.items = items;
         }
@@ -54,11 +51,18 @@ public class OrderResponse {
 
     @Data
     public static class UpdateFormDto {
+        private Long orderId;
+        private String customerName;
+
         private OrderStatus status;
         private String memo;
         private List<OrderItemResponse.DetailDto> items;
 
         public UpdateFormDto(Order order, List<OrderItemResponse.DetailDto> items) {
+            this.orderId = order.getId();
+            if(order.getCustomer() != null) {
+                this.customerName = order.getCustomer().getName();
+            }
             this.status = order.getStatus();
             this.memo = order.getMemo();
             this.items = items;
