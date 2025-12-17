@@ -35,6 +35,8 @@ public class LaundryItemController {
         }
 
         model.addAttribute("laundryItemList", laundryItemList);
+        model.addAttribute("name", name == null ? "" : name);
+        model.addAttribute("category", category);
         return "laundryItem/list-form";
     }
 

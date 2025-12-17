@@ -41,7 +41,6 @@
 
 .update-header input {
     margin: 0 auto;
-    padding: 1rem;
     font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
@@ -96,7 +95,6 @@
 .update-item input,
 .update-item textarea {
     width: 100%;
-    padding: 0.8rem 1rem;
     border: 3px solid var(--color-light-blue);
     border-radius: 15px;
     background: var(--color-white);
