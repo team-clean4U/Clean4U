@@ -36,4 +36,5 @@ public class CustomerRequest {
         @Size(max = 1000, message = "1000자 이상 작성할 수 없습니다.")
         private String memo;
     }
+    
 }
