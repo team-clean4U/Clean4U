@@ -38,7 +38,7 @@ public class OrderResponse {
         private Integer totalPrice;
         private List<OrderItemResponse.DetailDto> items;
 
-        public DetailDto(Order order, List<OrderItemResponse.DetailDto> items) {
+        public DetailDto(Order order, List<OrderItemResponse.DetailDto> items, int totalPrice) {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
@@ -47,7 +47,7 @@ public class OrderResponse {
             this.status = order.getStatus();
             this.memo = order.getMemo();
             this.editor = order.getEditor();
-            this.totalPrice = order.getTotalPrice();
+            this.totalPrice = totalPrice;
             this.items = items;
         }
     }
