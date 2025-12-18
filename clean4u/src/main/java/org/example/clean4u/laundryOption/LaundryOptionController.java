@@ -36,6 +36,10 @@ public class LaundryOptionController {
             laundryOptionList = service.getAllLaundryOptions();
         }
         model.addAttribute("laundryOptionList", laundryOptionList);
+        model.addAttribute("name", name == null ? "" : name);
+        model.addAttribute("isActive", isActive);
+        model.addAttribute("isActiveTrue", Boolean.TRUE.equals(isActive));
+        model.addAttribute("isActiveFalse", Boolean.FALSE.equals(isActive));
         return "laundryOption/list-form";
     }
 
