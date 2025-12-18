@@ -1,30 +1,32 @@
 {{> layout/header}}
 
-<div class="container p-5">
+{{> layout/background}}
+<div class="container">
 
-    <div class="cards">
+    <div class="update-card">
         <div class="detail-header"><b>고객 등록</b></div>
         <div class="detail-container">
             <form action="/customer/save" method="post" class="save-form">
-                <div class="save-container">
-                    <label><i class="fa-solid fa-award"></i> 등급 :</label>
-                    <input type="text" class="grade-NEW" placeholder="등급" name="grade" value={{dto.grade}}>
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-award"></i> 등급 :</label>
+                    <span class="info-value grade grade-NEW">{{grade}}</span>
                 </div>
-                <div class="save-container">
-                    <label><i class="fa-solid fa-id-badge"></i> 이름 :</label>
-                    <input type="text" class="form-control" placeholder="이름" name="name">
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-id-badge"></i> 이름 :</label>
+                    <input type="text" class="update-value" placeholder="이름" name="name">
                 </div>
-                <div class="save-container">
-                    <label><i class="fa-solid fa-cake-candles"></i> 생년월일 :</label>
-                    <input type="date" class="form-control birth" placeholder="생년월일" name="birth">
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-cake-candles"></i> 생년월일 :</label>
+                    <input type="date" class="update-value" placeholder="생년월일" name="birth">
                 </div>
-                <div class="save-container">
-                    <label><i class="fa-solid fa-mobile-screen"></i> 연락처 :</label>
-                    <input type="tel" pattern="[0-9\-]+" class="form-control" placeholder="연락처" name="phone">
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-mobile-screen"></i> 연락처 :</label>
+                    <input type="tel" pattern="[0-9\-]+" class="update-value" placeholder="연락처" name="phone">
                 </div>
-                <div class="save-container">
-                    <label><i class="fa-solid fa-circle-info"></i> 메모 :</label>
-                    <input type="textarea" class="form-control memo" placeholder="메모를 입력하세요" name="memo">
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-circle-info"></i> 메모 :</label>
+                    <textarea id="memo" name="memo" placeholder="설명을 입력해주세요." rows="5"
+                              class="update-value memo"></textarea>
                 </div>
                 <button type="submit" class="btn btn-create btn-customer">
                     <span>+</span>등록
