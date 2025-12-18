@@ -156,30 +156,31 @@ nav {
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    gap: 1.75rem;
-
     flex-wrap: wrap;
 }
 
 .nav-link {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: var(--color-black);
-
+    color: #333;
+    margin: 0 0.3rem;
+    padding: 0.75rem 1rem;
+    border-radius: 15px;
     white-space: nowrap;
+    transition: all 0.3s ease-in-out;
+    display: block;
 }
 
 .nav-link.active {
     background: linear-gradient(135deg, var(--color-light-blue), var(--color-blue));
     color: var(--color-white);
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+    box-shadow: 0 0 10px var(--shadow);
+}
 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: all 0.25s ease;
+.nav-link:hover {
+    background: linear-gradient(135deg, var(--color-light-blue), var(--color-blue));
+    color: var(--color-white);
+    box-shadow: 0 0 10px var(--shadow);
 }
 
 @media (max-width: 768px) {
