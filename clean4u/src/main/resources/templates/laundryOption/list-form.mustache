@@ -5,13 +5,38 @@
 <!-- http://localhost:8080/laundry-option -->
 <div class="content-section">
     <div class="container">
-        <div class="section-header">
-            <h2 class="section-title">
-                <i class="fa-solid fa-shirt"></i>세탁물 목록
-            </h2>
-            <a href="/laundry-option/save" class="btn btn-create">
-                <span>+</span>생성
-            </a>
+        <div class="header-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-shirt"></i>세탁물 목록
+                </h2>
+                <a href="/laundry-option/save" class="btn btn-create">
+                    <span>+</span>생성
+                </a>
+            </div>
+            <form class="search-wrapper" method="get" action="/laundry-option">
+                <div class="search-input-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{name}}" name="name">
+                </div>
+                <div class="update-value category">
+                    <input type="hidden" name="isActive" id="category" {{#isActive}}value="{{isActive}}" {{/isActive}}>
+                    <div class="category-select" {{#isActive}}data-selected="{{isActive}}" {{/isActive}}>
+                        <i class="fa-solid fa-list"></i>
+                        <span class="category-selected">
+                            {{#isActiveTrue}}활성{{/isActiveTrue}}
+                            {{#isActiveFalse}}비활성{{/isActiveFalse}}
+                            {{^isActiveTrue}}{{^isActiveFalse}}전체{{/isActiveFalse}}{{/isActiveTrue}}
+                        </span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="category-dropdown">
+                        <li data-type="true">활성</li>
+                        <li data-type="false">비활성</li>
+                    </ul>
+                </div>
+                <button type="submit" class="btn btn-submit">조회</button>
+            </form>
         </div>
 
         <div class="card-list">
