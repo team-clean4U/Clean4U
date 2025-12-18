@@ -21,6 +21,7 @@ public class CustomerService {
     @Transactional
     public Customer save(@Valid CustomerRequest.SaveDTO dto) {
         Customer customer = dto.toEntity();
+        customer.setGrade(Grade.NEW);
         return repository.save(customer);
     }
 
@@ -41,13 +42,13 @@ public class CustomerService {
         return new CustomerResponse.DetailDTO(customer, orders);
     }
 
-    public CustomerResponse.UpdateViewDTO getFormForUpdate(Long customerId) {
+    public CustomerResponse.UpdateDTO getFormForUpdate(Long customerId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
         List<Order> orders = orderRepository.findByCustomerId(customerId);
 
-        return new CustomerResponse.UpdateViewDTO(customer);
+        return new CustomerResponse.UpdateDTO(customer);
     }
 
     @Transactional
@@ -66,5 +67,17 @@ public class CustomerService {
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
         repository.deleteById(customerId);
+    }
+
+    public List<CustomerResponse.ListDTO> searchByName(String keyword) {
+        return repository.findByNameContaining(keyword).stream()
+                .map(CustomerResponse.ListDTO::new)
+                .toList();
+    }
+
+    public List<CustomerResponse.ListDTO> searchByPhone(String keyword) {
+        return repository.findByPhoneContaining(keyword).stream()
+                .map(CustomerResponse.ListDTO::new)
+                .toList();
     }
 }
