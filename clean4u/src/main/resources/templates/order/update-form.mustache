@@ -108,120 +108,16 @@
     </div>
 </div>
 
+{{> layout/footer}}
+
+<script src="/js/order-update.js"></script>
+
 <script id="laundry-items-data" type="application/json">
 {{& laundryItemJson}}
-
 </script>
 
 <script id="laundry-options-data" type="application/json">
 {{& laundryOptionsJson}}
-
 </script>
 
-<script>
-    const laundryItems = JSON.parse(
-            document.getElementById("laundry-items-data").textContent
-    );
-
-    const allOptions = JSON.parse(
-            document.getElementById("laundry-options-data").textContent
-    );
-
-    let itemIndex = {{itemsSize}};
-
-    function addItem() {
-        const container = document.getElementById("items-container");
-
-        const optionHtml = allOptions.map(option => `
-                <label style="display:flex; align-items:center; gap:0.3rem; white-space:nowrap;">
-                  <input type="checkbox"
-                         name="items[${itemIndex}].optionIds"
-                         value="${option.id}">
-                  ${option.name} (+${option.extraPrice})
-                </label>
-              `).join("");
-
-        const laundryItemDropdown = laundryItems.map(item => `
-                <li data-id="${item.id}">${item.category}</li>
-              `).join("");
-
-        const html = `
-          <div style="width:100%; padding:1.5rem 2rem">
-            <div class="update-item" style="border-bottom: none;">
-
-              <input type="hidden"
-                     name="items[${itemIndex}].laundryItemId"
-                     value="items[${itemIndex}].laundryItemName">
-
-              <div class="update-value category">
-                <div class="category-select">
-                  <span class="category-selected">세탁물 선택</span>
-                  <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <ul class="category-dropdown">
-                  ${laundryItemDropdown}
-                </ul>
-              </div>
-
-              <input class="update-value"
-                     type="number"
-                     name="items[${itemIndex}].quantity"
-                     min="1"
-                     value="items[${itemIndex}].quantity">
-            </div>
-
-            <div style="display:flex; flex-wrap:wrap; gap:0.6rem 1rem; padding-top:0.6rem;">
-              ${optionHtml}
-            </div>
-          </div>
-      `;
-
-        container.insertAdjacentHTML("beforeend", html);
-
-        bindLaundryDropdown(container.lastElementChild);
-        itemIndex++;
-    }
-
-    function bindLaundryDropdown(itemEl) {
-        const categorySelect = itemEl.querySelector(".category-select");
-        const categoryDropdown = itemEl.querySelector(".category-dropdown");
-        const categorySelected = itemEl.querySelector(".category-selected");
-        const categoryItems = itemEl.querySelectorAll(".category-dropdown li");
-
-        const hiddenInput = itemEl.querySelector(
-                "input[name^='items'][name$='.laundryItemId']"
-        );
-
-        if (categorySelect && categoryDropdown) {
-            categoryItems.forEach(li => {
-                li.classList.add("selected");
-            });
-        }
-
-        categorySelect.addEventListener("click", (e) => {
-            e.stopPropagation();
-            categorySelected.classList.toggle("active");
-            categoryDropdown.classList.toggle("active");
-        });
-
-        categoryItems.forEach(li => {
-            li.addEventListener("click", (e) => {
-                e.stopPropagation();
-
-                categorySelected.textContent = li.textContent;
-                hiddenInput.value = li.dataset.id;
-
-                categoryItems.forEach(i => i.classList.remove("selected"));
-                li.classList.add("selected");
-
-                categoryDropdown.classList.remove("active");
-            });
-        });
-
-        categorySelect.addEventListener("click", (e) => {
-            e.stopPropagation();
-        })
-    }
-</script>
-
-{{> layout/footer}}
+<input type="hidden" id="itemsSize" value="{{itemsSize}}">
