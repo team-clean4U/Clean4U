@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface WorkScheduleRepository extends JpaRepository<WorkSchedule, Long> {
-    List<WorkSchedule>
 
     List<WorkSchedule> findByDaysContaining(List<DayOfWeek> days);
 
