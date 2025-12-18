@@ -1,10 +1,17 @@
 package org.example.clean4u.order;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception400;
 import org.example.clean4u.employee.Employee;
+import org.example.clean4u.laundryItem.LaundryItemResponse;
+import org.example.clean4u.laundryItem.LaundryItemService;
+import org.example.clean4u.laundryOption.LaundryOptionResponse;
+import org.example.clean4u.laundryOption.LaundryOptionService;
+import org.example.clean4u.order.orderItem.OrderItemResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +27,9 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final LaundryItemService laundryItemService;
+    private final LaundryOptionService laundryOptionService;
+    private final ObjectMapper objectMapper;
 
     // 주문 생성 화면 요청 - http://localhost:8080/order/save
     // 인증(o), 인가(x)
@@ -77,11 +87,29 @@ public class OrderController {
 
     // 주문 변경 화면 요청
     @GetMapping("/order/{orderId}/update")
-    public String updateForm(@PathVariable Long orderId, Model model, HttpSession session) {
+    public String updateForm(@PathVariable Long orderId, Model model, HttpSession session) throws JsonProcessingException {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         OrderResponse.UpdateFormDto order = orderService.updateForm(orderId, sessionUser.getId());
+        List<LaundryItemResponse.ListDTO> laundryItems = laundryItemService.getAllLaundryItems();
+        List<LaundryOptionResponse.ListDTO> laundryOptions = laundryOptionService.getAllLaundryOptions();
+
         model.addAttribute("order", order);
+
         model.addAttribute("items", order.getItems());
+        model.addAttribute("itemsSize", order.getItems() != null ? order.getItems().size() : 0);
+
+        model.addAttribute("laundryItems", laundryItems);
+
+        try {
+            String laundryItemJson = objectMapper.writeValueAsString(laundryItemService.getAllLaundryItems());
+            String laundryOptionsJson = objectMapper.writeValueAsString(laundryOptionService.getAllLaundryOptions());
+            model.addAttribute("laundryItemJson", laundryItemJson);
+            model.addAttribute("laundryOptionsJson", laundryOptionsJson);
+        } catch (Exception e) {
+            model.addAttribute("laundryItemJson", "[]");
+            model.addAttribute("laundryOptionsJson", "[]");
+        }
+
         return "order/update-form";
     }
 
@@ -91,15 +119,6 @@ public class OrderController {
     public String updateProc(@PathVariable Long orderId, OrderRequest.@Valid UpdateDto updateDto, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         orderService.updateProc(orderId, updateDto, sessionUser.getId());
-        return "redirect:/order/" + orderId;
-    }
-
-    // 주문 처리 상태 변경 기능 요청: http://localhost:8080/order/{id}/status-update
-    // 인증(o), 인가(x)
-    @PostMapping("/order/{orderId}/status-update")
-    public String updateStatusProc(@PathVariable Long orderId, OrderStatus newStatus, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        orderService.updateStatusProc(orderId, newStatus, sessionUser.getId());
         return "redirect:/order/" + orderId;
     }
 

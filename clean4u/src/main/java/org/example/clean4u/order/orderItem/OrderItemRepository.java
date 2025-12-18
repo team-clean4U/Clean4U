@@ -1,6 +1,7 @@
 package org.example.clean4u.order.orderItem;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -15,5 +16,10 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 """)
     List<OrderItem> findAllByOrderId(@Param("orderId") Long orderId);
 
-    void deleteByOrderId(Long orderId);
+    @Modifying(clearAutomatically = true)
+    @Query("""
+        DELETE FROM OrderItem oi
+        WHERE oi.order.id = :orderId
+""")
+    void deleteByOrderId(@Param("orderId") Long orderId);
 }

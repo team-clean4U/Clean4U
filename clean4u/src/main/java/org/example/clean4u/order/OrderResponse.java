@@ -53,12 +53,11 @@ public class OrderResponse {
     public static class UpdateFormDto {
         private Long orderId;
         private String customerName;
-
         private OrderStatus status;
         private String memo;
-        private List<OrderItemResponse.DetailDto> items;
+        private List<OrderItemResponse.UpdateFormDto> items;
 
-        public UpdateFormDto(Order order, List<OrderItemResponse.DetailDto> items) {
+        public UpdateFormDto(Order order, List<OrderItemResponse.UpdateFormDto> items) {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
