@@ -84,36 +84,24 @@
 }
 
 /* create-form */
-.cards {
-    background: var(--color-white);
-    border-radius: 25px;
-    padding: 2.5rem;
-    box-shadow: 0 8px 30px var(--shadow);
-    border: 5px solid transparent;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-}
-
-.save-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    gap: 1rem;
-}
-
-input {
-    box-sizing: border-box;
-    width: 60%;
-}
-
-.form-control {
-    padding: 1.25rem;
-}
-
 .btn-customer {
     width: 100%;
     font-size: 1rem;
+}
+
+.save-form{
+    width: 100%;
+}
+
+.update-items {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px dashed var(--color-light-gray);
+    align-items: center;
+    text-wrap: nowrap;
+}
+
+.create-label {
+    width: 200px;
 }

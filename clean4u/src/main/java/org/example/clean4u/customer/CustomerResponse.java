@@ -6,7 +6,6 @@ import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderStatus;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class CustomerResponse {
@@ -101,8 +100,9 @@ public class CustomerResponse {
         private String name;
         private String birth;
         private String phone;
-        private String createdAt;
         private String memo;
+
+        public UpdateDTO() {}
 
         public UpdateDTO(Customer customer) {
             this.customerId = customer.getId();
@@ -112,30 +112,7 @@ public class CustomerResponse {
                 this.birth = DateUtil.birthFormat(customer.getBirth());
             }
             this.phone = customer.getPhone();
-            this.createdAt = DateUtil.timestampFormat(customer.getCreatedAt());
             this.memo = customer.getMemo();
         }
     }
-
-    @Data
-    public static class UpdateViewDTO {
-        private Long customerId;
-        private Grade grade;
-        private String name;
-        private String birth;
-        private String phone;
-        private String memo;
-
-        public UpdateViewDTO(Customer customer) {
-            this.customerId = customer.getId();
-            this.grade = customer.getGrade();
-            this.name = customer.getName();
-            if (customer.getBirth() != null) {
-                this.birth = DateUtil.birthFormat(customer.getBirth());
-            }
-            this.phone = customer.getPhone();
-            this.memo = customer.getMemo();
-        }
-    }
-
 }

@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,8 +22,7 @@ public class CustomerController {
     @GetMapping("/customer/save")
     public String saveForm(Model model) {
         CustomerResponse.SaveDTO dto = new CustomerResponse.SaveDTO();
-        dto.setGrade(Grade.NEW);
-        model.addAttribute("dto", dto);
+        model.addAttribute("grade", Grade.NEW);
         return "customer/create-form";
     }
 
@@ -36,10 +36,27 @@ public class CustomerController {
 
     // 고객 전체 리스트
     @GetMapping("/customer/list")
-    public String customerList(Model model) {
-        List<CustomerResponse.ListDTO> customerList =  customerService.getAllCustomers();
-        model.addAttribute("customerList", customerList);
+    public String customerList(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String category,
+            Model model
+    ) {
+        model.addAttribute("keyword", keyword == null ? "" : keyword);
+        model.addAttribute("category", category == null ? "" : category);
 
+        List<CustomerResponse.ListDTO> customerList;
+
+        if (keyword == null || keyword.trim().isBlank()) {
+            customerList = customerService.getAllCustomers();
+        } else if ("name".equalsIgnoreCase(category)) {
+            customerList = customerService.searchByName(keyword.trim());
+        } else if ("phone".equalsIgnoreCase(category)) {
+            customerList = customerService.searchByPhone(keyword.trim());
+        } else {
+            customerList = customerService.getAllCustomers();
+        }
+
+        model.addAttribute("customerList", customerList);
         return "customer/list-form";
     }
 
@@ -56,7 +73,7 @@ public class CustomerController {
     // 고객 수정 화면
     @GetMapping("/customer/{customerId}/update")
     public String updateForm(@PathVariable Long customerId, Model model) {
-        CustomerResponse.UpdateViewDTO dto = customerService.getFormForUpdate(customerId);
+        CustomerResponse.UpdateDTO dto = customerService.getFormForUpdate(customerId);
         model.addAttribute("customer", dto);
 
         return "customer/update-form";
@@ -64,12 +81,7 @@ public class CustomerController {
 
     @PostMapping("/customer/{customerId}/update")
     public String updateProc(@PathVariable Long customerId,
-                             @Valid CustomerRequest.UpdateDTO updateDTO,
-                             BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("customer", customerService.getFormForUpdate(customerId));
-            return "customer/update-form";
-        }
+                             @Valid CustomerRequest.UpdateDTO updateDTO) {
 
         customerService.update(customerId, updateDTO);
 
