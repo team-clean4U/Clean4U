@@ -5,10 +5,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthService {
+    private final EmployeeRepository employeeRepository;
 
+    public List<EmployeeResponse.JoinListDTO> joinList() {
+        List<Employee> employeeList = employeeRepository.findAllByOrderByCreatedAtDesc();
+
+        return employeeList.stream()
+                .map(EmployeeResponse.JoinListDTO::new)
+                .collect(Collectors.toList());
+    }
 }

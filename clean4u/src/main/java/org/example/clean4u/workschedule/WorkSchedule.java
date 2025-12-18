@@ -36,10 +36,10 @@ public class WorkSchedule extends BaseTimeEntity {
     private LocalTime endTime;
 
     @Builder
-    public WorkSchedule (LocalTime startTime, LocalTime endTime, Employee employee, List<DayOfWeek> days) {
+    public WorkSchedule (Employee employee, LocalTime startTime, LocalTime endTime, List<DayOfWeek> days) {
+        this.employee = employee;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.employee = employee;
         this.days = days;
     }
 

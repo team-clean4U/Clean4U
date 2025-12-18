@@ -55,7 +55,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/main")
-    public String dashboard(HttpSession session) {
+    public String dashboard(HttpSession session, Model model) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         if (sessionUser == null) {
@@ -63,6 +63,8 @@ public class EmployeeController {
         }
 
         if (sessionUser.getUserRole() == UserRole.ADMIN) {
+            long pendingCount = employeeService.pendingCount();
+            model.addAttribute("pendingCount", pendingCount);
             return "user/dashboard-admin";
         }
 
