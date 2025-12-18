@@ -1,5 +1,6 @@
 package org.example.clean4u.order;
 
+import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception400;
@@ -13,7 +14,6 @@ import org.example.clean4u.laundryItem.LaundryItem;
 import org.example.clean4u.laundryItem.LaundryItemRepository;
 import org.example.clean4u.laundryOption.LaundryOption;
 import org.example.clean4u.laundryOption.LaundryOptionRepository;
-import org.example.clean4u.laundryOption.LaundryOptionResponse;
 import org.example.clean4u.order.orderItem.*;
 import org.example.clean4u.order.orderItemOption.OrderItemOption;
 import org.example.clean4u.order.orderItemOption.OrderItemOptionRepository;
@@ -38,6 +38,7 @@ public class OrderService {
     private final LaundryItemRepository laundryItemRepository;
     private final LaundryOptionRepository laundryOptionRepository;
     private final EmployeeRepository employeeRepository;
+    private final EntityManager entityManager;
 
     // 주문 생성
     @Transactional
@@ -98,6 +99,7 @@ public class OrderService {
         }
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
+
         List<OrderItem> orderItems = orderItemRepository.findAllByOrderId(orderId);
 
         if (orderItems == null || orderItems.isEmpty()) {
@@ -205,6 +207,9 @@ public class OrderService {
         order.updatePrice(totalPrice);
         order.updateEditor(editor);
 
+        entityManager.flush();
+        entityManager.clear();
+
         // 3. 기존 주문 옵션 모두 삭제
         orderItemOptionRepository.deleteByOrderId(order.getId());
 
@@ -237,7 +242,6 @@ public class OrderService {
         }
 
         OrderStatus newStatus = updateDto.getStatus();
-        order.updateStatus(newStatus);
 
         if (newStatus == OrderStatus.COMPLETED) {
             Customer customer = order.getCustomer();
@@ -253,6 +257,7 @@ public class OrderService {
 
         return order;
     }
+
     // 주문 삭제 기능 요청
     @Transactional
     public void deleteByOrderId(Long orderId, Long sessionUserId) {

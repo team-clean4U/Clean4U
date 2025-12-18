@@ -9,7 +9,6 @@ import org.example.clean4u._core.exception.Exception400;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.laundryItem.LaundryItemResponse;
 import org.example.clean4u.laundryItem.LaundryItemService;
-import org.example.clean4u.laundryOption.LaundryOptionResponse;
 import org.example.clean4u.laundryOption.LaundryOptionService;
 import org.example.clean4u.order.orderItem.OrderItemResponse;
 import org.springframework.stereotype.Controller;
@@ -91,13 +90,11 @@ public class OrderController {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         OrderResponse.UpdateFormDto order = orderService.updateForm(orderId, sessionUser.getId());
         List<LaundryItemResponse.ListDTO> laundryItems = laundryItemService.getAllLaundryItems();
-        List<LaundryOptionResponse.ListDTO> laundryOptions = laundryOptionService.getAllLaundryOptions();
 
+        List<OrderItemResponse.UpdateFormDto> items = order.getItems();
         model.addAttribute("order", order);
-
-        model.addAttribute("items", order.getItems());
-        model.addAttribute("itemsSize", order.getItems() != null ? order.getItems().size() : 0);
-
+        model.addAttribute("items", items);
+        model.addAttribute("itemsSize", items != null ? items.size() : 0);
         model.addAttribute("laundryItems", laundryItems);
 
         try {
@@ -118,13 +115,13 @@ public class OrderController {
     @PostMapping("/order/{orderId}/update")
     public String updateProc(@PathVariable Long orderId, OrderRequest.@Valid UpdateDto updateDto, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        orderService.updateProc(orderId, updateDto, sessionUser.getId());
-        return "redirect:/order/" + orderId;
+        Order order = orderService.updateProc(orderId, updateDto, sessionUser.getId());
+        return "redirect:/order/" + order.getId();
     }
 
     // 주문 삭제: http://localhost:8080/order/{id}
     // 인증(o), 인가(x)
-    @PostMapping("/order/{orderId}")
+    @PostMapping("/order/{orderId}/delete")
     public String deleteByOrderId(@PathVariable Long orderId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         orderService.deleteByOrderId(orderId, sessionUser.getId());
