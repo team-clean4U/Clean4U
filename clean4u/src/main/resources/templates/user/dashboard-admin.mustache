@@ -4,15 +4,23 @@
 
 <div class="container">
     <div class="section-header">
+
         <h2 class="section-title">
             <i class="bi bi-speedometer2"></i>
             관리자 대시보드
         </h2>
+
+        <a href="/employee/join-list" class="btn btn-delete">
+            {{pendingCount}}명 승인 대기
+        </a>
+
         <a href="/employee/me/edit" class="btn btn-edit">
             <i class="bi bi-person-gear"></i>
             내 정보 수정
         </a>
     </div>
+
+
 
     <div class="card-list">
         <div class="card">

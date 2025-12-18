@@ -1,5 +1,48 @@
+<!-- http://localhost:8080/employee/join-list -->
+
 {{> layout/header}}
 
+<div class="container">
+    <div class="section-header">
+        <h2 class="section-title"><i class="fas fa-user-clock"></i> 승인 대기 직원 리스트</h2>
+    </div>
 
+    {{#joinList}}
+        <div class="card-list">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-user"></i>
+                    <h4>{{name}}</h4>
+                </div>
+                <div class="card-info">
+                    <span class="info-label">이메일</span>
+                    <span class="info-value">{{email}}</span>
+                </div>
+                <div class="card-info">
+                    <span class="info-label">아이디</span>
+                    <span class="info-value">{{username}}</span>
+                </div>
+                <div class="card-info">
+                    <span class="info-label">등록일</span>
+                    <span class="info-value">{{createdAt}}</span>
+                </div>
+                <div class="card-info button-right">
+                    <form action="/employee/{{id}}/approve" method="post">
+                        <button class="btn btn-edit" type="submit"><i class="fas fa-check"></i> 승인</button>
+                    </form>
+                    <form action="/employee/{{id}}/reject" method="post">
+                        <button class="btn btn-delete" type="submit"><i class="fas fa-times"></i> 거절</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {{/joinList}}
+
+    {{^joinList}}
+        <div class="blank">
+            <p>현재 승인 대기 직원이 없습니다.</p>
+        </div>
+    {{/joinList}}
+</div>
 
 {{> layout/footer}}

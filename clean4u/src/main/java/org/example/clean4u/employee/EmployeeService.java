@@ -58,4 +58,8 @@ public class EmployeeService {
 
         return employeeEntity;
     }
+
+    public long pendingCount() {
+        return employeeRepository.countByUserStatus(UserStatus.PENDING);
+    }
 }
