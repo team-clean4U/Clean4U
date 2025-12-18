@@ -37,6 +37,30 @@
     color: var(--color-black);
 }
 
+.detail-container {
+    margin: 0 auto;
+    padding: 2rem 4rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.detail-layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.detail-left {
+    width: 500px;
+}
+
+.detail-right {
+    width: 500px;
+    margin-top: 70px;
+}
+
 .detail-items {
     display: flex;
     justify-content: space-between;

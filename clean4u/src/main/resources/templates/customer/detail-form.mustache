@@ -4,67 +4,110 @@
 
 <div class="detail-container">
     <div class="detail-container-content">
-        <div class="buttons">
-            <form action="/customer/list" method="get">
-                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
-            </form>
-            <div class="button-right">
-                <a href="/customer/{{customer.customerId}}/update" class="btn btn-edit">
-                    수정
-                </a>
-                <form action="/customer/{{customer.customerId}}/delete" method="post">
-                    <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
-                </form>
+        <!--버튼-->
+        <div class="detail-layout">
+            <div class="detail-left">
+                <div class="buttons">
+                    <form action="/customer/list" method="get">
+                        <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+                    </form>
+                    <div class="button-right">
+                        <a href="/customer/{{customer.customerId}}/update" class="btn btn-edit">
+                            <i class="fa-solid fa-edit"></i> 수정
+                        </a>
+                        <form action="/customer/{{customer.customerId}}/delete" method="post">
+                            <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
+                        </form>
+                    </div>
+                </div>
+                <!--고객상세내역-->
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <i class="fa-solid fa-user"></i>
+                        <h4>{{customer.name}}</h4>
+                    </div>
+                    <div class="detail-body">
+                        <div class="detail-items">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-award"></i>
+                                등급
+                            </span>
+                            <span class="detail-value grade-{{customer.grade}}">
+                                {{customer.grade}}
+                            </span>
+                        </div>
+                        <div class="detail-items">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                                연락처
+                            </span>
+                            <span class="detail-value phone">
+                                {{customer.phone}}
+                            </span>
+                        </div>
+                        <div class="detail-items">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-cake-candles"></i>
+                                생년월일
+                            </span>
+                            <span class="detail-value">
+                                {{customer.birth}}
+                            </span>
+                        </div>
+                        <div class="detail-items">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-hourglass"></i>
+                                생성일
+                            </span>
+                            <span class="detail-value">
+                                {{customer.createdAt}}
+                            </span>
+                        </div>
+                        <div class="detail-items-info">
+                            <span class="detail-label-info">
+                                <i class="fa-solid fa-circle-info"></i>
+                                메모
+                            </span>
+                            <span class="detail-value memo">{{customer.memoOrDash}}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="detail-card">
-            <div class="detail-header">
-                <i class="fa-solid fa-user"></i>
-                <h4>{{customer.name}}</h4>
-            </div>
-            <div class="detail-body">
-                <div class="detail-items">
-                    <span class="detail-label">
-                        <i class="fa-solid fa-award"></i>
-                        등급
-                    </span>
-                    <span class="detail-value grade-{{customer.grade}}">
-                        {{customer.grade}}
-                    </span>
-                </div>
-                <div class="detail-items">
-                    <span class="detail-label">
-                        <i class="fa-solid fa-mobile-screen"></i>
-                        연락처
-                    </span>
-                    <span class="detail-value phone">
-                        {{customer.phone}}
-                    </span>
-                </div>
-                <div class="detail-items">
-                    <span class="detail-label">
-                        <i class="fa-solid fa-cake-candles"></i>
-                        생년월일
-                    </span>
-                    <span class="detail-value">
-                        {{customer.birth}}
-                    </span>
-                </div>
-                <div class="detail-items">
-                    <span class="detail-label">
-                        <i class="fa-solid fa-hourglass"></i>
-                        생성일
-                    </span>
-                    <span class="detail-value">
-                        {{customer.createdAt}}
-                    </span>
-                </div>
-                <div class="detail-items-info">
-                    <span class="detail-label-info">
-                        <i class="fa-solid fa-circle-info"></i>
-                        메모
-                    </span>
-                    <span class="detail-value memo">{{customer.memoOrDash}}</span>
+            <div class="detail-right">
+            <!--주문내역-->
+                <div class="detail-card">
+                    <div class="detail-header">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <h4>주문 내역</h4>
+                    </div>
+                    <div class="detail-body">
+                        <div class="detail-items">
+                            <span class="detail-label">
+                                주문번호
+                            </span>
+                            <span class="detail-value grade-{{customer.grade}}">
+                                주문상태
+                            </span>
+                        </div>
+                        <div class="detail-items">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-hourglass"></i>
+                                총금액
+                            </span>
+                            <span class="detail-value">
+                                {{customer.createdAt}}
+                            </span>
+                        </div>
+                        <div class="detail-items">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-hourglass"></i>
+                                주문일
+                            </span>
+                            <span class="detail-value">
+                                {{customer.createdAt}}
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
