@@ -45,7 +45,7 @@ input.has-value {
     padding: 0.1rem 0.5rem;
     border-radius: 999px;
     font-size: 0.7rem;
-    font-weight: 600px;
+    font-weight: 600;
 
     color: var(--color-cyan);
     background: var(--background-blue);
@@ -53,3 +53,78 @@ input.has-value {
     white-space: nowrap;
 }
 
+.order .search-wrapper {
+    flex-direction: column;
+}
+
+.search-box {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.date-separator {
+    display: flex;
+    align-items: center;
+}
+
+.search-box > div {
+    min-width: 250px;
+    flex: 1;
+}
+
+.order .search-wrapper .search-box:first-child {
+    border-bottom: 2px dashed var(--color-light-blue);
+    padding-bottom: 1rem;
+}
+
+.order .category-select i:first-child {
+    margin-right: 0.5rem;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0;
+    position: absolute;
+    right: 1rem;
+    width: 100%;
+    height: 100%;
+}
+
+input[type="date"] {
+    color: var(--color-gray);
+}
+
+input[type="date"]:focus,
+input[type="date"]:valid {
+    color: var(--color-dark-blue);
+}
+
+.update-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px dashed var(--color-light-gray);
+    align-items: center;
+    gap: 5rem;
+}
+
+.order-item {
+    padding-top: 0;
+}
+
+.item-add {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+
+.btn-add {
+    padding: 0.6rem 1.3rem;
+    background: var(--color-blue);
+}
+
+.btn-add:hover {
+    background: var(--color-light-blue);
+}

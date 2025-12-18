@@ -37,18 +37,24 @@
                             메모
                         </label>
                         <input type="text" id="memo" name="memo"
-                               placeholder="메모를 작성해주세요" class="update-value">
+                               placeholder="메모를 작성해주세요" class="update-value" {{#order.memo}}value="{{order.memo}}"{{/order.memo}}>
                     </div>
 
-                    <div style="padding: 24px 0px; flex-direction: column; gap: 1rem;">
-                        <label for="items" class="update-label">
-                            <i class="fa-solid fa-circle-info"></i>
-                            세탁 물품
-                        </label>
+                    <div id="items-container" style="padding: 24px 0; flex-direction: column; gap: 1rem;">
+                        <div class="item-add">
+                            <label for="items" class="update-label">
+                                <i class="fa-solid fa-circle-info"></i>
+                                세탁 물품
+                            </label>
+                            <button type="button" class="btn btn-add" onclick="addItem()">
+                                + 세탁 물품 추가
+                            </button>
+                        </div>
                         {{#items}}
-                            <div style="width: 100%; padding: 1.5rem 2rem">
+                            <div style="width: 100%; padding: 1.5rem 2rem; border-bottom: 1px dashed var(--color-light-gray);" >
+                                <input type="hidden" name="items[{{index}}].laundryItemId" value="{{laundryItemId}}">
 
-                                <div class="update-item">
+                                <div class="update-item order-item" style="border-bottom: none">
                                     <label class="update-value" style="font-weight: 500;">{{laundryItemName}}</label>
                                     <input
                                             class="update-value"
@@ -58,33 +64,43 @@
                                             value="{{quantity}}">
                                 </div>
 
-                                {{#options}}
-                                    <div class="update-item option-row"
-                                        style="display: flex; align-items: center;">
-                                        <span class="option-label">옵션</span>
-                                        <label style="
+                                <div style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 0.75rem;
+                                    padding: 1rem 0;
+                                ">
+                                    <span class="option-label" style="width: fit-content">옵션</span>
+                                    <div style="
+                                        display: flex;
+                                        flex-wrap: wrap;
+                                        gap: 0.6rem 1rem;
+                                    ">
+                                        {{#options}}
+                                            <label style="
                                             display: flex;
                                             align-items: center;
                                             white-space: nowrap;
                                             gap: 0.3rem;
                                         ">
-                                            <input
-                                                    type="checkbox"
-                                                    name="items[{{index}}].optionIds"
-                                                    value="{{optionName}}"
-                                                    checked>
-                                            {{optionName}}
-                                        </label>
+                                                <input
+                                                        type="checkbox"
+                                                        name="items[{{index}}].optionIds"
+                                                        value="{{id}}"
+                                                        {{#checked}}checked{{/checked}}
+                                                >
+                                                {{name}} (+{{extraPrice}})
+                                            </label>
+                                        {{/options}}
                                     </div>
-                                {{/options}}
-
+                                </div>
                             </div>
                         {{/items}}
                     </div>
 
                 </div>
                 <div class="bottom-buttons">
-                    <a href="/laundry-item/" class="btn btn-back">취소</a>
+                    <a href="/order/{{order.orderId}}" class="btn btn-back">취소</a>
                     <button type="submit" class="btn btn-create">수정 완료</button>
                 </div>
             </form>
@@ -92,5 +108,120 @@
     </div>
 </div>
 
+<script id="laundry-items-data" type="application/json">
+{{& laundryItemJson}}
+
+</script>
+
+<script id="laundry-options-data" type="application/json">
+{{& laundryOptionsJson}}
+
+</script>
+
+<script>
+    const laundryItems = JSON.parse(
+            document.getElementById("laundry-items-data").textContent
+    );
+
+    const allOptions = JSON.parse(
+            document.getElementById("laundry-options-data").textContent
+    );
+
+    let itemIndex = {{itemsSize}};
+
+    function addItem() {
+        const container = document.getElementById("items-container");
+
+        const optionHtml = allOptions.map(option => `
+                <label style="display:flex; align-items:center; gap:0.3rem; white-space:nowrap;">
+                  <input type="checkbox"
+                         name="items[${itemIndex}].optionIds"
+                         value="${option.id}">
+                  ${option.name} (+${option.extraPrice})
+                </label>
+              `).join("");
+
+        const laundryItemDropdown = laundryItems.map(item => `
+                <li data-id="${item.id}">${item.category}</li>
+              `).join("");
+
+        const html = `
+          <div style="width:100%; padding:1.5rem 2rem">
+            <div class="update-item" style="border-bottom: none;">
+
+              <input type="hidden"
+                     name="items[${itemIndex}].laundryItemId"
+                     value="items[${itemIndex}].laundryItemName">
+
+              <div class="update-value category">
+                <div class="category-select">
+                  <span class="category-selected">세탁물 선택</span>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <ul class="category-dropdown">
+                  ${laundryItemDropdown}
+                </ul>
+              </div>
+
+              <input class="update-value"
+                     type="number"
+                     name="items[${itemIndex}].quantity"
+                     min="1"
+                     value="items[${itemIndex}].quantity">
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem 1rem; padding-top:0.6rem;">
+              ${optionHtml}
+            </div>
+          </div>
+      `;
+
+        container.insertAdjacentHTML("beforeend", html);
+
+        bindLaundryDropdown(container.lastElementChild);
+        itemIndex++;
+    }
+
+    function bindLaundryDropdown(itemEl) {
+        const categorySelect = itemEl.querySelector(".category-select");
+        const categoryDropdown = itemEl.querySelector(".category-dropdown");
+        const categorySelected = itemEl.querySelector(".category-selected");
+        const categoryItems = itemEl.querySelectorAll(".category-dropdown li");
+
+        const hiddenInput = itemEl.querySelector(
+                "input[name^='items'][name$='.laundryItemId']"
+        );
+
+        if (categorySelect && categoryDropdown) {
+            categoryItems.forEach(li => {
+                li.classList.add("selected");
+            });
+        }
+
+        categorySelect.addEventListener("click", (e) => {
+            e.stopPropagation();
+            categorySelected.classList.toggle("active");
+            categoryDropdown.classList.toggle("active");
+        });
+
+        categoryItems.forEach(li => {
+            li.addEventListener("click", (e) => {
+                e.stopPropagation();
+
+                categorySelected.textContent = li.textContent;
+                hiddenInput.value = li.dataset.id;
+
+                categoryItems.forEach(i => i.classList.remove("selected"));
+                li.classList.add("selected");
+
+                categoryDropdown.classList.remove("active");
+            });
+        });
+
+        categorySelect.addEventListener("click", (e) => {
+            e.stopPropagation();
+        })
+    }
+</script>
 
 {{> layout/footer}}
