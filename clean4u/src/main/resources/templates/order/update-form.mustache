@@ -17,16 +17,16 @@
                             세탁 상태
                         </span>
                         <div class="update-value category">
-                            <input type="hidden" name="status" id="category" value="{{order.status}}">
+                            <input type="hidden" name="status" id="status" value="{{order.status}}">
                             <div class="category-select" data-selected="{{order.status}}">
                                 <span class="category-selected">{{order.status.displayName}}</span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <ul class="category-dropdown" data-selected="{{order.status}}">
-                                <li data-type="RECEIVED">접수</li>
-                                <li data-type="WASHING">세탁중</li>
-                                <li data-type="DRYING">건조중</li>
-                                <li data-type="COMPLETED">세탁완료</li>
+                                <li data-id="RECEIVED" data-type="RECEIVED">접수</li>
+                                <li data-id="WASHING" data-type="WASHING">세탁중</li>
+                                <li data-id="DRYING" data-type="DRYING">건조중</li>
+                                <li data-id="COMPLETED" data-type="COMPLETED">세탁완료</li>
                             </ul>
                         </div>
                     </div>

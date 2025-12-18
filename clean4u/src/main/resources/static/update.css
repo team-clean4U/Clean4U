@@ -19,7 +19,6 @@
     box-shadow: 0 10px 40px var(--shadow);
     border: 2px solid var(--color-light-blue);
     height: auto;
-    overflow: hidden;
 }
 
 .update-header {
@@ -119,101 +118,6 @@
     color: var(--color-cyan);
     font-size: 1.2rem;
     font-weight: 800;
-}
-
-.update-value.category {
-    position: relative;
-    width: 100%;
-}
-
-.update-value.category .category-select {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 3px solid var(--color-light-blue);
-    border-radius: 15px;
-    background: var(--color-white);
-    color: var(--color-dark-blue);
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-}
-
-.update-value.category .category-select:hover {
-    border-color: var(--color-cyan);
-}
-
-.update-value.category .category-select.active {
-    border-color: var(--color-cyan);
-    box-shadow: 0 0 0 3px var(--background-blue);
-}
-
-.update-value.category .category-select .category-selected {
-    flex: 1;
-}
-
-.update-value.category .category-select i {
-    color: var(--color-cyan);
-    transition: transform 0.3s ease;
-}
-
-.update-value.category .category-select.active i {
-    transform: rotate(180deg);
-}
-
-.update-value.category .category-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--color-white);
-    border: 3px solid var(--color-light-blue);
-    border-radius: 15px;
-    box-shadow: 0 8px 30px var(--shadow);
-    z-index: 10;
-    overflow: hidden;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.update-value.category .category-dropdown.active {
-    display: block;
-}
-
-.update-value.category .category-dropdown li {
-    padding: 0.8rem 1rem;
-    color: var(--color-dark-blue);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    border-bottom: 1px solid var(--color-light-gray);
-}
-
-.update-value.category .category-dropdown li:last-child {
-    border-bottom: none;
-}
-
-.update-value.category .category-dropdown li:hover {
-    background: var(--background-blue);
-    color: var(--color-cyan);
-}
-
-.update-value.category .category-dropdown li.selected,
-.update-value.category .category-dropdown[data-selected="TOP"] li[data-type="TOP"],
-.update-value.category .category-dropdown[data-selected="BOTTOM"] li[data-type="BOTTOM"],
-.update-value.category .category-dropdown[data-selected="OUTER"] li[data-type="OUTER"],
-.update-value.category .category-dropdown[data-selected="BEDDING"] li[data-type="BEDDING"],
-.update-value.category .category-dropdown[data-selected="ACCESSORY"] li[data-type="ACCESSORY"],
-.update-value.category .category-dropdown[data-selected="SPECIAL"] li[data-type="SPECIAL"],
-.update-value.category .category-dropdown[data-selected="ETC"] li[data-type="ETC"] {
-    background: var(--color-light-blue);
-    color: var(--color-white);
 }
 
 .bottom-buttons {

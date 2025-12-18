@@ -196,10 +196,10 @@
     transform: translateY(-50%);
 }
 
-.search-category {
+.category-category {
     flex: 1;
 }
 
-.search-category i {
+.update-value.category .category-select i {
     margin-right: 0.5rem;
 }

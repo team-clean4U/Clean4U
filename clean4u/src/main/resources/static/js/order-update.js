@@ -1,61 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    function bindDropdown(wrapper) {
-        const categorySelect = wrapper.querySelector(".category-select");
-        const categoryDropdown = wrapper.querySelector(".category-dropdown");
-        const categorySelected = wrapper.querySelector(".category-selected");
+    function initDropdowns() {
+        if (typeof bindDropdown !== 'function') {
+            setTimeout(initDropdowns, 10);
+            return;
+        }
 
-        const hiddenInput =
-            wrapper.querySelector("input[type='hidden']") ||
-            wrapper.querySelector("input[name='status']");
-
-        if (!categorySelect || !categoryDropdown || !categorySelected) return;
-
-        const items = categoryDropdown.querySelectorAll("li");
-
-        categorySelect.addEventListener("click", (e) => {
-            e.stopPropagation();
-            categoryDropdown.classList.toggle("active");
-        });
-
-        items.forEach(li => {
-            li.addEventListener("click", (e) => {
-                e.stopPropagation();
-
-                categorySelected.textContent = li.textContent;
-
-                if (li.dataset.type) {
-                    hiddenInput.value = li.dataset.type;
-                }
-
-                if (li.dataset.id) {
-                    hiddenInput.value = li.dataset.id;
-                }
-
-                items.forEach(i => i.classList.remove("selected"));
-                li.classList.add("selected");
-
-                categoryDropdown.classList.remove("active");
-            });
-        });
+        const statusWrapper = document.querySelector(".update-value.category");
+        if (statusWrapper) {
+            bindDropdown(statusWrapper);
+        }
     }
 
-    const statusWrapper = document.querySelector(".update-value.category");
-    if (statusWrapper) {
-        bindDropdown(statusWrapper);
-    }
+    initDropdowns();
 
-    const laundryItems = JSON.parse(
-        document.getElementById("laundry-items-data").textContent
-    );
+    const laundryItems = JSON.parse(document.getElementById("laundry-items-data").textContent);
 
-    const allOptions = JSON.parse(
-        document.getElementById("laundry-options-data").textContent
-    );
+    const allOptions = JSON.parse(document.getElementById("laundry-options-data").textContent);
 
-    let itemIndex = Number(
-        document.getElementById("itemsSize").value
-    );
+    let itemIndex = Number(document.getElementById("itemsSize").value);
 
     window.addItem = function () {
         const container = document.getElementById("items-container");
@@ -79,11 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="dynamic-item"
                  style="width:100%; padding:1.5rem 2rem; border-bottom:1px dashed var(--color-light-gray);">
 
-                <input type="hidden"
-                       name="items[${itemIndex}].laundryItemId">
-
                 <div class="update-item order-item" style="border-bottom:none;">
                     <div class="update-value category">
+                    <input type="hidden" name="items[${itemIndex}].laundryItemId">
                         <div class="category-select">
                             <span class="category-selected">세탁물 선택</span>
                             <i class="fa-solid fa-chevron-down"></i>
@@ -108,13 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         container.insertAdjacentHTML("beforeend", html);
 
-        bindDropdown(container.lastElementChild);
+        const newItemWrapper = container.lastElementChild.querySelector(".update-value.category");
+
+        if (newItemWrapper) {
+            if (typeof bindDropdown === 'function') {
+                bindDropdown(newItemWrapper);
+            } else {
+                setTimeout(() => {
+                    if (typeof bindDropdown === 'function') {
+                        bindDropdown(newItemWrapper);
+                    }
+                }, 50);
+            }
+        }
 
         itemIndex++;
     };
-
-    document.addEventListener("click", () => {
-        document.querySelectorAll(".category-dropdown.active")
-            .forEach(el => el.classList.remove("active"));
-    });
 });
