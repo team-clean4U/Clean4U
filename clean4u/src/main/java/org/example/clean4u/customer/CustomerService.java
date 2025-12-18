@@ -18,6 +18,7 @@ public class CustomerService {
     private final CustomerRepository repository;
     private final OrderRepository orderRepository;
 
+    @Transactional
     public Customer save(@Valid CustomerRequest.SaveDTO dto) {
         Customer customer = dto.toEntity();
         return repository.save(customer);
@@ -49,6 +50,7 @@ public class CustomerService {
         return new CustomerResponse.UpdateViewDTO(customer);
     }
 
+    @Transactional
     public CustomerResponse.UpdateDTO update(Long customerId, @Valid CustomerRequest.UpdateDTO updateDTO) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
@@ -58,6 +60,7 @@ public class CustomerService {
         return new CustomerResponse.UpdateDTO(customer);
     }
 
+    @Transactional
     public void delete(Long customerId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
