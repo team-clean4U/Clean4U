@@ -70,6 +70,7 @@
     padding: 1.5rem 0;
     border-bottom: 1px dashed var(--color-light-gray);
     align-items: center;
+    gap: 1rem;
 }
 
 .detail-item:last-child {
@@ -79,6 +80,7 @@
 .detail-label {
     color: var(--color-gray);
     font-weight: 600;
+    min-width: 100px;
 }
 
 .detail-label i {
