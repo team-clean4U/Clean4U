@@ -1,3 +1,21 @@
+.login-container {
+    margin: 0 auto;
+    padding: 2rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.login-card {
+    background: var(--color-white);
+    border-radius: 30px;
+    box-shadow: 0 10px 40px var(--shadow);
+    border: 2px solid var(--color-light-blue);
+    height: auto;
+    width: 50%;
+    min-width: 700px;
+}
+
 .login-title {
     font-size: 2rem;
     font-weight: 700;
@@ -8,6 +26,14 @@
     width: 100%;
     margin-bottom: 1rem;
     color: var(--color-light-blue);
+}
+
+.user-form .detail-label {
+    min-width: 150px;
+}
+
+.user-form input {
+    flex: 1;
 }
 
 .login-footer {
@@ -72,4 +98,34 @@
     display: grid;
     gap: 1.7rem;
     grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 1024px) {
+    .login-card {
+        min-width: 0;
+        width: 70%;
+    }
+
+    .user-form .detail-label {
+        min-width: 100px;
+    }
+}
+
+@media (max-width: 784px) {
+    .login-card {
+        width: 90%;
+    }
+
+    .login-card .detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .login-card input {
+        width: 100%;
+    }
+
+    .login-footer .btn {
+        width: 100%;
+    }
 }

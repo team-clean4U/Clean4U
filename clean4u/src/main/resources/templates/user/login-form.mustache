@@ -2,49 +2,44 @@
 
 {{> layout/header}}
 
-<div class="container">
-    <div class="detail-container">
-        <div class="detail-container-content">
+<div class="login-container">
+    <div class="login-card">
+        <div class="detail-header">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <h2 class="login-title">로그인</h2>
+        </div>
 
-            <div class="detail-card">
-                <div class="detail-header">
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    <h2 class="login-title">로그인</h2>
+        <div class="detail-body">
+            {{#msg}}
+                <div class="status-badge status-inactive" style="margin-bottom: 1rem;">
+                    {{msg}}
+                </div>
+            {{/msg}}
+
+            <form action="/login" method="post" class="user-form">
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fa-solid fa-user"></i> 아이디
+                    </div>
+                    <input type="text" name="username" placeholder="아이디 입력" required>
                 </div>
 
-                <div class="detail-body">
-                    {{#msg}}
-                        <div class="status-badge status-inactive" style="margin-bottom: 1rem;">
-                            {{msg}}
-                        </div>
-                    {{/msg}}
-
-                    <form action="/login" method="post">
-                        <div class="detail-item">
-                            <div class="detail-label">
-                                <i class="fa-solid fa-user"></i> 아이디
-                            </div>
-                            <input type="text" name="username" placeholder="아이디 입력" required>
-                        </div>
-
-                        <div class="detail-item">
-                            <div class="detail-label">
-                                <i class="fa-solid fa-lock"></i> 비밀번호
-                            </div>
-                            <input type="password" name="password" placeholder="비밀번호 입력" required>
-                        </div>
-
-                        <div class="login-footer">
-                            <button type="submit" class="btn btn-create">
-                                <span>✔</span> 로그인
-                            </button>
-                        </div>
-                    </form>
+                <div class="detail-item">
+                    <div class="detail-label">
+                        <i class="fa-solid fa-lock"></i> 비밀번호
+                    </div>
+                    <input type="password" name="password" placeholder="비밀번호 입력" required>
                 </div>
-            </div>
 
+                <div class="login-footer">
+                    <button type="submit" class="btn btn-create">
+                        <span>✔</span> 로그인
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+
 </div>
 
 {{> layout/footer}}
