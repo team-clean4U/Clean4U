@@ -51,17 +51,35 @@
                             </button>
                         </div>
                         {{#items}}
-                            <div style="width: 100%; padding: 1.5rem 2rem; border-bottom: 1px dashed var(--color-light-gray);" >
+                            <div class="update-item-list" data-index="{{index}}" style="width: 100%; padding: 1.5rem 2rem; border-bottom: 1px dashed var(--color-light-gray);" >
                                 <input type="hidden" name="items[{{index}}].laundryItemId" value="{{laundryItemId}}">
-
-                                <div class="update-item order-item" style="border-bottom: none">
-                                    <label class="update-value" style="font-weight: 500;">{{laundryItemName}}</label>
-                                    <input
-                                            class="update-value"
-                                            type="number"
-                                            name="items[{{index}}].quantity"
-                                            min="1"
-                                            value="{{quantity}}">
+                                <div style="display: flex; justify-content: space-between; gap: 1rem;">
+                                    <div class="update-item order-item"
+                                         style="padding-top: 0; border-bottom: none; display: flex; justify-content: space-between; align-items: center; width: 90%;">
+                                        <label class="update-value" style="font-weight: 500;">{{laundryItemName}}</label>
+                                        <input
+                                                style="width: 90px;"
+                                                class="update-value"
+                                                type="number"
+                                                name="items[{{index}}].quantity"
+                                                min="1"
+                                                value="{{quantity}}">
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-delete"
+                                                type="button"
+                                                style="
+                                                    margin-top: 6px;
+                                                    height: 36px;
+                                                    padding: 0 12px;
+                                                    font-size: 14px;
+                                                    display: flex;
+                                                    align-items: center;
+                                                    gap: 6px;
+                                                    flex-shrink: 0;"
+                                                onclick="removeItem(this)"
+                                        ><i class="fa-solid fa-trash"></i>삭제</button>
+                                    </div>
                                 </div>
 
                                 <div style="

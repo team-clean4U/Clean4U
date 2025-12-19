@@ -6,10 +6,12 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception400;
+import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.laundryItem.LaundryItemResponse;
 import org.example.clean4u.laundryItem.LaundryItemService;
 import org.example.clean4u.laundryOption.LaundryOptionService;
+import org.example.clean4u.order.orderItem.OrderItemRequest;
 import org.example.clean4u.order.orderItem.OrderItemResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +31,7 @@ public class OrderController {
     private final LaundryItemService laundryItemService;
     private final LaundryOptionService laundryOptionService;
     private final ObjectMapper objectMapper;
+    private final OrderRepository orderRepository;
 
     // 주문 생성 화면 요청 - http://localhost:8080/order/save
     // 인증(o), 인가(x)
