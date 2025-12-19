@@ -1,11 +1,11 @@
 insert into laundry_item_tb(name, category, base_price, description, created_at) values
-                                                                                     ('셔츠', 'TOP', 3000, '일상적으로 착용하는 일반 셔츠 세탁입니다.', now()),
-                                                                                     ('바지', 'BOTTOM', 4000, '면바지, 슬랙스 등 일반 바지 세탁입니다.', now()),
-                                                                                     ('코트', 'OUTER', 8000, '겨울용 코트 및 두꺼운 아우터 세탁입니다.', now()),
-                                                                                     ('이불', 'BEDDING', 12000, '이불, 담요 등 침구류 세탁 서비스입니다.', now()),
-                                                                                     ('모자', 'ACCESSORY', 2000, '캡모자, 비니 등 모자류 세탁입니다.', now()),
-                                                                                     ('드라이클리닝', 'SPECIAL', 20000, '드라이클리닝이 필요한 의류 전용 세탁입니다.', now()),
-                                                                                     ('기타', 'ETC', 5000, '분류되지 않은 기타 세탁물 항목입니다.', now());
+     ('셔츠', 'TOP', 3000, '일상적으로 착용하는 일반 셔츠 세탁입니다.', now()),
+     ('바지', 'BOTTOM', 4000, '면바지, 슬랙스 등 일반 바지 세탁입니다.', now()),
+     ('코트', 'OUTER', 8000, '겨울용 코트 및 두꺼운 아우터 세탁입니다.', now()),
+     ('이불', 'BEDDING', 12000, '이불, 담요 등 침구류 세탁 서비스입니다.', now()),
+     ('모자', 'ACCESSORY', 2000, '캡모자, 비니 등 모자류 세탁입니다.', now()),
+     ('드라이클리닝', 'SPECIAL', 20000, '드라이클리닝이 필요한 의류 전용 세탁입니다.', now()),
+     ('기타', 'ETC', 5000, '분류되지 않은 기타 세탁물 항목입니다.', now());
 
 insert into laundry_option_tb(name, extra_price, description, is_active, created_at) values
          ('표백', 2000, '표백 처리를 통해 얼룩과 변색을 개선합니다.', true, now()),
@@ -14,14 +14,14 @@ insert into laundry_option_tb(name, extra_price, description, is_active, created
          ('얼룩 집중 제거', 4000, '목, 소매 등 심한 얼룩을 집중적으로 제거합니다.', false, now()),
          ('저자극 세탁', 3000, '피부 자극을 줄인 저자극 세탁 옵션입니다.', false, now());
 
-insert into supply_item_tb(name, unit, stock_quantity, safety_stock) values
-                                                           ('세탁세제', 'ml', 5, 10),
-                                                           ('섬유유연제', 'ml', 30, 10),
-                                                           ('표백제', 'ml', 5, 3),
-                                                           ('비닐포장지', 'ea', 100, 100),
-                                                           ('종이포장봉투', 'ea', 500, 100),
-                                                           ('옷걸이', 'ea', 300, 100),
-                                                           ('세탁망', 'ea', 150, 100);
+insert into supply_item_tb(name, unit, stock_quantity, safety_stock, is_active, created_at) values
+                           ('세탁세제', '병', 5, 10, true, now()),
+                           ('섬유유연제', '병', 30, 10, false, now()),
+                           ('표백제', '병', 5, 3, false, now()),
+                           ('비닐포장지', '개', 100, 100, true, now()),
+                           ('종이포장봉투', '개', 500, 100, true, now()),
+                           ('옷걸이', '개', 300, 100, false, now()),
+                           ('세탁망', '개', 150, 100, true, now());
 
 INSERT INTO employee_tb
 (name, username, password, email, user_role, user_status)
