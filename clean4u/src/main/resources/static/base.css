@@ -29,6 +29,8 @@
     --action-edit-hover: #FFA726;
     --action-delete: #EF5350;
     --action-delete-hover: #E53935;
+    --action-active: #66BB6A;
+    --action-active-hover: #4CAF50;
 
     --badge-warning: #FF0000;
     --badge-safe: #33FF33;

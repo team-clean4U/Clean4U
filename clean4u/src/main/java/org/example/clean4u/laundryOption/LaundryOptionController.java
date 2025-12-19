@@ -81,9 +81,16 @@ public class LaundryOptionController {
     }
 
     // http://localhost:8080/laundry-option/{laundryOptionId}/delete
-    @PostMapping("/laundry-option/{laundryOptionId}/delete")
-    public String delete(@PathVariable Long laundryOptionId) {
-        service.delete(laundryOptionId);
-        return "redirect:/laundry-option";
+    @PostMapping("/laundry-option/{laundryOptionId}/deactivate")
+    public String deactivate(@PathVariable Long laundryOptionId) {
+        service.deactivate(laundryOptionId);
+        return "redirect:/laundry-option/" + laundryOptionId;
+    }
+
+    // http://localhost:8080/laundry-option/{laundryOptionId}/delete
+    @PostMapping("/laundry-option/{laundryOptionId}/activate")
+    public String activate(@PathVariable Long laundryOptionId) {
+        service.activate(laundryOptionId);
+        return "redirect:/laundry-option/" + laundryOptionId;
     }
 }

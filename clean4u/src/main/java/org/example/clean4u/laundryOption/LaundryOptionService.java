@@ -58,10 +58,17 @@ public class LaundryOptionService {
     }
 
     @Transactional
-    public void delete(Long laundryOptionId) {
-        repository.findById(laundryOptionId)
+    public void deactivate(Long laundryOptionId) {
+        LaundryOption laundryOption = repository.findById(laundryOptionId)
                 .orElseThrow(() -> new Exception404("해당 세탁물 옵션을 찾을 수 없습니다."));
-        repository.deleteById(laundryOptionId);
+        laundryOption.updateIsActive(false);
+    }
+
+    @Transactional
+    public void activate(Long laundryOptionId) {
+        LaundryOption laundryOption = repository.findById(laundryOptionId)
+                .orElseThrow(() -> new Exception404("해당 세탁물 옵션을 찾을 수 없습니다."));
+        laundryOption.updateIsActive(true);
     }
 
     public List<LaundryOptionResponse.ListDTO> findByIsActive(Boolean isActive) {
