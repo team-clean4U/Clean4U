@@ -24,16 +24,18 @@
 }
 
 .supply-item .update-item{
-    gap: 7rem;
+    gap: 0.5rem;
 }
 
 .supply-item {
     width: 45%;
+    min-width: 600px;
 }
 
 @media (max-width: 1024px) {
     .supply-item {
-        width: 50%;
+        width: 70%;
+        min-width: 0;
     }
 }
 
