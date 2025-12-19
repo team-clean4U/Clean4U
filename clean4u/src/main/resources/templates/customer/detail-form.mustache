@@ -5,9 +5,7 @@
 <div class="detail-container">
     <div class="detail-container-content">
         <!--버튼-->
-        <div class="detail-layout">
-            <div class="detail-left">
-                <div class="buttons">
+                <div class="customer-buttons">
                     <form action="/customer/list" method="get">
                         <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
                     </form>
@@ -20,6 +18,8 @@
                         </form>
                     </div>
                 </div>
+        <div class="detail-layout">
+            <div class="detail-left">
                 <!--고객상세내역-->
                 <div class="detail-card">
                     <div class="detail-header">
@@ -80,33 +80,29 @@
                         <i class="fa-solid fa-cart-shopping"></i>
                         <h4>주문 내역</h4>
                     </div>
-                    <div class="detail-body">
-                        <div class="detail-items">
-                            <span class="detail-label">
-                                주문번호
-                            </span>
-                            <span class="detail-value grade-{{customer.grade}}">
-                                주문상태
-                            </span>
-                        </div>
-                        <div class="detail-items">
-                            <span class="detail-label">
-                                <i class="fa-solid fa-hourglass"></i>
-                                총금액
-                            </span>
-                            <span class="detail-value">
-                                {{customer.createdAt}}
-                            </span>
-                        </div>
-                        <div class="detail-items">
-                            <span class="detail-label">
-                                <i class="fa-solid fa-hourglass"></i>
-                                주문일
-                            </span>
-                            <span class="detail-value">
-                                {{customer.createdAt}}
-                            </span>
-                        </div>
+                    <div class="detail-bodies">
+                        <table class="table-container">
+                            <tbody>
+                                {{#customer.orders}}
+                                <tr>
+                                    <td class="order-no">주문#{{orderNo}}</td>
+                                    <td>
+                                        <span class="status-badge {{status.cssClass}}">
+                                            {{status.displayName}}
+                                        </span>
+                                    </td>
+                                    <td class="total-price">￦ {{totalPrice}}</td>
+                                    <td class="order-date">{{orderDate}}</td>
+                                </tr>
+                                {{/customer.orders}}
+
+                                {{^customer.orders}}
+                                    <div class="no-order">
+                                        <i class="fa-solid fa-cart-arrow-down"></i>주문 내역이 없습니다.
+                                    </div>
+                                {{/customer.orders}}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
