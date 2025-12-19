@@ -80,9 +80,16 @@ public class SupplyItemController {
     }
 
     // http://localhost:8080/supply-item/{supplyItemId}/delete
-    @PostMapping("/supply-item/{supplyItemId}/delete")
-    public String delete(@PathVariable Long supplyItemId) {
-        service.delete(supplyItemId);
-        return "redirect:/supply-item";
+    @PostMapping("/supply-item/{supplyItemId}/deactivate")
+    public String deactivate(@PathVariable Long supplyItemId) {
+        service.deactivate(supplyItemId);
+        return "redirect:/supply-item/" + supplyItemId;
+    }
+
+    // http://localhost:8080/supply-item/{supplyItemId}/delete
+    @PostMapping("/supply-item/{supplyItemId}/activate")
+    public String activate(@PathVariable Long supplyItemId) {
+        service.activate(supplyItemId);
+        return "redirect:/supply-item/" + supplyItemId;
     }
 }

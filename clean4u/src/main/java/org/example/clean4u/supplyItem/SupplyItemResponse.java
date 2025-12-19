@@ -12,6 +12,7 @@ public class SupplyItemResponse {
         private Integer stockQuantity;
         private Integer safetyStock;
         private Boolean isLowStock;
+        private Boolean isActive;
 
         public ListDTO(SupplyItem supplyItem) {
             this.id = supplyItem.getId();
@@ -20,6 +21,7 @@ public class SupplyItemResponse {
             this.stockQuantity = supplyItem.getStockQuantity();
             this.safetyStock = supplyItem.getSafetyStock();
             this.isLowStock = supplyItem.getStockQuantity() <= supplyItem.getSafetyStock();
+            this.isActive = supplyItem.getIsActive();
         }
     }
 
@@ -31,6 +33,7 @@ public class SupplyItemResponse {
         private Integer stockQuantity;
         private Integer safetyStock;
         private Boolean isLowStock;
+        private Boolean isActive;
         private String createdAt;
         private String updatedAt;
 
@@ -41,6 +44,7 @@ public class SupplyItemResponse {
             this.stockQuantity = supplyItem.getStockQuantity();
             this.safetyStock = supplyItem.getSafetyStock();
             this.isLowStock = supplyItem.getStockQuantity() <= supplyItem.getSafetyStock();
+            this.isActive = supplyItem.getIsActive();
             this.createdAt = DateUtil.timestampFormat(supplyItem.getCreatedAt());
             this.updatedAt = DateUtil.timestampFormat(supplyItem.getUpdatedAt());
         }
@@ -53,6 +57,7 @@ public class SupplyItemResponse {
         private String unit;
         private Integer stockQuantity;
         private Integer safetyStock;
+        private Boolean isActive;
 
         public UpdateFormDTO(SupplyItem supplyItem) {
             this.id = supplyItem.getId();
@@ -60,6 +65,7 @@ public class SupplyItemResponse {
             this.unit = supplyItem.getUnit();
             this.stockQuantity = supplyItem.getStockQuantity();
             this.safetyStock = supplyItem.getSafetyStock();
+            this.isActive = supplyItem.getIsActive();
         }
     }
 }
