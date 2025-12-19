@@ -37,7 +37,7 @@ public class CustomerService {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
-        List<Order> orders = orderRepository.findByCustomerId(customerId);
+        List<Order> orders = orderRepository.findByCustomerIdOrderByOrderDateDesc(customerId);
 
         return new CustomerResponse.DetailDTO(customer, orders);
     }
@@ -46,7 +46,7 @@ public class CustomerService {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
-        List<Order> orders = orderRepository.findByCustomerId(customerId);
+        List<Order> orders = orderRepository.findByCustomerIdOrderByOrderDateDesc(customerId);
 
         return new CustomerResponse.UpdateDTO(customer);
     }
