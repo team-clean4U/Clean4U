@@ -3,92 +3,121 @@
 {{> layout/header}}
 
 <div class="container">
-    <div class="section-header">
+    <div class="section-header admin-header">
         <h2 class="section-title">
-            <i class="bi bi-speedometer2"></i>
+            <i class="fa-solid fa-home"></i>
             직원 대시보드
         </h2>
         <a href="/employee/update" class="btn btn-edit">
-            <i class="bi bi-person-gear"></i>
+            <i class="fa-solid fa-user"></i>
             내 정보 수정
         </a>
     </div>
 
-    <div class="card-list">
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-person-check"></i>
-                <h4>오늘 근무</h4>
+    <div class="dashboard-list">
+        <div class="dashboard-group">
+            <div class="group-title">
+                <h3>
+                    <i class="fa-solid fa-users"></i>
+                    근무 정보
+                </h3>
             </div>
-            <div class="card-info">
-                <span class="info-label">근무 여부</span>
-                <span class="info-value">{{! myShift }} </span>
+            <div class="card-list-two">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-user-check"></i>
+                        <h4>오늘 근무</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">근무 여부</span>
+                        <span class="info-value">{{! myShift }} </span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <h4>교체 근무</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">담당 건수</span>
+                        <span class="info-value">{{! myOverrideCount }} 건</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-arrow-repeat"></i>
-                <h4>교체 근무</h4>
+        <div class="dashboard-group">
+            <div class="group-title">
+                <h3>
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    주문 현황
+                </h3>
             </div>
-            <div class="card-info">
-                <span class="info-label">담당 건수</span>
-                <span class="info-value">{{! myOverrideCount }} 건</span>
+            <div class="card-list">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                        <h4>처리 중 주문</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">현재 진행</span>
+                        <span class="info-value">{{! myProcessingOrders }} 건</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <h4>완료 주문</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">오늘 완료</span>
+                        <span class="info-value">{{! myCompletedOrders }} 건</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-plus"></i>
+                        <h4>신규 주문</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">접수된 주문</span>
+                        <span class="info-value">{{! myTodayOrders }} 건</span>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="dashboard-group">
+            <div class="group-title">
+                <h3>
+                    <i class="fa-solid fa-bell"></i>
+                    매장 알림
+                </h3>
+            </div>
+            <div class="card-list-two">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-star"></i>
+                        <h4>주요 고객</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">VIP/단골</span>
+                        <span class="info-value">{{! importantCustomers }} 명</span>
+                    </div>
+                </div>
 
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-hourglass-split"></i>
-                <h4>처리 중 주문</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">현재 진행</span>
-                <span class="info-value">{{! myProcessingOrders }} 건</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-check-circle"></i>
-                <h4>완료 주문</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">오늘 완료</span>
-                <span class="info-value">{{! myCompletedOrders }} 건</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-bag-plus"></i>
-                <h4>신규 주문</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">접수된 주문</span>
-                <span class="info-value">{{! myTodayOrders }} 건</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-star"></i>
-                <h4>주요 고객</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">VIP/단골</span>
-                <span class="info-value">{{! importantCustomers }} 명</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-box-seam"></i>
-                <h4>재고 알림</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">부족 자재</span>
-                <span class="info-value">{{! stockAlerts }} 건</span>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-box-open"></i>
+                        <h4>재고 알림</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">부족 자재</span>
+                        <span class="info-value">{{! stockAlerts }} 건</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
