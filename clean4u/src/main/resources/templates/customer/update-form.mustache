@@ -17,27 +17,35 @@
                             <i class="fa-solid fa-award"></i>
                             등급
                         </label>
-                        <span class="update-value grade-{{customer.grade}}">
-                            {{customer.grade}}
-                        </span>
+                        <div class="update-grade">
+                            <span class="update-value-grade grade-{{customer.grade}}">
+                                {{customer.grade}}
+                            </span>
+                        </div>
                     </div>
                     <div class="update-item">
                         <label for="phone" class="update-label">
                             <i class="fa-solid fa-mobile-screen"></i>
                             연락처:
                         </label>
-                        <input type="text" id="phone" name="phone"
-                               placeholder="연락처를 입력해주세요." class="update-value price"
-                               value="{{customer.phone}}">
+                        <div class="input-small">
+                            <input type="text" id="phone" name="phone"
+                                   placeholder="연락처를 입력해주세요" class="update-value-items"
+                                   value="{{customer.phone}}">
+                            <small class="input-instruction">ex) 010-0000-0000</small>
+                        </div>
                     </div>
                     <div class="update-item">
                         <label for="birth" class="update-label">
                             <i class="fa-solid fa-cake-candles"></i>
                             생년월일:
                         </label>
-                        <input type="date" id="birth" name="birth"
-                               class="update-value price"
-                               value="{{customer.birth}}">
+                        <div class="input-small">
+                            <input type="text" id="birth" name="birth"
+                                   class="update-value-items"
+                                   value="{{customer.birth}}">
+                            <small class="input-instruction">ex) 2000-01-01 </small>
+                        </div>
                     </div>
                     <div class="update-item">
                         <label for="memo" class="update-label">

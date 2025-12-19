@@ -6,6 +6,21 @@
     font-size: 1rem;
 }
 
+.update-value-grade {}
+
+.update-value-items {
+    color: var(--color-dark-blue);
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.update-grade {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .grade-NEW {
     background: var(--color-cream-blue);
     border-radius: 50px;
@@ -58,7 +73,19 @@
 
 .detail-right {
     width: 500px;
-    margin-top: 70px;
+}
+
+.detail-bodies {
+    padding: 0.5rem 1rem;
+}
+
+.customer-buttons {
+    display: flex;
+    margin-bottom: 0.5rem;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 0.85rem;
+    width: 500px;
 }
 
 .detail-items {
@@ -107,6 +134,53 @@
     white-space: pre-wrap;
 }
 
+.table-container {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 5px;
+}
+
+table tr {
+    margin-bottom: 1px solid var(--color-cyan);
+}
+
+table td {
+    text-align: center;
+    padding: 0.5rem;
+    border-top: 1px solid var(--color-cyan);
+    border-bottom: 1px solid var(--color-cyan);
+}
+
+.order-no {
+    width: 25%;
+    color: var(--color-dark-blue);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.status-badges {
+    width: 20%;
+    border: none;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 1rem;
+    color: white;
+}
+
+.total-price {
+    width: 25%;
+    color: var(--color-cyan);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.order-date {
+    width: 30%;
+    font-size: 1rem;
+    color: var(--color-gray);
+}
+
+
 /* create-form */
 .btn-customer {
     width: 100%;
@@ -126,6 +200,30 @@
     text-wrap: nowrap;
 }
 
+.input-small {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.input-instruction {
+    color: var(--color-gray);
+    margin-top: 10px;
+}
+
 .create-label {
     width: 200px;
+}
+
+.no-order {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-light-blue);
+    text-align: center;
+    padding: 5rem;
+}
+
+.no-order i {
+    color: var(--color-blue);
+    margin-right: 0.5rem;
 }

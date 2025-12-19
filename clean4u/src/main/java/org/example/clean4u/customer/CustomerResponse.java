@@ -6,6 +6,7 @@ import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderStatus;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerResponse {
@@ -67,10 +68,13 @@ public class CustomerResponse {
             this.phone = customer.getPhone();
             this.createdAt = DateUtil.timestampFormat(customer.getCreatedAt());
             this.memo = customer.getMemo();
-            if (orders != null) {
-                this.orders = orderList.stream()
-                        .map(OrderDTO::new)
-                        .toList();
+
+            if (orderList != null && !orderList.isEmpty()) {
+                int seq = 1;
+                this.orders = new ArrayList<>();
+                for (Order order: orderList) {
+                    this.orders.add(new OrderDTO(order, seq++));
+                }
             }
         }
         public String getMemoOrDash() {
@@ -80,12 +84,14 @@ public class CustomerResponse {
 
     @Data
     public static class OrderDTO {
+        private int orderNo;
         private Long orderId;
         private LocalDate orderDate;
         private OrderStatus status;
         private Integer totalPrice;
 
-        public OrderDTO(Order order) {
+        public OrderDTO(Order order, int orderNo) {
+            this.orderNo = orderNo;
             this.orderId = order.getId();
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();
