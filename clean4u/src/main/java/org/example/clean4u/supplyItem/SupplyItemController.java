@@ -27,12 +27,18 @@ public class SupplyItemController {
         List<SupplyItemResponse.ListDTO> supplyItemList;
         if (lowStock != null && lowStock) {
             supplyItemList = service.findLowStockItems();
+        } else if (lowStock != null) {
+            supplyItemList = service.findSafetyStockItems();
         } else if (name != null && !name.isBlank()) {
             supplyItemList = service.findByNameContaining(name);
         } else {
             supplyItemList = service.getAllSupplyItems();
         }
         model.addAttribute("supplyItemList", supplyItemList);
+        model.addAttribute("name", name == null ? "" : name);
+        model.addAttribute("lowStock", lowStock);
+        model.addAttribute("lowStockTrue", Boolean.TRUE.equals(lowStock));
+        model.addAttribute("lowStockFalse", Boolean.FALSE.equals(lowStock));
         return "supplyItem/list-form";
     }
 

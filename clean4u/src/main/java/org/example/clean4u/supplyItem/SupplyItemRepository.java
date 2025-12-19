@@ -13,6 +13,9 @@ public interface SupplyItemRepository extends JpaRepository<SupplyItem, Long> {
     @Query("SELECT si FROM SupplyItem si WHERE si.stockQuantity <= si.safetyStock")
     List<SupplyItem> findLowStockItems();
 
+    @Query("SELECT si FROM SupplyItem si WHERE si.stockQuantity > si.safetyStock")
+    List<SupplyItem> findSafetyStockItems();
+
     List<SupplyItem> findByNameContaining(String name);
 
     Optional<SupplyItem> findByName(String name);
