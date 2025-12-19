@@ -78,12 +78,21 @@
     background: var(--action-delete);
 }
 
+.btn-activate {
+    padding: 0.5rem 1rem;
+    background: var(--action-active);
+}
+
 .btn-edit:hover {
     background: var(--action-edit-hover);
 }
 
 .btn-delete:hover {
     background: var(--action-delete-hover);
+}
+
+.btn-activate:hover {
+    background: var(--action-active-hover);
 }
 
 .btn-back {
