@@ -78,4 +78,11 @@ public class SupplyItemService {
                 .map(SupplyItemResponse.ListDTO::new)
                 .collect(Collectors.toList());
     }
+
+    public List<SupplyItemResponse.ListDTO> findSafetyStockItems() {
+        List<SupplyItem> supplyItemList = repository.findSafetyStockItems();
+        return supplyItemList.stream()
+                .map(SupplyItemResponse.ListDTO::new)
+                .collect(Collectors.toList());
+    }
 }
