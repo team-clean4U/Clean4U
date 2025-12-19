@@ -42,8 +42,12 @@ function bindDropdown(wrapper) {
             const selectedText = li.textContent;
 
             if (categoryInput) {
-                if (selectedType) {
-                    categoryInput.value = selectedType;
+                if (selectedType !== undefined) {
+                    if (selectedType === "") {
+                        categoryInput.removeAttribute("value");
+                    } else {
+                        categoryInput.value = selectedType;
+                    }
                 } else if (selectedId) {
                     categoryInput.value = selectedId;
                 }
@@ -51,8 +55,12 @@ function bindDropdown(wrapper) {
 
             categorySelected.textContent = selectedText;
 
-            if (selectedType) {
-                categoryDropdown.setAttribute("data-selected", selectedType);
+            if (selectedType !== undefined) {
+                if (selectedType === "") {
+                    categoryDropdown.removeAttribute("data-selected");
+                } else {
+                    categoryDropdown.setAttribute("data-selected", selectedType);
+                }
             }
 
             categoryItems.forEach(i => {
