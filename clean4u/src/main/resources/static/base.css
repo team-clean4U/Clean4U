@@ -106,3 +106,14 @@ ul, ol {
     outline: 2px solid var(--color-light-blue);
     outline-offset: 2px;
 }
+
+input::placeholder,
+textarea::placeholder {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.update-header input::placeholder {
+    font-weight: inherit;
+    font-size: inherit;
+}

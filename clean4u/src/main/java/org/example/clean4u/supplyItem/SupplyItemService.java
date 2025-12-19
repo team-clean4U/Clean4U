@@ -59,10 +59,17 @@ public class SupplyItemService {
     }
 
     @Transactional
-    public void delete(Long supplyItemId) {
-        repository.findById(supplyItemId)
+    public void deactivate(Long supplyItemId) {
+        SupplyItem supplyItem = repository.findById(supplyItemId)
                 .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
-        repository.deleteById(supplyItemId);
+        supplyItem.updateIsActive(false);
+    }
+
+    @Transactional
+    public void activate(Long supplyItemId) {
+        SupplyItem supplyItem = repository.findById(supplyItemId)
+                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+        supplyItem.updateIsActive(true);
     }
 
     public List<SupplyItemResponse.ListDTO> findByNameContaining(String name) {

@@ -28,13 +28,17 @@ public class SupplyItem extends BaseTimeEntity {
     @Column(name = "safety_stock", nullable = false)
     private Integer safetyStock;
 
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+
     @Builder
-    public SupplyItem(Long id, String name, String unit, Integer stockQuantity, Integer safetyStock) {
+    public SupplyItem(Long id, String name, String unit, Integer stockQuantity, Integer safetyStock, Boolean isActive) {
         this.id = id;
         this.name = name;
         this.unit = unit;
         this.stockQuantity = stockQuantity;
         this.safetyStock = safetyStock;
+        this.isActive = isActive != null ? isActive : true;
     }
 
     public void update(SupplyItemRequest.UpdateDTO updateDTO) {
@@ -42,6 +46,7 @@ public class SupplyItem extends BaseTimeEntity {
         this.unit = updateDTO.getUnit();
         this.stockQuantity = updateDTO.getStockQuantity();
         this.safetyStock = updateDTO.getSafetyStock();
+        this.isActive = updateDTO.getIsActive();
     }
 
     public void updateName(String newName) {
@@ -70,5 +75,9 @@ public class SupplyItem extends BaseTimeEntity {
             throw new IllegalArgumentException("안전 재고는 0 이상 이어야 합니다.");
         }
         this.safetyStock = newSafetyStock;
+    }
+
+    public void updateIsActive(Boolean newIsActive) {
+        this.isActive = newIsActive;
     }
 }

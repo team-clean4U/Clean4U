@@ -13,9 +13,16 @@
                 <a href="/supply-item/{{supplyItem.id}}/update" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
-                <form action="/supply-item/{{supplyItem.id}}/delete" method="post">
-                    <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
-                </form>
+                {{#supplyItem.isActive}}
+                    <form action="/supply-item/{{supplyItem.id}}/deactivate" method="post">
+                        <button class="btn btn-delete"><i class="fa-solid fa-ban"></i>비활성화</button>
+                    </form>
+                {{/supplyItem.isActive}}
+                {{^supplyItem.isActive}}
+                    <form action="/supply-item/{{supplyItem.id}}/activate" method="post">
+                        <button class="btn btn-activate"><i class="fa-solid fa-check"></i>활성화</button>
+                    </form>
+                {{/supplyItem.isActive}}
             </div>
         </div>
         <div class="detail-card">
@@ -53,13 +60,33 @@
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">
-                        {{#supplyItem.isLowStock}}<i class="fa-solid fa-triangle-exclamation"></i>{{/supplyItem.isLowStock}}
+                        {{#supplyItem.isLowStock}}
+                            <i class="fa-solid fa-triangle-exclamation"></i>{{/supplyItem.isLowStock}}
                         {{^supplyItem.isLowStock}}<i class="fa-solid fa-circle-check"></i>{{/supplyItem.isLowStock}}
                         재고 상태
                     </span>
                     <span class="detail-value stock-badge {{#supplyItem.isLowStock}}badge-warn{{/supplyItem.isLowStock}} {{^supplyItem.isLowStock}}badge-safe{{/supplyItem.isLowStock}}">
                         {{#supplyItem.isLowStock}}주의{{/supplyItem.isLowStock}}
                         {{^supplyItem.isLowStock}}안전{{/supplyItem.isLowStock}}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-heart"></i>
+                        활성 여부
+                    </span>
+                    <span class="detail-value {{#supplyItem.isActive}}status-active{{/supplyItem.isActive}} {{^supplyItem.isActive}}status-inactive{{/supplyItem.isActive}}">
+                        {{#supplyItem.isActive}}활성{{/supplyItem.isActive}}
+                        {{^supplyItem.isActive}}비활성{{/supplyItem.isActive}}
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-hourglass"></i>
+                        생성일
+                    </span>
+                    <span class="detail-value">
+                        {{supplyItem.createdAt}}
                     </span>
                 </div>
             </div>

@@ -23,12 +23,16 @@ public class SupplyItemRequest {
         @Min(value = 0, message = "안전 재고는 0 이상 이어야 합니다.")
         private Integer safetyStock;
 
+        @NotNull(message = "재고 활성 여부는 필수입니다.")
+        private Boolean isActive;
+
         public SupplyItem toEntity() {
             return SupplyItem.builder()
                     .name(name)
                     .unit(unit)
                     .stockQuantity(stockQuantity)
                     .safetyStock(safetyStock)
+                    .isActive(isActive)
                     .build();
         }
     }
@@ -48,5 +52,8 @@ public class SupplyItemRequest {
         @NotNull(message = "안전 재고는 필수입니다.")
         @Min(value = 0, message = "안전 재고는 0 이상 이어야 합니다.")
         private Integer safetyStock;
+
+        @NotNull(message = "재고 활성 여부는 필수입니다.")
+        private Boolean isActive;
     }
 }
