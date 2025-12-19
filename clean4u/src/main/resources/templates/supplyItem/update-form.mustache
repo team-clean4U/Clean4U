@@ -40,6 +40,18 @@
                                placeholder="안전 재고 수량을 입력해주세요." class="update-value price"
                                value="{{supplyItem.safetyStock}}">
                     </div>
+                    <div class="update-item">
+                        <label class="update-label">
+                            <i class="fa-solid fa-heart"></i>
+                            활성 여부
+                        </label>
+                        <input type="hidden" name="isActive" value="false">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="isActive" name="isActive" value="true"
+                                   {{#supplyItem.isActive}}checked{{/supplyItem.isActive}}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
                 <div class="bottom-buttons">
                     <a href="/supply-item/{{supplyItem.id}}" class="btn btn-back">취소</a>
