@@ -1,0 +1,75 @@
+.login-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-dark-blue);
+}
+
+.login-header i {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: var(--color-light-blue);
+}
+
+.login-footer {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.admin-header-left {
+    display: flex;
+    gap: 1rem;
+}
+
+.admin-header a i {
+    color: var(--color-white);
+    margin-right: 0.25rem;
+}
+
+.admin-header a:hover {
+    transform: translateY(-0.2rem);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin: 2rem 0;
+}
+
+.dashboard-group {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.group-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-dark-blue);
+    border-bottom: 3px solid rgba(79, 195, 247, 0.3);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.group-title h3 {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dashboard-group .card-header {
+    padding-bottom: 1.5rem;
+}
+
+.dashboard-group .card-header i {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-list-two {
+    display: grid;
+    gap: 1.7rem;
+    grid-template-columns: repeat(2, 1fr);
+}
