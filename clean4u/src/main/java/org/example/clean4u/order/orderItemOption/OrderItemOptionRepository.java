@@ -34,4 +34,6 @@ public interface OrderItemOptionRepository extends JpaRepository<OrderItemOption
         WHERE oio.orderItem.order.id = :orderId
 """)
     void deleteByOrderId(@Param("orderId") Long orderId);
+
+    void deleteByOrderItemId(Long id);
 }
