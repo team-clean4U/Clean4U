@@ -1,14 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    window.removeItem =function (button) {
-        const itemWrapper = button.closest(".update-item-list");
-        itemWrapper.remove();
-
-        reIndexItems();
+    window.removeItem = function (button) {
+        const itemWrapper = button.closest(".laundry-card");
+        if (itemWrapper) {
+            itemWrapper.remove();
+            reIndexItems();
+        }
     }
 
     function reIndexItems() {
-        const items = document.querySelectorAll(".update-item-list");
+        const items = document.querySelectorAll(".laundry-card");
 
         items.forEach((item, newIndex) => {
             item.dataset.index = newIndex;
@@ -42,10 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let itemIndex = Number(document.getElementById("itemsSize").value);
 
     window.addItem = function () {
-        const container = document.getElementById("items-container");
+        const container = document.querySelector(".order-laundry-item");
+        if (!container) {
+            console.error("Container not found");
+            return;
+        }
 
         const optionHtml = allOptions.map(option => `
-            <label style="display:flex; align-items:center; gap:0.3rem;">
+            <label>
                 <input type="checkbox"
                        name="items[${itemIndex}].optionIds"
                        value="${option.id}">
@@ -60,68 +65,54 @@ document.addEventListener("DOMContentLoaded", () => {
         `).join("");
 
         const html = `
-            <div class="update-item-list"
-                  style="width:100%;
-                  padding: 1.5rem 2rem;
-                  border-bottom:1px dashed var(--color-light-gray); 
-                  display: flex; 
-                  justify-content: space-between;
-                  flex-direction: column" 
-            >
-                <div style="display: flex; justify-content: space-between; gap: 1rem;">
-                    <div class="update-item order-item"
-                        style="padding-top: 0; border-bottom: none; display: flex; align-items: center; width: 90%;">
-                        <div class="update-value category" style="flex: 1;">
-                        <input type="hidden" name="items[${itemIndex}].laundryItemId">
-                            <div class="category-select"">
-                                <span class="category-selected"">세탁물 선택</span>
+            <div class="laundry-card" data-index="${itemIndex}">
+                <div class="laundry-info-header">
+                    <span>
+                        <div class="update-value category">
+                            <input type="hidden" name="items[${itemIndex}].laundryItemId">
+                            <div class="category-select">
+                                <span class="category-selected">세탁물 선택</span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <ul class="category-dropdown">
                                 ${laundryItemDropdown}
                             </ul>
                         </div>
-    
-                        <input 
-                               style="width: 90px; margin-left: 1rem;"
-                               class="update-value"
+                    </span>
+                    <span>
+                        <button class="btn btn-delete"
+                                type="button"
+                                onclick="removeItem(this)"
+                        ><i class="fa-solid fa-trash"></i>삭제</button>
+                    </span>
+                </div>
+                <div class="laundry-info-detail">
+                    <div class="laundry-item-row">
+                        <span class="laundry-item-label">수량:</span>
+                        <input class="laundry-item-value"
                                type="number"
                                name="items[${itemIndex}].quantity"
                                min="1"
                                value="1">
                     </div>
-                    <div>
-                        <button class="btn btn-delete" 
-                                style="
-                                    margin-top: 6px;
-                                    height: 36px;
-                                    padding: 0 12px;
-                                    font-size: 14px;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 6px;
-                                    flex-shrink: 0;"
-                                onclick="removeItem(this)"
-                        ><i class="fa-solid fa-trash"></i>삭제</button>
-                    </div>
-                </div>
-                <div style="
-                        display: flex;
-                        flex-direction: column;
-                        gap: 0.75rem;
-                        padding: 1rem 0;"
-                    >
-                    <span class="option-label" style="width: fit-content">옵션</span>
-                    <div class="option-list" style="display: flex;flex-wrap: wrap; gap: 0.6rem 1rem;">
-                    ${optionHtml}
+                    <div class="laundry-item-row">
+                        <span class="laundry-item-label">옵션</span>
+                        <div class="laundry-item-option">
+                            ${optionHtml}
+                        </div>
                     </div>
                 </div>
             </div>
         `;
 
-        container.insertAdjacentHTML("beforeend", html);
+        const bottomButtons = container.querySelector(".bottom-buttons");
+        if (bottomButtons) {
+            bottomButtons.insertAdjacentHTML("beforebegin", html);
+        } else {
+            container.insertAdjacentHTML("beforeend", html);
+        }
 
-        const newItemWrapper = container.lastElementChild.querySelector(".update-value.category");
+        const newItemWrapper = container.querySelector(`.laundry-card[data-index="${itemIndex}"] .update-value.category`);
 
         if (newItemWrapper) {
             if (typeof bindDropdown === 'function') {

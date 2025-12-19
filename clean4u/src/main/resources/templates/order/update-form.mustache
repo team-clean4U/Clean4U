@@ -1,19 +1,19 @@
 {{> layout/header}}
-
 {{> layout/background}}
 
-<div class="update-container">
-    <div class="update-container-content">
-        <div class="update-card">
+<div class="detail-container order-update">
+    <div class="detail-container-content">
+        <div class="detail-card">
             <form action="/order/{{order.orderId}}/update" method="post">
-                <div class="detail-header">
-                    <i class="fa-solid fa-user"></i>
+                <div class="detail-header order-header">
+                    <i class="fa-solid fa-user user-icon"></i>
                     <h4>{{order.customerName}}</h4>
                 </div>
-                <div class="update-body">
-                    <div class="update-item">
-                        <span class="update-label">
-                            <i class="fa-solid fa-soap"></i>
+
+                <div class="detail-body">
+                    <div class="detail-item">
+                        <span class="detail-label">
+                             <i class="fa-solid fa-soap"></i>
                             세탁 상태
                         </span>
                         <div class="update-value category">
@@ -30,77 +30,55 @@
                             </ul>
                         </div>
                     </div>
-
-                    <div class="update-item">
-                        <label for="memo" class="update-label">
-                            <i class="fa-solid fa-hourglass"></i>
+                    <div class="detail-item">
+                        <span class="detail-label">
+                             <i class="fa-solid fa-hourglass"></i>
                             메모
-                        </label>
+                        </span>
                         <input type="text" id="memo" name="memo"
-                               placeholder="메모를 작성해주세요" class="update-value" {{#order.memo}}value="{{order.memo}}"{{/order.memo}}>
+                               placeholder="메모를 작성해주세요" class="update-value"
+                               {{#order.memo}}value="{{order.memo}}"{{/order.memo}}>
+                    </div>
+                </div>
+                <div class="order-laundry-item">
+                    <div class="item-add">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-circle-info"></i>
+                            세탁 물품
+                        </span>
+                        <button type="button" class="btn btn-add" onclick="addItem()">
+                            + 세탁 물품 추가
+                        </button>
                     </div>
 
-                    <div id="items-container" style="padding: 24px 0; flex-direction: column; gap: 1rem;">
-                        <div class="item-add">
-                            <label for="items" class="update-label">
-                                <i class="fa-solid fa-circle-info"></i>
-                                세탁 물품
-                            </label>
-                            <button type="button" class="btn btn-add" onclick="addItem()">
-                                + 세탁 물품 추가
-                            </button>
-                        </div>
-                        {{#items}}
-                            <div class="update-item-list" data-index="{{index}}" style="width: 100%; padding: 1.5rem 2rem; border-bottom: 1px dashed var(--color-light-gray);" >
-                                <input type="hidden" name="items[{{index}}].laundryItemId" value="{{laundryItemId}}">
-                                <div style="display: flex; justify-content: space-between; gap: 1rem;">
-                                    <div class="update-item order-item"
-                                         style="padding-top: 0; border-bottom: none; display: flex; justify-content: space-between; align-items: center; width: 90%;">
-                                        <label class="update-value" style="font-weight: 500;">{{laundryItemName}}</label>
-                                        <input
-                                                style="width: 90px;"
-                                                class="update-value"
-                                                type="number"
-                                                name="items[{{index}}].quantity"
-                                                min="1"
-                                                value="{{quantity}}">
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-delete"
-                                                type="button"
-                                                style="
-                                                    margin-top: 6px;
-                                                    height: 36px;
-                                                    padding: 0 12px;
-                                                    font-size: 14px;
-                                                    display: flex;
-                                                    align-items: center;
-                                                    gap: 6px;
-                                                    flex-shrink: 0;"
-                                                onclick="removeItem(this)"
-                                        ><i class="fa-solid fa-trash"></i>삭제</button>
-                                    </div>
+                    {{#items}}
+                        <div class="laundry-card" data-index="{{index}}">
+                            <input type="hidden" name="items[{{index}}].laundryItemId" value="{{laundryItemId}}">
+                            <div class="laundry-info-header">
+                                <span>{{laundryItemName}}</span>
+                                <span>
+                                <button class="btn btn-delete"
+                                        type="button"
+                                        onclick="removeItem(this)"
+                                ><i class="fa-solid fa-trash"></i>삭제
+                                </button>
+                            </span>
+                            </div>
+                            <div class="laundry-info-detail">
+                                <div class="laundry-item-row">
+                                    <span class="laundry-item-label">수량:</span>
+                                    <input
+                                            class="laundry-item-value"
+                                            type="number"
+                                            name="items[{{index}}].quantity"
+                                            min="1"
+                                            value="{{quantity}}">
                                 </div>
-
-                                <div style="
-                                    display: flex;
-                                    flex-direction: column;
-                                    gap: 0.75rem;
-                                    padding: 1rem 0;
-                                ">
-                                    <span class="option-label" style="width: fit-content">옵션</span>
-                                    <div style="
-                                        display: flex;
-                                        flex-wrap: wrap;
-                                        gap: 0.6rem 1rem;
-                                    ">
+                                <div class="laundry-item-row">
+                                    <span class="laundry-item-label">옵션</span>
+                                    <div class="laundry-item-option">
                                         {{#options}}
-                                            <label style="
-                                            display: flex;
-                                            align-items: center;
-                                            white-space: nowrap;
-                                            gap: 0.3rem;
-                                        ">
+                                            <label>
                                                 <input
                                                         type="checkbox"
                                                         name="items[{{index}}].optionIds"
@@ -113,29 +91,33 @@
                                     </div>
                                 </div>
                             </div>
-                        {{/items}}
+                        </div>
+                    {{/items}}
+                    <div class="bottom-buttons">
+                        <a href="/order/{{order.orderId}}" class="btn btn-back">취소</a>
+                        <button type="submit" class="btn btn-create">수정 완료</button>
                     </div>
-
-                </div>
-                <div class="bottom-buttons">
-                    <a href="/order/{{order.orderId}}" class="btn btn-back">취소</a>
-                    <button type="submit" class="btn btn-create">수정 완료</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-{{> layout/footer}}
+{{>layout/footer}}
 
 <script src="/js/order-update.js"></script>
 
 <script id="laundry-items-data" type="application/json">
 {{& laundryItemJson}}
+
+
+
 </script>
 
 <script id="laundry-options-data" type="application/json">
 {{& laundryOptionsJson}}
+
+
+
 </script>
 
 <input type="hidden" id="itemsSize" value="{{itemsSize}}">
