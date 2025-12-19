@@ -1,8 +1,7 @@
-package org.example.clean4u._core;
+package org.example.clean4u._core.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.example.clean4u._core.exception.Exception400;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +27,20 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.TEXT_HTML)
+                .body(script);
+    }
+
+    @ExceptionHandler(Exception401.class)
+    public ResponseEntity<String> exception401(Exception401 e, HttpServletRequest request) {
+        String script = "<script>alert('" + e.getMessage() + "');" +
+                "location.href = '/login';" +
+                "</script>";
+
+        request.setAttribute("message", e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
                 .contentType(MediaType.TEXT_HTML)
                 .body(script);
     }
