@@ -3,89 +3,112 @@
 {{> layout/header}}
 
 <div class="container">
-    <div class="section-header">
+    <div class="section-header admin-header">
 
-        <h2 class="section-title">
-            <i class="bi bi-speedometer2"></i>
-            관리자 대시보드
-        </h2>
+        <div class="admin-header-left">
+            <h2 class="section-title">
+                <i class="fa-solid fa-home"></i>
+                관리자 대시보드
+            </h2>
 
-        <a href="/employee/join-list" class="btn btn-delete">
-            {{pendingCount}}명 승인 대기
-        </a>
+            <a href="/employee/join-list" class="btn btn-delete">
+                <i class="fa-solid fa-user-clock"></i>
+                <span>{{pendingCount}}명 승인 대기</span>
+            </a>
+        </div>
 
         <a href="/employee/me/edit" class="btn btn-edit">
-            <i class="bi bi-person-gear"></i>
+            <i class="fa-solid fa-user"></i>
             내 정보 수정
         </a>
     </div>
 
 
-
-    <div class="card-list">
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-people"></i>
-                <h4>직원 수</h4>
+    <div class="dashboard-list">
+        <div class="dashboard-group">
+            <div class="group-title">
+                <h3>
+                    <i class="fa-solid fa-users"></i>
+                    직원 관리
+                </h3>
             </div>
-            <div class="card-info">
-                <span class="info-label">전체 직원</span>
-                <span class="info-value">{{! employeeCount }} 명</span>
+            <div class="card-list">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-users"></i>
+                        <h4>직원 수</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">전체 직원</span>
+                        <span class="info-value">{{! employeeCount }} 명</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        <h4>오늘 근무</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">근무 인원</span>
+                        <span class="info-value">{{! todayWorkingCount }} 명</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <h4>대체 근무</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">오늘 교체</span>
+                        <span class="info-value">{{! overrideCount }} 건</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-calendar-check"></i>
-                <h4>오늘 근무</h4>
+        <div class="dashboard-group">
+            <div class="group-title">
+                <h3>
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    주문 관리
+                </h3>
             </div>
-            <div class="card-info">
-                <span class="info-label">근무 인원</span>
-                <span class="info-value">{{! todayWorkingCount }} 명</span>
-            </div>
-        </div>
 
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-arrow-repeat"></i>
-                <h4>대체 근무</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">오늘 교체</span>
-                <span class="info-value">{{! overrideCount }} 건</span>
-            </div>
-        </div>
+            <div class="card-list">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        <h4>오늘 주문</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">신규 주문</span>
+                        <span class="info-value">{{! todayOrders }} 건</span>
+                    </div>
+                </div>
 
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-bag-plus"></i>
-                <h4>오늘 주문</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">신규 주문</span>
-                <span class="info-value">{{! todayOrders }} 건</span>
-            </div>
-        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                        <h4>진행 중 주문</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">처리 중</span>
+                        <span class="info-value">{{! processingOrders }} 건</span>
+                    </div>
+                </div>
 
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-hourglass-split"></i>
-                <h4>진행 중 주문</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">처리 중</span>
-                <span class="info-value">{{! processingOrders }} 건</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <i class="bi bi-check-circle"></i>
-                <h4>완료된 주문</h4>
-            </div>
-            <div class="card-info">
-                <span class="info-label">오늘 완료</span>
-                <span class="info-value">{{! completedOrders }} 건</span>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <h4>완료된 주문</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">오늘 완료</span>
+                        <span class="info-value">{{! completedOrders }} 건</span>
+                    </div>
+                </div>
             </div>
         </div>
 
