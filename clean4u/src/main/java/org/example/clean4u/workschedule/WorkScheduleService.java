@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.exception.Exception404;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeRepository;
+import org.example.clean4u.employee.EmployeeResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +37,13 @@ public class WorkScheduleService {
         List<WorkSchedule> workScheduleList = workScheduleRepository.findAll();
 
         Map<DayOfWeek, Integer> list = Map.of(
-                DayOfWeek.MONDAY, 1,
-                DayOfWeek.TUESDAY, 2,
-                DayOfWeek.WEDNESDAY, 3,
-                DayOfWeek.THURSDAY, 4,
-                DayOfWeek.FRIDAY, 5,
-                DayOfWeek.SATURDAY, 6,
-                DayOfWeek.SUNDAY, 7
+                DayOfWeek.월요일, 1,
+                DayOfWeek.화요일, 2,
+                DayOfWeek.수요일, 3,
+                DayOfWeek.목요일, 4,
+                DayOfWeek.금요일, 5,
+                DayOfWeek.토요일, 6,
+                DayOfWeek.일요일, 7
         );
 
         workScheduleList.sort(Comparator.comparing(ws -> ws.getDays().stream()
@@ -52,6 +54,19 @@ public class WorkScheduleService {
 
         return workScheduleList.stream()
                 .map(WorkScheduleResponse.ListDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeResponse.SimpleDTO> searchByName(String keyword) {
+
+        List<Employee> employeeList;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            employeeList = employeeRepository.findByNameContaining(keyword);
+        } else {
+            return new ArrayList<>();
+        }
+        return employeeList.stream()
+                .map(EmployeeResponse.SimpleDTO::new)
                 .collect(Collectors.toList());
     }
 }

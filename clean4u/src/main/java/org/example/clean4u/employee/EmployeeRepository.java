@@ -18,4 +18,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findAllByOrderByCreatedAtDesc();
 
     Long countByUserStatus(UserStatus status);
+
+    List<Employee> findTop10ByNameContaining(String keyword);
 }
