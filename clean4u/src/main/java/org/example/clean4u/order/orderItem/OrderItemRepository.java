@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
@@ -22,4 +23,6 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
         WHERE oi.order.id = :orderId
 """)
     void deleteByOrderId(@Param("orderId") Long orderId);
+
+    Optional<OrderItem> findByIdAndOrderId(Long orderItemId, Long orderId);
 }
