@@ -13,9 +13,16 @@
                 <a href="/laundry-option/{{laundryOption.id}}/update" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
-                <form action="/laundry-option/{{laundryOption.id}}/delete" method="post">
-                    <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
+                {{#laundryOption.isActive}}
+                <form action="/laundry-option/{{laundryOption.id}}/deactivate" method="post">
+                    <button class="btn btn-delete"><i class="fa-solid fa-ban"></i>비활성화</button>
                 </form>
+                {{/laundryOption.isActive}}
+                {{^laundryOption.isActive}}
+                <form action="/laundry-option/{{laundryOption.id}}/activate" method="post">
+                    <button class="btn btn-activate"><i class="fa-solid fa-check"></i>활성화</button>
+                </form>
+                {{/laundryOption.isActive}}
             </div>
         </div>
         <div class="detail-card">
