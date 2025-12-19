@@ -1,5 +1,82 @@
+<!-- http://localhost:8080/schedule -->
+
 {{> layout/header}}
 
+<div class="update-container">
+    <div class="update-container-content">
 
+        <!-- 검색 폼 -->
+        <form action="/schedule" method="get" class="search-wrapper" style="margin-bottom: 1rem;">
+            <input
+                    type="text"
+                    name="keyword"
+                    value="{{keyword}}"
+                    placeholder="직원 이름 입력"
+                    class="search-input"
+                    autocomplete="off"
+                    style="border-radius: 15px; padding: 0.5rem 1rem; font-size: 1rem;"
+            />
+            <button type="submit" class="btn-submit" style="border-radius: 15px; padding: 0.5rem 1.5rem; font-weight: 600;">
+                검색
+            </button>
+        </form>
+
+        <!-- 검색 결과 -->
+        {{#employeeList}}
+            <div class="update-card" style="margin-top: 1rem; padding: 1.5rem 2rem;">
+
+                <div class="update-item" style="gap: 2rem; justify-content: flex-start;">
+
+                    <!-- 이름 -->
+                    <div style="display: flex; min-width: 140px; gap: 0.5rem; align-items: center;">
+                        <span class="update-label">이름:</span>
+                        <span
+                                class="update-value"
+                                style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 160px;
+              display: inline-block;
+              font-weight: 600;
+              color: var(--color-dark-blue);
+            "
+                        >{{name}}</span
+                        >
+                    </div>
+
+                    <!-- 아이디 -->
+                    <div style="display: flex; min-width: 140px; gap: 0.5rem; align-items: center;">
+                        <span class="update-label">아이디:</span>
+                        <span
+                                class="update-value"
+                                style="
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 160px;
+              display: inline-block;
+              font-weight: 600;
+              color: var(--color-dark-blue);
+            "
+                        >{{username}}</span
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+        {{/employeeList}}
+
+        {{^employeeList}}
+            <div
+                    style="text-align: center; color: var(--color-gray); margin-top: 2rem; font-weight: 600;"
+            >
+                검색 결과가 없습니다.
+            </div>
+        {{/employeeList}}
+
+    </div>
+</div>
 
 {{> layout/footer}}

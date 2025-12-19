@@ -1,10 +1,15 @@
 package org.example.clean4u.workschedule;
 
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u.employee.AuthService;
+import org.example.clean4u.employee.Employee;
+import org.example.clean4u.employee.EmployeeResponse;
+import org.example.clean4u.employee.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -15,9 +20,15 @@ public class WorkScheduleController {
     private final WorkScheduleService workScheduleService;
 
     @GetMapping("/schedule")
-    public String save() {
+    public String employeeList(
+            @RequestParam(required = false) String keyword,
+            Model model
+    ) {
+        List<EmployeeResponse.SimpleDTO> employeeList = workScheduleService.searchByName(keyword);
+        model.addAttribute("employeeList", employeeList);
+        model.addAttribute("keyword", keyword != null ? keyword : "");
 
-        return "workschedule/save-form";
+        return "employee/save-form";
     }
 
     @PostMapping("/schedule")
@@ -32,6 +43,6 @@ public class WorkScheduleController {
         List<WorkScheduleResponse.ListDTO> scheduleList = workScheduleService.scheduleList();
         model.addAttribute("scheduleList", scheduleList);
 
-        return "workschedule/list-form";
+        return "employee/schedule-list-form";
     }
 }
