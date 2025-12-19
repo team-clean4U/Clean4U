@@ -200,6 +200,7 @@ nav {
 /* 푸터 */
 footer {
     background: var(--color-cream-blue);
+    margin-top: auto;
 }
 
 .f-container {
