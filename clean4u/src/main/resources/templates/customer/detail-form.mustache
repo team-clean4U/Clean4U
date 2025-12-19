@@ -3,107 +3,105 @@
 {{> layout/background}}
 
 <div class="detail-container">
-    <div class="detail-container-content">
-        <!--버튼-->
-                <div class="customer-buttons">
-                    <form action="/customer/list" method="get">
-                        <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+    <div class="customer-container-content">
+        <div class="customer-left">
+            <!--버튼-->
+            <div class="buttons">
+                <form action="/customer/list" method="get">
+                    <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+                </form>
+                <div class="button-right">
+                    <a href="/customer/{{customer.customerId}}/update" class="btn btn-edit">
+                        <i class="fa-solid fa-edit"></i> 수정
+                    </a>
+                    <form action="/customer/{{customer.customerId}}/delete" method="post">
+                        <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
                     </form>
-                    <div class="button-right">
-                        <a href="/customer/{{customer.customerId}}/update" class="btn btn-edit">
-                            <i class="fa-solid fa-edit"></i> 수정
-                        </a>
-                        <form action="/customer/{{customer.customerId}}/delete" method="post">
-                            <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
-                        </form>
-                    </div>
                 </div>
-        <div class="detail-layout">
-            <div class="detail-left">
-                <!--고객상세내역-->
-                <div class="detail-card">
-                    <div class="detail-header">
-                        <i class="fa-solid fa-user"></i>
-                        <h4>{{customer.name}}</h4>
-                    </div>
-                    <div class="detail-body">
-                        <div class="detail-items">
+            </div>
+            <!--고객상세내역-->
+            <div class="detail-card">
+                <div class="detail-header">
+                    <i class="fa-solid fa-user"></i>
+                    <h4>{{customer.name}}</h4>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-items">
                             <span class="detail-label">
                                 <i class="fa-solid fa-award"></i>
                                 등급
                             </span>
-                            <span class="detail-value grade-{{customer.grade}}">
-                                {{customer.grade}}
-                            </span>
-                        </div>
-                        <div class="detail-items">
+                        <span class="detail-value grade-{{customer.grade}}">
+                            {{customer.grade}}
+                        </span>
+                    </div>
+                    <div class="detail-items">
                             <span class="detail-label">
                                 <i class="fa-solid fa-mobile-screen"></i>
                                 연락처
                             </span>
-                            <span class="detail-value phone">
-                                {{customer.phone}}
-                            </span>
-                        </div>
-                        <div class="detail-items">
+                        <span class="detail-value phone">
+                            {{customer.phone}}
+                        </span>
+                    </div>
+                    <div class="detail-items">
                             <span class="detail-label">
                                 <i class="fa-solid fa-cake-candles"></i>
                                 생년월일
                             </span>
-                            <span class="detail-value">
-                                {{customer.birth}}
-                            </span>
-                        </div>
-                        <div class="detail-items">
+                        <span class="detail-value">
+                            {{customer.birth}}
+                        </span>
+                    </div>
+                    <div class="detail-items">
                             <span class="detail-label">
                                 <i class="fa-solid fa-hourglass"></i>
                                 생성일
                             </span>
-                            <span class="detail-value">
-                                {{customer.createdAt}}
-                            </span>
-                        </div>
-                        <div class="detail-items-info">
+                        <span class="detail-value">
+                            {{customer.createdAt}}
+                        </span>
+                    </div>
+                    <div class="detail-items-info">
                             <span class="detail-label-info">
                                 <i class="fa-solid fa-circle-info"></i>
                                 메모
                             </span>
-                            <span class="detail-value memo">{{customer.memoOrDash}}</span>
-                        </div>
+                        <span class="detail-value memo">{{customer.memoOrDash}}</span>
                     </div>
                 </div>
             </div>
-            <div class="detail-right">
+        </div>
+        <div class="customer-right">
             <!--주문내역-->
-                <div class="detail-card">
-                    <div class="detail-header">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <h4>주문 내역</h4>
-                    </div>
-                    <div class="detail-bodies">
-                        <table class="table-container">
-                            <tbody>
-                                {{#customer.orders}}
-                                <tr>
-                                    <td class="order-no">주문#{{orderNo}}</td>
-                                    <td>
+            <div class="detail-card">
+                <div class="detail-header">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <h4>주문 내역</h4>
+                </div>
+                <div class="detail-bodies">
+                    <table class="table-container">
+                        <tbody>
+                        {{#customer.orders}}
+                            <tr>
+                                <td class="order-no">주문#{{orderNo}}</td>
+                                <td>
                                         <span class="status-badge {{status.cssClass}}">
                                             {{status.displayName}}
                                         </span>
-                                    </td>
-                                    <td class="total-price">￦ {{totalPrice}}</td>
-                                    <td class="order-date">{{orderDate}}</td>
-                                </tr>
-                                {{/customer.orders}}
+                                </td>
+                                <td class="total-price">￦ {{totalPrice}}</td>
+                                <td class="order-date">{{orderDate}}</td>
+                            </tr>
+                        {{/customer.orders}}
 
-                                {{^customer.orders}}
-                                    <div class="no-order">
-                                        <i class="fa-solid fa-cart-arrow-down"></i>주문 내역이 없습니다.
-                                    </div>
-                                {{/customer.orders}}
-                            </tbody>
-                        </table>
-                    </div>
+                        {{^customer.orders}}
+                            <div class="no-order">
+                                <i class="fa-solid fa-cart-arrow-down"></i>주문 내역이 없습니다.
+                            </div>
+                        {{/customer.orders}}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
