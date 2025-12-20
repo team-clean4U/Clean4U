@@ -51,4 +51,6 @@ public class Employee extends BaseTimeEntity {
     public boolean isOwner(Long employeeId) {
         return this.id.equals(employeeId);
     }
+
+    public boolean isAdmin() { return this.userRole == UserRole.ADMIN;}
 }
