@@ -1,5 +1,6 @@
 package org.example.clean4u.workschedule;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.clean4u.employee.Employee;
@@ -12,27 +13,25 @@ public class WorkScheduleRequest {
     public static class SaveDTO {
         @NotNull(message = "근무자의 ID는 비워둘 수 없습니다.")
         private Long employeeId;
+        @NotBlank(message = "근무자의 이름은 비워둘 수 없습니다.")
+        private String name;
         @NotNull(message = "시작 시간은 비워둘 수 없습니다.")
         private LocalTime startTime;
         @NotNull(message = "종료 시간은 비워둘 수 없습니다.")
         private LocalTime endTime;
-        @NotNull(message = "근무스케줄은 비워둘 수 없습니다.")
-        private List<DayOfWeek> days;
 
         public WorkSchedule toEntity(Employee employee) {
-            return new WorkSchedule(employee, startTime, endTime, days);
+            return new WorkSchedule(employee, startTime, endTime);
         }
     }
 
     @Data
     public static class UpdateDTO {
-        @NotNull(message = "근무자의 ID는 비워둘 수 없습니다.")
-        private Long employeeId;
+        @NotBlank(message = "근무자의 이름은 비워둘 수 없습니다.")
+        private String name;
         @NotNull(message = "시작 시간은 비워둘 수 없습니다.")
         private LocalTime startTime;
         @NotNull(message = "종료 시간은 비워둘 수 없습니다.")
         private LocalTime endTime;
-        @NotNull(message = "근무스케줄은 비워둘 수 없습니다.")
-        private List<DayOfWeek> days;
     }
 }

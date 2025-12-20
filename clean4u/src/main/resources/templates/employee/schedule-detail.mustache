@@ -1,0 +1,53 @@
+{{> layout/header}}
+
+<div class="update-container">
+    <div class="update-container-content">
+        <div class="update-card">
+            <!-- 헤더 -->
+            <div class="update-header">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>근무 스케줄 상세</span>
+            </div>
+
+            <!-- 상세 정보 -->
+            <div class="update-body">
+                <div class="update-item">
+                    <span class="update-label">이름:</span>
+                    <span class="update-value">{{schedule.name}}</span>
+                </div>
+
+                <div class="update-item">
+                    <span class="update-label">아이디:</span>
+                    <span class="update-value">{{schedule.username}}</span>
+                </div>
+
+                <div class="update-item">
+                    <span class="update-label">이메일:</span>
+                    <span class="update-value">{{schedule.email}}</span>
+                </div>
+
+                <div class="update-item">
+                    <span class="update-label">시작 시간:</span>
+                    <span class="update-value">{{schedule.startTime}}</span>
+                </div>
+
+                <div class="update-item">
+                    <span class="update-label">종료 시간:</span>
+                    <span class="update-value">{{schedule.endTime}}</span>
+                </div>
+
+                <div class="bottom-buttons" style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                    <a href="/schedule/{{schedule.id}}/update" class="btn btn-add" style="flex: 1; text-align: center;">수정</a>
+
+                    <form action="/schedule/{{schedule.id}}/delete" method="post" style="flex: 1;">
+                        <button type="submit" class="btn stock-badge badge-warn" style="width: 100%;">삭제</button>
+                    </form>
+
+                    <a href="/schedule/list" class="btn stock-badge badge-warn" style="flex: 1; text-align: center;">목록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}
