@@ -23,7 +23,7 @@ public class CustomerController {
     public String saveForm(Model model) {
         CustomerResponse.SaveDTO dto = new CustomerResponse.SaveDTO();
         model.addAttribute("grade", Grade.NEW);
-        return "customer/create-form";
+        return "customer/save-form";
     }
 
     // 생성 요청
@@ -38,19 +38,20 @@ public class CustomerController {
     @GetMapping("/customer/list")
     public String customerList(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String list,
             Model model
     ) {
+        model.addAttribute("category", list);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
-        model.addAttribute("category", category == null ? "" : category);
+        model.addAttribute("list", list == null ? "" : list);
 
         List<CustomerResponse.ListDTO> customerList;
 
         if (keyword == null || keyword.trim().isBlank()) {
             customerList = customerService.getAllCustomers();
-        } else if ("name".equalsIgnoreCase(category)) {
+        } else if ("name".equalsIgnoreCase(list)) {
             customerList = customerService.searchByName(keyword.trim());
-        } else if ("phone".equalsIgnoreCase(category)) {
+        } else if ("phone".equalsIgnoreCase(list)) {
             customerList = customerService.searchByPhone(keyword.trim());
         } else {
             customerList = customerService.getAllCustomers();
