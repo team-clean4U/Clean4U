@@ -21,4 +21,11 @@ public class AuthService {
                 .map(EmployeeResponse.JoinListDTO::new)
                 .collect(Collectors.toList());
     }
+
+    public Employee findById(Long employeeId) {
+        Employee employeeEntity = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
+
+        return employeeEntity;
+    }
 }
