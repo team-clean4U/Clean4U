@@ -1,47 +1,72 @@
 {{> layout/header}}
 
-<div class="container p-5">
-    <div class="card">
-        <div class="card-body">
-            <form action="/laundry-item/save" method="post">
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="고객명" name="customerName">
+<div class="update-container">
+    <div class="update-container-content">
+        <div class="update-card">
+            <form action="/order/save" method="post">
+                <div class="update-header">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <b>주문 등록</b>
                 </div>
-                <div class="mb-3">
-                    <select name="category" class="form-select">
-                        <option value="TOP" {{#isTop}}selected{{/isTop}}>상의</option>
-                        <option value="BOTTOM" {{#isBottom}}selected{{/isBottom}}>하의</option>
-                        <option value="OUTER" {{#isOuter}}selected{{/isOuter}}>아우터</option>
-                        <option value="UNDEREWEAR" {{#isUnderwear}}selected{{/isUnderwear}}>속옷</option>
-                        <option value="BEDDING" {{#isBedding}}selected{{/isBedding}}>침구</option>
-                        <option value="ACCESSORY" {{#isAccessory}}selected{{/isAccessory}}>잡화</option>
-                        <option value="SPECIAL" {{#isSpecial}}selected{{/isSpecial}}>특수</option>
-                        <option value="ETC" {{#isEtc}}selected{{/isEtc}}>기타</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    {{! laundryItem 에 따른 basePrice 보여지기 }}
-                </div>
-                <div class="mb-3">
-                    {{! laundryOption 선택 }}
-                </div>
-                <div class="mb-3">
-                    {{! laundryOption 선택에 따른 세부설명 보임 }}
-                </div>
-                <div class="mb-3">
-                    {{! laundryOption 선택에 따른 추가 금액 보임 }}
-                </div>
-                <div class="mb-3">
-                    {{! 추가메모 작성 가능 }}
-                </div>
-                <div class="mb-3">
-                    {{! 주문 생성자 작성 }}
+                <div class="update-body">
+                    <div class="update-item">
+                        <label class="update-label">
+                            <i class="fa-solid fa-user user-icon"></i>
+                            고객명
+                        </label>
+                        <input type="hidden" name="customerId" id="customer-id">
+                        <input type="text" name="customerName" id="customer-name"
+                               placeholder="고객명을 입력해주세요" class="update-value">
+
+                        <select id="customer-phone" class="update-value">
+                            <option value="">휴대폰 번호 선택</option>
+                        </select>
+                    </div>
+                    <div class="update-item" style="border-bottom: 1px dashed var(--color-light-gray);">
+                        <label class="update-label">
+                            <i class="fa-solid fa-hourglass"></i>
+                            메모
+                        </label>
+                        <input type="text" name="memo"
+                               placeholder="메모를 입력하세요(선택)" class="update-value">
+                    </div>
                 </div>
 
-                <button class="btn btn-primary form-control">완료</button>
+                <div class="order-laundry-item">
+                    <div class="item-add" style="display: flex;">
+                        <span class="update-label" style="min-width: 100px;">
+                            <i class="fa-solid fa-shirt"></i>
+                            세탁 물품
+                        </span>
+                        <button type="button" class="btn btn-add" onclick="addItem()">
+                            + 세탁 물품 추가
+                        </button>
+                    </div>
+                    <div class="bottom-buttons" style="padding: 32px 40px;">
+                        <a href="/order/list" class="btn btn-back">취소</a>
+                        <button type="submit" class="btn btn-create">완료</button>
+                    </div>
+                </div>
+
             </form>
         </div>
     </div>
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/order-update.js"></script>
+<script src="/js/order-create.js"></script>
+
+<script id="customers-data" type="application/json">
+{{& customerJson}}
+</script>
+
+
+<script id="laundry-items-data" type="application/json">
+{{& laundryItemJson}}
+</script>
+
+<script id="laundry-options-data" type="application/json">
+{{& laundryOptionsJson}}
+</script>
