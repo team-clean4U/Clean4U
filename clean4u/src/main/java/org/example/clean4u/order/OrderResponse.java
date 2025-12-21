@@ -12,6 +12,7 @@ public class OrderResponse {
     public static class ListDto {
         private Long orderId;
         private String customerName;
+        private String phone;
         private LocalDate orderDate;
         private OrderStatus status;
 
@@ -19,6 +20,7 @@ public class OrderResponse {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
+                this.phone = order.getCustomer().getPhone();
             }
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();

@@ -17,19 +17,18 @@
                 <div class="search-box">
                     <div class="search-input-box">
                         <i class="fa-solid fa-user"></i>
-                        <input class="search-input" type="text" placeholder="고객명" name="customerName">
+                        <input class="search-input" type="text" name="customerName" value="{{#customerName}}{{customerName}}{{/customerName}}" placeholder="고객명">
                     </div>
 
                     <div class="search-input-box">
                         <i class="fa-solid fa-phone"></i>
-                        <input class="search-input" type="tel" name="phone" placeholder="전화번호">
+                        <input class="search-input" type="tel" name="phone" value="{{#phone}}{{phone}}{{/phone}}" placeholder="연락처">
                     </div>
                     <div class="update-value category">
                         <input type="hidden" name="status" id="category">
                         <div class="category-select">
                             <i class="fa-solid fa-info-circle"></i>
-                            <span class="category-selected">
-                                전체 상태</span>
+                            <span class="category-selected">{{#status}}{{status.displayName}}{{/status}}{{^status}}전체 상태{{/status}}</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <ul class="category-dropdown">
@@ -43,12 +42,12 @@
                 <div class="search-box">
                     <div class="search-input-box">
                         <i class="fa-solid fa-calendar-alt"></i>
-                        <input type="date" name="fromDate" class="search-input date-input">
+                        <input type="date" name="fromDate" value="{{#fromDate}}{{fromDate}}{{/fromDate}}" class="search-input date-input">
                     </div>
                     <span class="date-separator">~</span>
                     <div class="search-input-box date">
                         <i class="fa-solid fa-calendar-alt"></i>
-                        <input type="date" name="toDate" class="search-input date-input">
+                        <input type="date" name="toDate" value="{{#toDate}}{{toDate}}{{/toDate}}" class="search-input date-input">
                     </div>
                     <button type="submit" class="btn btn-submit">조회</button>
                 </div>
@@ -60,9 +59,14 @@
             {{#orderList}}
                 <a href="/order/{{orderId}}" class="card">
                     <div class="card-header">
+                        <i class="fa-solid fa-shopping-bag"></i>
                         <h4>{{customerName}} <span class="info-label">님 주문</span></h4>
                     </div>
                     <div class="card-body">
+                        <div class="card-info">
+                            <span class="info-label">연락처: </span>
+                            <span class="info-value">{{phone}}</span>
+                        </div>
                         <div class="card-info">
                             <span class="info-label">주문 접수일: </span>
                             <span class="info-value">{{orderDate}}</span>

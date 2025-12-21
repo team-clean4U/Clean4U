@@ -15,12 +15,6 @@ public class OrderRequest {
         @NotNull(message = "고객 id를 입력하세요")
         private Long customerId;
 
-        @NotNull(message = "주문 상태를 입력하세요")
-        private OrderStatus status;
-
-        @NotNull(message = "주문 날짜를 입력하세요")
-        private LocalDate orderDate;
-
         private String memo;
 
         @NotNull(message = "주문 품목을 입력하세요")
@@ -29,9 +23,9 @@ public class OrderRequest {
         public Order toEntity(Customer customer, Integer totalPrice, Employee editor) {
             return Order.builder()
                     .customer(customer)
-                    .status(status)
+                    .status(OrderStatus.RECEIVED)
                     .totalPrice(totalPrice)
-                    .orderDate(orderDate)
+                    .orderDate(LocalDate.now())
                     .memo(memo)
                     .editor(editor)
                     .build();
