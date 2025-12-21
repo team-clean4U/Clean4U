@@ -51,6 +51,7 @@ public class OrderService {
 
         int totalPrice = calculateTotalPrice(saveDto.getItems());
         Order order = saveDto.toEntity(customer, totalPrice, sessionUser);
+        orderRepository.save(order);
 
         for (OrderItemRequest.SaveDto item : saveDto.getItems()) {
             LaundryItem laundryItem = laundryItemRepository.findById(item.getLaundryItemId())
@@ -83,6 +84,14 @@ public class OrderService {
         boolean existingUser = employeeRepository.existsById(sessionUserId);
         if(!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
+
+        if ((fromDate == null && toDate != null) || (fromDate != null && toDate == null)) {
+            throw new Exception400("검색 시작 날짜와 종료 날짜는 함께 입력해야 합니다.");
+        }
+
+        if (fromDate != null && fromDate.isAfter(toDate)) {
+            throw new Exception400("검색 시작 날짜는 검색 종료 날짜보다 우선이어야 합니다.");
         }
 
         List<Order> orderList = orderRepository.searchOrder(status, customerName, phone, fromDate, toDate);
