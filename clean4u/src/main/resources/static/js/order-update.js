@@ -40,7 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const allOptions = JSON.parse(document.getElementById("laundry-options-data").textContent);
 
-    let itemIndex = Number(document.getElementById("itemsSize").value);
+    const itemsSizeEl = document.getElementById("itemsSize");
+    let itemIndex = itemsSizeEl ? Number(itemsSizeEl.value) : 0;
 
     window.addItem = function () {
         const container = document.querySelector(".order-laundry-item");
