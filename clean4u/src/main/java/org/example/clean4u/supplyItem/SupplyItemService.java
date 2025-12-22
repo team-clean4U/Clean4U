@@ -92,4 +92,18 @@ public class SupplyItemService {
                 .map(SupplyItemResponse.ListDTO::new)
                 .collect(Collectors.toList());
     }
+
+    public List<SupplyItemResponse.ListDTO> findByNameContainingAndLowStock(String name) {
+        List<SupplyItem> supplyItemList = repository.findByNameContainingAndLowStock(name);
+        return supplyItemList.stream()
+                .map(SupplyItemResponse.ListDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<SupplyItemResponse.ListDTO> findByNameContainingAndSafetyStock(String name) {
+        List<SupplyItem> supplyItemList = repository.findByNameContainingAndSafetyStock(name);
+        return supplyItemList.stream()
+                .map(SupplyItemResponse.ListDTO::new)
+                .collect(Collectors.toList());
+    }
 }

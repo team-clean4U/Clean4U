@@ -25,12 +25,18 @@ public class SupplyItemController {
             @RequestParam(required = false) Boolean lowStock
     ) {
         List<SupplyItemResponse.ListDTO> supplyItemList;
-        if (lowStock != null && lowStock) {
-            supplyItemList = service.findLowStockItems();
-        } else if (lowStock != null) {
-            supplyItemList = service.findSafetyStockItems();
-        } else if (name != null && !name.isBlank()) {
+        boolean hasName = name != null && !name.isBlank();
+
+        if (hasName && lowStock != null && lowStock) {
+            supplyItemList = service.findByNameContainingAndLowStock(name);
+        } else if (hasName && lowStock != null && !lowStock) {
+            supplyItemList = service.findByNameContainingAndSafetyStock(name);
+        } else if (hasName) {
             supplyItemList = service.findByNameContaining(name);
+        } else if (lowStock != null && lowStock) {
+            supplyItemList = service.findLowStockItems();
+        } else if (lowStock != null && !lowStock) {
+            supplyItemList = service.findSafetyStockItems();
         } else {
             supplyItemList = service.getAllSupplyItems();
         }
