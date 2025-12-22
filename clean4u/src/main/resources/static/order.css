@@ -77,24 +77,6 @@ input.has-value {
     margin-right: 0.5rem;
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    opacity: 0;
-    position: absolute;
-    right: 1rem;
-    width: 100%;
-    height: 100%;
-}
-
-input[type="date"] {
-    color: var(--color-gray);
-}
-
-input[type="date"]:focus,
-input[type="date"]:valid {
-    color: var(--color-dark-blue);
-}
-
 .update-item {
     display: flex;
     justify-content: space-between;
