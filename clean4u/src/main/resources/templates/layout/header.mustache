@@ -2,9 +2,9 @@
 <html lang="en">
 
 <head>
-    <title>Blog</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clean4U</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet"
           href="https://site-assets.fontawesome.com/releases/v7.0.0/css/all.css">
     <link rel="stylesheet" href="/base.css">
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/laundryOption.css">
     <link rel="stylesheet" href="/dropdown.css">
     <link rel="stylesheet" href="/user.css">
+    <link rel="stylesheet" href="/notice.css">
 </head>
 
 <body>
@@ -30,6 +31,40 @@
         <div class="navbar-menu">
             <ul class="navbar-nav">
                 {{#sessionUser}}
+                    {{#sessionUser.isAdmin}}
+                        <li class="nav-item dropdown">
+                            <span class="nav-link dropdown-toggle">
+                                <i class="fa-solid fa-shield-halved"></i> 관리자
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </span>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/employee/list" class="dropdown-item">
+                                        <i class="fa-solid fa-users"></i>
+                                        직원관리
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/employee/join-list" class="dropdown-item">
+                                        <i class="fa-solid fa-user-clock"></i>
+                                        승인대기
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/schedule/list" class="dropdown-item">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        근무일정
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/schedule/list" class="dropdown-item">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        교체근무
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {{/sessionUser.isAdmin}}
                     <li class="nav-item">
                         <a class="nav-link" href="/main">
                             <i class="fa-solid fa-home"></i> 대시보드
@@ -45,19 +80,34 @@
                             <i class="fa-solid fa-cart-shopping"></i> 주문관리
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/laundry-item">
+                    <li class="nav-item dropdown">
+                        <span class="nav-link dropdown-toggle">
                             <i class="fa-solid fa-shirt"></i> 세탁관리
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/laundry-option">
-                            <i class="fa-solid fa-tag"></i> 세탁 옵션 관리
-                        </a>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/laundry-item" class="dropdown-item">
+                                    <i class="fa-solid fa-shirt"></i>
+                                    세탁관리
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/laundry-option" class="dropdown-item">
+                                    <i class="fa-solid fa-tag"></i>
+                                    세탁 옵션 관리
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/supply-item">
-                            <i class="fa-solid fa-box"></i> 세탁물품관리
+                            <i class="fa-solid fa-box"></i> 자재관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/notice/save">
+                            <i class="fa-solid fa-bullhorn"></i> 공지사항
                         </a>
                     </li>
                     <li class="nav-item">
