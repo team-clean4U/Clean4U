@@ -81,5 +81,17 @@ INSERT INTO order_item_option_tb (order_item_id, laundry_option_id, created_at) 
     (13, 2, now()),
     (15, 3, now());
 
+INSERT INTO notice_tb (title, content, employee_id, created_at)
+VALUES (
+           '시스템 점검 안내',
+           '금일 23:00 ~ 01:00 시스템 점검이 예정되어 있습니다.',
+           1,
+           '2025-12-01');
 
+INSERT INTO notice_tb (title, content, employee_id, created_at)
+VALUES (
+           '설 연휴 휴무 안내',
+           '설 연휴 기간 동안 세탁소가 휴무입니다. 이용에 참고 부탁드립니다.',
+           1,
+           '2025-12-15');
 
