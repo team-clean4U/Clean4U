@@ -77,4 +77,11 @@ public class LaundryItemService {
                 .map(LaundryItemResponse.ListDTO::new)
                 .collect(Collectors.toList());
     }
+
+    public List<LaundryItemResponse.ListDTO> findByNameContainingAndCategory(LaundryCategory category, String name) {
+        List<LaundryItem> laundryItemList = repository.findByNameContainingAndCategory(category, name);
+        return laundryItemList.stream()
+                .map(LaundryItemResponse.ListDTO::new)
+                .collect(Collectors.toList());
+    }
 }
