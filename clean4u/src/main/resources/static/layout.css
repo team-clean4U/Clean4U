@@ -183,6 +183,11 @@ nav {
     box-shadow: 0 0 10px var(--shadow);
 }
 
+.nav-link:focus-visible {
+    outline: 3px solid var(--color-blue);
+    outline-offset: 2px;
+}
+
 /* 드롭다운 메뉴 */
 .nav-item.dropdown {
     position: relative;
