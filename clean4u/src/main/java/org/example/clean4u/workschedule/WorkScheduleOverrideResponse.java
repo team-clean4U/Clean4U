@@ -7,6 +7,35 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class WorkScheduleOverrideResponse {
+    @Data
+    public static class ListDTO {
+        private String originalName;
+        private String overrideName;
+        private LocalDate date;
+
+        public ListDTO(WorkScheduleOverride workScheduleOverride) {
+            this.originalName = workScheduleOverride.getOriginalEmployee().getName();
+            this.overrideName = workScheduleOverride.getOverrideEmployee().getName();
+            this.date = workScheduleOverride.getDate();
+        }
+    }
+
+    @Data
+    public static class DetailDTO {
+        private String originalName;
+        private String overrideName;
+        private LocalDate date;
+        private LocalTime startTime;
+        private LocalTime endTime;
+
+        public DetailDTO(WorkScheduleOverride workScheduleOverride) {
+            this.originalName = workScheduleOverride.getOriginalEmployee().getName();
+            this.overrideName = workScheduleOverride.getOverrideEmployee().getName();
+            this.date = workScheduleOverride.getDate();
+            this.startTime = workScheduleOverride.getStartTime();
+            this.endTime = workScheduleOverride.getEndTime();
+        }
+    }
 
     @Data
     public static class SaveDTO {

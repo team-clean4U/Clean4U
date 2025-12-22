@@ -1,0 +1,44 @@
+<!-- http://localhost:8080/override/list -->
+
+{{> layout/header}}
+
+<div class="container">
+
+    <div class="section-header">
+        <h2 class="section-title">병결 대체 근무 목록</h2>
+        <a href="/schedule" class="btn btn-create">
+            <span>+</span> 새 일정 등록
+        </a>
+    </div>
+
+    {{#overrideList}}
+        <div class="card-list">
+            {{#overrideList}}
+                <a href="/override/{{id}}/detail" class="card">
+                    <div class="card-header">
+                        <h4>{{originalName}}</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">대체 근무자</span>
+                        <span class="info-value">{{overrideName}}</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">날짜</span>
+                        <span class="info-value">{{date}}</span>
+                    </div>
+                </a>
+            {{/overrideList}}
+        </div>
+    {{/overrideList}}
+
+    {{^overrideList}}
+        <div class="blank">
+            <p class="text-center">등록된 대체 근무 일정이 없습니다.</p>
+        </div>
+    {{/overrideList}}
+
+</div>
+
+{{> layout/footer}}
+
+{{> layout/footer}}

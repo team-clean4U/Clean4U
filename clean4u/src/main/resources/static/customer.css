@@ -223,3 +223,8 @@ table td:last-of-type {
     color: var(--color-blue);
     margin-right: 0.5rem;
 }
+
+.category-notice {
+    text-align: center;
+    color: var(--color-light-blue);
+}

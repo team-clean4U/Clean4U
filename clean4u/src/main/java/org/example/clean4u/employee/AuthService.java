@@ -28,4 +28,10 @@ public class AuthService {
 
         return employeeEntity;
     }
+
+    public List<Employee> getOverrideEmployee (Employee employee) {
+        return employeeRepository.findAll().stream()
+                .filter(e -> !e.getId().equals(employee.getId()))
+                .collect(Collectors.toList());
+    }
 }

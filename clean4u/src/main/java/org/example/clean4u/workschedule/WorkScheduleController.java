@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u.employee.AuthService;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeResponse;
-import org.example.clean4u.employee.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +18,7 @@ import java.util.List;
 public class WorkScheduleController {
 
     private final WorkScheduleService workScheduleService;
+    private final WorkScheduleOverrideService workScheduleOverrideService;
     private final AuthService authService;
 
     @GetMapping("/schedule")
@@ -36,17 +36,30 @@ public class WorkScheduleController {
     @GetMapping("/schedule/{employeeId}")
     public String saveForm(
             @PathVariable Long employeeId,
+            @RequestParam(required = false) ScheduleReason reason,
             Model model
     ) {
         Employee employee = authService.findById(employeeId);
         model.addAttribute("employee", employee);
+
+        List<Employee> overrideList = authService.getOverrideEmployee(employee);
+        model.addAttribute("overrideList", overrideList);
+
+        boolean isSick = reason == ScheduleReason.병결;
+        model.addAttribute("isSick", isSick);
+        model.addAttribute("reason", reason);
 
         return "employee/save-form";
     }
 
     @PostMapping("/schedule")
     public String saveProc(WorkScheduleRequest.SaveDTO saveDTO) {
-        workScheduleService.saveProc(saveDTO);
+
+        if (saveDTO.isSick()) {
+            workScheduleOverrideService.saveOverride(saveDTO);
+        } else {
+            workScheduleService.saveNormal(saveDTO);
+        }
 
         return "redirect:/schedule/list";
     }
@@ -60,7 +73,7 @@ public class WorkScheduleController {
     }
 
     @GetMapping("/schedule/{scheduleId}/detail")
-    public String detail(
+    public String scheduleDetail(
             @PathVariable Long scheduleId,
             Model model
     ) {
@@ -72,29 +85,30 @@ public class WorkScheduleController {
     }
 
     @GetMapping("/schedule/{scheduleId}/update")
-    public String updateForm(
+    public String scheduleUpdateForm(
             @PathVariable Long scheduleId,
             Model model
     ) {
-        WorkScheduleResponse.UpdateDTO schedule = workScheduleService.update(scheduleId);
+        WorkScheduleResponse.UpdateDTO schedule = workScheduleService.scheduleUpdate(scheduleId);
 
         model.addAttribute("schedule", schedule);
 
-        return "employee/update-form";
+        return "employee/schedule-update-form";
     }
 
     @PostMapping("/schedule/{scheduleId}/update")
-    public String updateProc(
+    public String scheduleUpdateProc(
             @PathVariable Long scheduleId,
             WorkScheduleRequest.UpdateDTO updateDTO,
             Model model
     ) {
-        WorkSchedule schedule = workScheduleService.updateProc(scheduleId, updateDTO);
+        WorkSchedule schedule = workScheduleService.scheduleUpdateProc(scheduleId, updateDTO);
 
         model.addAttribute("schedule", schedule);
 
         return "redirect:/schedule/list";
     }
+
 
     @PostMapping("/schedule/{scheduleId}/delete")
     public String delete(
