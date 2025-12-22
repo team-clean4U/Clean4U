@@ -2,12 +2,11 @@ package org.example.clean4u.notice;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception400;
-import org.example.clean4u._core.exception.Exception403;
+import org.example.clean4u._core.errors.exception.Exception400;
+import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -3,7 +3,7 @@ package org.example.clean4u._core.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.clean4u._core.exception.Exception401;
+import org.example.clean4u._core.errors.exception.Exception401;
 import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

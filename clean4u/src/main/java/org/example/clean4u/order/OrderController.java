@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception400;
 import org.example.clean4u.customer.CustomerService;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.laundryItem.LaundryItemResponse;

@@ -1,7 +1,7 @@
 package org.example.clean4u.employee;
 
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception404;
+import org.example.clean4u._core.errors.exception.Exception404;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
