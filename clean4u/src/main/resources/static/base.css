@@ -121,6 +121,7 @@ textarea::placeholder {
 input[type="date"] {
     position: relative;
     padding-right: 2.5rem;
+    cursor: text;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {

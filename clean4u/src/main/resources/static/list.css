@@ -1,3 +1,11 @@
+/* 컨텐츠 섹션 */
+.content-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 200px);
+}
+
 /* 컨테이너 */
 .container {
     width: 100%;
@@ -52,13 +60,19 @@
     height: 100%;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    will-change: transform, box-shadow;
 }
 
 .card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 40px var(--shadow-hover);
     border-color: var(--color-light-blue);
-    transition: all 0.3s ease-in-out;
+}
+
+.card:focus-visible {
+    outline: 3px solid var(--color-blue);
+    outline-offset: 2px;
 }
 
 .card-header {
@@ -130,8 +144,17 @@
 }
 
 @media (max-width: 480px) {
+    .content-section {
+        min-height: calc(100vh - 150px);
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
     .section-header {
         gap: 1rem;
+        flex-wrap: wrap;
     }
 
     .section-title {
@@ -151,6 +174,11 @@
 
     .card-list {
         grid-template-columns: repeat(1, 1fr);
+        gap: 1rem;
+    }
+
+    .card {
+        padding: 1.5rem;
     }
 
     .card-info {
@@ -187,6 +215,13 @@
 .search-input {
     width: 100%;
     padding-left: 2.5rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 3px var(--background-blue);
 }
 
 .search-input-box i {
