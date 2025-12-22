@@ -14,8 +14,7 @@
     box-shadow: 0 10px 40px var(--shadow);
     border: 2px solid var(--color-light-blue);
     height: auto;
-    width: 50%;
-    min-width: 500px;
+    width: 500px;
 }
 
 .login-title {
@@ -103,11 +102,6 @@
 }
 
 @media (max-width: 1024px) {
-    .login-card {
-        min-width: 0;
-        width: 70%;
-    }
-
     .user-form .detail-label {
         min-width: 100px;
     }
@@ -115,7 +109,7 @@
 
 @media (max-width: 784px) {
     .login-card {
-        width: 90%;
+        width: 70%;
     }
 
     .login-card .detail-item {
@@ -129,5 +123,23 @@
 
     .login-footer .btn {
         width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        width: 90%;
+    }
+
+    .login-card .detail-header {
+        padding: 2rem 0;
+    }
+
+    .login-card .detail-header i {
+        margin-bottom: 0.5rem;
+    }
+
+    .login-card .detail-body {
+        padding: 0.5rem 1.5rem;
     }
 }
