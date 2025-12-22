@@ -1,0 +1,47 @@
+
+
+{{> layout/header}}
+
+<div class="update-container">
+    <div class="update-container-content">
+        <div class="update-card">
+            <div class="update-header">
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>병결 대체 근무 상세</span>
+            </div>
+
+            <div class="update-body">
+                <div class="update-item">
+                    <span class="update-label">원래 근무자:</span>
+                    <span class="update-value">{{override.originalName}}</span>
+                </div>
+
+                <div class="update-item">
+                    <span class="update-label">대체 근무자:</span>
+                    <span class="update-value">{{override.overrideName}}</span>
+                </div>
+
+                <div class="update-item">
+                    <span class="update-label">날짜:</span>
+                    <span class="update-value">{{override.date}}</span>
+                </div>
+
+                <div class="update-item">
+                    <span class="update-label">시작 시간:</span>
+                    <span class="update-value">{{override.startTime}}</span>
+                </div>
+
+                <div class="update-item">
+                    <span class="update-label">종료 시간:</span>
+                    <span class="update-value">{{override.endTime}}</span>
+                </div>
+
+                <div class="bottom-buttons" style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                    <a href="/override/list" class="btn stock-badge badge-warn" style="flex: 1; text-align: center;">목록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}

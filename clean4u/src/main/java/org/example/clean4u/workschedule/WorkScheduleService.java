@@ -21,24 +21,17 @@ public class WorkScheduleService {
 
     private final EmployeeRepository employeeRepository;
     private final WorkScheduleRepository workScheduleRepository;
+    private final WorkScheduleOverrideRepository workScheduleOverrideRepository;
 
     @Transactional
-    public WorkSchedule saveProc(WorkScheduleRequest.SaveDTO saveDTO) {
+    public WorkSchedule saveNormal(WorkScheduleRequest.SaveDTO saveDTO) {
         Employee employeeEntity = employeeRepository.findById(saveDTO.getEmployeeId())
                 .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
 
-        WorkSchedule workSchedule = saveDTO.toEntity(employeeEntity);
+        WorkSchedule workSchedule = saveDTO.toNormalEntity(employeeEntity);
         workScheduleRepository.save(workSchedule);
 
         return workSchedule;
-    }
-
-    public List<WorkScheduleResponse.ListDTO> scheduleList() {
-        List<WorkSchedule> workSchedules = workScheduleRepository.findAll();
-
-        return workSchedules.stream()
-                .map(WorkScheduleResponse.ListDTO::new)
-                .collect(Collectors.toList());
     }
 
     public List<EmployeeResponse.SimpleDTO> searchByName(String keyword) {
@@ -54,6 +47,14 @@ public class WorkScheduleService {
                 .collect(Collectors.toList());
     }
 
+    public List<WorkScheduleResponse.ListDTO> scheduleList() {
+        List<WorkSchedule> workSchedules = workScheduleRepository.findAll();
+
+        return workSchedules.stream()
+                .map(WorkScheduleResponse.ListDTO::new)
+                .collect(Collectors.toList());
+    }
+
     public WorkScheduleResponse.DetailDTO detail(Long scheduleId) {
         WorkSchedule workScheduleEntity = workScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다."));
@@ -61,7 +62,7 @@ public class WorkScheduleService {
         return new WorkScheduleResponse.DetailDTO(workScheduleEntity);
     }
 
-    public WorkScheduleResponse.UpdateDTO update(Long scheduleId) {
+    public WorkScheduleResponse.UpdateDTO scheduleUpdate(Long scheduleId) {
         WorkSchedule workScheduleEntity = workScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다."));
 
@@ -69,7 +70,7 @@ public class WorkScheduleService {
     }
 
     @Transactional
-    public WorkSchedule updateProc(Long scheduleId, WorkScheduleRequest.UpdateDTO updateDTO) {
+    public WorkSchedule scheduleUpdateProc(Long scheduleId, WorkScheduleRequest.UpdateDTO updateDTO) {
         WorkSchedule workScheduleEntity = workScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다."));
 
