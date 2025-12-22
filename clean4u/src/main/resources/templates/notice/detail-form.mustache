@@ -1,0 +1,38 @@
+{{> layout/header}}
+
+{{> layout/background}}
+
+<div class="notice-container">
+    <div class="notice-container-content">
+        <div class="notice-header">
+            <div class="detail-items">
+                <span class="notice-label">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </span>
+                <span class="detail-value title">
+                    {{notice.title}}
+                </span>
+            </div>
+        </div>
+        <div class="update-body">
+            <div class="detail-items">
+                <span class="notice-label">
+                    <i class="fa-solid fa-message"></i>
+                </span>
+                <span class="detail-value title">
+                    {{notice.content}}
+                </span>
+            </div>
+        </div>
+        <div class="bottom-buttons">
+            <form action="/customer/list" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            </form>
+            <form action="/notice/{{nextId}}" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-right"></i>목록으로</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}

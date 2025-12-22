@@ -24,7 +24,7 @@ public class NoticeController {
     public String saveForm(Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        if (sessionUser != null) {
+        if (sessionUser == null) {
             return "redirect:/login";
         }
 
@@ -34,7 +34,7 @@ public class NoticeController {
 
         model.addAttribute("writer", sessionUser.getName());
 
-        return "/notice/save";
+        return "/notice/save-form";
     }
     // 공지 생성 post
     @PostMapping("/notice/save")
@@ -58,7 +58,7 @@ public class NoticeController {
     public String noticeList(Model model) {
         List<NoticeResponse.ListDTO> noticeList = noticeService.getAllNoticeList();
         model.addAttribute("noticeList", noticeList);
-        return "/notice/list";
+        return "/notice/list-form";
     }
 
     // 공지 디테일
@@ -66,7 +66,7 @@ public class NoticeController {
     public String detail(@PathVariable Long noticeId, Model model) {
         NoticeResponse.DetailDTO notice = noticeService.getNoticeById(noticeId);
 
-        return "/notice/detail";
+        return "/notice/detail-form";
     }
 
     // 공지 수정 화면
@@ -85,7 +85,7 @@ public class NoticeController {
         NoticeResponse.DetailDTO notice = noticeService.getFormForUpdate(noticeId, sessionUser);
         model.addAttribute("notice", notice);
 
-        return "/notice/update";
+        return "/notice/update-form";
     }
     // 공지 수정 post
     @PostMapping("/notice/{noticeId}/update")

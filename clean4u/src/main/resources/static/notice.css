@@ -1,0 +1,103 @@
+.notice-container {
+    margin: 0 auto;
+    padding: 2rem 4rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.notice-container-content {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    min-width: 700px;
+    background: var(--color-white);
+    border-radius: 30px;
+    box-shadow: 0 10px 40px var(--shadow);
+    border: 2px solid var(--color-light-blue);
+    height: auto;
+}
+
+.notice-header {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    padding: 1.5rem 2.5rem;
+    background: var(--background-blue);
+    color: var(--color-dark-blue);
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-bottom: 2px dashed var(--color-light-blue);
+    gap: 1.25rem;
+}
+
+.notice-header i {
+    color: var(--color-light-blue);
+}
+
+.notice-header input {
+    flex: 1;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    background: var(--color-white);
+    border: 3px solid var(--color-light-blue);
+    border-radius: 20px;
+    color: var(--color-dark-blue);
+    transition: all 0.3s ease;
+}
+
+.notice-header input:focus {
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 0 3px var(--background-blue);
+}
+
+.update-body {
+    padding: 0.5rem 2.5rem;
+}
+
+.notice-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    font-size: 1.25rem;
+    border-bottom: 1px dashed var(--color-light-gray);
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.notice-label {
+    color: var(--color-gray);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    min-width: 100px;
+}
+
+.notice-label i {
+    color: var(--color-blue);
+    margin-right: 0.5rem;
+}
+
+.update-item textarea {
+    width: 100%;
+    border: 3px solid var(--color-light-blue);
+    border-radius: 15px;
+    background: var(--color-white);
+    color: var(--color-dark-blue);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.update-item input:focus,
+.update-item textarea:focus {
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 0 3px var(--background-blue);
+}
+
+.update-item textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
