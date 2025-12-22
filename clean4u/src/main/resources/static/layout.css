@@ -205,7 +205,7 @@ nav {
 }
 
 .nav-item.dropdown:hover .fa-chevron-down {
-    transform: rotate(180deg);
+    transform: rotateX(180deg);
 }
 
 .dropdown-menu {
