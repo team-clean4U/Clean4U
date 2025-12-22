@@ -25,10 +25,13 @@ public class LaundryItemController {
             @RequestParam(required = false) String name
     ) {
         List<LaundryItemResponse.ListDTO> laundryItemList;
+        boolean hasName = name != null && !name.isBlank();
 
-        if (category != null) {
+        if (category != null && hasName) {
+            laundryItemList = service.findByNameContainingAndCategory(category, name);
+        } else if (category != null) {
             laundryItemList = service.findByCategory(category);
-        } else if (name != null && !name.isBlank()) {
+        } else if (hasName) {
             laundryItemList = service.findByNameContaining(name);
         } else {
             laundryItemList = service.getAllLaundryItems();
