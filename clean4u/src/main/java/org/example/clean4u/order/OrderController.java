@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -119,10 +120,13 @@ public class OrderController {
     }
 
     @PostMapping("/order/{orderId}/update")
-    public String updateProc(@PathVariable Long orderId, OrderRequest.@Valid UpdateDto updateDto, HttpSession session) {
+    public String updateProc(@PathVariable Long orderId, OrderRequest.@Valid UpdateDto updateDto, HttpSession session, RedirectAttributes redirectAttributes) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        Order order = orderService.updateProc(orderId, updateDto, sessionUser.getId());
-        return "redirect:/order/" + order.getId();
+        boolean isGradeChanged = orderService.updateProc(orderId, updateDto, sessionUser.getId());
+        if(isGradeChanged) {
+            redirectAttributes.addFlashAttribute("alertMessage", "고객 등급이 변경되었습니다.");
+        }
+        return "redirect:/order/" + orderId;
     }
 
     @PostMapping("/order/{orderId}/delete")
