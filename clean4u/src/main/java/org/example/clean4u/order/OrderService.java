@@ -201,7 +201,7 @@ public class OrderService {
 
     // 주문 변경 기능 요청
     @Transactional
-    public Order updateProc(Long orderId, OrderRequest.@Valid UpdateDto updateDto, Long sessionUserId) {
+    public boolean updateProc(Long orderId, OrderRequest.@Valid UpdateDto updateDto, Long sessionUserId) {
         // 1. 주문 조회
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
@@ -252,19 +252,22 @@ public class OrderService {
 
         OrderStatus newStatus = updateDto.getStatus();
 
-        if (newStatus == OrderStatus.COMPLETED) {
-            Customer customer = order.getCustomer();
+        Customer customer = customerRepository.findById(order.getCustomer().getId())
+                .orElseThrow(() -> new Exception404("해당 고객을 찾을 수 없습니다."));
 
-            Long completedCount = orderRepository.countByCustomerAndStatus(customer, OrderStatus.COMPLETED);
+        Grade beforGrade = customer.getGrade();
+
+        if (newStatus == OrderStatus.COMPLETED) {
+            Long completedCount = orderRepository.countByCustomerIdAndStatus(customer.getId(), OrderStatus.COMPLETED);
 
             if (completedCount >= 30) {
-                customer.setGrade(Grade.REGULAR);
-            } else if (completedCount >= 5) {
                 customer.setGrade(Grade.VIP);
+            } else if (completedCount >= 5) {
+                customer.setGrade(Grade.REGULAR);
             }
         }
 
-        return order;
+        return beforGrade != customer.getGrade();
     }
 
     // 주문 삭제 기능 요청
