@@ -22,11 +22,14 @@
                     <input type="hidden" name="category" id="category" {{#category}}value="{{category}}" {{/category}}>
                     <div class="category-select search-category" {{#category}}data-selected="{{category}}" {{/category}}>
                         <i class="fa-solid fa-list"></i>
-                        <span class="category-selected">{{#category}}{{category}}{{/category}}{{^category}}전체 카테고리{{/category}}</span>
+                        <span class="category-selected">
+                            {{#category}}{{categoryList}}{{/category}}
+                            {{^category}}전체 카테고리{{/category}}
+                        </span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <ul class="category-dropdown">
-                        <li data-type="">전체 카테고리</li>
+                        <li data-type="all">전체 카테고리</li>
                         <li data-type="name">이름</li>
                         <li data-type="phone">연락처</li>
                     </ul>

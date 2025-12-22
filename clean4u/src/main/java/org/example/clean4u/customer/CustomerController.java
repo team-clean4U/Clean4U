@@ -37,20 +37,28 @@ public class CustomerController {
     @GetMapping("/customer/list")
     public String customerList(
             @RequestParam(required = false) String keyword,
-            @RequestParam(required = false) String list,
+            @RequestParam(required = false) String category,
             Model model
     ) {
-        model.addAttribute("category", list);
+
+        boolean hasCategory = category != null && !category.isBlank();
+        model.addAttribute("hasCategory", hasCategory);
+
         model.addAttribute("keyword", keyword == null ? "" : keyword);
-        model.addAttribute("list", list == null ? "" : list);
+        model.addAttribute("category", category);
+        String categoryList = (!hasCategory) ? "all" : category;
+        model.addAttribute("categoryList", categoryList);
+
 
         List<CustomerResponse.ListDTO> customerList;
 
         if (keyword == null || keyword.trim().isBlank()) {
             customerList = customerService.getAllCustomers();
-        } else if ("name".equalsIgnoreCase(list)) {
+        } else if ("all".equalsIgnoreCase(category)) {
+            customerList = customerService.getAllCustomersContainingKeyword(keyword.trim());
+        } else if ("name".equalsIgnoreCase(category)) {
             customerList = customerService.searchByName(keyword.trim());
-        } else if ("phone".equalsIgnoreCase(list)) {
+        } else if ("phone".equalsIgnoreCase(category)) {
             customerList = customerService.searchByPhone(keyword.trim());
         } else {
             customerList = customerService.getAllCustomers();
