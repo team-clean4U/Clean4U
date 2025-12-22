@@ -60,7 +60,7 @@
                 <a href="/order/{{orderId}}" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-shopping-bag"></i>
-                        <div style="display: flex; justify-content: space-between; text-align: center; align-items: center;">
+                        <div class="customer-title">
                             <span style="font-size: 0.75rem; padding: 0.2rem 0.5rem;" class="info-value {{#grade}}grade-{{grade}}{{/grade}}">{{grade}}</span>
                             <h4>{{customerName}} <span class="info-label">님 주문</span></h4>
                         </div>
@@ -82,8 +82,6 @@
                 </a>
             {{/orderList}}
         </div>
-
     </div>
 </div>
-<!--sessionUser 추가 (-) -->
 {{>layout/footer}}
