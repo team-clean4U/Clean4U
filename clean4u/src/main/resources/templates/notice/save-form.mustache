@@ -1,0 +1,45 @@
+{{> layout/header}}
+
+{{> layout/background}}
+<div class="container">
+
+    <div class="update-card">
+        <div class="detail-header"><b>고객 등록</b></div>
+        <div class="detail-container">
+            <form action="/customer/save" method="post" class="save-form">
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-award"></i> 등급 :</label>
+                    <span class="info-value grade grade-NEW">{{grade}}</span>
+                </div>
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-id-badge"></i> 이름 :</label>
+                    <input type="text" class="update-value" placeholder="이름" name="name">
+                </div>
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-cake-candles"></i> 생년월일 :</label>
+                    <div class="input-small">
+                        <input type="text" class="update-value" placeholder="생년월일" name="birth">
+                        <small class="input-instruction">ex) 2001-01-01 </small>
+                    </div>
+                </div>
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-mobile-screen"></i> 연락처 :</label>
+                    <div class="input-small">
+                        <input type="tel" pattern="[0-9\-]+" class="update-value" placeholder="연락처" name="phone">
+                        <small class="input-instruction">ex) 010-0000-0000 </small>
+                    </div>
+                </div>
+                <div class="update-items">
+                    <label class="create-label"><i class="fa-solid fa-circle-info"></i> 메모 :</label>
+                    <textarea id="memo" name="memo" placeholder="설명을 입력해주세요." rows="5"
+                              class="update-value memo"></textarea>
+                </div>
+                <button type="submit" class="btn btn-create btn-customer">
+                    <span>+</span>등록
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{> layout/footer}}
