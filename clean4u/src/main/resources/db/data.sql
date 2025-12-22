@@ -42,10 +42,12 @@ INSERT INTO order_tb (customer_id, status, total_price, order_date, memo, editor
     (3, 'DRYING',     45000, '2025-12-03', NULL, 1),
     (1, 'COMPLETED',  18000, '2025-12-04', '재주문', 3),
     (4, 'RECEIVED',   22000, '2025-12-05', '얼룩 제거 요청', 2),
-    (5, 'WASHING',    60000, '2025-12-06', '대량 세탁', 1),
+    (5, 'COMPLETED',    60000, '2025-12-06', '대량 세탁', 1),
     (2, 'DRYING',     38000, '2025-12-07', NULL, 3),
     (3, 'COMPLETED',  27000, '2025-12-08', '빠른 처리 감사', 2),
     (4, 'RECEIVED',   19000, '2025-12-09', NULL, 1),
+    (5, 'COMPLETED',  52000, '2025-12-10', '정기 고객', 3),
+    (5, 'COMPLETED',  52000, '2025-12-10', '정기 고객', 3),
     (5, 'COMPLETED',  52000, '2025-12-10', '정기 고객', 3);
 
 INSERT INTO order_item_tb (order_id, laundry_item_id, quantity, created_at) VALUES

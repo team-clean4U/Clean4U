@@ -1,6 +1,8 @@
 package org.example.clean4u.order;
 
 import lombok.Data;
+import org.example.clean4u._core.utils.PriceUtil;
+import org.example.clean4u.customer.Grade;
 import org.example.clean4u.order.orderItem.OrderItemResponse;
 
 import java.time.LocalDate;
@@ -13,6 +15,7 @@ public class OrderResponse {
         private Long orderId;
         private String customerName;
         private String phone;
+        private Grade grade;
         private LocalDate orderDate;
         private OrderStatus status;
 
@@ -21,6 +24,7 @@ public class OrderResponse {
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
                 this.phone = order.getCustomer().getPhone();
+                this.grade = order.getCustomer().getGrade();
             }
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();
@@ -31,22 +35,24 @@ public class OrderResponse {
     public static class DetailDto {
         private Long orderId;
         private String customerName;
+        private Grade grade;
         private LocalDate orderDate;
         private OrderStatus status;
         private String memo;
 
-        private Integer totalPrice;
+        private String totalPrice;
         private List<OrderItemResponse.DetailDto> items;
 
         public DetailDto(Order order, List<OrderItemResponse.DetailDto> items, int totalPrice) {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
+                this.grade = order.getCustomer().getGrade();
             }
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();
             this.memo = order.getMemo();
-            this.totalPrice = totalPrice;
+            this.totalPrice = PriceUtil.format(totalPrice);
             this.items = items;
         }
     }
@@ -55,6 +61,7 @@ public class OrderResponse {
     public static class UpdateFormDto {
         private Long orderId;
         private String customerName;
+        private Grade grade;
         private OrderStatus status;
         private String memo;
         private List<OrderItemResponse.UpdateFormDto> items;
@@ -63,6 +70,7 @@ public class OrderResponse {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
+                this.grade = order.getCustomer().getGrade();
             }
             this.status = order.getStatus();
             this.memo = order.getMemo();

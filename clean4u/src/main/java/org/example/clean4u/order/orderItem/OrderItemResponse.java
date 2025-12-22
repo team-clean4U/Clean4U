@@ -1,6 +1,7 @@
 package org.example.clean4u.order.orderItem;
 
 import lombok.Data;
+import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.laundryItem.LaundryCategory;
 import org.example.clean4u.laundryOption.LaundryOption;
 import org.example.clean4u.order.orderItemOption.OrderItemOptionResponse;
@@ -15,9 +16,9 @@ public class OrderItemResponse {
         private LaundryCategory laundryCategory;
         private Integer quantity;
 
-        private Integer basePrice; // 1개당 가격 * quantity
-        private Integer optionalTotalPrice;
-        private Integer itemTotalPrice; // (기본) * quantity + 옵션
+        private String basePrice; // 1개당 가격 * quantity
+        private String optionalTotalPrice;
+        private String itemTotalPrice; // (기본) * quantity + 옵션
 
         private List<OrderItemOptionResponse.DetailDto> options;
 
@@ -26,11 +27,13 @@ public class OrderItemResponse {
             this.laundryCategory = orderItem.getLaundryItem().getCategory();
             this.quantity = orderItem.getQuantity();
             int base = orderItem.getLaundryItem().getBasePrice();
-            this.basePrice = base * orderItem.getQuantity();
-            this.optionalTotalPrice = options.stream()
+            int basePriceInt = base * orderItem.getQuantity();
+            this.basePrice = PriceUtil.format(basePriceInt);
+            int optionTotalPriceInt = options.stream()
                     .mapToInt(OrderItemOptionResponse.DetailDto::getExtraPrice)
                     .sum();
-            this.itemTotalPrice = this.basePrice + this.optionalTotalPrice;
+            this.optionalTotalPrice = PriceUtil.format(optionTotalPriceInt);
+            this.itemTotalPrice = PriceUtil.format(basePriceInt + optionTotalPriceInt);
             this.options = options;
         }
     }
