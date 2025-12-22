@@ -183,6 +183,15 @@ input.has-value {
     flex-direction: column;
 }
 
+.option-card {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
 .option-label {
     text-align: center;
 
@@ -296,4 +305,12 @@ input.has-value {
 
 .order-update .laundry-info-detail {
     gap: 2rem;
+}
+
+.customer-title {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    align-items: center;
 }

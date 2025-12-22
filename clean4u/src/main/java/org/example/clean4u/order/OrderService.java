@@ -217,7 +217,6 @@ public class OrderService {
         order.updateEditor(editor);
 
         entityManager.flush();
-        entityManager.clear();
 
         // 3. 기존 주문 옵션 모두 삭제
         orderItemOptionRepository.deleteByOrderId(order.getId());
