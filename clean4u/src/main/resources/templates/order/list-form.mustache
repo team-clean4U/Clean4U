@@ -42,12 +42,12 @@
                 <div class="search-box">
                     <div class="search-input-box">
                         <i class="fa-solid fa-calendar-alt"></i>
-                        <input type="date" name="fromDate" value="{{#fromDate}}{{fromDate}}{{/fromDate}}" class="search-input date-input">
+                            <input type="date" name="fromDate" value="{{#fromDate}}{{fromDate}}{{/fromDate}}" class="search-input date-input" min="1900-01-01" max="9999-12-31">
                     </div>
                     <span class="date-separator">~</span>
                     <div class="search-input-box date">
                         <i class="fa-solid fa-calendar-alt"></i>
-                        <input type="date" name="toDate" value="{{#toDate}}{{toDate}}{{/toDate}}" class="search-input date-input">
+                        <input type="date" name="toDate" value="{{#toDate}}{{toDate}}{{/toDate}}" class="search-input date-input" min="1900-01-01" max="9999-12-31">
                     </div>
                     <button type="submit" class="btn btn-submit">조회</button>
                 </div>
