@@ -4,27 +4,34 @@
 
 <div class="notice-container">
     <div class="notice-container-content">
-        <form action="/notice/save" method="get">
-            <div class="notice-header">
-                <label class="notice-label">
-                    <i class="fa-solid fa-bullhorn"></i>제목:
-                </label>
-                <input type="text" name="title" placeholder="제목을 입력해주세요." required>
+        <div class="notice-header">
+            <div class="detail-items">
+                <span class="notice-label">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </span>
+                <span class="detail-value title">
+                    {{notice.title}}
+                </span>
             </div>
-            <div class="update-body">
-                <div class="notice-item">
-                    <label for="content" class="notice-label">
-                        <i class="fa-solid fa-message"></i>내용 :
-                    </label>
-                    <textarea id="description" name="content" placeholder="내용을 입력해주세요." rows="16"
-                              class="update-value"></textarea>
-                </div>
+        </div>
+        <div class="update-body">
+            <div class="detail-items">
+                <span class="notice-label">
+                    <i class="fa-solid fa-message"></i>
+                </span>
+                <span class="detail-value title">
+                    {{notice.content}}
+                </span>
             </div>
-            <div class="bottom-buttons">
-                <a href="/laundry-item" class="btn btn-back">취소</a>
-                <button type="submit" class="btn btn-create">완료</button>
-            </div>
-        </form>
+        </div>
+        <div class="bottom-buttons">
+            <form action="/customer/list" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            </form>
+            <form action="/notice/{{nextId}}" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-right"></i>목록으로</button>
+            </form>
+        </div>
     </div>
 </div>
 
