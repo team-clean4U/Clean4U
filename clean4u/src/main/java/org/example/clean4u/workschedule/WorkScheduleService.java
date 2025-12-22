@@ -1,7 +1,7 @@
 package org.example.clean4u.workschedule;
 
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception404;
+import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.employee.EmployeeResponse;
@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service

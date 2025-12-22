@@ -1,7 +1,8 @@
-package org.example.clean4u._core.exception;
+package org.example.clean4u._core.errors;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.example.clean4u._core.errors.exception.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

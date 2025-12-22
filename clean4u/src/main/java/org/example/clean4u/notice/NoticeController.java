@@ -3,7 +3,7 @@ package org.example.clean4u.notice;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception403;
+import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.UserRole;
 import org.springframework.stereotype.Controller;

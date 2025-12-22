@@ -2,10 +2,9 @@ package org.example.clean4u.customer;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.exception.Exception400;
+import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

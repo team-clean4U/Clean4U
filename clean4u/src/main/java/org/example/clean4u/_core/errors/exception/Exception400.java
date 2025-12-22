@@ -1,4 +1,4 @@
-package org.example.clean4u._core.exception;
+package org.example.clean4u._core.errors.exception;
 
 public class Exception400 extends RuntimeException{
     public Exception400(String message) {
