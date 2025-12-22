@@ -7,8 +7,8 @@
         <h2 class="section-title"><i class="fas fa-user-clock"></i> 승인 대기 직원 리스트</h2>
     </div>
 
-    {{#joinList}}
-        <div class="card-list">
+    <div class="card-list">
+        {{#joinList}}
             <div class="card">
                 <div class="card-header">
                     <i class="fas fa-user"></i>
@@ -35,8 +35,8 @@
                     </form>
                 </div>
             </div>
-        </div>
-    {{/joinList}}
+        {{/joinList}}
+    </div>
 
     {{^joinList}}
         <div class="blank">
