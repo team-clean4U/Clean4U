@@ -1,10 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{{> layout/header}}
 
-</body>
-</html>
+{{> layout/background}}
+<div class="notice-list-container">
+    <div class="notice-card">
+        <div class="notice-list-header">
+            <h2 class="notice-header-left">
+                <i class="fa-solid fa-bullhorn"></i>
+                공지사항
+            </h2>
+            <a href="/notice/save" class="btn btn-create">
+                <span>+</span> 공지 작성
+            </a>
+        </div>
+        <div class="notice-body">
+            {{#noticeList}}
+            <div class="notice-item">
+                <div class="notice-left">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <div class="notice-right">
+                    <div class="notice-first-line">
+                        <span class="notice-title">{{title}}</span>
+                        <a href="notice/{{id}}" class="notice-detail">자세히 보기 →</a>
+                    </div>
+                    <div class="notice-second-line">
+                        <span class="notice-info">
+                            <i class="fa-solid fa-user-tie"></i>{{writer}}
+                        </span>
+                        <span class="notice-info">
+                            <i class="fa-solid fa-calendar-alt"></i>{{createdAt}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {{/noticeList}}
+        </div>
+    </div>
+</div>
+
+
+{{> layout/footer}}

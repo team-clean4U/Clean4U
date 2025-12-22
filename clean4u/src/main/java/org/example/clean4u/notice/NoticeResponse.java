@@ -18,6 +18,9 @@ public class NoticeResponse {
             if (notice.getEmployee() != null) {
                 this.writer = notice.getEmployee().getName();
             }
+            if (notice.getCreatedAt() != null) {
+                this.createdAt = DateUtil.timestampFormat(notice.getCreatedAt());
+            }
         }
     }
 
