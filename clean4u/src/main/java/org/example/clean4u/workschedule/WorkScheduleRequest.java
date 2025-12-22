@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.clean4u.employee.Employee;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 public class WorkScheduleRequest {
     @Data
@@ -15,13 +15,27 @@ public class WorkScheduleRequest {
         private Long employeeId;
         @NotBlank(message = "근무자의 이름은 비워둘 수 없습니다.")
         private String name;
-        @NotNull(message = "시작 시간은 비워둘 수 없습니다.")
+        @NotNull(message = "사유는 반드시 선택해야 합니다.")
+        private ScheduleReason reason;
+
         private LocalTime startTime;
-        @NotNull(message = "종료 시간은 비워둘 수 없습니다.")
         private LocalTime endTime;
 
-        public WorkSchedule toEntity(Employee employee) {
+        private LocalDate date;
+        private Long overrideId;
+        private LocalTime overrideStartTime;
+        private LocalTime overrideEndTime;
+
+        public boolean isSick() {
+            return reason == ScheduleReason.병결;
+        }
+
+        public WorkSchedule toNormalEntity(Employee employee) {
             return new WorkSchedule(employee, startTime, endTime);
+        }
+
+        public WorkScheduleOverride toSickEntity(Employee originalEmployee, Employee overrideEmployee) {
+            return new WorkScheduleOverride(date, originalEmployee, overrideEmployee, overrideStartTime, overrideEndTime);
         }
     }
 

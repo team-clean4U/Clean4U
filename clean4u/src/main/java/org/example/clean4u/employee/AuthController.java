@@ -30,13 +30,13 @@ public class AuthController {
 //    public String approve(@PathVariable Long employeeId) {
 //
 //        authService.approve(employeeId);
-//        return "redirect:/employe/join-list";
+//        return "redirect:/employee/join-list";
 //    }
 //
 //    @PostMapping("/{employeeId}/reject")
 //    public String reject(@PathVariable Long employeeId) {
 //
 //        authService.reject(employeeId);
-//        return "redirect:/employe/join-list";
+//        return "redirect:/employee/join-list";
 //    }
 }

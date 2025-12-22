@@ -11,36 +11,111 @@
                 <span>근무 스케줄 등록</span>
             </div>
 
-            <!-- 폼 -->
-            <form action="/schedule" method="post" class="update-body">
-                <!-- 직원 ID 숨김 -->
-                <input type="hidden" name="employeeId" value="{{employee.id}}">
-
-                <!-- 이름 (readonly) -->
+            <div class="update-body">
                 <div class="update-item">
-                    <span class="update-label">이름:</span>
+                    <span class="update-label">
+                        <i class="fa-solid fa-user"></i>
+                        이름
+                    </span>
                     <span class="update-value">{{employee.name}}</span>
                 </div>
 
-                <!-- 시작 시간 -->
-                <div class="update-item">
-                    <label class="update-label" for="startTime">시작 시간:</label>
-                    <input type="time" id="startTime" name="startTime" required>
-                </div>
+                <form method="GET" action="/schedule/{{employee.id}}">
+                    <div class="update-item">
+                        <label class="update-label" for="reason">
+                            <i class="fa-solid fa-list"></i>
+                            사유
+                        </label>
+                        <select name="reason" id="reason" class="update-select" style="flex: 1;">
+                            <option value="" {{^reason}}selected{{/reason}}>선택</option>
+                            <option value="일반근무" {{^isSick}}{{#reason}}selected{{/reason}}{{/isSick}}>일반근무</option>
+                            <option value="병결" {{#isSick}}selected{{/isSick}}>병가</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; justify-content: center; margin: 10px 0; padding: 10px 0;">
+                        <button type="submit" class="btn btn-submit" style="padding: 10px 20px;">선택</button>
+                    </div>
+                </form>
 
-                <!-- 종료 시간 -->
-                <div class="update-item">
-                    <label class="update-label" for="endTime">종료 시간:</label>
-                    <input type="time" id="endTime" name="endTime" required>
-                </div>
+                {{^isSick}}
+                    {{#reason}}
+                        <form method="POST" action="/schedule">
+                            <input type="hidden" name="employeeId" value="{{employee.id}}">
+                            <input type="hidden" name="name" value="{{employee.name}}">
+                            <input type="hidden" name="reason" value="{{reason}}">
 
-                <div class="bottom-buttons">
-                    <button type="submit" class="btn btn-add">저장</button>
-                    <a href="/schedule/list" class="btn stock-badge badge-warn">취소</a>
-                </div>
-            </form>
+                            <div class="update-item">
+                                <label class="update-label" for="startTime">
+                                    <i class="fa-solid fa-clock"></i>
+                                    시작 시간
+                                </label>
+                                <input type="time" id="startTime" name="startTime" class="update-value">
+                            </div>
+                            <div class="update-item">
+                                <label class="update-label" for="endTime">
+                                    <i class="fa-solid fa-clock"></i>
+                                    종료 시간
+                                </label>
+                                <input type="time" id="endTime" name="endTime" class="update-value">
+                            </div>
+
+                            <div class="bottom-buttons">
+                                <a href="/schedule/list" class="btn btn-back">취소</a>
+                                <button type="submit" class="btn btn-submit">제출</button>
+                            </div>
+                        </form>
+                    {{/reason}}
+                {{/isSick}}
+
+                {{#isSick}}
+                    <form method="POST" action="/schedule">
+                        <input type="hidden" name="employeeId" value="{{employee.id}}">
+                        <input type="hidden" name="name" value="{{employee.name}}">
+                        <input type="hidden" name="reason" value="{{reason}}">
+
+                        <div class="update-item">
+                            <label class="update-label" for="date">
+                                <i class="fa-solid fa-calendar"></i>
+                                병결 날짜
+                            </label>
+                            <input type="date" id="date" name="date" class="update-value">
+                        </div>
+                        <div class="update-item">
+                            <label class="update-label" for="overrideId">
+                                <i class="fa-solid fa-user-group"></i>
+                                대체 인원
+                            </label>
+                            <select name="overrideId" id="overrideId" class="update-value" required>
+                                <option value="">선택</option>
+                                {{#overrideList}}
+                                    <option value="{{id}}">{{name}}</option>
+                                {{/overrideList}}
+                            </select>
+                        </div>
+                        <div class="update-item">
+                            <label class="update-label" for="startTime">
+                                <i class="fa-solid fa-clock"></i>
+                                시작 시간
+                            </label>
+                            <input type="time" id="startTime" name="startTime" class="update-value">
+                        </div>
+                        <div class="update-item">
+                            <label class="update-label" for="endTime">
+                                <i class="fa-solid fa-clock"></i>
+                                종료 시간
+                            </label>
+                            <input type="time" id="endTime" name="endTime" class="update-value">
+                        </div>
+
+                        <div class="bottom-buttons">
+                            <a href="/schedule/list" class="btn btn-back">취소</a>
+                            <button type="submit" class="btn btn-submit">제출</button>
+                        </div>
+                    </form>
+                {{/isSick}}
+
+            </div>
         </div>
     </div>
 </div>
-
 {{> layout/footer}}
