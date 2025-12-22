@@ -19,8 +19,15 @@
 
         <div class="detail-card">
             <div class="detail-header order-header">
-                <i class="fa-solid fa-user user-icon"></i>
                 <h4>{{order.customerName}}</h4>
+                <span style="
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin: 0.8rem auto 0;
+                        font-weight: 600;
+                        padding: 0.5rem;
+                    " class="{{#order.grade}}grade-{{order.grade}}{{/order.grade}}">{{order.grade}}</span>
             </div>
 
             <div class="detail-body">
@@ -82,7 +89,7 @@
                             {{#options}}
                                 <div class="laundry-item-row">
                                     <span class="laundry-item-label">추가 옵션:</span>
-                                    <div class="laundry-item-option">
+                                    <div class="laundry-item-option" style="flex-direction: row;">
                                         <span class="option-label">옵션</span>
                                         <span class="laundry-item-value">{{optionName}}</span>
                                         <span class="laundry-item-value option-price">+ {{extraPrice}}원</span>
@@ -114,3 +121,8 @@
     </div>
 </div>
 {{>layout/footer}}
+{{#alertMessage}}
+<script>
+    alert("{{alertMessage}}")
+</script>
+{{/alertMessage}}
