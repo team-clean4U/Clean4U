@@ -16,6 +16,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
+        registry.addInterceptor(sessionInterceptor)
+                .addPathPatterns("/**");
+
+
         registry.addInterceptor(accessInterceptor)
                 .addPathPatterns(
                         "/employee/**",
@@ -37,8 +42,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/favicon.ico",
                         "/h2-console/**"
                 );
-
-        registry.addInterceptor(sessionInterceptor)
-                .addPathPatterns("/**");
     }
 }
