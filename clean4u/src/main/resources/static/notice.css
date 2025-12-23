@@ -126,7 +126,7 @@
 }
 
 .notice-header-left {
-    align-content: center;
+    align-items: center;
     text-align: center;
     color: var(--color-dark-blue);
     font-size: 2rem;
