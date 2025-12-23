@@ -21,6 +21,7 @@
 
 .notice-header {
     display: flex;
+    flex: 1;
     text-align: center;
     justify-content: space-between;
     padding: 1.5rem 2.5rem;
@@ -125,6 +126,10 @@
     color: var(--color-light-blue);
 }
 
+.notice-info i {
+    margin-right: 0.25rem;
+}
+
 .notice-header-left {
     align-items: center;
     text-align: center;
@@ -141,14 +146,14 @@
     gap: 1rem;
 }
 
-.notice-item {
+.notice-items {
     display: flex;
     align-items: center;
     gap: 1rem;
 
     background: var(--color-white);
     border-radius: 14px;
-    padding: 1.5rem 2rem;
+    padding: 0.5rem 1.5rem;
 
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
@@ -184,7 +189,7 @@
 }
 
 .notice-title {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--color-dark-blue);
 }
@@ -196,9 +201,75 @@
 }
 
 .notice-second-line {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--color-gray);
+    display: flex;
+    gap: 0.5rem;
 }
+
+/*detail*/
+.notice-detail-header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--background-blue);
+    color: var(--color-dark-blue);
+    font-size: 2rem;
+    border-bottom: 2px dashed var(--color-light-blue);
+    gap: 1rem;
+}
+
+.notice-detail-header i {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: var(--color-light-blue);
+}
+
+.notice-detail-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.notice-detail-writer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.notice-detail-writer i{
+    width: 50%;
+    margin-bottom: 1rem;
+    color: var(--color-light-blue);
+}
+
+.writer {
+    font-size: 0.9rem;
+}
+
+.no-notice {
+    border-radius: 50px;
+    font-weight: 600;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0.7rem 1.2rem;
+    font-size: 1rem;
+
+    color: var(--color-gray);
+    border: 2px solid var(--color-gray);
+    background-color: var(--color-light-gray);
+}
+
+.no-notice i {
+    margin-left: 0.5rem;
+}
+
+
 
 
 
