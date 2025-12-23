@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.customer.CustomerRepository;
 import org.example.clean4u.customer.Grade;
@@ -18,6 +19,10 @@ import org.example.clean4u.orderItemOption.OrderItemOption;
 import org.example.clean4u.orderItemOption.OrderItemOptionRepository;
 import org.example.clean4u.orderItemOption.OrderItemOptionResponse;
 import org.example.clean4u.orderItem.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,13 +79,22 @@ public class OrderService {
     }
 
     // 주문 검색 조회
-    public List<OrderResponse.ListDto> orderList(
+    public PageResponse<OrderResponse.ListDto> orderList(
+            // Todo : Dto로 묶기
+            int page,
+            int size,
             OrderStatus status,
             String customerName,
             String phone,
             LocalDate fromDate,
             LocalDate toDate,
             Long sessionUserId) {
+        int validPage = Math.max(0, page);
+        int validSize = Math.max(1, Math.min(50, size));
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
+
         boolean existingUser = employeeRepository.existsById(sessionUserId);
         if(!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
@@ -94,10 +108,9 @@ public class OrderService {
             throw new Exception400("검색 시작 날짜는 검색 종료 날짜보다 우선이어야 합니다.");
         }
 
-        List<Order> orderList = orderRepository.searchOrder(status, customerName, phone, fromDate, toDate);
-        return orderList.stream()
-                .map(OrderResponse.ListDto::new)
-                .toList();
+        Page<Order> orderPage = orderRepository.searchOrder(pageable, status, customerName, phone, fromDate, toDate);
+
+        return new PageResponse<>(orderPage, OrderResponse.ListDto::new);
     }
 
     // 주문 상세 조회

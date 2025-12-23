@@ -3,7 +3,11 @@ package org.example.clean4u.order;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,7 +16,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     private final EntityManager em;
 
     @Override
-    public List<Order> searchOrder(OrderStatus status, String customerName, String phone, LocalDate fromDate, LocalDate toDate) {
+    public Page<Order> searchOrder(Pageable pageable, OrderStatus status, String customerName, String phone, LocalDate fromDate, LocalDate toDate) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT o FROM Order o JOIN o.customer c");
 
@@ -44,13 +48,38 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         }
 
         TypedQuery<Order> query = em.createQuery(jpql.toString(), Order.class);
+        TypedQuery<Long> countQuery = em.createQuery(
+                jpql.toString().replace("SELECT o", "SELECT COUNT(o)"),
+                Long.class
+        );
 
-        if(status != null) query.setParameter("status", status);
-        if(customerName != null && !customerName.isEmpty()) query.setParameter("customerName", customerName);
-        if(phone != null && !phone.isEmpty()) query.setParameter("phone", phone);
-        if(fromDate != null) query.setParameter("fromDate", fromDate);
-        if(toDate != null) query.setParameter("toDate", toDate);
+        if(status != null) {
+            query.setParameter("status", status);
+            countQuery.setParameter("status", status);
+        }
+        if(customerName != null && !customerName.isEmpty()) {
+            query.setParameter("customerName", customerName);
+            countQuery.setParameter("customerName", customerName);
+        }
+        if(phone != null && !phone.isEmpty()) {
+            query.setParameter("phone", phone);
+            countQuery.setParameter("phone", phone);
+        }
+        if(fromDate != null) {
+            query.setParameter("fromDate", fromDate);
+            countQuery.setParameter("fromDate", fromDate);
+        }
+        if(toDate != null) {
+            query.setParameter("toDate", toDate);
+            countQuery.setParameter("toDate", toDate);
+        }
 
-        return query.getResultList();
+        query.setFirstResult((int) pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+
+        List<Order> content = query.getResultList();
+        Long total = countQuery.getSingleResult();
+
+        return new PageImpl<>(content, pageable, total);
     }
 }

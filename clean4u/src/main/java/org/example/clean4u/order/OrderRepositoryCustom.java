@@ -1,10 +1,13 @@
 package org.example.clean4u.order;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDate;
-import java.util.List;
 
 public interface OrderRepositoryCustom {
-     List<Order> searchOrder(
+     Page<Order> searchOrder(
+             Pageable pageable,
             OrderStatus status,
             String customerName,
             String phone,

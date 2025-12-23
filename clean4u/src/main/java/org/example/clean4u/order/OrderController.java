@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.customer.CustomerService;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.laundryItem.LaundryItemResponse;
@@ -65,6 +66,9 @@ public class OrderController {
     @GetMapping("/order/list")
     public String orderList(
             Model model,
+            // ToDo: DTO 로 묶기
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "9") int size,
             @RequestParam(required = false) OrderStatus status,
             @RequestParam(required = false) String customerName,
             @RequestParam(required = false) String phone,
@@ -73,9 +77,11 @@ public class OrderController {
             HttpSession session
     ) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+        int pageIndex = Math.max(0, page - 1);
 
-        List<OrderResponse.ListDto> orderList = orderService.orderList(status, customerName, phone, fromDate, toDate, sessionUser.getId());
-        model.addAttribute("orderList", orderList);
+        PageResponse<OrderResponse.ListDto> orderListPage = orderService.orderList(pageIndex, size, status, customerName, phone, fromDate, toDate, sessionUser.getId());
+        model.addAttribute("orderList", orderListPage.getContent());
+        model.addAttribute("page", orderListPage);
         model.addAttribute("customerName", customerName);
         model.addAttribute("phone", phone);
         model.addAttribute("status", status);
