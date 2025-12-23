@@ -5,16 +5,9 @@
     <div class="detail-container-content">
         <div class="detail-card">
             <form action="/order/{{order.orderId}}/update" method="post">
-                <div class="detail-header order-header">
+                <div class="detail-header order-detail-header">
+                    <span class="user-info {{#order.grade}}grade-{{order.grade}}{{/order.grade}}">{{order.grade}}</span>
                     <h4>{{order.customerName}}</h4>
-                    <span style="
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin: 0.8rem auto 0;
-                    font-weight: 600;
-                    padding: 0.5rem;
-                " class="{{#order.grade}}grade-{{order.grade}}{{/order.grade}}">{{order.grade}}</span>
                 </div>
 
                 <div class="detail-body">
