@@ -12,8 +12,8 @@ public interface OrderItemOptionRepository extends JpaRepository<OrderItemOption
     @Query("""
         SELECT oio
         FROM OrderItemOption oio
-        JOIN FETCH oio.orderItem
-        JOIN FETCH oio.laundryOption
+            JOIN FETCH oio.orderItem
+            JOIN FETCH oio.laundryOption
         WHERE oio.orderItem.order.id = :orderId
 """)
     List<OrderItemOption> findAllByOrderId(@Param("orderId") Long orderId);
@@ -21,8 +21,8 @@ public interface OrderItemOptionRepository extends JpaRepository<OrderItemOption
     @Query("""
         SELECT oio
         FROM OrderItemOption oio
-        JOIN FETCH oio.laundryOption
-        JOIN FETCH oio.orderItem
+            JOIN FETCH oio.laundryOption
+            JOIN FETCH oio.orderItem
         WHERE oio.orderItem.id = :orderItemId
         
 """)
