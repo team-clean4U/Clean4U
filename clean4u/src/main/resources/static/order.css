@@ -176,6 +176,7 @@ input.has-value {
 .laundry-item-value {
     color: var(--color-dark-blue);
     font-weight: 600;
+    flex: 1;
 }
 
 .laundry-item-option {
