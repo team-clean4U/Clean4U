@@ -168,7 +168,9 @@ nav {
     border-radius: 15px;
     white-space: nowrap;
     transition: all 0.3s ease-in-out;
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .nav-link.active {
