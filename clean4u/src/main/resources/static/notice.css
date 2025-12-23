@@ -107,16 +107,16 @@
     margin: 0 auto;
     padding: 2rem 4rem;
     width: 100%;
+    max-width: 1280px;
+    flex: 1;
 }
 
 .notice-list-header {
     display: flex;
     text-align: center;
     justify-content: space-between;
-    padding: 1.5rem 2.5rem;
+    margin-bottom: 1.15rem;
     color: var(--color-dark-blue);
-    font-size: 1.25rem;
-    font-weight: 700;
     gap: 1.25rem;
 }
 
@@ -126,11 +126,13 @@
 }
 
 .notice-header-left {
-    align-content: center;
+    align-items: center;
     text-align: center;
     color: var(--color-dark-blue);
     font-size: 2rem;
     font-weight: 700;
+    display: flex;
+    gap: 1rem;
 }
 
 .notice-body {

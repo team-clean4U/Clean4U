@@ -23,7 +23,7 @@
 .section-header {
     display: flex;
     justify-content: space-between;
-    align-content: center;
+    align-items: center;
     margin-bottom: 1rem;
 }
 
@@ -32,7 +32,7 @@
     font-weight: 700;
     color: var(--color-dark-blue);
     display: flex;
-    align-content: center;
+    align-items: center;
     gap: 1rem;
 }
 

@@ -168,7 +168,9 @@ nav {
     border-radius: 15px;
     white-space: nowrap;
     transition: all 0.3s ease-in-out;
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .nav-link.active {
@@ -195,13 +197,31 @@ nav {
 
 .dropdown-toggle {
     cursor: pointer;
-    display: block;
+}
+
+.nav-link.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link.dropdown-toggle > i:first-child {
+    flex-shrink: 0;
+}
+
+.nav-link.dropdown-toggle > i:last-child {
+    margin-left: auto;
+    flex-shrink: 0;
 }
 
 .dropdown-toggle .fa-chevron-down {
     font-size: 0.8rem;
-    margin-left: 0.5rem;
     transition: transform 0.3s ease-in;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    height: 1rem;
 }
 
 .nav-item.dropdown:hover .fa-chevron-down {
