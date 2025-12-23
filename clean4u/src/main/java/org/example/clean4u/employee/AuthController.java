@@ -6,6 +6,8 @@ import org.example.clean4u._core.errors.exception.Exception403;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,17 +26,17 @@ public class AuthController {
         return "employee/join-list";
     }
 
-//    @PostMapping("/{employeeId}/approve")
-//    public String approve(@PathVariable Long employeeId) {
-//
-//        authService.approve(employeeId);
-//        return "redirect:/employee/join-list";
-//    }
-//
-//    @PostMapping("/{employeeId}/reject")
-//    public String reject(@PathVariable Long employeeId) {
-//
-//        authService.reject(employeeId);
-//        return "redirect:/employee/join-list";
-//    }
+    @PostMapping("/employee/{employeeId}/approve")
+    public String approve(@PathVariable Long employeeId) {
+
+        authService.approve(employeeId);
+        return "redirect:/employee/join-list";
+    }
+
+    @PostMapping("/employee/{employeeId}/reject")
+    public String reject(@PathVariable Long employeeId) {
+
+        authService.reject(employeeId);
+        return "redirect:/employee/join-list";
+    }
 }

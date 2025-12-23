@@ -2,6 +2,7 @@ package org.example.clean4u._core.config;
 
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.interceptor.AccessInterceptor;
+import org.example.clean4u._core.interceptor.AuthInterceptor;
 import org.example.clean4u._core.interceptor.SessionInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -13,6 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private final AccessInterceptor accessInterceptor;
     private final SessionInterceptor sessionInterceptor;
+    private final AuthInterceptor authInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -24,6 +26,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(accessInterceptor)
                 .addPathPatterns(
                         "/employee/**",
+                        "/me/**",
                         "/laundry-item/**",
                         "/laundry-option/**",
                         "/supply-item/**",
@@ -42,5 +45,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/favicon.ico",
                         "/h2-console/**"
                 );
+
+        registry.addInterceptor(authInterceptor)
+                .addPathPatterns("/employee/**", "/schedule/**", "/override/**");
     }
 }

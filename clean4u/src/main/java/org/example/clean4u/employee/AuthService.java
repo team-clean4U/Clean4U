@@ -18,6 +18,7 @@ public class AuthService {
         List<Employee> employeeList = employeeRepository.findAllByOrderByCreatedAtDesc();
 
         return employeeList.stream()
+                .filter(e -> e.getUserStatus().equals(UserStatus.PENDING))
                 .map(EmployeeResponse.JoinListDTO::new)
                 .collect(Collectors.toList());
     }
@@ -33,5 +34,35 @@ public class AuthService {
         return employeeRepository.findAll().stream()
                 .filter(e -> !e.getId().equals(employee.getId()))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Employee approve(Long employeeId) {
+        Employee employeeEntity = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
+
+        if (!employeeEntity.getUserStatus().equals(UserStatus.PENDING)) {
+            return employeeEntity;
+        }
+
+        employeeEntity.setUserStatus(UserStatus.ACTIVE);
+        employeeRepository.save(employeeEntity);
+
+        return employeeEntity;
+    }
+
+    @Transactional
+    public Employee reject(Long employeeId) {
+        Employee employeeEntity = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
+
+        if (!employeeEntity.getUserStatus().equals(UserStatus.PENDING)) {
+            return employeeEntity;
+        }
+
+        employeeEntity.setUserStatus(UserStatus.REJECTED);
+        employeeRepository.save(employeeEntity);
+
+        return employeeEntity;
     }
 }
