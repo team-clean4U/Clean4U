@@ -1,0 +1,42 @@
+<!-- http://localhost:8080/employee/list -->
+
+{{> layout/header}}
+
+<div class="container">
+    <div class="section-header">
+        <h2 class="section-title">
+            <i class="fas fa-users"></i> 직원 목록
+        </h2>
+    </div>
+
+    <div class="card-list">
+        {{#employeeList}}
+            <a href="/employee/{{id}}/detail">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-user"></i>
+                        <h4>{{name}}</h4>
+                    </div>
+
+                    <div class="card-info">
+                        <span class="info-label">아이디</span>
+                        <span class="info-value">{{username}}</span>
+                    </div>
+
+                    <div class="card-info">
+                        <span class="info-label">이메일</span>
+                        <span class="info-value">{{email}}</span>
+                    </div>
+                </div>
+            </a>
+        {{/employeeList}}
+    </div>
+
+    {{^employeeList}}
+        <div class="blank">
+            <p>등록된 직원이 없습니다.</p>
+        </div>
+    {{/employeeList}}
+</div>
+
+{{> layout/footer}}

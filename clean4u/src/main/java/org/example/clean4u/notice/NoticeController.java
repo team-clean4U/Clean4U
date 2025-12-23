@@ -28,7 +28,7 @@ public class NoticeController {
             return "redirect:/login";
         }
 
-        if (sessionUser.getUserRole() != UserRole.ADMIN) {
+        if (sessionUser.getUserRole() != UserRole.관리자) {
             throw new Exception403("공지사항 작성 권한이 없습니다.");
         }
 

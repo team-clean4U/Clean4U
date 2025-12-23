@@ -1,6 +1,6 @@
 package org.example.clean4u.employee;
 
 public enum UserRole {
-    ADMIN,
-    EMPLOYEE
+    관리자,
+    일반직원
 }

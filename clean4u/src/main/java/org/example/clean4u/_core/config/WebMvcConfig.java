@@ -38,6 +38,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/login", "/login/**",
                         "/join", "/join/**",
                         "/logout",
+                        "/notice/list/**",
+                        "/notice/{id:\\d+}",
                         "/error",
                         "/**/*.css",
                         "/js/**",
