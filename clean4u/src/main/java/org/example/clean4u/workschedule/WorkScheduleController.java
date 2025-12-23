@@ -30,7 +30,7 @@ public class WorkScheduleController {
         model.addAttribute("employeeList", employeeList);
         model.addAttribute("keyword", keyword != null ? keyword : "");
 
-        return "employee/employee-search";
+        return "workschedule/employee-search";
     }
 
     @GetMapping("/schedule/{employeeId}")
@@ -49,7 +49,7 @@ public class WorkScheduleController {
         model.addAttribute("isSick", isSick);
         model.addAttribute("reason", reason);
 
-        return "employee/save-form";
+        return "workschedule/save-form";
     }
 
     @PostMapping("/schedule")
@@ -69,7 +69,7 @@ public class WorkScheduleController {
         List<WorkScheduleResponse.ListDTO> scheduleList = workScheduleService.scheduleList();
         model.addAttribute("scheduleList", scheduleList);
 
-        return "employee/schedule-list-form";
+        return "workschedule/schedule-list-form";
     }
 
     @GetMapping("/schedule/{scheduleId}/detail")
@@ -81,7 +81,7 @@ public class WorkScheduleController {
 
         model.addAttribute("schedule", schedule);
 
-        return "employee/schedule-detail";
+        return "workschedule/schedule-detail";
     }
 
     @GetMapping("/schedule/{scheduleId}/update")
@@ -93,7 +93,7 @@ public class WorkScheduleController {
 
         model.addAttribute("schedule", schedule);
 
-        return "employee/schedule-update-form";
+        return "workschedule/schedule-update-form";
     }
 
     @PostMapping("/schedule/{scheduleId}/update")

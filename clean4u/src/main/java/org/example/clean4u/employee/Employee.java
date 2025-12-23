@@ -28,10 +28,10 @@ public class Employee extends BaseTimeEntity {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole = UserRole.EMPLOYEE;
+    private UserRole userRole = UserRole.일반직원;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus = UserStatus.PENDING;
+    private UserStatus userStatus = UserStatus.승인대기;
 
     @Builder
     public Employee(String name, String username, String password, String email) {
@@ -39,8 +39,8 @@ public class Employee extends BaseTimeEntity {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.userRole = UserRole.EMPLOYEE;
-        this.userStatus = UserStatus.PENDING;
+        this.userRole = UserRole.일반직원;
+        this.userStatus = UserStatus.승인대기;
     }
 
     public void update(EmployeeRequest.UpdateDTD req) {
@@ -52,5 +52,5 @@ public class Employee extends BaseTimeEntity {
         return this.id.equals(employeeId);
     }
 
-    public boolean isAdmin() { return this.userRole == UserRole.ADMIN;}
+    public boolean isAdmin() { return this.userRole == UserRole.관리자;}
 }

@@ -10,8 +10,6 @@
             <span>+</span> 새 일정 등록
         </a>
     </div>
-
-    {{#scheduleList}}
         <div class="card-list">
             {{#scheduleList}}
                     <a href="/schedule/{{id}}/detail" class="card">
@@ -29,7 +27,6 @@
                     </a>
             {{/scheduleList}}
         </div>
-    {{/scheduleList}}
 
     {{^scheduleList}}
         <div class="blank">

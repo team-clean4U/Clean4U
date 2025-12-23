@@ -10,8 +10,6 @@
             <span>+</span> 새 일정 등록
         </a>
     </div>
-
-    {{#overrideList}}
         <div class="card-list">
             {{#overrideList}}
                 <a href="/override/{{id}}/detail" class="card">
@@ -29,7 +27,6 @@
                 </a>
             {{/overrideList}}
         </div>
-    {{/overrideList}}
 
     {{^overrideList}}
         <div class="blank">

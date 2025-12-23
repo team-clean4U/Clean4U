@@ -1,5 +1,8 @@
 package org.example.clean4u.employee;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
 
@@ -14,6 +17,42 @@ public class EmployeeResponse {
             this.id = employee.getId();
             this.name = employee.getName();
             this.username = employee.getUsername();
+        }
+    }
+
+    @Data
+    public static class ListDTO {
+        private Long id;
+        private String name;
+        private String username;
+        private String email;
+
+        public ListDTO(Employee employee) {
+            this.id = employee.getId();
+            this.name = employee.getName();
+            this.username = employee.getUsername();
+            this.email = employee.getEmail();
+        }
+    }
+
+    @Data
+    public static class DetailDTO {
+        private Long id;
+        private String name;
+        private String username;
+        private String password;
+        private String email;
+        private UserRole userRole;
+        private UserStatus userStatus;
+
+        public DetailDTO(Employee employee) {
+            this.id = employee.getId();
+            this.name = employee.getName();
+            this.username = employee.getUsername();
+            this.password = employee.getPassword();
+            this.email = employee.getEmail();
+            this.userRole = employee.getUserRole();
+            this.userStatus = employee.getUserStatus();
         }
     }
 

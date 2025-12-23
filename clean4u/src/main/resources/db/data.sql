@@ -45,15 +45,15 @@ values ('세탁세제', '병', 5, 10, true, '2024-01-05 08:00:00'),
 
 INSERT INTO employee_tb
     (name, username, password, email, user_role, user_status, created_at)
-VALUES ('김관리', 'admin01', '00000000', 'admin01@clean4u.com', 'ADMIN', 'ACTIVE', '2024-01-01 09:00:00'),
-       ('이직원', 'employee01', '00000000', 'employee01@clean4u.com', 'EMPLOYEE', 'ACTIVE', '2024-02-15 10:30:00'),
-       ('박직원', 'employee02', '00000000', 'employee02@clean4u.com', 'EMPLOYEE', 'ACTIVE', '2024-03-20 11:15:00'),
-       ('최직원', 'employee03', '00000000', 'employee03@clean4u.com', 'EMPLOYEE', 'ACTIVE', '2024-04-10 14:20:00'),
-       ('정직원', 'employee04', '00000000', 'employee04@clean4u.com', 'EMPLOYEE', 'ACTIVE', '2024-05-25 09:45:00'),
-       ('김신입', 'new01', '00000000', 'new01@clean4u.com', 'EMPLOYEE', 'PENDING', '2025-11-20 10:00:00'),
-       ('이신입', 'new02', '00000000', 'new02@clean4u.com', 'EMPLOYEE', 'PENDING', '2025-11-25 11:30:00'),
-       ('박신입', 'new03', '00000000', 'new03@clean4u.com', 'EMPLOYEE', 'PENDING', '2025-12-01 14:15:00'),
-       ('최신입', 'new04', '00000000', 'new04@clean4u.com', 'EMPLOYEE', 'PENDING', '2025-12-05 16:00:00');
+VALUES ('김관리', 'admin01', '00000000', 'admin01@clean4u.com', '관리자', '승인', '2024-01-01 09:00:00'),
+       ('이직원', 'employee01', '00000000', 'employee01@clean4u.com', '일반직원', '승인', '2024-02-15 10:30:00'),
+       ('박직원', 'employee02', '00000000', 'employee02@clean4u.com', '일반직원', '승인', '2024-03-20 11:15:00'),
+       ('최직원', 'employee03', '00000000', 'employee03@clean4u.com', '일반직원', '승인', '2024-04-10 14:20:00'),
+       ('정직원', 'employee04', '00000000', 'employee04@clean4u.com', '일반직원', '승인', '2024-05-25 09:45:00'),
+       ('김신입', 'new01', '00000000', 'new01@clean4u.com', '일반직원', '승인대기', '2025-11-20 10:00:00'),
+       ('이신입', 'new02', '00000000', 'new02@clean4u.com', '일반직원', '승인대기', '2025-11-25 11:30:00'),
+       ('박신입', 'new03', '00000000', 'new03@clean4u.com', '일반직원', '승인대기', '2025-12-01 14:15:00'),
+       ('최신입', 'new04', '00000000', 'new04@clean4u.com', '일반직원', '승인대기', '2025-12-05 16:00:00');
 INSERT INTO customer_tb (name, birth, phone, grade, memo, created_at)
 VALUES ('홍길동', '1975-06-18', '010-3030-4040', 'VIP',
         '장기 고객으로 10년 이상 이용 중이며, 프리미엄 서비스를 선호합니다. 정기적으로 드라이클리닝과 대량 세탁을 이용하며, 빠른 처리와 친절한 서비스에 만족하고 있습니다.', '2025-05-12'),

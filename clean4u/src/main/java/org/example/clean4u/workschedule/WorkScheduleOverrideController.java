@@ -20,7 +20,7 @@ public class WorkScheduleOverrideController {
         List<WorkScheduleOverrideResponse.ListDTO> overrideList = workScheduleOverrideService.overrideList();
         model.addAttribute("overrideList", overrideList);
 
-        return "employee/override-list-form";
+        return "workschedule/override-list-form";
     }
 
     @GetMapping("/override/{scheduleId}/detail")
@@ -32,7 +32,7 @@ public class WorkScheduleOverrideController {
 
         model.addAttribute("override", override);
 
-        return "employee/override-detail";
+        return "workschedule/override-detail";
     }
 
     @GetMapping("/override/{scheduleId}/update")
@@ -44,7 +44,7 @@ public class WorkScheduleOverrideController {
 
         model.addAttribute("schedule", schedule);
 
-        return "employee/override-update-form";
+        return "workschedule/override-update-form";
     }
 
     @PostMapping("/override/{scheduleId}/update")

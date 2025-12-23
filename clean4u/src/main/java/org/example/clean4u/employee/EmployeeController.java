@@ -62,7 +62,7 @@ public class EmployeeController {
             return "redirect:/login";
         }
 
-        if (sessionUser.getUserRole() == UserRole.ADMIN) {
+        if (sessionUser.getUserRole() == UserRole.관리자) {
             long pendingCount = employeeService.pendingCount();
             model.addAttribute("pendingCount", pendingCount);
             return "user/dashboard-admin";

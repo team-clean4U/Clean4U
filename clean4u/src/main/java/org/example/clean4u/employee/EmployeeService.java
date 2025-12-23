@@ -27,7 +27,7 @@ public class EmployeeService {
         Employee employeeEntity = employeeRepository.findByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword())
                 .orElseThrow(() -> new Exception400("사용자명 또는 비밀번호가 올바르지 않습니다."));
 
-        if (!employeeEntity.getUserStatus().equals(UserStatus.ACTIVE)) {
+        if (!employeeEntity.getUserStatus().equals(UserStatus.승인)) {
             throw new Exception404("회원가입 되어있지 않는 사용자입니다.");
         }
 
@@ -60,6 +60,6 @@ public class EmployeeService {
     }
 
     public long pendingCount() {
-        return employeeRepository.countByUserStatus(UserStatus.PENDING);
+        return employeeRepository.countByUserStatus(UserStatus.승인대기);
     }
 }
