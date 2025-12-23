@@ -65,6 +65,15 @@ public class NoticeController {
     @GetMapping("/notice/{noticeId}")
     public String detail(@PathVariable Long noticeId, Model model) {
         NoticeResponse.DetailDTO notice = noticeService.getNoticeById(noticeId);
+        Long nextId = noticeService.getNextNoticeId(noticeId);
+
+        model.addAttribute("notice", notice);
+        model.addAttribute("nextId", nextId);
+        model.addAttribute("hasNext", nextId != null);
+
+        System.out.println("notice =" + noticeId);
+        System.out.println("nextId =" + nextId);
+        System.out.println("nextId =" + (nextId != null));
 
         return "/notice/detail-form";
     }

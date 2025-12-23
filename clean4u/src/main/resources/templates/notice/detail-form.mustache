@@ -4,23 +4,25 @@
 
 <div class="notice-container">
     <div class="notice-container-content">
-        <div class="notice-header">
-            <div class="detail-items">
-                <span class="notice-label">
+        <div class="notice-detail-header">
+            <div class="notice-detail-title">
+                <span class="notice-icon">
                     <i class="fa-solid fa-bullhorn"></i>
                 </span>
                 <span class="detail-value title">
                     {{notice.title}}
                 </span>
-                <span class="notice-label">
+            </div>
+            <div class="notice-detail-writer">
+<!--                <span class="notice-icon">-->
                     <i class="fa-solid fa-user-tie"></i>
-                </span>
-                <small class="detail-value title">
+<!--                </span>-->
+                <small class="detail-value writer">
                     {{notice.writer}}
                 </small>
             </div>
         </div>
-        <div class="update-body">
+        <div class="detail-body">
             <div class="detail-items">
                 <span class="notice-label">
                     <i class="fa-solid fa-message"></i>
@@ -31,12 +33,17 @@
             </div>
         </div>
         <div class="bottom-buttons">
-            <form action="/customer/list" method="get">
+            <form action="/notice/list" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
+            {{#hasNext}}
             <form action="/notice/{{nextId}}" method="get">
-                <button class="btn btn-back"><i class="fa-solid fa-arrow-right"></i>목록으로</button>
+                <button class="btn btn-back">다음으로<i class="fa-solid fa-arrow-right"></i></button>
             </form>
+            {{/hasNext}}
+            {{^hasNext}}
+                <button class="no-notice" onclick="alert('마지막 공지사항입니다')">다음으로<i class="fa-solid fa-arrow-right"></i></button>
+            {{/hasNext}}
         </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
+import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,5 +75,14 @@ public class NoticeService {
         }
 
         noticeRepository.deleteById(noticeId);
+    }
+
+    public Long getNextNoticeId(Long noticeId) {
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new Exception404("공지사항 없음"));
+
+        return noticeRepository
+                .findNextId(notice.getCreatedAt(), noticeId)
+                .orElse(null);
     }
 }

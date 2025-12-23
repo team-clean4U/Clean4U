@@ -1,8 +1,26 @@
 package org.example.clean4u.notice;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.sql.Timestamp;
+import java.util.Optional;
 
 @Repository
 public interface NoticeRepository extends JpaRepository<Notice,Long> {
+
+    @Query("""
+        SELECT n.id
+        FROM Notice n
+        WHERE n.createdAt > :currentCreatedAt
+            OR (n.createdAt = :currentCreatedAt AND n.id > :currentId)
+        ORDER BY n.createdAt ASC, n.id ASC
+        LIMIT 1
+    """)
+    Optional<Long> findNextId(
+            @Param("currentCreatedAt") Timestamp currentCreatedAt,
+            @Param("currentId") Long currentId
+    );
 }
