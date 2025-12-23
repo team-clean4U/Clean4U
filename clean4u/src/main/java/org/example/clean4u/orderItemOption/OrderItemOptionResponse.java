@@ -1,4 +1,4 @@
-package org.example.clean4u.order.orderItemOption;
+package org.example.clean4u.orderItemOption;
 
 import lombok.Data;
 

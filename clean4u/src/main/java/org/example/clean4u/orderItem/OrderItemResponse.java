@@ -1,10 +1,10 @@
-package org.example.clean4u.order.orderItem;
+package org.example.clean4u.orderItem;
 
 import lombok.Data;
 import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.laundryItem.LaundryCategory;
 import org.example.clean4u.laundryOption.LaundryOption;
-import org.example.clean4u.order.orderItemOption.OrderItemOptionResponse;
+import org.example.clean4u.orderItemOption.OrderItemOptionResponse;
 
 import java.util.List;
 

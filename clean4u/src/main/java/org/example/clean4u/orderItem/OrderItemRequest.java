@@ -1,4 +1,4 @@
-package org.example.clean4u.order.orderItem;
+package org.example.clean4u.orderItem;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.employee.Employee;
-import org.example.clean4u.order.orderItem.OrderItemRequest;
+import org.example.clean4u.orderItem.OrderItemRequest;
 
 import java.time.LocalDate;
 import java.util.List;
