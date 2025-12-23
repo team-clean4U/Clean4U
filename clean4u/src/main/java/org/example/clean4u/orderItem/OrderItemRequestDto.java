@@ -1,4 +1,4 @@
-package org.example.clean4u.order.orderItem;
+package org.example.clean4u.orderItem;
 
 import java.util.List;
 
