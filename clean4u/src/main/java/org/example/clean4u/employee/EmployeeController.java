@@ -71,7 +71,7 @@ public class EmployeeController {
         return "user/dashboard-employee";
     }
 
-    @GetMapping("/employee/update")
+    @GetMapping("/me/update")
     public String update(Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -81,7 +81,7 @@ public class EmployeeController {
         return "user/update-form";
     }
 
-    @PostMapping("/employee/update")
+    @PostMapping("/me/update")
     public String updateProc(@Valid EmployeeRequest.UpdateDTD updateDTD, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
