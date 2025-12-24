@@ -63,13 +63,18 @@ public class NoticeController {
 
     // 공지 디테일
     @GetMapping("/notice/{noticeId}")
-    public String detail(@PathVariable Long noticeId, Model model) {
+    public String detail(@PathVariable Long noticeId, Model model, HttpSession session) {
         NoticeResponse.DetailDTO notice = noticeService.getNoticeById(noticeId);
         Long nextId = noticeService.getNextNoticeId(noticeId);
 
         model.addAttribute("notice", notice);
         model.addAttribute("nextId", nextId);
         model.addAttribute("hasNext", nextId != null);
+
+        Employee employee = (Employee) session.getAttribute("sessionUser");
+
+        boolean isAdmin = employee.isAdmin();
+        model.addAttribute("isAdmin", isAdmin);
 
         System.out.println("notice =" + noticeId);
         System.out.println("nextId =" + nextId);
