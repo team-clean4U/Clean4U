@@ -21,7 +21,7 @@ public class Employee extends BaseTimeEntity {
     @Column(name = "username", nullable = false, length = 20)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 50)
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
     @Column(name = "email", nullable = false, length = 50)
@@ -34,13 +34,13 @@ public class Employee extends BaseTimeEntity {
     private UserStatus userStatus = UserStatus.승인대기;
 
     @Builder
-    public Employee(String name, String username, String password, String email) {
+    public Employee(String name, String username, String password, String email, UserRole userRole, UserStatus userStatus) {
         this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.userRole = UserRole.일반직원;
-        this.userStatus = UserStatus.승인대기;
+        this.userRole = userRole != null ? userRole : UserRole.일반직원;
+        this.userStatus = userStatus != null ? userStatus : UserStatus.승인대기;
     }
 
     public void update(EmployeeRequest.UpdateDTD req) {

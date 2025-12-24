@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.interceptor.AccessInterceptor;
 import org.example.clean4u._core.interceptor.AuthInterceptor;
 import org.example.clean4u._core.interceptor.SessionInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -50,5 +53,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/employee/**", "/schedule/**", "/override/**");
+
+
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 }

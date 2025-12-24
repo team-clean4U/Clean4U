@@ -70,4 +70,12 @@ public class WorkScheduleOverrideService {
 
         return workScheduleOverrideEntity;
     }
+
+    @Transactional
+    public void delete(Long scheduleId) {
+        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(scheduleId)
+                .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다"));
+
+        workScheduleOverrideRepository.delete(workScheduleOverrideEntity);
+    }
 }

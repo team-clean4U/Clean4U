@@ -9,11 +9,13 @@ import java.time.LocalTime;
 public class WorkScheduleOverrideResponse {
     @Data
     public static class ListDTO {
+        private Long id;
         private String originalName;
         private String overrideName;
         private LocalDate date;
 
         public ListDTO(WorkScheduleOverride workScheduleOverride) {
+            this.id = workScheduleOverride.getId();
             this.originalName = workScheduleOverride.getOriginalEmployee().getName();
             this.overrideName = workScheduleOverride.getOverrideEmployee().getName();
             this.date = workScheduleOverride.getDate();
@@ -22,6 +24,7 @@ public class WorkScheduleOverrideResponse {
 
     @Data
     public static class DetailDTO {
+        private Long id;
         private String originalName;
         private String overrideName;
         private LocalDate date;
@@ -29,6 +32,7 @@ public class WorkScheduleOverrideResponse {
         private LocalTime endTime;
 
         public DetailDTO(WorkScheduleOverride workScheduleOverride) {
+            this.id = workScheduleOverride.getId();
             this.originalName = workScheduleOverride.getOriginalEmployee().getName();
             this.overrideName = workScheduleOverride.getOverrideEmployee().getName();
             this.date = workScheduleOverride.getDate();

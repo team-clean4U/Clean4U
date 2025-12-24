@@ -30,7 +30,7 @@ public class WorkScheduleController {
         model.addAttribute("employeeList", employeeList);
         model.addAttribute("keyword", keyword != null ? keyword : "");
 
-        return "workschedule/employee-search";
+        return "employee/employee-search";
     }
 
     @GetMapping("/schedule/{employeeId}")
@@ -57,11 +57,11 @@ public class WorkScheduleController {
 
         if (saveDTO.isSick()) {
             workScheduleOverrideService.saveOverride(saveDTO);
+            return "redirect:/override/list";
         } else {
             workScheduleService.saveNormal(saveDTO);
+            return "redirect:/schedule/list";
         }
-
-        return "redirect:/schedule/list";
     }
 
     @GetMapping("/schedule/list")
@@ -109,7 +109,6 @@ public class WorkScheduleController {
         return "redirect:/schedule/list";
     }
 
-
     @PostMapping("/schedule/{scheduleId}/delete")
     public String delete(
             @PathVariable Long scheduleId
@@ -118,5 +117,4 @@ public class WorkScheduleController {
 
         return "redirect:/schedule/list";
     }
-
 }
