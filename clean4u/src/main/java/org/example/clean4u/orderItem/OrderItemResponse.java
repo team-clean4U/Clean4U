@@ -30,7 +30,10 @@ public class OrderItemResponse {
             int basePriceInt = base * orderItem.getQuantity();
             this.basePrice = PriceUtil.format(basePriceInt);
             int optionTotalPriceInt = options.stream()
-                    .mapToInt(OrderItemOptionResponse.DetailDto::getExtraPrice)
+                    .mapToInt(dto -> {
+                        String value = dto.getExtraPrice().replaceAll(",", "");
+                        return Integer.parseInt(value);
+                    })
                     .sum();
             this.optionalTotalPrice = PriceUtil.format(optionTotalPriceInt);
             this.itemTotalPrice = PriceUtil.format(basePriceInt + optionTotalPriceInt);
