@@ -1,6 +1,7 @@
 package org.example.clean4u.order;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.employee.Employee;
@@ -16,6 +17,7 @@ public class OrderRequest {
         @NotNull(message = "고객 id를 입력하세요")
         private Long customerId;
 
+        @Size(max = 50, message = "메모작성은 최대 50자입니다.")
         private String memo;
 
         @NotNull(message = "주문 품목을 입력하세요")
@@ -38,6 +40,7 @@ public class OrderRequest {
         @NotNull(message = "주문 상태를 입력하세요")
         private OrderStatus status;
 
+        @Size(max = 50, message = "메모작성은 최대 50자입니다.")
         private String memo;
 
         @NotNull(message = "주문 품목을 입력하세요")
@@ -46,9 +49,15 @@ public class OrderRequest {
 
     @Data
     public static class SearchDTO {
+        @Size(max = 20, message = "상태값 입력은 최대 20자입니다.")
         private OrderStatus status;
+
+        @Size(max = 20, message = "고객이름 입력은 최대 20자입니다.")
         private String customerName;
+
+        @Size(max = 50, message = "전화번호 입력은 최대 50자까지입니다.")
         private String phone;
+
         private LocalDate fromDate;
         private LocalDate toDate;
     }
