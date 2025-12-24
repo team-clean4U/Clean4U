@@ -1,6 +1,5 @@
 package org.example.clean4u.order;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -56,9 +55,9 @@ public class OrderController {
     }
 
     @PostMapping("/order/save")
-    public String saveProc(OrderRequest.@Valid SaveDto saveDto, HttpSession session, Model model) {
+    public String saveProc(OrderRequest.@Valid SaveDTO saveDTO, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        Order order = orderService.saveProc(saveDto, sessionUser.getId());
+        Order order = orderService.saveProc(saveDTO, sessionUser.getId());
 
         return "redirect:/order/" + order.getId();
     }
@@ -79,9 +78,9 @@ public class OrderController {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         int pageIndex = Math.max(0, page - 1);
 
-        PageResponse<OrderResponse.ListDto> orderListPage = orderService.orderList(pageIndex, size, status, customerName, phone, fromDate, toDate, sessionUser.getId());
+        PageResponse<OrderResponse.ListDTO> orderListPage = orderService.orderList(pageIndex, size, status, customerName, phone, fromDate, toDate, sessionUser.getId());
         model.addAttribute("orderList", orderListPage.getContent());
-        model.addAttribute("page", orderListPage);
+        model.addAttribute("orderPage", orderListPage);
         model.addAttribute("customerName", customerName);
         model.addAttribute("phone", phone);
         model.addAttribute("status", status);
@@ -93,16 +92,16 @@ public class OrderController {
     @GetMapping("/order/{orderId}")
     public String detail(@PathVariable Long orderId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        OrderResponse.DetailDto order = orderService.detail(orderId, sessionUser.getId());
+        OrderResponse.DetailDTO order = orderService.detail(orderId, sessionUser.getId());
         model.addAttribute("order", order);
         model.addAttribute("items", order.getItems());
         return "order/detail-form";
     }
 
     @GetMapping("/order/{orderId}/update")
-    public String updateForm(@PathVariable Long orderId, Model model, HttpSession session) throws JsonProcessingException {
+    public String updateForm(@PathVariable Long orderId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        OrderResponse.UpdateFormDto order = orderService.updateForm(orderId, sessionUser.getId());
+        OrderResponse.UpdateFormDTO order = orderService.updateForm(orderId, sessionUser.getId());
         List<LaundryItemResponse.ListDTO> laundryItems = laundryItemService.getAllLaundryItems();
 
         List<OrderItemResponse.UpdateFormDto> items = order.getItems();
@@ -125,10 +124,10 @@ public class OrderController {
     }
 
     @PostMapping("/order/{orderId}/update")
-    public String updateProc(@PathVariable Long orderId, OrderRequest.@Valid UpdateDto updateDto, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String updateProc(@PathVariable Long orderId, OrderRequest.@Valid UpdateDTO updateDto, HttpSession session, RedirectAttributes redirectAttributes) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         boolean isGradeChanged = orderService.updateProc(orderId, updateDto, sessionUser.getId());
-        if(isGradeChanged) {
+        if (isGradeChanged) {
             redirectAttributes.addFlashAttribute("alertMessage", "고객 등급이 변경되었습니다.");
         }
         return "redirect:/order/" + orderId;

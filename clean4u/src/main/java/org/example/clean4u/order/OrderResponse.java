@@ -11,7 +11,7 @@ import java.util.List;
 public class OrderResponse {
 
     @Data
-    public static class ListDto {
+    public static class ListDTO {
         private Long orderId;
         private String customerName;
         private String phone;
@@ -19,7 +19,7 @@ public class OrderResponse {
         private LocalDate orderDate;
         private OrderStatus status;
 
-        public ListDto(Order order) {
+        public ListDTO(Order order) {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
@@ -32,7 +32,7 @@ public class OrderResponse {
     }
 
     @Data
-    public static class DetailDto {
+    public static class DetailDTO {
         private Long orderId;
         private String customerName;
         private Grade grade;
@@ -43,7 +43,7 @@ public class OrderResponse {
         private String totalPrice;
         private List<OrderItemResponse.DetailDto> items;
 
-        public DetailDto(Order order, List<OrderItemResponse.DetailDto> items, int totalPrice) {
+        public DetailDTO(Order order, List<OrderItemResponse.DetailDto> items, int totalPrice) {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
@@ -58,7 +58,7 @@ public class OrderResponse {
     }
 
     @Data
-    public static class UpdateFormDto {
+    public static class UpdateFormDTO {
         private Long orderId;
         private String customerName;
         private Grade grade;
@@ -66,7 +66,7 @@ public class OrderResponse {
         private String memo;
         private List<OrderItemResponse.UpdateFormDto> items;
 
-        public UpdateFormDto(Order order, List<OrderItemResponse.UpdateFormDto> items) {
+        public UpdateFormDTO(Order order, List<OrderItemResponse.UpdateFormDto> items) {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
