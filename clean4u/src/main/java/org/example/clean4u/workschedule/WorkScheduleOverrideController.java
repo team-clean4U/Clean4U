@@ -59,4 +59,13 @@ public class WorkScheduleOverrideController {
 
         return "redirect:/override/list";
     }
+
+    @PostMapping("/override/{scheduleId}/delete")
+    public String delete(
+            @PathVariable Long scheduleId
+    ) {
+        workScheduleOverrideService.delete(scheduleId);
+
+        return "redirect:/override/list";
+    }
 }

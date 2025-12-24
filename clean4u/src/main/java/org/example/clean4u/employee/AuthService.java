@@ -88,5 +88,14 @@ public class AuthService {
                 .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
 
         employeeRepository.delete(employeeEntity);
+
+
+
+
+
+
+
+
+
     }
 }

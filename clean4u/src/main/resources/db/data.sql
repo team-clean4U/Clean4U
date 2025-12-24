@@ -45,7 +45,8 @@ values ('세탁세제', '병', 5, 10, true, '2024-01-05 08:00:00'),
 
 INSERT INTO employee_tb
     (name, username, password, email, user_role, user_status, created_at)
-VALUES ('김관리', 'admin01', '00000000', 'admin01@clean4u.com', '관리자', '승인', '2024-01-01 09:00:00'),
+VALUES
+--         ('김관리', 'admin01', '00000000', 'admin01@clean4u.com', '관리자', '승인', '2024-01-01 09:00:00'),
        ('이직원', 'employee01', '00000000', 'employee01@clean4u.com', '일반직원', '승인', '2024-02-15 10:30:00'),
        ('박직원', 'employee02', '00000000', 'employee02@clean4u.com', '일반직원', '승인', '2024-03-20 11:15:00'),
        ('최직원', 'employee03', '00000000', 'employee03@clean4u.com', '일반직원', '승인', '2024-04-10 14:20:00'),

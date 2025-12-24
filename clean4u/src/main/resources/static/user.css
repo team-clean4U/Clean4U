@@ -96,6 +96,10 @@
     margin-bottom: 1rem;
 }
 
+.badge-blue {
+    background: var(--color-light-blue);
+}
+
 .card-list-two {
     display: grid;
     gap: 1.7rem;

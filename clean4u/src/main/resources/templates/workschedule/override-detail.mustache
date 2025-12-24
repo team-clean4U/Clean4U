@@ -37,7 +37,10 @@
                 </div>
 
                 <div class="bottom-buttons" style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
-                    <a href="/override/list" class="btn stock-badge badge-warn" style="flex: 1; text-align: center;">목록</a>
+                    <form action="/override/{{override.id}}/delete" method="post" style="flex: 1;">
+                        <button type="submit" class="btn stock-badge badge-warn" style="width: 100%;">삭제</button>
+                    </form>
+                    <a href="/override/list" class="btn stock-badge badge-blue" style="flex: 1; text-align: center;">목록</a>
                 </div>
             </div>
         </div>
