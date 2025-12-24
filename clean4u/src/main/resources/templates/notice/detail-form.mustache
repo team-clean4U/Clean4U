@@ -3,47 +3,72 @@
 {{> layout/background}}
 
 <div class="notice-container">
-    <div class="notice-container-content">
-        <div class="notice-detail-header">
-            <div class="notice-detail-title">
+    <div class="notice-detail-container">
+        <div class="notice-button-list">
+            <div class="buttons">
+                <form action="/notice/list" method="get">
+                    <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+                </form>
+                <div class="button-right">
+                    <a href="/notice/{{notice.id}}/update" class="btn btn-edit">
+                        <i class="fa-solid fa-edit"></i> 수정
+                    </a>
+                    {{!#isAdmin}}
+                    <form action="/notice/{{notice.id}}/delete" method="post">
+                        <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
+                    </form>
+                    {{!/isAdmin}}
+                </div>
+            </div>
+        </div>
+
+        <div class="notice-container-content">
+            <div class="notice-detail-header">
                 <span class="notice-icon">
                     <i class="fa-solid fa-bullhorn"></i>
                 </span>
-                <span class="detail-value title">
+                <span class="notice-value title">
                     {{notice.title}}
                 </span>
             </div>
-            <div class="notice-detail-writer">
-<!--                <span class="notice-icon">-->
-                    <i class="fa-solid fa-user-tie"></i>
-<!--                </span>-->
-                <small class="detail-value writer">
-                    {{notice.writer}}
-                </small>
+            <div class="detail-notice-body">
+                <div class="body-upper-side">
+                    <div class="notice-detail-writer">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span class="category-label">작성자: </span>
+                        <span class="notice-detail-value">
+                            {{notice.writer}}
+                        </span>
+                    </div>
+                    <div class="notice-createdAt">
+                        <i class="fa-solid fa-clock"></i>
+                        <span class="category-label">작성일: </span>
+                        <span class="notice-detail-value">
+                            {{notice.createdAt}}
+                        </span>
+                    </div>
+                </div>
+                    <div class="notice-detail-item">
+                        <i class="fa-solid fa-message"></i>
+                        <span class="detail-value content">
+                            {{notice.content}}
+                        </span>
+                    </div>
             </div>
-        </div>
-        <div class="detail-body">
-            <div class="detail-items">
-                <span class="notice-label">
-                    <i class="fa-solid fa-message"></i>
-                </span>
-                <span class="detail-value title">
-                    {{notice.content}}
-                </span>
+
+            <div class="bottom-buttons">
+                <form action="/notice/list" method="get">
+                    <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+                </form>
+                {{#hasNext}}
+                <form action="/notice/{{nextId}}" method="get">
+                    <button class="btn btn-back">다음 글<i class="fa-solid fa-arrow-right"></i></button>
+                </form>
+                {{/hasNext}}
+                {{^hasNext}}
+                    <button class="no-notice" onclick="alert('마지막 공지사항입니다')">다음으로<i class="fa-solid fa-arrow-right"></i></button>
+                {{/hasNext}}
             </div>
-        </div>
-        <div class="bottom-buttons">
-            <form action="/notice/list" method="get">
-                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
-            </form>
-            {{#hasNext}}
-            <form action="/notice/{{nextId}}" method="get">
-                <button class="btn btn-back">다음으로<i class="fa-solid fa-arrow-right"></i></button>
-            </form>
-            {{/hasNext}}
-            {{^hasNext}}
-                <button class="no-notice" onclick="alert('마지막 공지사항입니다')">다음으로<i class="fa-solid fa-arrow-right"></i></button>
-            {{/hasNext}}
         </div>
     </div>
 </div>
