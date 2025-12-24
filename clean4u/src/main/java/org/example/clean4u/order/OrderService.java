@@ -80,7 +80,6 @@ public class OrderService {
 
     // 주문 검색 조회
     public PageResponse<OrderResponse.ListDTO> orderList(
-            // Todo : Dto로 묶기
             int page,
             int size,
             OrderRequest.SearchDTO searchDTO,

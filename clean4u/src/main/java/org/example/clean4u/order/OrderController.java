@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -63,7 +62,6 @@ public class OrderController {
     @GetMapping("/order/list")
     public String orderList(
             Model model,
-            // ToDo: DTO 로 묶기
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "9") int size,
             @ModelAttribute OrderRequest.SearchDTO searchDTO,
@@ -85,11 +83,7 @@ public class OrderController {
         PageResponse<OrderResponse.ListDTO> orderListPage = orderService.orderList(pageIndex, size, searchDTO, sessionUser.getId());
         model.addAttribute("orderList", orderListPage.getContent());
         model.addAttribute("orderPage", orderListPage);
-        model.addAttribute("customerName", searchDTO.getCustomerName());
-        model.addAttribute("phone", searchDTO.getPhone());
-        model.addAttribute("status", searchDTO.getStatus());
-        model.addAttribute("fromDate", searchDTO.getFromDate());
-        model.addAttribute("toDate", searchDTO.getToDate());
+        model.addAttribute("searchView", searchDTO);
         model.addAttribute("queryString", queryString);
 
         return "order/list-form";
