@@ -1,6 +1,7 @@
 package org.example.clean4u.order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -73,11 +74,21 @@ public class OrderController {
             @RequestParam(required = false) String phone,
             @RequestParam(required = false) LocalDate fromDate,
             @RequestParam(required = false) LocalDate toDate,
-            HttpSession session
+            HttpSession session,
+            HttpServletRequest request
     ) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         int pageIndex = Math.max(0, page - 1);
 
+        String queryString = request.getQueryString();
+
+        if(queryString != null) {
+            queryString = queryString.replaceAll("(&page=\\d+)", "");
+            queryString = queryString.replaceAll("(&size=\\d+)", "");
+            if(queryString.isBlank()) {
+                queryString = "&" + queryString;
+            }
+        }
         PageResponse<OrderResponse.ListDTO> orderListPage = orderService.orderList(pageIndex, size, status, customerName, phone, fromDate, toDate, sessionUser.getId());
         model.addAttribute("orderList", orderListPage.getContent());
         model.addAttribute("orderPage", orderListPage);
@@ -86,6 +97,8 @@ public class OrderController {
         model.addAttribute("status", status);
         model.addAttribute("fromDate", fromDate);
         model.addAttribute("toDate", toDate);
+        model.addAttribute("queryString", queryString);
+
         return "order/list-form";
     }
 
