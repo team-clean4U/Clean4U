@@ -25,7 +25,7 @@ public class Order extends BaseTimeEntity {
     private Customer customer;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = false, length = 20)
     private OrderStatus status = OrderStatus.RECEIVED;
 
     @Column(name = "total_price", nullable = false)

@@ -14,10 +14,7 @@ import org.example.clean4u.laundryOption.LaundryOptionService;
 import org.example.clean4u.orderItem.OrderItemResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -69,11 +66,7 @@ public class OrderController {
             // ToDo: DTO 로 묶기
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "9") int size,
-            @RequestParam(required = false) OrderStatus status,
-            @RequestParam(required = false) String customerName,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false) LocalDate fromDate,
-            @RequestParam(required = false) LocalDate toDate,
+            @ModelAttribute OrderRequest.SearchDTO searchDTO,
             HttpSession session,
             HttpServletRequest request
     ) {
@@ -85,18 +78,18 @@ public class OrderController {
         if(queryString != null) {
             queryString = queryString.replaceAll("(&page=\\d+)", "");
             queryString = queryString.replaceAll("(&size=\\d+)", "");
-            if(queryString.isBlank()) {
+            if(!queryString.isBlank()) {
                 queryString = "&" + queryString;
             }
         }
-        PageResponse<OrderResponse.ListDTO> orderListPage = orderService.orderList(pageIndex, size, status, customerName, phone, fromDate, toDate, sessionUser.getId());
+        PageResponse<OrderResponse.ListDTO> orderListPage = orderService.orderList(pageIndex, size, searchDTO, sessionUser.getId());
         model.addAttribute("orderList", orderListPage.getContent());
         model.addAttribute("orderPage", orderListPage);
-        model.addAttribute("customerName", customerName);
-        model.addAttribute("phone", phone);
-        model.addAttribute("status", status);
-        model.addAttribute("fromDate", fromDate);
-        model.addAttribute("toDate", toDate);
+        model.addAttribute("customerName", searchDTO.getCustomerName());
+        model.addAttribute("phone", searchDTO.getPhone());
+        model.addAttribute("status", searchDTO.getStatus());
+        model.addAttribute("fromDate", searchDTO.getFromDate());
+        model.addAttribute("toDate", searchDTO.getToDate());
         model.addAttribute("queryString", queryString);
 
         return "order/list-form";

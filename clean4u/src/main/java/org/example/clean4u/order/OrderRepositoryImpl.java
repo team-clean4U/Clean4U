@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,11 +15,17 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     private final EntityManager em;
 
     @Override
-    public Page<Order> searchOrder(Pageable pageable, OrderStatus status, String customerName, String phone, LocalDate fromDate, LocalDate toDate) {
+    public Page<Order> searchOrder(Pageable pageable, OrderRequest.SearchDTO searchDTO) {
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT o FROM Order o JOIN o.customer c");
 
         boolean hasCondition = false;
+
+        OrderStatus status = searchDTO.getStatus();
+        String customerName = searchDTO.getCustomerName();
+        String phone = searchDTO.getPhone();
+        LocalDate fromDate = searchDTO.getFromDate();
+        LocalDate toDate = searchDTO.getToDate();
 
         if(status != null) {
             jpql.append(hasCondition ? " AND " : " WHERE ").append("o.status = :status");
