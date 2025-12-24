@@ -17,18 +17,31 @@
                 <div class="search-box">
                     <div class="search-input-box">
                         <i class="fa-solid fa-user"></i>
-                        <input class="search-input" type="text" name="customerName" value="{{#customerName}}{{customerName}}{{/customerName}}" placeholder="고객명">
+                        <input
+                                class="search-input"
+                                type="text"
+                                name="customerName"
+                                value="{{#searchView.customerName}}{{searchView.customerName}}{{/searchView.customerName}}"
+                                placeholder="고객명">
                     </div>
 
                     <div class="search-input-box">
                         <i class="fa-solid fa-phone"></i>
-                        <input class="search-input" type="tel" name="phone" value="{{#phone}}{{phone}}{{/phone}}" placeholder="연락처">
+                        <input
+                                class="search-input"
+                                type="tel"
+                                name="phone"
+                                value="{{#searchView.phone}}{{searchView.phone}}{{/searchView.phone}}"
+                                placeholder="연락처">
                     </div>
                     <div class="update-value category">
                         <input type="hidden" name="status" id="category">
                         <div class="category-select">
                             <i class="fa-solid fa-info-circle"></i>
-                            <span class="category-selected">{{#status}}{{status.displayName}}{{/status}}{{^status}}전체 상태{{/status}}</span>
+                            <span class="category-selected">
+                                {{#searchView.status}}{{searchView.status.displayName}}{{/searchView.status}}
+                                {{^searchView.status}}전체 상태{{/searchView.status}}
+                            </span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <ul class="category-dropdown">
@@ -42,12 +55,22 @@
                 <div class="search-box">
                     <div class="search-input-box">
                         <i class="fa-solid fa-calendar-alt"></i>
-                            <input type="date" name="fromDate" value="{{#fromDate}}{{fromDate}}{{/fromDate}}" class="search-input date-input" min="1900-01-01" max="9999-12-31">
+                            <input
+                                    type="date"
+                                    name="fromDate"
+                                    value="{{#searchView.fromDate}}{{searchView.fromDate}}{{/searchView.fromDate}}"
+                                    class="search-input date-input" min="1900-01-01" max="9999-12-31">
                     </div>
                     <span class="date-separator">~</span>
                     <div class="search-input-box date">
                         <i class="fa-solid fa-calendar-alt"></i>
-                        <input type="date" name="toDate" value="{{#toDate}}{{toDate}}{{/toDate}}" class="search-input date-input" min="1900-01-01" max="9999-12-31">
+                        <input
+                                type="date"
+                                name="toDate"
+                                value="{{#searchView.toDate}}{{searchView.toDate}}{{/searchView.toDate}}"
+                                class="search-input date-input"
+                                min="1900-01-01"
+                                max="9999-12-31">
                     </div>
                     <button type="submit" class="btn btn-submit">조회</button>
                 </div>
