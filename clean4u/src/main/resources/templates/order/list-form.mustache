@@ -6,7 +6,7 @@
         <div class="header-container order">
             <div class="section-header">
                 <h2 class="section-title">
-                    <i class="fa-solid fa-cart-shopping"></i>주문 목록
+                    <i class="fa-solid fa-cart-shopping"></i><a href="/order/list">주문 목록</a>
                 </h2>
                 <a href="/order/save" class="btn btn-create">
                     <span>+</span>생성
@@ -99,7 +99,7 @@
 
         {{#orderPage.pageLinks}}
             <li class="page-btn {{#active}}active{{/active}}">
-                <a href="/order/list?page={{displayNumber}}&size={{orderPage.size}}">{{displayNumber}}</a>
+                <a href="/order/list?page={{displayNumber}}&size={{orderPage.size}}{{queryString}}">{{displayNumber}}</a>
             </li>
         {{/orderPage.pageLinks}}
 
