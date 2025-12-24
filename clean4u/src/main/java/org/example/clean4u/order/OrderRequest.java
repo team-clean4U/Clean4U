@@ -5,6 +5,7 @@ import lombok.Data;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.orderItem.OrderItemRequest;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -41,5 +42,14 @@ public class OrderRequest {
 
         @NotNull(message = "주문 품목을 입력하세요")
         private List<OrderItemRequest.UpdateDto> items;
+    }
+
+    @Data
+    public static class SearchDTO {
+        private OrderStatus status;
+        private String customerName;
+        private String phone;
+        private LocalDate fromDate;
+        private LocalDate toDate;
     }
 }

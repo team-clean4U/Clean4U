@@ -83,11 +83,7 @@ public class OrderService {
             // Todo : Dto로 묶기
             int page,
             int size,
-            OrderStatus status,
-            String customerName,
-            String phone,
-            LocalDate fromDate,
-            LocalDate toDate,
+            OrderRequest.SearchDTO searchDTO,
             Long sessionUserId) {
         int validPage = Math.max(0, page);
         int validSize = Math.max(1, Math.min(50, size));
@@ -100,6 +96,9 @@ public class OrderService {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
 
+        LocalDate fromDate = searchDTO.getFromDate();
+        LocalDate toDate = searchDTO.getToDate();
+
         if ((fromDate == null && toDate != null) || (fromDate != null && toDate == null)) {
             throw new Exception400("검색 시작 날짜와 종료 날짜는 함께 입력해야 합니다.");
         }
@@ -108,7 +107,7 @@ public class OrderService {
             throw new Exception400("검색 시작 날짜는 검색 종료 날짜보다 우선이어야 합니다.");
         }
 
-        Page<Order> orderPage = orderRepository.searchOrder(pageable, status, customerName, phone, fromDate, toDate);
+        Page<Order> orderPage = orderRepository.searchOrder(pageable, searchDTO);
 
         return new PageResponse<>(orderPage, OrderResponse.ListDTO::new);
     }
