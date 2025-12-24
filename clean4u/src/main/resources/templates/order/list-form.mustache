@@ -88,29 +88,33 @@
     <ul class="pagination">
         {{#orderPage.previousPageNumber}}
             <li class="page-btn">
-                <a href="/order/list?page={{orderPage.previousPageNumber}}">이전</a>
+                <a href="/order/list?page={{orderPage.previousPageNumber}}">
+                    <
+                </a>
             </li>
         {{/orderPage.previousPageNumber}}
         {{^orderPage.previousPageNumber}}
             <li class="page-btn disabled">
-                이전
+                <
             </li>
         {{/orderPage.previousPageNumber}}
 
         {{#orderPage.pageLinks}}
             <li class="page-btn {{#active}}active{{/active}}">
-                <a href="/order/list?page={{displayNumber}}&size={{orderPage.size}}{{queryString}}">{{displayNumber}}</a>
+                <a href="/order/list?page={{displayNumber}}&size={{orderPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
             </li>
         {{/orderPage.pageLinks}}
 
         {{#orderPage.NextPageNumber}}
             <li class="page-btn">
-                <a href="/order/list?page={{orderPage.NextPageNumber}}">다음</a>
+                <a href="/order/list?page={{orderPage.NextPageNumber}}">
+                    >
+                </a>
             </li>
         {{/orderPage.NextPageNumber}}
         {{^orderPage.NextPageNumber}}
             <li class="page-btn disabled">
-                다음
+                >
             </li>
         {{/orderPage.NextPageNumber}}
     </ul>
