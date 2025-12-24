@@ -51,7 +51,7 @@ public class Order extends BaseTimeEntity {
         this.editor = editor;
     }
 
-    public void updateOrder(OrderRequest.UpdateDto updateDto) {
+    public void updateOrder(OrderRequest.UpdateDTO updateDto) {
         this.status = updateDto.getStatus();
         this.memo = updateDto.getMemo();
     }

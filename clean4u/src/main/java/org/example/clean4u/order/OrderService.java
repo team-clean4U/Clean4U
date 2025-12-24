@@ -47,7 +47,7 @@ public class OrderService {
 
     // 주문 생성
     @Transactional
-    public Order saveProc(OrderRequest.@Valid SaveDto saveDto, Long sessionUserId) {
+    public Order saveProc(OrderRequest.@Valid SaveDTO saveDto, Long sessionUserId) {
         Employee sessionUser = employeeRepository.findById(sessionUserId)
                 .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
 
@@ -79,7 +79,7 @@ public class OrderService {
     }
 
     // 주문 검색 조회
-    public PageResponse<OrderResponse.ListDto> orderList(
+    public PageResponse<OrderResponse.ListDTO> orderList(
             // Todo : Dto로 묶기
             int page,
             int size,
@@ -110,11 +110,11 @@ public class OrderService {
 
         Page<Order> orderPage = orderRepository.searchOrder(pageable, status, customerName, phone, fromDate, toDate);
 
-        return new PageResponse<>(orderPage, OrderResponse.ListDto::new);
+        return new PageResponse<>(orderPage, OrderResponse.ListDTO::new);
     }
 
     // 주문 상세 조회
-    public OrderResponse.DetailDto detail(Long orderId, Long sessionUserId) {
+    public OrderResponse.DetailDTO detail(Long orderId, Long sessionUserId) {
         boolean existingUser = employeeRepository.existsById(sessionUserId);
         if(!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
@@ -167,11 +167,11 @@ public class OrderService {
 
             itemDtos.add(itemDto);
         }
-        return new OrderResponse.DetailDto(order, itemDtos, totalPrice);
+        return new OrderResponse.DetailDTO(order, itemDtos, totalPrice);
     }
 
     // 주문 변경 화면 요청
-    public OrderResponse.UpdateFormDto updateForm(Long orderId, Long sessionUserId) {
+    public OrderResponse.UpdateFormDTO updateForm(Long orderId, Long sessionUserId) {
         boolean existingUser = employeeRepository.existsById(sessionUserId);
         if(!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
@@ -209,12 +209,12 @@ public class OrderService {
             itemDtos.add(dto);
         }
 
-        return new OrderResponse.UpdateFormDto(order, itemDtos);
+        return new OrderResponse.UpdateFormDTO(order, itemDtos);
     }
 
     // 주문 변경 기능 요청
     @Transactional
-    public boolean updateProc(Long orderId, OrderRequest.@Valid UpdateDto updateDto, Long sessionUserId) {
+    public boolean updateProc(Long orderId, OrderRequest.@Valid UpdateDTO updateDto, Long sessionUserId) {
         // 1. 주문 조회
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class OrderRequest {
     @Data
-    public static class SaveDto {
+    public static class SaveDTO {
         @NotNull(message = "고객 id를 입력하세요")
         private Long customerId;
 
@@ -33,7 +33,7 @@ public class OrderRequest {
     }
 
     @Data
-    public static class UpdateDto {
+    public static class UpdateDTO {
         @NotNull(message = "주문 상태를 입력하세요")
         private OrderStatus status;
 
