@@ -18,4 +18,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     void deleteByOrderId(@Param("orderId") Long orderId);
 
     Optional<OrderItem> findByIdAndOrderId(Long orderItemId, Long orderId);
+
+    @Query("SELECT oi FROM OrderItem  oi JOIN FETCH oi.laundryItem")
+    List<OrderItem> findAllWithLaundryItem();
 }
