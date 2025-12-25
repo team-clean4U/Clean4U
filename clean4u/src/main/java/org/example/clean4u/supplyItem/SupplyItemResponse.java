@@ -2,6 +2,7 @@ package org.example.clean4u.supplyItem;
 
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
+import org.example.clean4u._core.utils.PriceUtil;
 
 public class SupplyItemResponse {
     @Data
@@ -9,8 +10,8 @@ public class SupplyItemResponse {
         private Long id;
         private String name;
         private String unit;
-        private Integer stockQuantity;
-        private Integer safetyStock;
+        private String stockQuantity;
+        private String safetyStock;
         private Boolean isLowStock;
         private Boolean isActive;
 
@@ -18,8 +19,8 @@ public class SupplyItemResponse {
             this.id = supplyItem.getId();
             this.name = supplyItem.getName();
             this.unit = supplyItem.getUnit();
-            this.stockQuantity = supplyItem.getStockQuantity();
-            this.safetyStock = supplyItem.getSafetyStock();
+            this.stockQuantity = supplyItem.getStockQuantity() != null ? PriceUtil.format(supplyItem.getStockQuantity()) : null;
+            this.safetyStock = supplyItem.getSafetyStock() != null ? PriceUtil.format(supplyItem.getSafetyStock()) : null;
             this.isLowStock = supplyItem.getStockQuantity() <= supplyItem.getSafetyStock();
             this.isActive = supplyItem.getIsActive();
         }
@@ -30,8 +31,8 @@ public class SupplyItemResponse {
         private Long id;
         private String name;
         private String unit;
-        private Integer stockQuantity;
-        private Integer safetyStock;
+        private String stockQuantity;
+        private String safetyStock;
         private Boolean isLowStock;
         private Boolean isActive;
         private String createdAt;
@@ -41,8 +42,8 @@ public class SupplyItemResponse {
             this.id = supplyItem.getId();
             this.name = supplyItem.getName();
             this.unit = supplyItem.getUnit();
-            this.stockQuantity = supplyItem.getStockQuantity();
-            this.safetyStock = supplyItem.getSafetyStock();
+            this.stockQuantity = supplyItem.getStockQuantity() != null ? PriceUtil.format(supplyItem.getStockQuantity()) : null;
+            this.safetyStock = supplyItem.getSafetyStock() != null ? PriceUtil.format(supplyItem.getSafetyStock()) : null;
             this.isLowStock = supplyItem.getStockQuantity() <= supplyItem.getSafetyStock();
             this.isActive = supplyItem.getIsActive();
             this.createdAt = DateUtil.timestampFormat(supplyItem.getCreatedAt());
