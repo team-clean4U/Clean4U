@@ -4,6 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.response.PageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,24 +76,30 @@ public class LaundryOptionService {
         laundryOption.updateIsActive(true);
     }
 
-    public List<LaundryOptionResponse.ListDTO> findByIsActive(Boolean isActive) {
-        List<LaundryOption> laundryOptionList = repository.findByIsActive(isActive);
-        return laundryOptionList.stream()
-                .map(LaundryOptionResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
+    public PageResponse<LaundryOptionResponse.ListDTO> laundryOptionList(
+            int page,
+            int size,
+            Boolean isActive,
+            String name
+    ) {
+        int validPage = Math.max(0, page);
+        int validSize = Math.max(1, Math.min(50, size));
 
-    public List<LaundryOptionResponse.ListDTO> findByNameContaining(String name) {
-        List<LaundryOption> laundryOptionList = repository.findByNameContaining(name);
-        return laundryOptionList.stream()
-                .map(LaundryOptionResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
 
-    public List<LaundryOptionResponse.ListDTO> findByNameContainingAndIsActive(String name, Boolean isActive) {
-        List<LaundryOption> laundryOptionList = repository.findByNameContainingAndIsActive(name, isActive);
-        return laundryOptionList.stream()
-                .map(LaundryOptionResponse.ListDTO::new)
-                .collect(Collectors.toList());
+        Page<LaundryOption> laundryOptionPage;
+        boolean hasName = name != null && !name.isBlank();
+
+        if (hasName && isActive != null) {
+            laundryOptionPage = repository.findByNameContainingAndIsActive(name, isActive, pageable);
+        } else if (hasName) {
+            laundryOptionPage = repository.findByNameContaining(name, pageable);
+        } else if (isActive != null) {
+            laundryOptionPage = repository.findByIsActive(isActive, pageable);
+        } else {
+            laundryOptionPage = repository.findAllOrderByCreatedAtDesc(pageable);
+        }
+        return new PageResponse<>(laundryOptionPage, LaundryOptionResponse.ListDTO::new);
     }
 }

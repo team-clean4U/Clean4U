@@ -1,5 +1,7 @@
 package org.example.clean4u.laundryOption;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -10,11 +12,14 @@ public interface LaundryOptionRepository extends JpaRepository<LaundryOption, Lo
     @Query("SELECT lo FROM LaundryOption lo ORDER BY lo.createdAt DESC")
     List<LaundryOption> findAllOrderByCreatedAtDesc();
 
-    List<LaundryOption> findByIsActive(Boolean isActive);
+    @Query("SELECT lo FROM LaundryOption lo ORDER BY lo.createdAt DESC")
+    Page<LaundryOption> findAllOrderByCreatedAtDesc(Pageable pageable);
 
-    List<LaundryOption> findByNameContaining(String name);
+    Page<LaundryOption> findByIsActive(Boolean isActive, Pageable pageable);
 
-    List<LaundryOption> findByNameContainingAndIsActive(String name, Boolean isActive);
+    Page<LaundryOption> findByNameContaining(String name, Pageable pageable);
+
+    Page<LaundryOption> findByNameContainingAndIsActive(String name, Boolean isActive, Pageable pageable);
 
     Optional<LaundryOption> findByName(String name);
 }

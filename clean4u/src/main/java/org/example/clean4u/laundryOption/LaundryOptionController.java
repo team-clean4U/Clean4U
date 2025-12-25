@@ -1,7 +1,10 @@
 package org.example.clean4u.laundryOption;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.PageResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,29 +20,38 @@ public class LaundryOptionController {
 
     private final LaundryOptionService service;
 
-    // http://localhost:8080/laundry-option
-    @GetMapping("/laundry-option")
+    // http://localhost:8080/laundry-option/list
+    @GetMapping("/laundry-option/list")
     public String laundryOptionList(
             Model model,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "9") int size,
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Boolean isActive
+            @RequestParam(required = false) Boolean isActive,
+            HttpSession session,
+            HttpServletRequest request
     ) {
-        List<LaundryOptionResponse.ListDTO> laundryOptionList;
 
-        if (name != null && !name.isBlank() && isActive != null) {
-            laundryOptionList = service.findByNameContainingAndIsActive(name, isActive);
-        } else if (name != null && !name.isBlank()) {
-            laundryOptionList = service.findByNameContaining(name);
-        } else if (isActive != null) {
-            laundryOptionList = service.findByIsActive(isActive);
-        } else {
-            laundryOptionList = service.getAllLaundryOptions();
+        int pageIndex = Math.max(0, page - 1);
+
+        String queryString = request.getQueryString();
+
+        if (queryString != null) {
+            queryString = queryString.replaceAll("(&page=\\d+)", "");
+            queryString = queryString.replaceAll("(&size=\\d+)", "");
+            if (!queryString.isBlank()) {
+                queryString = "&" + queryString;
+            }
         }
-        model.addAttribute("laundryOptionList", laundryOptionList);
+
+        PageResponse<LaundryOptionResponse.ListDTO> laundryOptionListPage = service.laundryOptionList(pageIndex, size, isActive, name);
+        model.addAttribute("laundryOptionList", laundryOptionListPage.getContent());
+        model.addAttribute("laundryOptionPage", laundryOptionListPage);
         model.addAttribute("name", name == null ? "" : name);
         model.addAttribute("isActive", isActive);
         model.addAttribute("isActiveTrue", Boolean.TRUE.equals(isActive));
         model.addAttribute("isActiveFalse", Boolean.FALSE.equals(isActive));
+        model.addAttribute("queryString", queryString);
         return "laundryOption/list-form";
     }
 
@@ -62,7 +74,7 @@ public class LaundryOptionController {
     @PostMapping("/laundry-option/save")
     public String saveProc(@Valid LaundryOptionRequest.SaveDTO saveDTO) {
         service.save(saveDTO);
-        return "redirect:/laundry-option";
+        return "redirect:/laundry-option/list";
     }
 
     // http://localhost:8080/laundry-option/{laundryOptionId}/update
