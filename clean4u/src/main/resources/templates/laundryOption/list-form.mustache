@@ -2,7 +2,7 @@
 
 {{> layout/background}}
 
-<!-- http://localhost:8080/laundry-option -->
+<!-- http://localhost:8080/laundry-option/list -->
 <div class="content-section">
     <div class="container">
         <div class="header-container">
@@ -14,7 +14,7 @@
                     <span>+</span>생성
                 </a>
             </div>
-            <form class="search-wrapper" method="get" action="/laundry-option">
+            <form class="search-wrapper" method="get" action="/laundry-option/list">
                 <div class="search-input-box">
                     <i class="fa-solid fa-search"></i>
                     <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{name}}" name="name">
@@ -61,5 +61,38 @@
         {{/laundryOptionList}}
     </div>
 </div>
+<ul class="pagination">
+    {{#laundryOptionPage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/laundry-option/list?page={{laundryOptionPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/laundryOptionPage.previousPageNumber}}
+    {{^laundryOptionPage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/laundryOptionPage.previousPageNumber}}
+
+    {{#laundryOptionPage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/laundry-option/list?page={{displayNumber}}&size={{laundryOptionPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+        </li>
+    {{/laundryOptionPage.pageLinks}}
+
+    {{#laundryOptionPage.nextPageNumber}}
+        <li class="page-btn">
+            <a href="/laundry-option/list?page={{laundryOptionPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/laundryOptionPage.nextPageNumber}}
+    {{^laundryOptionPage.nextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/laundryOptionPage.nextPageNumber}}
+</ul>
 
 {{> layout/footer}}
