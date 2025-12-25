@@ -6,6 +6,7 @@ import org.example.clean4u.laundryItem.LaundryCategory;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.orderItem.OrderItem;
 import org.example.clean4u.orderItem.OrderItemRepository;
+import org.example.clean4u.orderItemOption.OrderItemOption;
 import org.example.clean4u.orderItemOption.OrderItemOptionRepository;
 import org.example.clean4u.supplyItem.SupplyItemRepository;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,39 @@ public class DashboardService {
         statistics.put("mostOrderedCategoryMaxPrice", PriceUtil.format(categoryMaxPrice));
         statistics.put("mostOrderedCategoryMinPrice", PriceUtil.format(categoryMinPrice));
         statistics.put("mostOrderedCategoryTotalPrice", PriceUtil.format((int) categoryTotalPrice));
+
+        // 전체 주문 중 가장 많이 주문된 세탁 옵션
+        List<OrderItemOption> allOrderItemsOptions = orderItemOptionRepository.findAllWithLaundryOption();
+        Map<Long, Integer> optionCountMap = new HashMap<>();
+        Map<Long, Integer> optionPriceMap = new HashMap<>();
+        Map<Long, String> optionNameMap = new HashMap<>();
+
+        for (OrderItemOption orderItemOption : allOrderItemsOptions) {
+            Long optionId = orderItemOption.getLaundryOption().getId();
+            int price = orderItemOption.getLaundryOption().getExtraPrice() != null ? orderItemOption.getLaundryOption().getExtraPrice() : 0;
+            String optionName = orderItemOption.getLaundryOption().getName();
+
+            optionCountMap.put(optionId, optionCountMap.getOrDefault(optionId, 0) + 1);
+            optionPriceMap.put(optionId, price);
+            optionNameMap.put(optionId, optionName);
+        }
+
+        int maxOptionCount = 0;
+        int singleOptionPrice = 0;
+        int optionTotalPrice = 0;
+        String mostOrderedOptionName = "없음";
+
+        for (Map.Entry<Long, Integer> entry : optionCountMap.entrySet()) {
+            if (entry.getValue() > maxOptionCount) {
+                maxOptionCount = entry.getValue();
+                mostOrderedOptionName = optionNameMap.get(entry.getKey());
+                optionTotalPrice = singleOptionPrice * entry.getValue();
+            }
+        }
+        statistics.put("mostOrderedOptionName", mostOrderedOptionName);
+        statistics.put("mostOrderedOptionCount", PriceUtil.format(maxOptionCount));
+        statistics.put("mostOrderedOptionPrice", PriceUtil.format(singleOptionPrice));
+        statistics.put("mostOrderedOptionTotalPrice", PriceUtil.format(optionTotalPrice));
 
         // 통게 전체 반환
         return statistics;
