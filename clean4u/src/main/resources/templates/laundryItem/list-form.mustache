@@ -2,7 +2,7 @@
 
 {{> layout/background}}
 
-<!-- http://localhost:8080/laundry-item -->
+<!-- http://localhost:8080/laundry-item/list -->
 <div class="content-section">
     <div class="container">
         <div class="header-container">
@@ -14,7 +14,7 @@
                     <span>+</span>생성
                 </a>
             </div>
-            <form class="search-wrapper" method="get" action="/laundry-item">
+            <form class="search-wrapper" method="get" action="/laundry-item/list">
                 <div class="search-input-box">
                     <i class="fa-solid fa-search"></i>
                     <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{name}}" name="name">
@@ -23,7 +23,8 @@
                     <input type="hidden" name="category" id="category" {{#category}}value="{{category}}" {{/category}}>
                     <div class="category-select" {{#category}}data-selected="{{category}}" {{/category}}>
                         <i class="fa-solid fa-list"></i>
-                        <span class="category-selected">{{#category}}{{category}}{{/category}}{{^category}}전체 카테고리{{/category}}</span>
+                        <span class="category-selected">{{#category}}{{category}}{{/category}}{{^category}}
+                            전체 카테고리{{/category}}</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
                     <ul class="category-dropdown">
@@ -66,5 +67,41 @@
         {{/laundryItemList}}
     </div>
 </div>
+<ul class="pagination">
+    {{#laundryItemPage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/laundry-item/list?page={{laundryItemPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}
+            ">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/laundryItemPage.previousPageNumber}}
+    {{^laundryItemPage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/laundryItemPage.previousPageNumber}}
+
+    {{#laundryItemPage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/laundry-item/list?page={{displayNumber}}
+            &size={{laundryItemPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+        </li>
+    {{/laundryItemPage.pageLinks}}
+
+    {{#laundryItemPage.nextPageNumber}}
+        <li class="page-btn">
+            <a href="/laundry-item/list?page={{laundryItemPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}
+            ">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/laundryItemPage.nextPageNumber}}
+    {{^laundryItemPage.nextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/laundryItemPage.nextPageNumber}}
+</ul>
 
 {{> layout/footer}}

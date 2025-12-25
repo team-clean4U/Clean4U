@@ -4,6 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.response.PageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,24 +69,31 @@ public class LaundryItemService {
         repository.deleteById(laundryItemId);
     }
 
-    public List<LaundryItemResponse.ListDTO> findByCategory(LaundryCategory category) {
-        List<LaundryItem> laundryItemList = repository.findByCategory(category);
-        return laundryItemList.stream()
-                .map(LaundryItemResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
+    public PageResponse<LaundryItemResponse.ListDTO> laundryItemList(
+            int page,
+            int size,
+            LaundryCategory category,
+            String name
+    ) {
+        int validPage = Math.max(0, page);
+        int validSize = Math.max(1, Math.min(50, size));
 
-    public List<LaundryItemResponse.ListDTO> findByNameContaining(String name) {
-        List<LaundryItem> laundryItemList = repository.findByNameContaining(name);
-        return laundryItemList.stream()
-                .map(LaundryItemResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
 
-    public List<LaundryItemResponse.ListDTO> findByNameContainingAndCategory(LaundryCategory category, String name) {
-        List<LaundryItem> laundryItemList = repository.findByNameContainingAndCategory(category, name);
-        return laundryItemList.stream()
-                .map(LaundryItemResponse.ListDTO::new)
-                .collect(Collectors.toList());
+        Page<LaundryItem> laundryItemPage;
+        boolean hasName = name != null && !name.isBlank();
+
+        if (category != null && hasName) {
+            laundryItemPage = repository.findByNameContainingAndCategory(category, name, pageable);
+        } else if (category != null) {
+            laundryItemPage = repository.findByCategory(category, pageable);
+        } else if (hasName) {
+            laundryItemPage = repository.findByNameContaining(name, pageable);
+        } else {
+            laundryItemPage = repository.findAllOrderByCreatedAtDesc(pageable);
+        }
+
+        return new PageResponse<>(laundryItemPage, LaundryItemResponse.ListDTO::new);
     }
 }

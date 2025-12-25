@@ -1,7 +1,10 @@
 package org.example.clean4u.supplyItem;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.PageResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,42 +12,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class SupplyItemController {
 
     private final SupplyItemService service;
 
-    // http://localhost:8080/supply-item
-    @GetMapping("/supply-item")
+    // http://localhost:8080/supply-item/list
+    @GetMapping("/supply-item/list")
     public String supplyItemList(
             Model model,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "9") int size,
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) Boolean lowStock
+            @RequestParam(required = false) Boolean lowStock,
+            HttpSession session,
+            HttpServletRequest request
     ) {
-        List<SupplyItemResponse.ListDTO> supplyItemList;
-        boolean hasName = name != null && !name.isBlank();
+        int pageIndex = Math.max(0, page - 1);
 
-        if (hasName && lowStock != null && lowStock) {
-            supplyItemList = service.findByNameContainingAndLowStock(name);
-        } else if (hasName && lowStock != null && !lowStock) {
-            supplyItemList = service.findByNameContainingAndSafetyStock(name);
-        } else if (hasName) {
-            supplyItemList = service.findByNameContaining(name);
-        } else if (lowStock != null && lowStock) {
-            supplyItemList = service.findLowStockItems();
-        } else if (lowStock != null && !lowStock) {
-            supplyItemList = service.findSafetyStockItems();
-        } else {
-            supplyItemList = service.getAllSupplyItems();
+        String queryString = request.getQueryString();
+
+        if (queryString != null) {
+            queryString = queryString.replaceAll("(&page=\\d+)", "");
+            queryString = queryString.replaceAll("(&size=\\d+)", "");
+            if (!queryString.isBlank()) {
+                queryString = "&" + queryString;
+            }
         }
-        model.addAttribute("supplyItemList", supplyItemList);
+
+        PageResponse<SupplyItemResponse.ListDTO> supplyItemListPage = service.supplyItemList(pageIndex, size, lowStock, name);
+        model.addAttribute("supplyItemList", supplyItemListPage.getContent());
+        model.addAttribute("supplyItemPage", supplyItemListPage);
         model.addAttribute("name", name == null ? "" : name);
         model.addAttribute("lowStock", lowStock);
         model.addAttribute("lowStockTrue", Boolean.TRUE.equals(lowStock));
         model.addAttribute("lowStockFalse", Boolean.FALSE.equals(lowStock));
+        model.addAttribute("queryString", queryString);
         return "supplyItem/list-form";
     }
 
@@ -67,7 +71,7 @@ public class SupplyItemController {
     @PostMapping("/supply-item/save")
     public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO) {
         service.save(saveDTO);
-        return "redirect:/supply-item";
+        return "redirect:/supply-item/list";
     }
 
     // http://localhost:8080/supply-item/{supplyItemId}/update

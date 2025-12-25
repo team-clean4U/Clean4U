@@ -112,13 +112,13 @@
         {{#orderPage.previousPageNumber}}
             <li class="page-btn">
                 <a href="/order/list?page={{orderPage.previousPageNumber}}">
-                    <
+                <i class="fa-solid fa-chevron-left"></i>
                 </a>
             </li>
         {{/orderPage.previousPageNumber}}
         {{^orderPage.previousPageNumber}}
             <li class="page-btn disabled">
-                <
+                <i class="fa-solid fa-chevron-left"></i>
             </li>
         {{/orderPage.previousPageNumber}}
 
@@ -131,13 +131,13 @@
         {{#orderPage.NextPageNumber}}
             <li class="page-btn">
                 <a href="/order/list?page={{orderPage.NextPageNumber}}">
-                    >
+                <i class="fa-solid fa-chevron-right"></i>
                 </a>
             </li>
         {{/orderPage.NextPageNumber}}
         {{^orderPage.NextPageNumber}}
             <li class="page-btn disabled">
-                >
+                <i class="fa-solid fa-chevron-right"></i>
             </li>
         {{/orderPage.NextPageNumber}}
     </ul>
