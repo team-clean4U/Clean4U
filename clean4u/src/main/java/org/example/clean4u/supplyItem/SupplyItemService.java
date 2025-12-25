@@ -4,6 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.response.PageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,38 +77,34 @@ public class SupplyItemService {
         supplyItem.updateIsActive(true);
     }
 
-    public List<SupplyItemResponse.ListDTO> findByNameContaining(String name) {
-        List<SupplyItem> supplyItemList = repository.findByNameContaining(name);
-        return supplyItemList.stream()
-                .map(SupplyItemResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
+    public PageResponse<SupplyItemResponse.ListDTO> supplyItemList(
+            int page,
+            int size,
+            Boolean lowStock,
+            String name
+    ) {
+        int validPage = Math.max(0, page);
+        int validSize = Math.max(1, Math.min(50, size));
 
-    public List<SupplyItemResponse.ListDTO> findLowStockItems() {
-        List<SupplyItem> supplyItemList = repository.findLowStockItems();
-        return supplyItemList.stream()
-                .map(SupplyItemResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
 
-    public List<SupplyItemResponse.ListDTO> findSafetyStockItems() {
-        List<SupplyItem> supplyItemList = repository.findSafetyStockItems();
-        return supplyItemList.stream()
-                .map(SupplyItemResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
+        Page<SupplyItem> supplyItemPage;
+        boolean hasName = name != null && !name.isBlank();
 
-    public List<SupplyItemResponse.ListDTO> findByNameContainingAndLowStock(String name) {
-        List<SupplyItem> supplyItemList = repository.findByNameContainingAndLowStock(name);
-        return supplyItemList.stream()
-                .map(SupplyItemResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<SupplyItemResponse.ListDTO> findByNameContainingAndSafetyStock(String name) {
-        List<SupplyItem> supplyItemList = repository.findByNameContainingAndSafetyStock(name);
-        return supplyItemList.stream()
-                .map(SupplyItemResponse.ListDTO::new)
-                .collect(Collectors.toList());
+        if (hasName && lowStock != null && lowStock) {
+            supplyItemPage = repository.findByNameContainingAndLowStock(name, pageable);
+        } else if (hasName && lowStock != null && !lowStock) {
+            supplyItemPage = repository.findByNameContainingAndSafetyStock(name, pageable);
+        } else if (hasName) {
+            supplyItemPage = repository.findByNameContaining(name, pageable);
+        } else if (lowStock != null && lowStock) {
+            supplyItemPage = repository.findLowStockItems(pageable);
+        } else if (lowStock != null && !lowStock) {
+            supplyItemPage = repository.findSafetyStockItems(pageable);
+        } else {
+            supplyItemPage = repository.findAllOrderByCreatedAtDesc(pageable);
+        }
+        return new PageResponse<>(supplyItemPage, SupplyItemResponse.ListDTO::new);
     }
 }
