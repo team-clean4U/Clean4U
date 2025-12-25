@@ -2,6 +2,7 @@ package org.example.clean4u.laundryItem;
 
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
+import org.example.clean4u._core.utils.PriceUtil;
 
 public class LaundryItemResponse {
     @Data
@@ -9,7 +10,7 @@ public class LaundryItemResponse {
         private Long id;
         private String name;
         private LaundryCategory category;
-        private Integer basePrice;
+        private String basePrice;
         private String description;
         private String icon;
 
@@ -17,7 +18,7 @@ public class LaundryItemResponse {
             this.id = laundryItem.getId();
             this.name = laundryItem.getName();
             this.category = laundryItem.getCategory();
-            this.basePrice = laundryItem.getBasePrice();
+            this.basePrice = laundryItem.getBasePrice() != null ? PriceUtil.format(laundryItem.getBasePrice()) : null ;
             this.description = laundryItem.getDescription();
             this.icon = laundryItem.getIcon();
         }
@@ -28,7 +29,7 @@ public class LaundryItemResponse {
         private Long id;
         private String name;
         private LaundryCategory category;
-        private Integer basePrice;
+        private String basePrice;
         private String description;
         private String createdAt;
         private String updatedAt;
@@ -38,7 +39,7 @@ public class LaundryItemResponse {
             this.id = laundryItem.getId();
             this.name = laundryItem.getName();
             this.category = laundryItem.getCategory();
-            this.basePrice = laundryItem.getBasePrice();
+            this.basePrice = laundryItem.getBasePrice() != null ? PriceUtil.format(laundryItem.getBasePrice()) : null;
             this.description = laundryItem.getDescription();
             this.createdAt = DateUtil.timestampFormat(laundryItem.getCreatedAt());
             this.updatedAt = DateUtil.timestampFormat(laundryItem.getUpdatedAt());
