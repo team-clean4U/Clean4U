@@ -2,20 +2,21 @@ package org.example.clean4u.laundryOption;
 
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
+import org.example.clean4u._core.utils.PriceUtil;
 
 public class LaundryOptionResponse {
     @Data
     public static class ListDTO {
         private Long id;
         private String name;
-        private Integer extraPrice;
+        private String extraPrice;
         private String description;
         private Boolean isActive;
 
         public ListDTO(LaundryOption laundryOption) {
             this.id = laundryOption.getId();
             this.name = laundryOption.getName();
-            this.extraPrice = laundryOption.getExtraPrice();
+            this.extraPrice = laundryOption.getExtraPrice() != null ? PriceUtil.format(laundryOption.getExtraPrice()) : null;
             this.description = laundryOption.getDescription();
             this.isActive = laundryOption.getIsActive();
         }
@@ -25,7 +26,7 @@ public class LaundryOptionResponse {
     public static class DetailDTO {
         private Long id;
         private String name;
-        private Integer extraPrice;
+        private String extraPrice;
         private String description;
         private Boolean isActive;
         private String createdAt;
@@ -34,7 +35,7 @@ public class LaundryOptionResponse {
         public DetailDTO(LaundryOption laundryOption) {
             this.id = laundryOption.getId();
             this.name = laundryOption.getName();
-            this.extraPrice = laundryOption.getExtraPrice();
+            this.extraPrice = laundryOption.getExtraPrice() != null ? PriceUtil.format(laundryOption.getExtraPrice()) : null;
             this.description = laundryOption.getDescription();
             this.isActive = laundryOption.getIsActive();
             this.createdAt = DateUtil.timestampFormat(laundryOption.getCreatedAt());
