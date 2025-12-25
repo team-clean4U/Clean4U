@@ -7,14 +7,16 @@
 }
 
 .page-btn {
-    min-width: 38px;
-    height: 38px;
-    padding: 0 0.9rem;
-    border-radius: 10px;
-    color: var(--color-gray);
+    min-width: 42px;
+    height: 42px;
+    padding: 0 0.75rem;
+    border-radius: 8px;
+    color: var(--text-gray);
+    font-size: 0.95rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid transparent;
 }
 
 .page-btn a {
@@ -26,11 +28,13 @@
 }
 
 .page-btn.active {
-    background: var(--background-blue);
-    opacity: 1;
+    background: rgba(79, 195, 247, 0.2);
     font-weight: 700;
-    border: 1px solid var(--color-blue);
-    color: var(--color-blue);
+    border: 2px solid var(--color-blue);
+}
+
+.pagination-link i {
+    font-size: 0.9rem;
 }
 
 .page-btn.disabled {
@@ -38,6 +42,6 @@
     opacity: 0.3;
 }
 
-.page-btn.active a {
-    color: var(--color-blue);
+.page-btn.active {
+    color: #0f9eff;
 }
