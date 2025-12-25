@@ -111,7 +111,84 @@
                 </div>
             </div>
         </div>
+        <div class="card-list-two">
+            <div class="dashboard-group">
+                <div class="group-title">
+                    <h3>
+                        <i class="fa-solid fa-shirt"></i>
+                        인기 세탁 카테고리
+                    </h3>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-{{mostOrderedCategoryIcon}}"></i>
+                        <h4>{{mostOrderedCategory}}</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">주문 건수</span>
+                        <span class="info-value">{{mostOrderedCategoryCount}} 건</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">매출액</span>
+                        <span class="info-value">{{mostOrderedCategoryTotalPrice}} 원</span>
+                    </div>
+                </div>
+            </div>
 
+            <div class="dashboard-group">
+                <div class="group-title">
+                    <h3>
+                        <i class="fa-solid fa-tag"></i>
+                        인기 세탁 옵션
+                    </h3>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-tag"></i>
+                        <h4>{{mostOrderedOptionName}}</h4>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">주문 건수</span>
+                        <span class="info-value">{{mostOrderedOptionCount}} 건</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">매출액</span>
+                        <span class="info-value">{{mostOrderedOptionTotalPrice}} 원</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-group">
+            <div class="group-title">
+                <h3>
+                    <i class="fa-solid fa-bell"></i>
+                    매장 알림
+                </h3>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa-solid fa-box-open"></i>
+                    <h4>재고 알림</h4>
+                </div>
+                <div class="low-stock-list">
+                    {{#lowStockItems}}
+                        <div class="low-stock-card">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <p>
+                                재고 부족: <b>{{name}}</b> ({{stockQuantity}}{{unit}} 남음 / 안전재고 : {{safetyStock}}{{unit}})
+                            </p>
+                        </div>
+                    {{/lowStockItems}}
+                    {{^lowStockItems}}
+                        <div>
+                            <i class="fa-solid fa-check-circle"></i>
+                            <p>재고 부족 항목이 없습니다.</p>
+                        </div>
+                    {{/lowStockItems}}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
