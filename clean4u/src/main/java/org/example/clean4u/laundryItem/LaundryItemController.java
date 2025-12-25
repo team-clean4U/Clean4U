@@ -1,7 +1,10 @@
 package org.example.clean4u.laundryItem;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.PageResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,37 +12,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @Controller
 public class LaundryItemController {
 
     private final LaundryItemService service;
 
-    // http://localhost:8080/laundry-item
-    @GetMapping("/laundry-item")
+    // http://localhost:8080/laundry-item/list
+    @GetMapping("/laundry-item/list")
     public String laundryItemList(
             Model model,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "9") int size,
             @RequestParam(required = false) LaundryCategory category,
-            @RequestParam(required = false) String name
+            @RequestParam(required = false) String name,
+            HttpSession session,
+            HttpServletRequest request
     ) {
-        List<LaundryItemResponse.ListDTO> laundryItemList;
-        boolean hasName = name != null && !name.isBlank();
+        int pageIndex = Math.max(0, page - 1);
 
-        if (category != null && hasName) {
-            laundryItemList = service.findByNameContainingAndCategory(category, name);
-        } else if (category != null) {
-            laundryItemList = service.findByCategory(category);
-        } else if (hasName) {
-            laundryItemList = service.findByNameContaining(name);
-        } else {
-            laundryItemList = service.getAllLaundryItems();
+        String queryString = request.getQueryString();
+
+        if (queryString != null) {
+            queryString = queryString.replaceAll("(&page=\\d+)", "");
+            queryString = queryString.replaceAll("(&size=\\d+)", "");
+            if (!queryString.isBlank()) {
+                queryString = "&" + queryString;
+            }
         }
 
-        model.addAttribute("laundryItemList", laundryItemList);
+        PageResponse<LaundryItemResponse.ListDTO> laundryItemListPage = service.laundryItemList(pageIndex, size, category, name);
+        model.addAttribute("laundryItemList", laundryItemListPage.getContent());
+        model.addAttribute("laundryItemPage", laundryItemListPage);
         model.addAttribute("name", name == null ? "" : name);
         model.addAttribute("category", category);
+        model.addAttribute("queryString", queryString);
+
         return "laundryItem/list-form";
     }
 
@@ -62,7 +70,7 @@ public class LaundryItemController {
     @PostMapping("/laundry-item/save")
     public String saveProc(@Valid LaundryItemRequest.SaveDTO saveDTO) {
         service.save(saveDTO);
-        return "redirect:/laundry-item";
+        return "redirect:/laundry-item/list";
     }
 
     // http://localhost:8080/laundry-item/{laundryItemId}/update
@@ -94,6 +102,6 @@ public class LaundryItemController {
     @PostMapping("/laundry-item/{laundryItemId}/delete")
     public String delete(@PathVariable Long laundryItemId) {
         service.delete(laundryItemId);
-        return "redirect:/laundry-item";
+        return "redirect:/laundry-item/list";
     }
 }
