@@ -8,12 +8,14 @@ import org.example.clean4u.orderItem.OrderItem;
 import org.example.clean4u.orderItem.OrderItemRepository;
 import org.example.clean4u.orderItemOption.OrderItemOption;
 import org.example.clean4u.orderItemOption.OrderItemOptionRepository;
+import org.example.clean4u.supplyItem.SupplyItem;
 import org.example.clean4u.supplyItem.SupplyItemRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -105,6 +107,33 @@ public class DashboardService {
         statistics.put("mostOrderedOptionCount", PriceUtil.format(maxOptionCount));
         statistics.put("mostOrderedOptionPrice", PriceUtil.format(singleOptionPrice));
         statistics.put("mostOrderedOptionTotalPrice", PriceUtil.format(optionTotalPrice));
+
+        // 자재 재고 부족
+        List<SupplyItem> lowStockItems = supplyItemRepository.findAll().stream()
+                .filter(item -> item.getStockQuantity() != null
+                        && item.getSafetyStock() != null
+                        && item.getStockQuantity() <= item.getSafetyStock())
+                .collect(Collectors.toList());
+
+        List<Map<String, Object>> lowStockItemList = lowStockItems.stream()
+                .map(item -> {
+                    Map<String, Object> itemMap = new HashMap<>();
+                    itemMap.put("name", item.getName());
+                    itemMap.put("stockQuantity", item.getStockQuantity());
+                    itemMap.put("safetyStock", item.getSafetyStock());
+                    itemMap.put("unit", item.getUnit());
+                    return itemMap;
+                })
+                .collect(Collectors.toList());
+
+        statistics.put("lowStockItems", lowStockItemList);
+        statistics.put("lowStockItemCount", PriceUtil.format(lowStockItems.size()));
+
+
+
+
+
+
 
         // 통게 전체 반환
         return statistics;
