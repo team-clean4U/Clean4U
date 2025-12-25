@@ -6,16 +6,21 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u.dashboard.DashboardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final DashboardService dashboardService;
 
     @GetMapping("/join")
     public String join() {
@@ -61,6 +66,9 @@ public class EmployeeController {
         if (sessionUser == null) {
             return "redirect:/login";
         }
+
+        Map<String, Object> statistics = dashboardService.getStatistics();
+        model.addAllAttributes(statistics);
 
         if (sessionUser.getUserRole() == UserRole.관리자) {
             long pendingCount = employeeService.pendingCount();
