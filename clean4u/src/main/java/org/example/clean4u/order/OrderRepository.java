@@ -8,4 +8,8 @@ public interface OrderRepository extends OrderRepositoryCustom, JpaRepository<Or
     Long countByCustomerIdAndStatus(Long customerId, OrderStatus status);
 
     List<Order> findByCustomerIdOrderByOrderDateDesc(Long customer);
+
+    Long countByStatus(OrderStatus status);
+
+    List<Order> findByStatus(OrderStatus status);
 }
