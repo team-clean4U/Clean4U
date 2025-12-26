@@ -13,7 +13,7 @@ import java.util.List;
 public class OrderRequest {
     @Data
     public static class SaveDTO {
-        @NotNull(message = "고객 id를 입력하세요")
+        @NotNull(message = "고객을 선택해주세요")
         private Long customerId;
 
         @Size(max = 50, message = "메모작성은 최대 50자입니다.")
