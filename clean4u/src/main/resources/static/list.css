@@ -141,6 +141,21 @@
     .card-list {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .card-list .card:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 630px) {
+    .search-wrapper {
+        flex-direction: column;
+    }
+
+    .search-wrapper .btn-submit {
+        width: 100%;
+        padding: 1rem 2rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -210,6 +225,7 @@
 .search-input-box {
     position: relative;
     flex: 1;
+    min-width: 0;
 }
 
 .search-input {
