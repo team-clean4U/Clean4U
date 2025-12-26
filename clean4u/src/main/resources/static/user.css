@@ -133,6 +133,10 @@
     .user-form .detail-label {
         min-width: 100px;
     }
+
+    .admin-header .btn-edit {
+        display: none;
+    }
 }
 
 @media (max-width: 784px) {
@@ -164,6 +168,34 @@
     }
 }
 
+@media (max-width: 768px) {
+    .dashboard-list {
+        margin: 1rem 0 2rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1rem;
+    }
+
+    .admin-header-left {
+        width: 100%;
+    }
+
+    .dashboard-group {
+        padding: 1.5rem;
+    }
+
+    .group-title {
+        font-size: 1.1rem;
+    }
+}
+
 @media (max-width: 480px) {
     .login-card {
         width: 90%;
@@ -179,5 +211,35 @@
 
     .login-card .detail-body {
         padding: 0.5rem 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+    }
+
+    .admin-header-left .btn {
+        font-size: 0.85rem;
+        padding: 0.6rem 1rem;
+    }
+
+    .admin-header .btn-edit {
+        display: none;
+    }
+
+    .admin-header b {
+        display: none;
+    }
+
+    .dashboard-group {
+        padding: 1.5rem 1rem;
+    }
+
+    .group-title {
+        font-size: 1rem;
+    }
+
+    .card-list-two,
+    .dashboard-list {
+        gap: 1.2rem;
     }
 }
