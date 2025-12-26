@@ -66,7 +66,7 @@
                     </div>
                     <div class="card-info">
                         <span class="info-label">평균 처리 경과 시간</span>
-                        <span class="info-value">{{! averageTime}}</span>
+                        <span class="info-value">{{averageTime}}</span>
                     </div>
                 </div>
 
@@ -76,16 +76,8 @@
                         <h4>완료 주문</h4>
                     </div>
                     <div class="card-info">
-                        <span class="info-label">오늘 완료</span>
+                        <span class="info-label">금일 완료</span>
                         <span class="info-value">{{myCompletedOrders}} 건</span>
-                    </div>
-                    <div class="card-info">
-                        <span class="info-label">오늘 매출</span>
-                        <span class="info-value">{{! mySales}}</span>
-                    </div>
-                    <div class="card-info">
-                        <span class="info-label">전일 대비 증감</span>
-                        <span class="info-value">전일 대비 {{!variationCount}} 건</span>
                     </div>
                 </div>
 
@@ -97,6 +89,10 @@
                     <div class="card-info">
                         <span class="info-label">접수된 주문</span>
                         <span class="info-value">{{myTodayOrders}} 건</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">금일 매출</span>
+                        <span class="info-value">{{mySales}} 원</span>
                     </div>
                 </div>
             </div>
