@@ -11,22 +11,20 @@
 
     <div class="card-list">
         {{#employeeList}}
-            <a href="/employee/{{id}}/detail">
-                <div class="card">
-                    <div class="card-header">
-                        <i class="fas fa-user"></i>
-                        <h4>{{name}}</h4>
-                    </div>
+            <a href="/employee/{{id}}/detail" class="card">
+                <div class="card-header">
+                    <i class="fas fa-user"></i>
+                    <h4>{{name}}</h4>
+                </div>
 
-                    <div class="card-info">
-                        <span class="info-label">아이디</span>
-                        <span class="info-value">{{username}}</span>
-                    </div>
+                <div class="card-info">
+                    <span class="info-label">아이디</span>
+                    <span class="info-value">{{username}}</span>
+                </div>
 
-                    <div class="card-info">
-                        <span class="info-label">이메일</span>
-                        <span class="info-value">{{email}}</span>
-                    </div>
+                <div class="card-info">
+                    <span class="info-label">이메일</span>
+                    <span class="info-value">{{email}}</span>
                 </div>
             </a>
         {{/employeeList}}
