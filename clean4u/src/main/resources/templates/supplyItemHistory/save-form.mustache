@@ -1,0 +1,65 @@
+{{> layout/header}}
+
+{{> layout/background}}
+
+<!-- http://localhost:8080/supply-item-history/save -->
+<div class="update-container">
+        <div class="history-update-card">
+            <form action="/supply-item-history/save" method="post">
+                <div class="update-header">
+                    <i class="fa-solid fa-box"></i>
+                    <b>자재 이력 등록</b>
+                </div>
+                <div class="update-body">
+                    <div class="update-item">
+                        <label class="update-label">
+                            <i class="fa-solid fa-list"></i>
+                            거래 유형
+                        </label>
+                        <div class="update-value category">
+                            <input type="hidden" name="type" id="category">
+                            <div class="category-select">
+                                <span class="category-selected">거래 유형 선택</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <ul class="category-dropdown">
+                                <li data-type="IN">입고</li>
+                                <li data-type="OUT">출고</li>
+                                <li data-type="ADJUSTMENT">조정</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="update-item last">
+                        <label class="update-label">
+                            <i class="fa-solid fa-note-sticky"></i>
+                            메모
+                        </label>
+                        <textarea cols="3" name="memo" placeholder="메모를 입력해주세요." class="update-value"></textarea>
+                    </div>
+                </div>
+                <div class="supply-item-history-items">
+                    <div class="item-add add-card">
+                            <span class="update-label each-label">
+                            <i class="fa-solid fa-boxes"></i>
+                            자재 항목
+                            </span>
+                        <button type="button" class="btn btn-add" onclick="addSupplyItem()">
+                            + 자재 추가
+                        </button>
+                    </div>
+                    <div class="bottom-buttons">
+                        <a href="/supply-item-history/list" class="btn btn-back">취소</a>
+                        <button type="submit" class="btn btn-create">완료</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{{> layout/footer}}
+
+<script src="/js/supplyItemHistory-save.js"></script>
+
+<script id="supply-items-data" type="application/json">
+    {{& supplyItemsJson}}
+</script>
