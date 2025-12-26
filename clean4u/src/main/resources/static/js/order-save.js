@@ -16,10 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updatePhoneList(matched) {
-        const categorySelect = phoneWrapper.querySelector(".category-select");
-        if (categorySelect) {
-            categorySelect.removeAttribute('data-bound');
-        }
 
         idInput.value = '';
         phoneSelected.textContent = '휴대폰 번호 선택';
@@ -42,14 +38,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 phoneDropdown.appendChild(li);
             });
         }
-
-        if (typeof bindDropdown === 'function') {
-            bindDropdown(phoneWrapper);
-        }
     }
 
     nameInput.addEventListener("input", () => {
         const matched = customers.filter(c => c.name === nameInput.value.trim());
         updatePhoneList(matched);
+    });
+
+    phoneDropdown.addEventListener("click", (e) => {
+        const li = e.target.closest("li");
+        if(!li) return;
+
+        const phone = li.dataset.phone;
+        const id = li.dataset.id;
+
+       if(!phone || !id) return;
+
+       idInput.value = id;
+       phoneSelected.textContent = phone;
+
+       phoneDropdown.querySelectorAll("li").forEach(el =>
+            el.classList.remove("selected")
+       );
+       li.classList.add("selected");
+
+       phoneWrapper
+            .querySelector(".category-dropdown")
+            .classList.remove("active");
+
+       phoneWrapper
+           .querySelector(".category-select")
+           .classList.remove("active");
     });
 });
