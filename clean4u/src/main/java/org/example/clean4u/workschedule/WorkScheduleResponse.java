@@ -1,10 +1,8 @@
 package org.example.clean4u.workschedule;
 
 import lombok.Data;
-import org.example.clean4u.employee.Employee;
 
 import java.time.LocalTime;
-import java.util.List;
 
 public class WorkScheduleResponse {
 
