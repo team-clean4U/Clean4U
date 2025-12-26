@@ -50,7 +50,7 @@ public class SupplyItem extends BaseTimeEntity {
 
     public void updateName(String newName) {
         if (newName == null || newName.trim().isEmpty()) {
-            throw new IllegalArgumentException("자재 이름은 필수입니다.");
+            throw new IllegalArgumentException("비품 이름은 필수입니다.");
         }
         this.name = newName;
     }

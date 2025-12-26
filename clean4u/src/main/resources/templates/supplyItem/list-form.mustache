@@ -8,7 +8,10 @@
         <div class="header-container">
             <div class="section-header">
                 <h2 class="section-title">
-                    <i class="fa-solid fa-box"></i>자재 목록
+                    <a href="/supply-item/list">
+                        <i class="fa-solid fa-box"></i>
+                        비품 목록
+                    </a>
                 </h2>
                 <a href="/supply-item/save" class="btn btn-create">
                     <span>+</span>생성
@@ -68,7 +71,7 @@
             {{/supplyItemList}}
         </div>
         {{^supplyItemList}}
-            <p class="blank">등록된 자재가 없습니다.</p>
+            <p class="blank">등록된 비품이 없습니다.</p>
         {{/supplyItemList}}
     </div>
 </div>

@@ -2,7 +2,7 @@
 
 {{> layout/background}}
 
-<div class="detail-container">
+<div class="detail-container customer">
     <div class="customer-container-content">
         <div class="customer-left">
             <!--버튼-->
@@ -81,9 +81,23 @@
                 </div>
                 <div class="detail-bodies">
                     <table class="table-container">
+                        <colgroup>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>주문번호</th>
+                            <th>상태</th>
+                            <th>금액</th>
+                            <th>주문일</th>
+                        </tr>
+                        </thead>
                         <tbody>
                         {{#customer.orders}}
-                            <tr>
+                            <tr onclick="location.href='/order/{{orderId}}'">
                                 <td class="order-no">주문#{{orderNo}}</td>
                                 <td>
                                         <span class="status-badge {{status.cssClass}}">
@@ -96,9 +110,11 @@
                         {{/customer.orders}}
 
                         {{^customer.orders}}
-                            <div class="no-order">
+                            <tr>
+                                <td colspan="4" class="empty-message">
                                 <i class="fa-solid fa-cart-arrow-down"></i>주문 내역이 없습니다.
-                            </div>
+                                </td>
+                            </tr>
                         {{/customer.orders}}
                         </tbody>
                     </table>

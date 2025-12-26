@@ -37,10 +37,10 @@ input.has-value {
 
 .order-detail-header {
     padding: 3rem 2.5rem;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.5rem;
 }
 
 .order-detail-header .user-info {
@@ -116,15 +116,6 @@ input.has-value {
 
 .order-laundry-item .update-value.category {
     min-width: 250px;
-}
-
-.update-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5rem 0;
-    border-bottom: 1px dashed var(--color-light-gray);
-    align-items: center;
-    gap: 5rem;
 }
 
 .order-item {
@@ -213,7 +204,6 @@ input.has-value {
 .laundry-item-value {
     color: var(--color-dark-blue);
     font-weight: 600;
-    flex: 1;
 }
 
 .laundry-item-option {
@@ -376,4 +366,68 @@ input.has-value {
 
 .order-laundry-item .order-button {
     padding: 32px 40px;
+}
+
+@media (max-width: 1024px) {
+    .order-laundry-item {
+        padding: 1.5rem 2rem;
+    }
+}
+
+@media (max-width: 784px) {
+    .order-total .detail-label {
+        width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-laundry-item .order-button {
+        padding: 32px 0;
+    }
+
+    .order-laundry-item {
+        padding: 0.5rem 1.5rem;
+    }
+
+    .option-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .option-card {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .order-total {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1rem;
+    }
+
+    .order-total .detail-label {
+        text-align: left;
+        width: 100%;
+    }
+
+    .laundry-info-detail {
+        padding: 2rem 0;
+    }
+
+    .laundry-card {
+        padding: 1.5rem;
+    }
+
+    .option-label {
+        display: none;
+    }
+
+    .laundry-item-row {
+        justify-content: space-between;
+    }
+
+    .laundry-info-subtotal {
+        padding: 1rem 0 0;
+    }
 }

@@ -23,11 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="supply-item-card" data-index="${itemIndex}">
                 <div class="supply-item-row">
                     <div class="supply-item-select-wrapper">
-                    <label>자재명</label>
+                    <label>비품명</label>
                         <div class="update-value category">
                             <input type="hidden" name="items[${itemIndex}].supplyItemId">
                             <div class="category-select">
-                                <span class="category-selected">자재 선택</span>
+                                <span class="category-selected">비품 선택</span>
                                 <i class="fa-solid fa-chevron-down"></i>
                             </div>
                             <ul class="category-dropdown">

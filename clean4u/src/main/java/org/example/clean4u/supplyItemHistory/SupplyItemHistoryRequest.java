@@ -13,7 +13,7 @@ public class SupplyItemHistoryRequest {
         @NotNull(message = "거래 유형은 필수입니다.")
         private Type type;
 
-        @NotEmpty(message = "자재를 선택하세요.")
+        @NotEmpty(message = "비품을 선택하세요.")
         @Valid
         private List<ItemDTO> items;
 
@@ -22,7 +22,7 @@ public class SupplyItemHistoryRequest {
 
     @Data
     public static class ItemDTO {
-        @NotNull(message = "자재 ID는 필수입니다.")
+        @NotNull(message = "비품 ID는 필수입니다.")
         private Long supplyItemId;
 
         @NotNull(message = "수량은 필수입니다.")

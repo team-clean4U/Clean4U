@@ -480,6 +480,8 @@
 
     .detail-card-left .detail-item {
         padding: 0.5rem 0;
+        flex-direction: row;
+        align-items: center;
     }
 
     .detail-card-left .detail-item span {
@@ -516,6 +518,7 @@
 
     .detail-card-left .detail-label {
         min-width: 70px;
+        width: auto;
     }
 }
 
