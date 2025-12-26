@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -52,9 +53,21 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
             hasCondition = true;
         }
 
-        StringBuilder listJpql = new StringBuilder();
-        listJpql.append(jpql);
-        listJpql.append(" ORDER BY o.createdAt DESC");
+        StringBuilder listJpql = new StringBuilder(jpql);
+        if(pageable.getSort().isSorted()) {
+            listJpql.append(" ORDER BY ");
+
+            boolean first = true;
+            for(Sort.Order sortOrder : pageable.getSort()) {
+                if(!first) {
+                    listJpql.append(", ");
+                }
+                listJpql.append("o.")
+                        .append(sortOrder.getProperty())
+                        .append(sortOrder.isAscending() ? " ASC" : " DESC");
+                first = false;
+            }
+        }
 
         TypedQuery<Order> query = em.createQuery(listJpql.toString(), Order.class);
         TypedQuery<Long> countQuery = em.createQuery(
