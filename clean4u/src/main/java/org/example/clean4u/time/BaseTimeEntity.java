@@ -15,9 +15,10 @@ import java.sql.Timestamp;
 @Getter
 public class BaseTimeEntity {
     @CreationTimestamp
-    @Column(updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
     @LastModifiedDate
+    @Column(name = "updated_at")
     private Timestamp updatedAt;
 }
