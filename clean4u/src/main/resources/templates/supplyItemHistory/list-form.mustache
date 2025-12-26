@@ -1,0 +1,126 @@
+{{> layout/header}}
+
+{{> layout/background}}
+
+<!-- http://localhost:8080/supply-item-history/list -->
+<div class="content-section">
+    <div class="container">
+        <div class="header-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-box"></i>자재 이력 관리
+                </h2>
+                <a href="/supply-item-history/save" class="btn btn-create">
+                    <span>+</span>생성
+                </a>
+            </div>
+            <form class="search-wrapper history-input" method="get" action="/supply-item-history/list">
+                <div class="update-value category">
+                    <input type="hidden" name="type" id="category" value="{{#type}}{{type}}{{/type}}">
+                    <div class="category-select" {{#type}}data-selected="{{type}}"{{/type}}>
+                        <i class="fa-solid fa-list"></i>
+                        <span class="category-selected">
+                                {{#typeDescription}}{{typeDescription}}{{/typeDescription}}
+                            {{^typeDescription}}전체 유형{{/typeDescription}}
+                            </span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="category-dropdown">
+                        <li data-type="">전체 유형</li>
+                        <li data-type="IN">입고</li>
+                        <li data-type="OUT">출고</li>
+                        <li data-type="ADJUSTMENT">조정</li>
+                    </ul>
+                </div>
+                <div class="search-input-box">
+                    <i class="fa-solid fa-calendar-alt"></i>
+                    <input type="date" name="fromDate" value="{{#fromDate}}{{fromDate}}{{/fromDate}}"
+                           class="search-input date-input" min="1900-01-01" max="9999-12-31">
+                </div>
+                <span class="date-separator">~</span>
+                <div class="search-input-box date">
+                    <i class="fa-solid fa-calendar-alt"></i>
+                    <input type="date" name="toDate" value="{{#toDate}}{{toDate}}{{/toDate}}"
+                           class="search-input date-input" min="1900-01-01" max="9999-12-31">
+                </div>
+                <button type="submit" class="btn btn-submit">조회</button>
+            </form>
+        </div>
+
+        <div class="history-container">
+            <table class="history-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>유형</th>
+                    <th>품목</th>
+                    <th>담당자</th>
+                    <th>일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#supplyItemHistoryList}}
+                    <tr onclick="location.href='/supply-item-history/{{id}}'">
+                        <td class="table-id">{{id}}</td>
+                        <td><span class="type-badge type-{{type}}">{{typeDescription}}</span></td>
+                        <td class="table-item">{{displayText}}</td>
+                        <td>{{employeeName}}</td>
+                        <td>{{createdAt}}</td>
+                    </tr>
+                {{/supplyItemHistoryList}}
+                {{^supplyItemHistoryList}}
+                    <tr>
+                        <td colspan="5" class="empty-message">등록된 자재 이력이 없습니다.</td>
+                    </tr>
+                {{/supplyItemHistoryList}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<ul class="pagination">
+    {{#supplyItemHistoryPage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/supply-item-history/list?page={{supplyItemHistoryPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}
+            ">
+            <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/supplyItemHistoryPage.previousPageNumber}}
+    {{^supplyItemHistoryPage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/supplyItemHistoryPage.previousPageNumber}}
+
+    {{#supplyItemHistoryPage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/supply-item-history/list?page={{displayNumber}}
+            &size={{supplyItemHistoryPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+        </li>
+    {{/supplyItemHistoryPage.pageLinks}}
+
+    {{#supplyItemHistoryPage.nextPageNumber}}
+        <li class="page-btn">
+            <a href="/supply-item-history/list?page={{supplyItemHistoryPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}
+            ">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/supplyItemHistoryPage.nextPageNumber}}
+    {{^supplyItemHistoryPage.nextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/supplyItemHistoryPage.nextPageNumber}}
+</ul>
+
+
+{{> layout/footer}}
