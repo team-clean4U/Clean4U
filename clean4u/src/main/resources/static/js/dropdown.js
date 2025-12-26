@@ -4,6 +4,7 @@ function bindDropdown(wrapper) {
     const categorySelected = wrapper.querySelector(".category-selected");
 
     const categoryInput = wrapper.querySelector("input[type='hidden']") ||
+        wrapper.querySelector("input[name*='supplyItemId']") ||
         wrapper.querySelector("input[name='status']") ||
         wrapper.querySelector("input[name='category']") ||
         wrapper.querySelector("input[name='isActive']") ||
@@ -96,14 +97,7 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const categorySelect = document.querySelector(".category-select");
-    const categoryDropdown = document.querySelector(".category-dropdown");
-    const categoryInput = document.getElementById("category");
-
-    if (categoryInput && categorySelect && categoryDropdown) {
-        const wrapper = categorySelect.closest(".update-value.category") || categorySelect.parentElement;
-        if (wrapper) {
-            bindDropdown(wrapper);
-        }
-    }
+    document.querySelectorAll(".update-value.category").forEach(wrapper => {
+        bindDropdown(wrapper);
+    });
 });
