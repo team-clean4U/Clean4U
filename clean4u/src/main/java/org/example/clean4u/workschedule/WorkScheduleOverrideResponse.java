@@ -1,6 +1,5 @@
 package org.example.clean4u.workschedule;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;

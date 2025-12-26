@@ -1,8 +1,5 @@
 package org.example.clean4u.employee;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
 
