@@ -142,7 +142,7 @@ public class DashboardService {
         int dryingCount = orderRepository.countByStatus(OrderStatus.DRYING);
         int progressiveOrdersCount = washingCount + dryingCount;
 
-        statistics.put("myProcessingOrders", PriceUtil.format(progressiveOrdersCount));
+        statistics.put("processingOrders", PriceUtil.format(progressiveOrdersCount));
 
         // 평균 처리 경과 시간
         Double avgMinutes = orderStatusHistoryRepository.findAverageProcessingMinutes();
@@ -188,7 +188,7 @@ public class DashboardService {
             }
         }
 
-        statistics.put("myCompletedOrders", PriceUtil.format(completedOrdersOfToday));
+        statistics.put("completedOrders", PriceUtil.format(completedOrdersOfToday));
 
         // 금일 매출, 금일 접수 건수
         int receivedOrdersOfToday = 0;
@@ -212,8 +212,8 @@ public class DashboardService {
                 sum += order.getTotalPrice();
             }
         }
-        statistics.put("myTodayOrders", PriceUtil.format(receivedOrdersOfToday));
-        statistics.put("mySales", PriceUtil.format(sum));
+        statistics.put("todayOrders", PriceUtil.format(receivedOrdersOfToday));
+        statistics.put("todaySales", PriceUtil.format(sum));
 
         // 통계 전체 반환
         return statistics;

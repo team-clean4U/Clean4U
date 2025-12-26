@@ -83,19 +83,27 @@
                         <h4>오늘 주문</h4>
                     </div>
                     <div class="card-info">
-                        <span class="info-label">신규 주문</span>
-                        <span class="info-value">{{! todayOrders }} 건</span>
+                        <span class="info-label">오늘 주문 건수</span>
+                        <span class="info-value">{{todayOrders}} 건</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">오늘 매출</span>
+                        <span class="info-value">{{todaySales}} 원</span>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-hourglass-half"></i>
-                        <h4>진행 중 주문</h4>
+                        <h4>처리 중 주문</h4>
                     </div>
                     <div class="card-info">
-                        <span class="info-label">처리 중</span>
-                        <span class="info-value">{{! processingOrders }} 건</span>
+                        <span class="info-label">현재 진행</span>
+                        <span class="info-value">{{processingOrders}} 건</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">평균 처리 경과 시간</span>
+                        <span class="info-value">{{averageTime}}</span>
                     </div>
                 </div>
 
@@ -105,8 +113,8 @@
                         <h4>완료된 주문</h4>
                     </div>
                     <div class="card-info">
-                        <span class="info-label">오늘 완료</span>
-                        <span class="info-value">{{! completedOrders }} 건</span>
+                        <span class="info-label">오늘 완료 건수</span>
+                        <span class="info-value">{{completedOrders}} 건</span>
                     </div>
                 </div>
             </div>
