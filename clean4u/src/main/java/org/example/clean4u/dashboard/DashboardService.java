@@ -116,7 +116,7 @@ public class DashboardService {
         statistics.put("mostOrderedOptionPrice", PriceUtil.format(singleOptionPrice));
         statistics.put("mostOrderedOptionTotalPrice", PriceUtil.format(optionTotalPrice));
 
-        // 자재 재고 부족
+        // 비품 재고 부족
         List<SupplyItem> lowStockItems = supplyItemRepository.findAll().stream()
                 .filter(item -> item.getStockQuantity() != null
                         && item.getSafetyStock() != null

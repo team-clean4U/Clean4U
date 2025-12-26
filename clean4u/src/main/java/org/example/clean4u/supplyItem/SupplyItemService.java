@@ -30,14 +30,14 @@ public class SupplyItemService {
 
     public SupplyItemResponse.DetailDTO getDetail(Long supplyItemId) {
         SupplyItem supplyItem = repository.findById(supplyItemId)
-                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
         return new SupplyItemResponse.DetailDTO(supplyItem);
     }
 
     @Transactional
     public SupplyItem save(@Valid SupplyItemRequest.SaveDTO saveDTO) {
         if (repository.findByName(saveDTO.getName()).isPresent()) {
-            throw new Exception400("이미 존재하는 자재 이름입니다.");
+            throw new Exception400("이미 존재하는 비품 이름입니다.");
         }
 
         SupplyItem supplyItem = saveDTO.toEntity();
@@ -46,17 +46,17 @@ public class SupplyItemService {
 
     public SupplyItemResponse.UpdateFormDTO getFormForUpdate(Long supplyItemId) {
         SupplyItem supplyItem = repository.findById(supplyItemId)
-                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
         return new SupplyItemResponse.UpdateFormDTO(supplyItem);
     }
 
     @Transactional
     public SupplyItem update(Long supplyItemId, @Valid SupplyItemRequest.UpdateDTO updateDTO) {
         SupplyItem supplyItem = repository.findById(supplyItemId)
-                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
         if (!supplyItem.getName().equals(updateDTO.getName())) {
             if (repository.findByName(updateDTO.getName()).isPresent()) {
-                throw new Exception400("이미 존재하는 자재 이름입니다.");
+                throw new Exception400("이미 존재하는 비품 이름입니다.");
             }
         }
         supplyItem.update(updateDTO);
@@ -66,14 +66,14 @@ public class SupplyItemService {
     @Transactional
     public void deactivate(Long supplyItemId) {
         SupplyItem supplyItem = repository.findById(supplyItemId)
-                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
         supplyItem.updateIsActive(false);
     }
 
     @Transactional
     public void activate(Long supplyItemId) {
         SupplyItem supplyItem = repository.findById(supplyItemId)
-                .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
         supplyItem.updateIsActive(true);
     }
 

@@ -38,7 +38,7 @@ public class SupplyItemHistoryService {
     public void save(@Valid SupplyItemHistoryRequest.SaveDTO saveDTO, Employee employee) {
         for (SupplyItemHistoryRequest.ItemDTO item : saveDTO.getItems()) {
             SupplyItem supplyItem = supplyItemRepository.findById(item.getSupplyItemId())
-                    .orElseThrow(() -> new Exception404("해당 자재를 찾을 수 없습니다."));
+                    .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
 
             Integer stockBefore = supplyItem.getStockQuantity();
             Integer stockAfter;

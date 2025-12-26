@@ -9,7 +9,7 @@ public class SupplyItemRequest {
 
     @Data
     public static class SaveDTO {
-        @NotBlank(message = "자재 이름은 필수입니다.")
+        @NotBlank(message = "비품 이름은 필수입니다.")
         private String name;
 
         @NotBlank(message = "단위는 필수입니다.")
@@ -39,7 +39,7 @@ public class SupplyItemRequest {
 
     @Data
     public static class UpdateDTO {
-        @NotBlank(message = "자재 이름은 필수입니다.")
+        @NotBlank(message = "비품 이름은 필수입니다.")
         private String name;
 
         @NotBlank(message = "단위는 필수입니다.")
