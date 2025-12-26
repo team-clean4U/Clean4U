@@ -122,27 +122,27 @@
     border-spacing: 0 5px;
 }
 
-table tr {
+.table-container tr {
     cursor: pointer;
 }
 
-table tr:hover {
+.table-container tr:hover {
     background: var(--color-lighter-blue);
 }
 
-table td {
+.table-container td {
     text-align: center;
     padding: 0.5rem;
     border-bottom: 1px solid var(--color-light-gray);
     border-top: 1px solid var(--color-light-gray);
 }
 
-table td:first-of-type {
+.table-container td:first-of-type {
     border-left: 1px solid var(--color-light-gray);
     border-radius: 10px 0 0 10px;
 }
 
-table td:last-of-type {
+.table-container td:last-of-type {
     border-right: 1px solid var(--color-light-gray);
     border-radius: 0 10px 10px 0;
 }
