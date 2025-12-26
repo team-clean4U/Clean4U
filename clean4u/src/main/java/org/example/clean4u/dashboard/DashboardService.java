@@ -7,6 +7,7 @@ import org.example.clean4u.laundryItem.LaundryCategory;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.order.OrderStatus;
+import org.example.clean4u.order.OrderStatusHistoryRepository;
 import org.example.clean4u.orderItem.OrderItem;
 import org.example.clean4u.orderItem.OrderItemRepository;
 import org.example.clean4u.orderItemOption.OrderItemOption;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class DashboardService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final OrderStatusHistoryRepository orderStatusHistoryRepository;
     private final OrderItemOptionRepository orderItemOptionRepository;
     private final SupplyItemRepository supplyItemRepository;
 
@@ -136,11 +138,34 @@ public class DashboardService {
         statistics.put("lowStockItemCount", PriceUtil.format(lowStockItems.size()));
 
         // 현재 진행형 주문(WASHING, DRYING)
-        long washingCount = orderRepository.countByStatus(OrderStatus.WASHING);
-        long dryingCount = orderRepository.countByStatus(OrderStatus.DRYING);
-        long progressiveOrdersCount = washingCount + dryingCount;
+        int washingCount = orderRepository.countByStatus(OrderStatus.WASHING);
+        int dryingCount = orderRepository.countByStatus(OrderStatus.DRYING);
+        int progressiveOrdersCount = washingCount + dryingCount;
 
-        statistics.put("myProcessingOrders", progressiveOrdersCount);
+        statistics.put("myProcessingOrders", PriceUtil.format(progressiveOrdersCount));
+
+        // 평균 처리 경과 시간
+        Double avgMinutes = orderStatusHistoryRepository.findAverageProcessingMinutes();
+
+        if (avgMinutes == null) {
+            statistics.put("averageTime", "0 분");
+        } else {
+            long days = (long) (avgMinutes / (24 * 60));
+            long hours = (long) ((avgMinutes % (24 * 60)) / 60);
+            long minutes = (long) (avgMinutes % 60);
+
+            StringBuilder sb = new StringBuilder();
+            if (days > 0) {
+                sb.append(days).append("일 ");
+            }
+            if (hours > 0) {
+                sb.append(hours).append("시간 ");
+            }
+            if (minutes > 0) {
+                sb.append(minutes).append("분");
+            }
+            statistics.put("averageTime", sb.toString().trim());
+        }
 
         // 금일 완료된 주문
         LocalDate today = LocalDate.now();
@@ -150,7 +175,7 @@ public class DashboardService {
             throw new Exception404("금일 완료된 주문 내역이 없습니다.");
         }
 
-        long completedOrdersOfToday = 0;
+        int completedOrdersOfToday = 0;
 
         for (Order order : completedOrders) {
             if (order.getUpdatedAt() == null) {
@@ -163,23 +188,32 @@ public class DashboardService {
             }
         }
 
-        statistics.put("myCompletedOrders", completedOrdersOfToday);
+        statistics.put("myCompletedOrders", PriceUtil.format(completedOrdersOfToday));
 
-        // 금일 접수된 주문
+        // 금일 매출, 금일 접수 건수
+        int receivedOrdersOfToday = 0;
+        int sum = 0;
+
         List<Order> receivedOrders = orderRepository.findByStatus(OrderStatus.RECEIVED);
         if (receivedOrders == null) {
             throw new Exception404("접수된 주문 내역이 없습니다.");
         }
 
-        long receivedOrdersOfToday = 0;
-
         for (Order order : receivedOrders) {
-            if (order.getOrderDate().equals(LocalDate.now())) {
+            if (order.getUpdatedAt() == null) {
+                continue;
+            }
+
+            LocalDateTime localDateTime = order.getUpdatedAt().toLocalDateTime();
+            LocalDate createdDate = localDateTime.toLocalDate();
+
+            if (createdDate.isEqual(LocalDate.now())) {
                 receivedOrdersOfToday++;
+                sum += order.getTotalPrice();
             }
         }
-
-        statistics.put("myTodayOrders", receivedOrdersOfToday);
+        statistics.put("myTodayOrders", PriceUtil.format(receivedOrdersOfToday));
+        statistics.put("mySales", PriceUtil.format(sum));
 
         // 통계 전체 반환
         return statistics;
