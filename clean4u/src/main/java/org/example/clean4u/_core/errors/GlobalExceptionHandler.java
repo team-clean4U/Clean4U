@@ -7,12 +7,25 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException e, HttpServletRequest request) {
+        log.warn("== 입력값 오류 발생 ==");
+        String message = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .findFirst()
+                .map(error -> error.getDefaultMessage())
+                .orElse("입력값이 올바르지 않습니다.");
+        return alertBack(message, HttpStatus.BAD_REQUEST, request);
+    }
 
     @ExceptionHandler(Exception400.class)
     public ResponseEntity<String> exception400(Exception400 e, HttpServletRequest request) {
@@ -102,6 +115,6 @@ public class GlobalExceptionHandler {
                 e.getMessage() != null ? e.getMessage() : "예상치 못한 에러 발생",
                 status,
                 request
-                );
+        );
     }
 }
