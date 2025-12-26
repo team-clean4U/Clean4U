@@ -1,9 +1,12 @@
 package org.example.clean4u.dashboard;
 
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.laundryItem.LaundryCategory;
+import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
+import org.example.clean4u.order.OrderStatus;
 import org.example.clean4u.orderItem.OrderItem;
 import org.example.clean4u.orderItem.OrderItemRepository;
 import org.example.clean4u.orderItemOption.OrderItemOption;
@@ -12,6 +15,9 @@ import org.example.clean4u.supplyItem.SupplyItem;
 import org.example.clean4u.supplyItem.SupplyItemRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +48,7 @@ public class DashboardService {
 
             categoryCountMap.put(category, categoryCountMap.getOrDefault(category, 0) + 1);
             categoryTotalPriceMap.put(category, categoryTotalPriceMap.getOrDefault(category, 0L) + ((long) basePrice * quantity));
-            
+
             if (!categoryMaxPriceMap.containsKey(category) || basePrice > categoryMaxPriceMap.get(category)) {
                 categoryMaxPriceMap.put(category, basePrice);
             }
@@ -67,7 +73,7 @@ public class DashboardService {
                 categoryMinPrice = categoryMinPriceMap.getOrDefault(entry.getKey(), 0);
             }
         }
-        
+
         statistics.put("mostOrderedCategoryIcon", mostOrderedCategory != null ? mostOrderedCategory.getIcon() : "box");
         statistics.put("mostOrderedCategory", mostOrderedCategory != null ? mostOrderedCategory.name() : "없음");
         statistics.put("mostOrderedCategoryCount", PriceUtil.format(maxCategoryCount));
@@ -129,13 +135,54 @@ public class DashboardService {
         statistics.put("lowStockItems", lowStockItemList);
         statistics.put("lowStockItemCount", PriceUtil.format(lowStockItems.size()));
 
+        // 현재 진행형 주문(WASHING, DRYING)
+        long washingCount = orderRepository.countByStatus(OrderStatus.WASHING);
+        long dryingCount = orderRepository.countByStatus(OrderStatus.DRYING);
+        long progressiveOrdersCount = washingCount + dryingCount;
 
+        statistics.put("myProcessingOrders", progressiveOrdersCount);
 
+        // 금일 완료된 주문
+        LocalDate today = LocalDate.now();
+        List<Order> completedOrders = orderRepository.findByStatus(OrderStatus.COMPLETED);
 
+        if (completedOrders == null) {
+            throw new Exception404("금일 완료된 주문 내역이 없습니다.");
+        }
 
+        long completedOrdersOfToday = 0;
 
+        for (Order order : completedOrders) {
+            if (order.getUpdatedAt() == null) {
+                continue;
+            }
+            LocalDateTime localDateTime = order.getUpdatedAt().toLocalDateTime();
+            LocalDate updatedDate = localDateTime.toLocalDate();
+            if (updatedDate.isEqual(today)) {
+                completedOrdersOfToday++;
+            }
+        }
 
-        // 통게 전체 반환
+        statistics.put("myCompletedOrders", completedOrdersOfToday);
+
+        // 금일 접수된 주문
+        List<Order> receivedOrders = orderRepository.findByStatus(OrderStatus.RECEIVED);
+        if (receivedOrders == null) {
+            throw new Exception404("접수된 주문 내역이 없습니다.");
+        }
+
+        long receivedOrdersOfToday = 0;
+
+        for (Order order : receivedOrders) {
+            if (order.getOrderDate().equals(LocalDate.now())) {
+                receivedOrdersOfToday++;
+            }
+        }
+
+        statistics.put("myTodayOrders", receivedOrdersOfToday);
+
+        // 통계 전체 반환
         return statistics;
     }
+
 }

@@ -52,7 +52,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
             hasCondition = true;
         }
 
-        TypedQuery<Order> query = em.createQuery(jpql.toString(), Order.class);
+        StringBuilder listJpql = new StringBuilder();
+        listJpql.append(jpql);
+        listJpql.append(" ORDER BY o.createdAt DESC");
+
+        TypedQuery<Order> query = em.createQuery(listJpql.toString(), Order.class);
         TypedQuery<Long> countQuery = em.createQuery(
                 jpql.toString().replace("SELECT o", "SELECT COUNT(o)"),
                 Long.class
