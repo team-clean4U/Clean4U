@@ -1,0 +1,96 @@
+{{> layout/header}}
+
+{{> layout/background}}
+
+<!-- http://localhost:8080/supply-item-history/74 -->
+<div class="history-detail-container">
+    <div class="history-container-content">
+        <div class="buttons">
+            <form action="/supply-item-history/list" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            </form>
+        </div>
+        <div class="detail-cards-wrapper">
+            <div class="detail-card detail-card-left">
+                <div class="detail-header history-detail-header">
+                    <div class="header-content">
+                        <span class="type-badge type-{{supplyItemHistory.type}}">{{supplyItemHistory.typeDescription}}</span>
+                        <h4>자재 이력 #{{supplyItemHistory.id}}</h4>
+                    </div>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-user"></i>
+                            담당자
+                        </span>
+                        <span class="detail-value">
+                            {{supplyItemHistory.employeeName}}
+                        </span>
+                    </div>
+                    {{#supplyItemHistory.memo}}
+                        <div class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-note-sticky"></i>
+                                메모
+                            </span>
+                            <span class="detail-value">
+                                {{supplyItemHistory.memo}}
+                            </span>
+                        </div>
+                    {{/supplyItemHistory.memo}}
+                    <div class="detail-item">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-hourglass"></i>
+                            생성일
+                        </span>
+                        <span class="detail-value">
+                            {{supplyItemHistory.createdAt}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card detail-card-right">
+                <div class="detail-header history-detail-header">
+                    <div class="header-content">
+                        <i class="fa-solid fa-boxes"></i>
+                        <h4>자재 항목</h4>
+                        <span class="item-count-badge">{{supplyItemHistory.itemCount}}건</span>
+                    </div>
+                </div>
+                <div class="history-items-container">
+                    <table class="items-table">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                        <thead>
+                        <tr>
+                            <th>자재명</th>
+                            <th>수량</th>
+                            <th>이전 재고</th>
+                            <th>이후 재고</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#supplyItemHistory.items}}
+                            <tr>
+                                <td class="item-name-cell">
+                                    <i class="fa-solid fa-spray-can"></i>
+                                    {{supplyItemName}}
+                                </td>
+                                <td class="item-quantity-cell">{{quantity}}</td>
+                                <td class="item-stock-before-cell">{{stockBefore}}</td>
+                                <td class="item-stock-after-cell">{{stockAfter}}</td>
+                            </tr>
+                        {{/supplyItemHistory.items}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{> layout/footer}}
