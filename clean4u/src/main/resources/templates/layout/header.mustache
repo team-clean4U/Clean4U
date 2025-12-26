@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/order.css">
     <link rel="stylesheet" href="/customer.css">
     <link rel="stylesheet" href="/supplyItem.css">
+    <link rel="stylesheet" href="/supplyItemHistory.css">
     <link rel="stylesheet" href="/laundryOption.css">
     <link rel="stylesheet" href="/dropdown.css">
     <link rel="stylesheet" href="/user.css">
@@ -101,10 +102,25 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/supply-item/list">
+                    <li class="nav-item dropdown">
+                        <span class="nav-link dropdown-toggle">
                             <i class="fa-solid fa-box"></i>자재 관리
-                        </a>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/supply-item/list" class="dropdown-item">
+                                    <i class="fa-solid fa-box"></i>
+                                    자재 관리
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/supply-item-history/list" class="dropdown-item">
+                                    <i class="fa-solid fa-boxes"></i>
+                                    재고 이력 조회
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/notice/list">

@@ -29,8 +29,7 @@ public class LaundryOption extends BaseTimeEntity {
     private Boolean isActive = true;
 
     @Builder
-    public LaundryOption(Long id, String name, Integer extraPrice, String description, Boolean isActive) {
-        this.id = id;
+    public LaundryOption(String name, Integer extraPrice, String description, Boolean isActive) {
         this.name = name;
         this.extraPrice = extraPrice;
         this.description = description;

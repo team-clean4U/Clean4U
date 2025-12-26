@@ -30,8 +30,7 @@ public class LaundryItem extends BaseTimeEntity {
     private String description;
 
     @Builder
-    public LaundryItem(Long id, String name, LaundryCategory category, Integer basePrice, String description) {
-        this.id = id;
+    public LaundryItem(String name, LaundryCategory category, Integer basePrice, String description) {
         this.name = name;
         this.category = category;
         this.basePrice = basePrice;

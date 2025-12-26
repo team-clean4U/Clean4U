@@ -42,6 +42,13 @@
     --badge-warning: #FF0000;
     --badge-safe: #33FF33;
 
+    --type-in: #E8F5E9;
+    --type-in-text: #2E7D32;
+    --type-out: #FFEBEE;
+    --type-out-text: #C62828;
+    --type-ad: #FFF3E0;
+    --type-ad-text: #E65100;
+
     --background-blue: rgba(79, 195, 247, 0.1);
     --background-border: rgba(79, 195, 247, 0.2);
 

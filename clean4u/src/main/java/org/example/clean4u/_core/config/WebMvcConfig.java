@@ -33,6 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/laundry-item/**",
                         "/laundry-option/**",
                         "/supply-item/**",
+                        "/supply-item-history/**",
                         "/customer/**",
                         "/order/**",
                         "/notice/**"
