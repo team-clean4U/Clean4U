@@ -152,6 +152,16 @@
     .login-footer .btn {
         width: 100%;
     }
+
+    .card-list-two {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    .dashboard-group .card-header {
+        margin-bottom: 0.5rem;
+    }
 }
 
 @media (max-width: 480px) {

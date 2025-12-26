@@ -30,15 +30,24 @@
         <a class="navbar-brand" href="/main">
             <i class="fa-solid fa-soap"></i> Clean4U
         </a>
+        <input type="checkbox" id="navbar-toggle" class="navbar-toggle-checkbox">
+        <label for="navbar-toggle" class="navbar-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </label>
+        <label for="navbar-toggle" class="navbar-overlay"></label>
         <div class="navbar-menu">
+            <label for="navbar-toggle" class="navbar-close">
+                <i class="fa-solid fa-times"></i>
+            </label>
             <ul class="navbar-nav">
                 {{#sessionUser}}
                     {{#sessionUser.isAdmin}}
-                        <li class="nav-item dropdown">
-                            <span class="nav-link dropdown-toggle">
-                                <i class="fa-solid fa-shield-halved"></i>  관리자
+                        <li class="nav-item dropdown dropdown-admin">
+                            <input type="checkbox" id="dropdown-admin" class="dropdown-checkbox">
+                            <label for="dropdown-admin" class="nav-link dropdown-toggle">
+                                <i class="fa-solid fa-shield-halved"></i> 관리자
                                 <i class="fa-solid fa-chevron-down"></i>
-                            </span>
+                            </label>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a href="/employee/list" class="dropdown-item">
@@ -60,7 +69,7 @@
                                 </li>
                                 <li>
                                     <a href="/override/list" class="dropdown-item">
-                                        <i class="fa-solid fa-calendar-days"></i>
+                                        <i class="fa-solid fa-arrows-rotate"></i>
                                         교체 근무 관리
                                     </a>
                                 </li>
@@ -72,60 +81,62 @@
                             <i class="fa-solid fa-home"></i> 대시보드
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/customer/list">
-                            <i class="fa-solid fa-users"></i>고객 관리
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/order/list">
-                            <i class="fa-solid fa-cart-shopping"></i>주문 관리
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
-                        <span class="nav-link dropdown-toggle">
-                            <i class="fa-solid fa-shirt"></i>세탁 관리
+                        <input type="checkbox" id="dropdown-business" class="dropdown-checkbox">
+                        <label for="dropdown-business" class="nav-link dropdown-toggle">
+                            <i class="fa-solid fa-briefcase"></i>업무 관리
                             <i class="fa-solid fa-chevron-down"></i>
-                        </span>
+                        </label>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="/customer/list">
+                                    <i class="fa-solid fa-user-group"></i>고객 관리
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/order/list">
+                                    <i class="fa-solid fa-cart-shopping"></i>주문 관리
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/notice/list">
+                                    <i class="fa-solid fa-bullhorn"></i>공지사항
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown dropdown-management">
+                        <input type="checkbox" id="dropdown-management" class="dropdown-checkbox">
+                        <label for="dropdown-management" class="nav-link dropdown-toggle">
+                            <i class="fa-solid fa-list"></i>자료 관리
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </label>
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="/laundry-item/list" class="dropdown-item">
                                     <i class="fa-solid fa-shirt"></i>
-                                    세탁물 관리
+                                    세탁물 목록
                                 </a>
                             </li>
                             <li>
                                 <a href="/laundry-option/list" class="dropdown-item">
-                                    <i class="fa-solid fa-tag"></i>
-                                    세탁 옵션 관리
+                                    <i class="fa-solid fa-tags"></i>
+                                    세탁 옵션
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <span class="nav-link dropdown-toggle">
-                            <i class="fa-solid fa-box"></i>자재 관리
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </span>
-                        <ul class="dropdown-menu">
                             <li>
                                 <a href="/supply-item/list" class="dropdown-item">
                                     <i class="fa-solid fa-box"></i>
-                                    자재 관리
+                                    비품 목록
                                 </a>
                             </li>
                             <li>
                                 <a href="/supply-item-history/list" class="dropdown-item">
-                                    <i class="fa-solid fa-boxes"></i>
-                                    재고 이력 조회
+                                    <i class="fa-solid fa-chart-line"></i>
+                                    비품 입/출고 이력
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/notice/list">
-                            <i class="fa-solid fa-bullhorn"></i> 공지사항
-                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">

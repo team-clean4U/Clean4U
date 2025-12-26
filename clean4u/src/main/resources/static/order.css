@@ -73,16 +73,36 @@ input.has-value {
     gap: 1rem;
     align-items: stretch;
     flex-wrap: wrap;
+    min-width: 0;
 }
 
 .date-separator {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
+}
+
+@media (max-width: 800px) {
+    .order .btn-submit {
+        width: 100%;
+        padding: 1rem 2rem;
+    }
+}
+
+@media (max-width: 690px) {
+    .order .date-separator {
+        display: none;
+    }
+
+    .order .search-box {
+        flex-direction: column;
+    }
 }
 
 .search-box > div {
-    min-width: 250px;
+    min-width: 0;
     flex: 1;
+    max-width: 100%;
 }
 
 .order .search-wrapper .search-box:first-child {

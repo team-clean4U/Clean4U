@@ -206,7 +206,7 @@
 .items-table col:first-child,
 .items-table col:nth-child(2),
 .items-table col:nth-child(3) {
-    border-right: 1px dashed var(--color-light-gray);;
+    border-right: 1px dashed var(--color-light-gray);
 }
 
 .items-table col:nth-child(2),
@@ -356,6 +356,25 @@
     margin-right: 0.5rem;
 }
 
+.date-range-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.date-range-wrapper .search-input-box {
+    flex: 1;
+    min-width: 0;
+}
+
+.date-range-wrapper .date-separator {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
 @media (max-width: 1024px) {
     .history-input {
         flex-wrap: wrap;
@@ -366,6 +385,9 @@
     .history-input .update-value.category {
         min-width: 150px;
         flex: 0 0 auto;
+        border-bottom: 2px dashed var(--color-light-blue);
+        padding-bottom: 1rem;
+        margin-bottom: 0.5rem;
     }
 
     .history-input .search-input-box {
@@ -376,11 +398,21 @@
         margin-left: 0;
     }
 
+    .date-range-wrapper {
+        flex: 1;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .date-range-wrapper .search-input-box {
+        min-width: 0;
+    }
+
     .history-container-content .history-detail-header {
         padding: 1.75rem;
     }
 
-    .history-container-content .detail-body{
+    .history-container-content .detail-body {
         padding: 0.5rem 1.5rem;
     }
 
@@ -402,33 +434,9 @@
 }
 
 @media (max-width: 768px) {
-    .history-input .date-separator {
-        display: none;
-    }
-
-    .history-input {
-        flex-direction: column;
-        gap: 0.75rem;
-        padding: 1.25rem;
-    }
-
     .history-input .update-value.category {
         width: 100%;
         min-width: 100%;
-    }
-
-    .history-input .search-input-box {
-        width: 100%;
-        min-width: 100%;
-    }
-
-    .history-input .date-separator {
-        display: none;
-    }
-
-    .history-input .btn-submit {
-        width: 100%;
-        padding: 1rem 2rem;
     }
 
     .history-container {
@@ -474,7 +482,7 @@
         padding: 0.5rem 0;
     }
 
-    .detail-card-left .detail-item span{
+    .detail-card-left .detail-item span {
         font-size: 0.8rem;
     }
 
@@ -508,5 +516,22 @@
 
     .detail-card-left .detail-label {
         min-width: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .date-range-wrapper {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .date-range-wrapper .date-separator {
+        display: none;
+    }
+
+    .date-range-wrapper .search-input-box {
+        width: 100%;
+        min-width: 100%;
     }
 }

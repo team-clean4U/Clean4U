@@ -31,6 +31,7 @@
     background: rgba(79, 195, 247, 0.2);
     font-weight: 700;
     border: 2px solid var(--color-blue);
+    color: #0f9eff;
 }
 
 .pagination-link i {
@@ -40,8 +41,4 @@
 .page-btn.disabled {
     color: var(--color-gray);
     opacity: 0.3;
-}
-
-.page-btn.active {
-    color: #0f9eff;
 }

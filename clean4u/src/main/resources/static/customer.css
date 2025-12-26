@@ -6,8 +6,6 @@
     font-size: 1rem;
 }
 
-.update-value-grade {}
-
 .update-value-items {
     color: var(--color-dark-blue);
     font-size: 2.5rem;
@@ -183,7 +181,7 @@
     font-size: 1rem;
 }
 
-.save-form{
+.save-form {
     width: 100%;
 }
 
