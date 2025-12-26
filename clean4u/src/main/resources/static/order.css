@@ -118,15 +118,6 @@ input.has-value {
     min-width: 250px;
 }
 
-.update-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5rem 0;
-    border-bottom: 1px dashed var(--color-light-gray);
-    align-items: center;
-    gap: 5rem;
-}
-
 .order-item {
     padding-top: 0;
 }
