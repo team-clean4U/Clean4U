@@ -32,8 +32,7 @@ public class SupplyItem extends BaseTimeEntity {
     private Boolean isActive = true;
 
     @Builder
-    public SupplyItem(Long id, String name, String unit, Integer stockQuantity, Integer safetyStock, Boolean isActive) {
-        this.id = id;
+    public SupplyItem(String name, String unit, Integer stockQuantity, Integer safetyStock, Boolean isActive) {
         this.name = name;
         this.unit = unit;
         this.stockQuantity = stockQuantity;
