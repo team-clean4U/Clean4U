@@ -103,13 +103,19 @@ public class DashboardService {
         int singleOptionPrice = 0;
         int optionTotalPrice = 0;
         String mostOrderedOptionName = "없음";
+        Long mostOrderedOptionId = null;
 
         for (Map.Entry<Long, Integer> entry : optionCountMap.entrySet()) {
             if (entry.getValue() > maxOptionCount) {
                 maxOptionCount = entry.getValue();
+                mostOrderedOptionId = entry.getKey();
                 mostOrderedOptionName = optionNameMap.get(entry.getKey());
-                optionTotalPrice = singleOptionPrice * entry.getValue();
             }
+        }
+
+        if (mostOrderedOptionId != null) {
+            singleOptionPrice = optionPriceMap.getOrDefault(mostOrderedOptionId, 0);
+            optionTotalPrice = singleOptionPrice * maxOptionCount;
         }
         statistics.put("mostOrderedOptionName", mostOrderedOptionName);
         statistics.put("mostOrderedOptionCount", PriceUtil.format(maxOptionCount));
