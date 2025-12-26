@@ -52,7 +52,7 @@ public class OrderController {
     }
 
     @PostMapping("/order/save")
-    public String saveProc(OrderRequest.@Valid SaveDTO saveDTO, HttpSession session) {
+    public String saveProc(@Valid OrderRequest.SaveDTO saveDTO, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         Order order = orderService.saveProc(saveDTO, sessionUser.getId());
 
@@ -124,7 +124,7 @@ public class OrderController {
     }
 
     @PostMapping("/order/{orderId}/update")
-    public String updateProc(@PathVariable Long orderId, OrderRequest.@Valid UpdateDTO updateDto, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String updateProc(@PathVariable Long orderId, @Valid OrderRequest.UpdateDTO updateDto, HttpSession session, RedirectAttributes redirectAttributes) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         boolean isGradeChanged = orderService.updateProc(orderId, updateDto, sessionUser.getId());
         if (isGradeChanged) {
