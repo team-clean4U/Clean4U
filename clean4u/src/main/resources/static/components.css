@@ -59,15 +59,15 @@
     color: var(--color-white);
 }
 
+.btn {
+    transition: all 0.3s ease;
+}
+
 .btn-create:focus-visible,
 .btn-submit:focus-visible,
 .btn-back:focus-visible {
     outline: 3px solid var(--color-dark-blue);
     outline-offset: 2px;
-}
-
-.btn {
-    transition: all 0.3s ease;
 }
 
 .btn:active {
