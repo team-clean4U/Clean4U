@@ -56,10 +56,15 @@
                     </div>
             </div>
 
-            <div class="bottom-buttons">
-                <form action="/notice/list" method="get">
-                    <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            <div class="bottom-button-list">
+                {{#hasPrev}}
+                <form action="/notice/{{prevId}}" method="get">
+                    <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>이전 글</button>
                 </form>
+                {{/hasPrev}}
+                {{^hasPrev}}
+                    <button class="no-notice" onclick="alert('이전 글이 없습니다.')"><i class="fa-solid fa-arrow-left"></i>이전 글</button>
+                {{/hasPrev}}
                 {{#hasNext}}
                 <form action="/notice/{{nextId}}" method="get">
                     <button class="btn btn-back">다음 글<i class="fa-solid fa-arrow-right"></i></button>
