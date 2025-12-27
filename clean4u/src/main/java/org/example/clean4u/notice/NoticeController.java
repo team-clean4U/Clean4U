@@ -66,19 +66,18 @@ public class NoticeController {
     public String detail(@PathVariable Long noticeId, Model model, HttpSession session) {
         NoticeResponse.DetailDTO notice = noticeService.getNoticeById(noticeId);
         Long nextId = noticeService.getNextNoticeId(noticeId);
+        Long prevId = noticeService.getPrevNoticeId(noticeId);
 
         model.addAttribute("notice", notice);
         model.addAttribute("nextId", nextId);
+        model.addAttribute("prevId", prevId);
+        model.addAttribute("hasPrev", prevId != null);
         model.addAttribute("hasNext", nextId != null);
 
         Employee employee = (Employee) session.getAttribute("sessionUser");
 
         boolean isAdmin = employee.isAdmin();
         model.addAttribute("isAdmin", isAdmin);
-
-        System.out.println("notice =" + noticeId);
-        System.out.println("nextId =" + nextId);
-        System.out.println("nextId =" + (nextId != null));
 
         return "/notice/detail-form";
     }
