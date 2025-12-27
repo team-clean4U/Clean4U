@@ -2,6 +2,7 @@ package org.example.clean4u.customer;
 
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
+import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderStatus;
 
@@ -88,14 +89,16 @@ public class CustomerResponse {
         private Long orderId;
         private LocalDate orderDate;
         private OrderStatus status;
-        private Integer totalPrice;
+        private String totalPrice;
 
         public OrderDTO(Order order, int orderNo) {
             this.orderNo = orderNo;
             this.orderId = order.getId();
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();
-            this.totalPrice = order.getTotalPrice();
+            if (order.getTotalPrice() != null) {
+                this.totalPrice = PriceUtil.format(order.getTotalPrice());
+            }
         }
     }
 
