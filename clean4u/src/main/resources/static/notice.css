@@ -219,7 +219,8 @@
 }
 
 .notice-button-list {
-    width: 100%;
+    width: 800px;
+    padding: 1.5rem 2rem;
 }
 
 .buttons {
@@ -307,6 +308,7 @@
     padding: 2rem;
     border: dashed 2px var(--color-light-blue);
     border-radius: 15px;
+    min-height: 250px;
 }
 
 .notice-detail-item i{
