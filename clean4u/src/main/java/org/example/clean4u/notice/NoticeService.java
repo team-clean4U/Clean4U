@@ -45,8 +45,8 @@ public class NoticeService {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
 
-        if (!notice.getEmployee().getId().equals(sessionUser.getId())) {
-            throw new Exception403("수정 권한이 없습니다.");
+        if (sessionUser.isAdmin()) {
+            return new NoticeResponse.DetailDTO(notice);
         }
 
         return new NoticeResponse.DetailDTO(notice);
