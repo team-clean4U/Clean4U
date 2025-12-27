@@ -10,14 +10,14 @@
                     <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
                 </form>
                 <div class="button-right">
+                    {{#isAdmin}}
                     <a href="/notice/{{notice.id}}/update" class="btn btn-edit">
                         <i class="fa-solid fa-edit"></i> 수정
                     </a>
-                    {{!#isAdmin}}
                     <form action="/notice/{{notice.id}}/delete" method="post">
                         <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
                     </form>
-                    {{!/isAdmin}}
+                    {{/isAdmin}}
                 </div>
             </div>
         </div>
