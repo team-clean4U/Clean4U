@@ -219,9 +219,18 @@
 }
 
 .notice-button-list {
+    width: 100%;
+}
+
+.buttons {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-right {
+    display: flex;
+    gap: 0.5rem;
 }
 
 .notice-detail-header {
@@ -295,10 +304,20 @@
     justify-content: flex-start;
     align-items: center;
     gap: 1rem;
+    padding: 2rem;
+    border: dashed 2px var(--color-light-blue);
+    border-radius: 15px;
 }
 
 .notice-detail-item i{
     font-size: 1.5rem;
+}
+
+.bottom-button-list {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2.5rem 2rem;
+    gap: 1rem;
 }
 
 .no-notice {

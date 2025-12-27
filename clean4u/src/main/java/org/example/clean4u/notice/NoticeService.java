@@ -27,7 +27,7 @@ public class NoticeService {
     }
 
     public List<NoticeResponse.ListDTO> getAllNoticeList() {
-        List<Notice> noticeList = noticeRepository.findAll();
+        List<Notice> noticeList = noticeRepository.findAllByOrderByCreatedAtDesc();
 
         return noticeList.stream()
                 .map(NoticeResponse.ListDTO::new)
@@ -83,6 +83,15 @@ public class NoticeService {
 
         return noticeRepository
                 .findNextId(notice.getCreatedAt(), noticeId)
+                .orElse(null);
+    }
+
+    public Long getPrevNoticeId(Long noticeId) {
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new Exception404("공지사항 없음"));
+
+        return noticeRepository
+                .findPrevId(notice.getCreatedAt(), noticeId)
                 .orElse(null);
     }
 }
