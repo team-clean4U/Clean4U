@@ -166,7 +166,7 @@ VALUES (1, 1, '2025-09-15 09:17:00'),
        (27, 1, '2025-11-12 15:01:00'),
        (28, 3, '2025-12-08 12:31:00');
 
-INSERT INTO order_status_history (order_id, status, created_at)
+INSERT INTO order_status_history_tb (order_id, status, created_at)
 VALUES
         (1, 'RECEIVED', '2025-12-01 09:00:00'),
         (2, 'RECEIVED', '2025-12-02 10:00:00'),
