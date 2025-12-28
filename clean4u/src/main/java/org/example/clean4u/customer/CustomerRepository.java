@@ -13,11 +13,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     List<Customer> findByPhoneContaining(@Param("keyword")String keyword);
 
-    @Query("""
-    SELECT c FROM Customer c 
-    WHERE c.name LIKE CONCAT('%', :keyword, '%') 
-        OR c.phone LIKE CONCAT('%', :keyword, '%')
-    ORDER BY c.createdAt DESC 
-    """)
+    @Query("SELECT c FROM Customer c " +
+            "WHERE c.name LIKE CONCAT('%', :keyword, '%') " +
+            "OR c.phone LIKE CONCAT('%', :keyword, '%') " +
+            "ORDER BY c.createdAt DESC")
     List<Customer> searchByKeyword(@Param("keyword") String keyword);
 }
