@@ -4,7 +4,7 @@
 
 <div class="notice-container">
     <div class="notice-container-content">
-        <form action="/notice/save" method="get">
+        <form action="/notice/save" method="post">
             <div class="notice-header">
                 <label class="notice-label">
                     <i class="fa-solid fa-bullhorn"></i>제목:
@@ -16,12 +16,12 @@
                     <label for="content" class="notice-label">
                         <i class="fa-solid fa-message"></i>내용 :
                     </label>
-                    <textarea id="description" name="content" placeholder="내용을 입력해주세요." rows="16"
-                              class="update-value"></textarea>
+                    <textarea name="content" placeholder="내용을 입력해주세요." rows="16"
+                              class="update-value update-notice-content"></textarea>
                 </div>
             </div>
             <div class="bottom-buttons">
-                <a href="/laundry-item" class="btn btn-back">취소</a>
+                <a href="/notice/list" class="btn btn-back">취소</a>
                 <button type="submit" class="btn btn-create">완료</button>
             </div>
         </form>
