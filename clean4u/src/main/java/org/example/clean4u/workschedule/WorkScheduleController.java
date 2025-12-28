@@ -1,6 +1,7 @@
 package org.example.clean4u.workschedule;
 
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.AuthService;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeResponse;
@@ -65,7 +66,24 @@ public class WorkScheduleController {
     }
 
     @GetMapping("/schedule/list")
-    public String scheduleList(Model model) {
+    public String scheduleList(
+            Model model,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String category,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "9") int size
+    ) {
+        int pageIndex = Math.max(0, page - 1);
+
+//        PageResponse<EmployeeResponse.ListDTO> scheduleListPage = workScheduleService.getAllScheduleWithSearch(pageIndex, size, keyword, category);
+
+        boolean hasCategory = category != null && !category.isBlank();
+        model.addAttribute("hasCategory", hasCategory);
+
+//        model.addAttribute("scheduleListPage", scheduleListPage);
+        model.addAttribute("keyword", keyword == null ? "" : keyword);
+        model.addAttribute("category", category == null ? "all" : category);
+
         List<WorkScheduleResponse.ListDTO> scheduleList = workScheduleService.scheduleList();
         model.addAttribute("scheduleList", scheduleList);
 

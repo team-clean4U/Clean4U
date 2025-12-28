@@ -2,9 +2,14 @@ package org.example.clean4u.workschedule;
 
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.employee.EmployeeResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +24,6 @@ public class WorkScheduleService {
 
     private final EmployeeRepository employeeRepository;
     private final WorkScheduleRepository workScheduleRepository;
-    private final WorkScheduleOverrideRepository workScheduleOverrideRepository;
 
     @Transactional
     public WorkSchedule saveNormal(WorkScheduleRequest.SaveDTO saveDTO) {
@@ -84,4 +88,24 @@ public class WorkScheduleService {
 
         workScheduleRepository.delete(workScheduleEntity);
     }
+
+//    public PageResponse<EmployeeResponse.ListDTO> getAllScheduleWithSearch(int pageIndex, int size, String keyword, String category) {
+//        int validPage = Math.max(0, pageIndex);
+//        int validSize = Math.max(1, Math.min(50, size));
+//
+//        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+//        Pageable pageable = PageRequest.of(validPage, validSize, sort);
+//
+//        Page<WorkSchedule> schedulePage;
+//
+//        if (keyword == null || keyword.trim().isBlank()) {
+//            schedulePage = workScheduleRepository.findAllSchedule(pageable);
+//        } else if ("time".equalsIgnoreCase(category)) {
+//            schedulePage = workScheduleRepository.findByDate(keyword.trim(), pageable);
+//        } else {
+//            schedulePage = workScheduleRepository.findAllSchedule(pageable);
+//        }
+//
+//        return new PageResponse<>(schedulePage, EmployeeResponse.ListDTO::new);
+//    }
 }
