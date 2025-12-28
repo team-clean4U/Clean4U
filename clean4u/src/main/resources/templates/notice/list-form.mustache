@@ -15,7 +15,7 @@
             </a>
         </div>
         <div class="notice-body">
-            {{#noticeList}}
+            {{#noticePage.content}}
             <div class="notice-items">
                 <div class="notice-left">
                     <i class="fa-solid fa-bullhorn"></i>
@@ -35,10 +35,43 @@
                     </div>
                 </div>
             </div>
-            {{/noticeList}}
+            {{/noticePage.content}}
         </div>
     </div>
 </div>
 
+<ul class="pagination">
+    {{#noticePage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/notice/list?page={{noticePage.previousPageNumber}}">
+            <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/noticePage.previousPageNumber}}
+    {{^noticePage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/noticePage.previousPageNumber}}
+
+    {{#noticePage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/notice/list?page={{displayNumber}}&size={{noticePage.size}}">{{displayNumber}}</a>
+        </li>
+    {{/noticePage.pageLinks}}
+
+    {{#noticePage.NextPageNumber}}
+        <li class="page-btn">
+            <a href="/notice/list?page={{noticePage.NextPageNumber}}">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/noticePage.NextPageNumber}}
+    {{^noticePage.NextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/noticePage.NextPageNumber}}
+</ul>
 
 {{> layout/footer}}
