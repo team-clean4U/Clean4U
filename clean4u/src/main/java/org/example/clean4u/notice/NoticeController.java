@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception403;
+import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.UserRole;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -55,9 +57,16 @@ public class NoticeController {
     }
     // 공지 목록
     @GetMapping("/notice/list")
-    public String noticeList(Model model) {
-        List<NoticeResponse.ListDTO> noticeList = noticeService.getAllNoticeList();
-        model.addAttribute("noticeList", noticeList);
+    public String noticeList(Model model,
+                             @RequestParam(defaultValue = "1") int page,
+                             @RequestParam(defaultValue = "5") int size
+    ) {
+
+        int pageIndex = Math.max(0, page - 1);
+
+        PageResponse<NoticeResponse.ListDTO> noticeListPage = noticeService.getAllNoticeList(pageIndex, size);
+        model.addAttribute("noticePage", noticeListPage);
+
         return "/notice/list-form";
     }
 

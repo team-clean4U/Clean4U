@@ -5,7 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +31,16 @@ public class NoticeService {
         return new NoticeResponse.DetailDTO(savedNotice);
     }
 
-    public List<NoticeResponse.ListDTO> getAllNoticeList() {
-        List<Notice> noticeList = noticeRepository.findAllByOrderByCreatedAtDesc();
+    public PageResponse<NoticeResponse.ListDTO> getAllNoticeList(int page, int size) {
+        int validPage = Math.max(0, page);
+        int validSize = Math.max(1, Math.min(50, size));
 
-        return noticeList.stream()
-                .map(NoticeResponse.ListDTO::new)
-                .collect(Collectors.toList());
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
+
+        Page<Notice> noticePage = noticeRepository.findAllByOrderByCreatedAtDesc(pageable);
+
+        return new PageResponse<>(noticePage, NoticeResponse.ListDTO::new);
     }
 
     public NoticeResponse.DetailDTO getNoticeById(Long noticeId) {
