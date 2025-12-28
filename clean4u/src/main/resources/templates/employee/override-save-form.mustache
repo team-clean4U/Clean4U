@@ -1,0 +1,46 @@
+<!-- http://localhost:8080/schedule -->
+
+<!--{{> layout/header}}-->
+
+<!--<div class="update-container">-->
+<!--    <div class="update-container-content">-->
+<!--        <div class="update-card">-->
+<!--            &lt;!&ndash; 헤더 &ndash;&gt;-->
+<!--            <div class="update-header">-->
+<!--                <i class="fa-solid fa-calendar-check"></i>-->
+<!--                <span>근무 스케줄 등록</span>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; 폼 &ndash;&gt;-->
+<!--            <form action="/schedule" method="post" class="update-body">-->
+<!--                &lt;!&ndash; 직원 ID 숨김 &ndash;&gt;-->
+<!--                <input type="hidden" name="employeeId" value="{{!employee.id}}">-->
+
+<!--                &lt;!&ndash; 이름 (readonly) &ndash;&gt;-->
+<!--                <div class="update-item">-->
+<!--                    <span class="update-label">이름:</span>-->
+<!--                    <span class="update-value">{{!employee.name}}</span>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; 시작 시간 &ndash;&gt;-->
+<!--                <div class="update-item">-->
+<!--                    <label class="update-label" for="startTime">시작 시간:</label>-->
+<!--                    <input type="time" id="startTime" name="startTime" required>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; 종료 시간 &ndash;&gt;-->
+<!--                <div class="update-item">-->
+<!--                    <label class="update-label" for="endTime">종료 시간:</label>-->
+<!--                    <input type="time" id="endTime" name="endTime" required>-->
+<!--                </div>-->
+
+<!--                <div class="bottom-buttons">-->
+<!--                    <button type="submit" class="btn btn-add">저장</button>-->
+<!--                    <a href="/schedule/list" class="btn stock-badge badge-warn">취소</a>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+{{> layout/footer}}

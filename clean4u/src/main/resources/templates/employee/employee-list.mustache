@@ -13,7 +13,7 @@
     </div>
 
     <div class="card-list">
-        {{#employeeList}}
+        {{#employeeListPage}}
             <a href="/employee/{{id}}/detail" class="card">
                 <div class="card-header">
                     <i class="fas fa-user"></i>
@@ -30,14 +30,14 @@
                     <span class="info-value">{{email}}</span>
                 </div>
             </a>
-        {{/employeeList}}
+        {{/employeeListPage}}
     </div>
 
-    {{^employeeList}}
+    {{^employeeListPage}}
         <div class="blank">
             <p>등록된 직원이 없습니다.</p>
         </div>
-    {{/employeeList}}
+    {{/employeeListPage}}
 </div>
 
 {{> layout/footer}}
