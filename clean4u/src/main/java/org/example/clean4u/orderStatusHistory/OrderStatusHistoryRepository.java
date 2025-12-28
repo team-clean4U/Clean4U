@@ -1,7 +1,10 @@
-package org.example.clean4u.order;
+package org.example.clean4u.orderStatusHistory;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface OrderStatusHistoryRepository extends JpaRepository<OrderStatusHistory, Long> {
 
@@ -14,4 +17,6 @@ public interface OrderStatusHistoryRepository extends JpaRepository<OrderStatusH
                 "AND s.status = 'COMPLETED'"
     , nativeQuery = true)
     Double findAverageProcessingMinutes();
+
+    List<OrderStatusHistory> findByOrderIdOrderByCreatedAtAsc(@Param("orderId") Long orderId);
 }
