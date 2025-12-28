@@ -4,6 +4,7 @@ import lombok.Data;
 import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.customer.Grade;
 import org.example.clean4u.orderItem.OrderItemResponse;
+import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -42,8 +43,13 @@ public class OrderResponse {
 
         private String totalPrice;
         private List<OrderItemResponse.DetailDto> items;
+        private List<OrderStatusHistoryResponse.DetailDTO> histories;
 
-        public DetailDTO(Order order, List<OrderItemResponse.DetailDto> items, int totalPrice) {
+        public DetailDTO(
+                Order order,
+                List<OrderItemResponse.DetailDto> items,
+                List<OrderStatusHistoryResponse.DetailDTO> histories
+        ) {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
@@ -52,8 +58,9 @@ public class OrderResponse {
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();
             this.memo = order.getMemo();
-            this.totalPrice = PriceUtil.format(totalPrice);
+            this.totalPrice = PriceUtil.format(order.getTotalPrice());
             this.items = items;
+            this.histories = histories;
         }
     }
 
