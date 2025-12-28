@@ -47,12 +47,12 @@ public class CustomerController {
 
         int pageIndex = Math.max(0, page -1);
 
-        PageResponse<CustomerResponse.ListDTO> CustomerListPage = customerService.search(pageIndex, size, keyword, category);
+        PageResponse<CustomerResponse.ListDTO> customerListPage = customerService.getAllCustomersWithSearch(pageIndex, size, keyword, category);
 
         boolean hasCategory = category != null && !category.isBlank();
         model.addAttribute("hasCategory", hasCategory);
 
-        model.addAttribute("customerPage", CustomerListPage);
+        model.addAttribute("customerPage", customerListPage);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("category", category == null ? "all" :category);
 

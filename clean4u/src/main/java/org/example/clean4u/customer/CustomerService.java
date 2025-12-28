@@ -74,14 +74,12 @@ public class CustomerService {
         repository.deleteById(customerId);
     }
 
-    public PageResponse<CustomerResponse.ListDTO> search(int page, int size, String keyword, String category) {
+    public PageResponse<CustomerResponse.ListDTO> getAllCustomersWithSearch(int page, int size, String keyword, String category) {
         int validPage = Math.max(0, page);
         int validSize = Math.max(1, Math.min(50, size));
 
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         Pageable pageable = PageRequest.of(validPage, validSize, sort);
-
-//        String baseCategory = (category == null || category.isBlank()) ? "all" : category;
 
         Page<Customer> customerPage;
 
