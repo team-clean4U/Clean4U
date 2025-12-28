@@ -20,13 +20,15 @@
                 <div class="search-input-box">
                     <i class="fa-solid fa-search"></i>
                     <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{keyword}}" name="keyword">
+                    <input type="hidden" name="page" value="1">
+                    <input type="hidden" name="size" value="{{customerPage.size}}">
                 </div>
                 <div class="update-value category">
                     <input type="hidden" name="category" id="category" {{#category}}value="{{category}}" {{/category}}>
                     <div class="category-select search-category" {{#category}}data-selected="{{category}}" {{/category}}>
                         <i class="fa-solid fa-list"></i>
                         <span class="category-selected">
-                            {{#category}}{{categoryList}}{{/category}}
+                            {{#category}}{{category}}{{/category}}
                             {{^category}}전체 카테고리{{/category}}
                         </span>
                         <i class="fa-solid fa-chevron-down"></i>
@@ -42,7 +44,7 @@
         </div>
 
         <div class="card-list">
-            {{#customerList}}
+            {{#customerPage.content}}
                 <a href="/customer/{{customerId}}" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-user"></i>
@@ -59,12 +61,49 @@
                         </div>
                     </div>
                 </a>
-            {{/customerList}}
+            {{/customerPage.content}}
         </div>
-        {{^customerList}}
+        {{^customerPage.content}}
             <p class="blank">존재하지 않습니다.</p>
-        {{/customerList}}
+        {{/customerPage.content}}
     </div>
 </div>
+
+<div class="">
+
+</div>
+<ul class="pagination">
+    {{#customerPage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/customer/list?page={{customerPage.previousPageNumber}}">
+            <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/customerPage.previousPageNumber}}
+    {{^customerPage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/customerPage.previousPageNumber}}
+
+    {{#customerPage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/customer/list?page={{displayNumber}}&size={{customerPage.size}}">{{displayNumber}}</a>
+        </li>
+    {{/customerPage.pageLinks}}
+
+    {{#customerPage.NextPageNumber}}
+        <li class="page-btn">
+            <a href="/customer/list?page={{customerPage.NextPageNumber}}">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/customerPage.NextPageNumber}}
+    {{^customerPage.NextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/customerPage.NextPageNumber}}
+</ul>
 
 {{> layout/footer}}
