@@ -33,15 +33,21 @@
                 </div>
 
                 <div class="detail-item">
-                    <span class="detail-label">
-                         <i class="fa-solid fa-soap"></i>
-                        세탁 상태
-                    </span>
+                    <div class="status-label">
+                        <span class="detail-label">
+                             <i class="fa-solid fa-soap"></i>
+                            세탁 상태
+                        </span>
+                        <span class="detail-value history-items">
+                            {{#history}}<span>{{createdAt}} {{status.displayName}} {{editor}}</span>{{/history}}
+                        </span>
+                    </div>
                     <span class="detail-value">
                         <span class="status-badge {{order.status.cssClass}}">
                             {{order.status.displayName}}
                         </span>
                     </span>
+
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">
@@ -115,7 +121,7 @@
 </div>
 {{>layout/footer}}
 {{#alertMessage}}
-<script>
-    alert("{{alertMessage}}")
-</script>
+    <script>
+        alert("{{alertMessage}}")
+    </script>
 {{/alertMessage}}
