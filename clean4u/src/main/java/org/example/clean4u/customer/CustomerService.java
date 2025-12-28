@@ -3,8 +3,13 @@ package org.example.clean4u.customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
+import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,21 +74,29 @@ public class CustomerService {
         repository.deleteById(customerId);
     }
 
-    public List<CustomerResponse.ListDTO> searchByName(String keyword) {
-        return repository.findByNameContaining(keyword).stream()
-                .map(CustomerResponse.ListDTO::new)
-                .toList();
-    }
+    public PageResponse<CustomerResponse.ListDTO> search(int page, int size, String keyword, String category) {
+        int validPage = Math.max(0, page);
+        int validSize = Math.max(1, Math.min(50, size));
 
-    public List<CustomerResponse.ListDTO> searchByPhone(String keyword) {
-        return repository.findByPhoneContaining(keyword).stream()
-                .map(CustomerResponse.ListDTO::new)
-                .toList();
-    }
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
 
-    public List<CustomerResponse.ListDTO> getAllCustomersContainingKeyword(String keyword) {
-        return repository.searchByKeyword(keyword).stream()
-                .map(CustomerResponse.ListDTO::new)
-                .toList();
+//        String baseCategory = (category == null || category.isBlank()) ? "all" : category;
+
+        Page<Customer> customerPage;
+
+        if (keyword == null || keyword.trim().isBlank()) {
+            customerPage = repository.findAllCustomers(pageable);
+        } else if ("all".equalsIgnoreCase(category)) {
+            customerPage = repository.searchByKeyword(keyword.trim(), pageable);
+        } else if ("name".equalsIgnoreCase(category)) {
+            customerPage = repository.findByNameContaining(keyword.trim(), pageable);
+        } else if ("phone".equalsIgnoreCase(category)) {
+            customerPage = repository.findByPhoneContaining(keyword.trim(), pageable);
+        } else {
+            customerPage = repository.findAllCustomers(pageable);
+        }
+
+        return new PageResponse<>(customerPage, CustomerResponse.ListDTO::new);
     }
 }

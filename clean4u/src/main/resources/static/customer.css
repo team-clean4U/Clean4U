@@ -75,6 +75,8 @@
 
 .detail-bodies {
     padding: 0.5rem 1rem;
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
 .detail-items {
