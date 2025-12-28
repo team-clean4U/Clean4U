@@ -53,16 +53,16 @@ public class NoticeService {
     }
 
     @Transactional
-    public Notice updateNotice(Long noticeId, NoticeRequest.@Valid UpdateDTO dto, Employee sessionUser) {
+    public NoticeResponse.DetailDTO updateNotice(Long noticeId, NoticeRequest.@Valid UpdateDTO dto, Employee sessionUser) {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
 
-        if (!notice.getEmployee().getId().equals(sessionUser.getId())) {
-            throw new Exception403("수정 권한이 없습니다.");
+        if (!sessionUser.isAdmin()) {
+            throw new Exception403("공지사항 수정 권한이 없습니댜다.");
         }
 
         notice.update(dto);
-        return notice;
+        return new NoticeResponse.DetailDTO(notice);
     }
 
     @Transactional

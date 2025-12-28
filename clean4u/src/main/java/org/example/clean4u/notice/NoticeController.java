@@ -114,7 +114,7 @@ public class NoticeController {
         }
 
         noticeService.updateNotice(noticeId, dto, sessionUser);
-        return "redirect:/notice/detail";
+        return "redirect:/notice/" + noticeId;
     }
 
     @PostMapping("/notice/{noticeId}/delete")
