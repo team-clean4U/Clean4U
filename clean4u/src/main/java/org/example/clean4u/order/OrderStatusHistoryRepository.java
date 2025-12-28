@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface OrderStatusHistoryRepository extends JpaRepository<OrderStatusHistory, Long> {
 
-    @Query(value = "SELECT AVG(TIMESTAMPDIFF(MINUTE, o.created_at, s.created_at)) " +
+    @Query(value =
+            "SELECT AVG(TIMESTAMPDIFF(MINUTE, o.created_at, s.created_at)) " +
             "FROM order_status_history o " +
             "JOIN order_status_history s " +
                 "ON o.order_id = s.order_id " +
