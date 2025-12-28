@@ -95,6 +95,7 @@ public class OrderController {
         OrderResponse.DetailDTO order = orderService.detail(orderId, sessionUser.getId());
         model.addAttribute("order", order);
         model.addAttribute("items", order.getItems());
+        model.addAttribute("history", order.getHistories());
         return "order/detail-form";
     }
 

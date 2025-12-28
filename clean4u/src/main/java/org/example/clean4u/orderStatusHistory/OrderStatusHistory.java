@@ -1,9 +1,12 @@
-package org.example.clean4u.order;
+package org.example.clean4u.orderStatusHistory;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.clean4u.employee.Employee;
+import org.example.clean4u.order.Order;
+import org.example.clean4u.order.OrderStatus;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
@@ -31,13 +34,18 @@ public class OrderStatusHistory{
     @Column(nullable = false, length = 30)
     private OrderStatus status;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "editor_id", nullable = false)
+    private Employee editor;
+
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Timestamp createdAt;
 
     @Builder
-    public OrderStatusHistory(Order order, OrderStatus status) {
+    public OrderStatusHistory(Order order, OrderStatus status, Employee editor) {
         this.order = order;
         this.status = status;
+        this.editor = editor;
     }
 }
