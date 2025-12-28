@@ -65,9 +65,12 @@
                         <span class="info-value">{{processingOrders}} 건</span>
                     </div>
                     <div class="card-info">
-                        <span class="info-label">평균 처리 경과 시간</span>
-                        <span class="info-value">{{averageTime}}</span>
+                        <span class="status-badge {{washing.cssClass}}">세탁중</span>
+                        <span class="info-value">{{washingOrders}} 건</span>
+                        <span class="status-badge {{drying.cssClass}}">건조중</span>
+                        <span class="info-value">{{dryingOrders}} 건</span>
                     </div>
+
                 </div>
 
                 <div class="card">
@@ -78,6 +81,10 @@
                     <div class="card-info">
                         <span class="info-label">오늘 완료 건수</span>
                         <span class="info-value">{{completedOrders}} 건</span>
+                    </div>
+                    <div class="card-info">
+                        <span class="info-label">평균 처리 경과 시간</span>
+                        <span class="info-value">{{averageTime}}</span>
                     </div>
                 </div>
 

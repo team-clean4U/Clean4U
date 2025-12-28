@@ -12,7 +12,13 @@ import org.example.clean4u.time.BaseTimeEntity;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "order_tb")
+@Table(
+        name = "order_tb",
+        indexes = {
+                @Index(name = "idx_order_status_updated_at", columnList = "status, updated_at"),
+                @Index(name = "idx_order_status_order_date", columnList = "status, order_date")
+        }
+)
 @NoArgsConstructor
 @Data
 public class Order extends BaseTimeEntity {

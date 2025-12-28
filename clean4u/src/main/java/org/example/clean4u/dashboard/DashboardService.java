@@ -1,13 +1,11 @@
 package org.example.clean4u.dashboard;
 
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.laundryItem.LaundryCategory;
-import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.order.OrderStatus;
-import org.example.clean4u.order.OrderStatusHistoryRepository;
+import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
 import org.example.clean4u.orderItem.OrderItem;
 import org.example.clean4u.orderItem.OrderItemRepository;
 import org.example.clean4u.orderItemOption.OrderItemOption;
@@ -16,7 +14,6 @@ import org.example.clean4u.supplyItem.SupplyItem;
 import org.example.clean4u.supplyItem.SupplyItemRepository;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -144,9 +141,14 @@ public class DashboardService {
         statistics.put("lowStockItemCount", PriceUtil.format(lowStockItems.size()));
 
         // 현재 진행형 주문(WASHING, DRYING)
-        int washingCount = orderRepository.countByStatus(OrderStatus.WASHING);
-        int dryingCount = orderRepository.countByStatus(OrderStatus.DRYING);
+        int washingCount = orderRepository.countByStatus(OrderStatus.WASHING.name());
+        int dryingCount = orderRepository.countByStatus(OrderStatus.DRYING.name());
         int progressiveOrdersCount = washingCount + dryingCount;
+
+        statistics.put("washing", OrderStatus.WASHING);
+        statistics.put("washingOrders", PriceUtil.format(washingCount));
+        statistics.put("drying", OrderStatus.DRYING);
+        statistics.put("dryingOrders", PriceUtil.format(dryingCount));
 
         statistics.put("processingOrders", PriceUtil.format(progressiveOrdersCount));
 
@@ -175,51 +177,16 @@ public class DashboardService {
 
         // 금일 완료된 주문
         LocalDate today = LocalDate.now();
-        List<Order> completedOrders = orderRepository.findByStatus(OrderStatus.COMPLETED);
+        LocalDateTime start = today.atStartOfDay();
+        LocalDateTime end = today.plusDays(1).atStartOfDay();
+        Integer completedOrders = orderRepository.countByStatusAndDate(OrderStatus.COMPLETED.name(), start, end);
+        statistics.put("completedOrders", PriceUtil.format(completedOrders == null ? 0 : completedOrders));
 
-        if (completedOrders == null) {
-            throw new Exception404("금일 완료된 주문 내역이 없습니다.");
-        }
-
-        int completedOrdersOfToday = 0;
-
-        for (Order order : completedOrders) {
-            if (order.getUpdatedAt() == null) {
-                continue;
-            }
-            LocalDateTime localDateTime = order.getUpdatedAt().toLocalDateTime();
-            LocalDate updatedDate = localDateTime.toLocalDate();
-            if (updatedDate.isEqual(today)) {
-                completedOrdersOfToday++;
-            }
-        }
-
-        statistics.put("completedOrders", PriceUtil.format(completedOrdersOfToday));
-
-        // 금일 매출, 금일 접수 건수
-        int receivedOrdersOfToday = 0;
-        int sum = 0;
-
-        List<Order> receivedOrders = orderRepository.findByStatus(OrderStatus.RECEIVED);
-        if (receivedOrders == null) {
-            throw new Exception404("접수된 주문 내역이 없습니다.");
-        }
-
-        for (Order order : receivedOrders) {
-            if (order.getUpdatedAt() == null) {
-                continue;
-            }
-
-            LocalDateTime localDateTime = order.getUpdatedAt().toLocalDateTime();
-            LocalDate createdDate = localDateTime.toLocalDate();
-
-            if (createdDate.isEqual(LocalDate.now())) {
-                receivedOrdersOfToday++;
-                sum += order.getTotalPrice();
-            }
-        }
-        statistics.put("todayOrders", PriceUtil.format(receivedOrdersOfToday));
-        statistics.put("todaySales", PriceUtil.format(sum));
+        // 금일 접수된 주문, 금일 매출
+        Integer todayOrders = orderRepository.countTodayOrders();
+        Integer todaySales = orderRepository.countPriceTodayOrders();
+        statistics.put("todayOrders", PriceUtil.format(todayOrders == null ? 0 : todayOrders));
+        statistics.put("todaySales", PriceUtil.format(todaySales == null ? 0 : todaySales));
 
         // 통계 전체 반환
         return statistics;
