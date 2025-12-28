@@ -7,8 +7,8 @@ public interface OrderStatusHistoryRepository extends JpaRepository<OrderStatusH
 
     @Query(value =
             "SELECT AVG(TIMESTAMPDIFF(MINUTE, o.created_at, s.created_at)) " +
-            "FROM order_status_history o " +
-            "JOIN order_status_history s " +
+            "FROM order_status_history_tb o " +
+            "JOIN order_status_history_tb s " +
                 "ON o.order_id = s.order_id " +
             "WHERE o.status = 'RECEIVED' " +
                 "AND s.status = 'COMPLETED'"
