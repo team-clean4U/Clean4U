@@ -107,6 +107,10 @@
     font-family: inherit;
 }
 
+.update-notice-content {
+    white-space: pre-wrap;
+}
+
 /*list-form*/
 .notice-list-container {
     margin: 0 auto;
@@ -251,6 +255,7 @@
 
 .detail-value.content {
     font-size: 1.2rem;
+    white-space: pre-wrap;
 }
 
 .detail-notice-body {
