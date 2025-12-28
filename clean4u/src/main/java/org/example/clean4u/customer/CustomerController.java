@@ -2,6 +2,9 @@ package org.example.clean4u.customer;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.PageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,36 +38,24 @@ public class CustomerController {
 
     // 고객 전체 리스트
     @GetMapping("/customer/list")
-    public String customerList(
+    public String customerList(Model model,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String category,
-            Model model
-    ) {
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "9") int size
+   ) {
+
+        int pageIndex = Math.max(0, page -1);
+
+        PageResponse<CustomerResponse.ListDTO> CustomerListPage = customerService.search(pageIndex, size, keyword, category);
 
         boolean hasCategory = category != null && !category.isBlank();
         model.addAttribute("hasCategory", hasCategory);
 
+        model.addAttribute("customerPage", CustomerListPage);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
-        model.addAttribute("category", category);
-        String categoryList = (!hasCategory) ? "all" : category;
-        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("category", category == null ? "all" :category);
 
-
-        List<CustomerResponse.ListDTO> customerList;
-
-        if (keyword == null || keyword.trim().isBlank()) {
-            customerList = customerService.getAllCustomers();
-        } else if ("all".equalsIgnoreCase(category)) {
-            customerList = customerService.getAllCustomersContainingKeyword(keyword.trim());
-        } else if ("name".equalsIgnoreCase(category)) {
-            customerList = customerService.searchByName(keyword.trim());
-        } else if ("phone".equalsIgnoreCase(category)) {
-            customerList = customerService.searchByPhone(keyword.trim());
-        } else {
-            customerList = customerService.getAllCustomers();
-        }
-
-        model.addAttribute("customerList", customerList);
         return "customer/list-form";
     }
 
