@@ -1,5 +1,7 @@
 package org.example.clean4u.notice;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +16,7 @@ public interface NoticeRepository extends JpaRepository<Notice,Long> {
 
     @Query("SELECT n FROM Notice n " +
             "ORDER BY n.createdAt DESC")
-    List<Notice> findAllByOrderByCreatedAtDesc();
+    Page<Notice> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     @Query("SELECT n.id FROM Notice n " +
             "WHERE n.createdAt < :currentCreatedAt " +
