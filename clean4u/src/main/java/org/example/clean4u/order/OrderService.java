@@ -19,6 +19,9 @@ import org.example.clean4u.orderItemOption.OrderItemOption;
 import org.example.clean4u.orderItemOption.OrderItemOptionRepository;
 import org.example.clean4u.orderItemOption.OrderItemOptionResponse;
 import org.example.clean4u.orderItem.*;
+import org.example.clean4u.orderStatusHistory.OrderStatusHistory;
+import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
+import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +45,7 @@ public class OrderService {
     private final OrderItemOptionRepository orderItemOptionRepository;
     private final LaundryItemRepository laundryItemRepository;
     private final LaundryOptionRepository laundryOptionRepository;
+    private final OrderStatusHistoryRepository orderStatusHistoryRepository;
     private final EmployeeRepository employeeRepository;
     private final EntityManager entityManager;
 
@@ -75,6 +79,14 @@ public class OrderService {
                 }
             }
         }
+
+        OrderStatusHistory history = OrderStatusHistory.builder()
+                .order(order)
+                .status(order.getStatus())
+                .editor(sessionUser)
+                .build();
+        orderStatusHistoryRepository.save(history);
+
         return orderRepository.save(order);
     }
 
@@ -165,7 +177,15 @@ public class OrderService {
 
             itemDtos.add(itemDto);
         }
-        return new OrderResponse.DetailDTO(order, itemDtos, totalPrice);
+        order.setTotalPrice(totalPrice);
+
+        List<OrderStatusHistory> histories = orderStatusHistoryRepository.findByOrderIdOrderByCreatedAtAsc(orderId);
+
+        List<OrderStatusHistoryResponse.DetailDTO> historyList = histories.stream()
+                .map(OrderStatusHistoryResponse.DetailDTO::from)
+                .toList();
+
+        return new OrderResponse.DetailDTO(order, itemDtos, historyList);
     }
 
     // 주문 변경 화면 요청
@@ -261,6 +281,13 @@ public class OrderService {
         }
 
         OrderStatus newStatus = updateDto.getStatus();
+
+        OrderStatusHistory history = OrderStatusHistory.builder()
+                .order(order)
+                .status(newStatus)
+                .editor(editor)
+                .build();
+        orderStatusHistoryRepository.save(history);
 
         Customer customer = customerRepository.findById(order.getCustomer().getId())
                 .orElseThrow(() -> new Exception404("해당 고객을 찾을 수 없습니다."));
