@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(
-        name = "order_status_history",
+        name = "order_status_history_tb",
         indexes = {
                 @Index(name = "idx_order_status_history_order", columnList = "order_id"),
                 @Index(name = "idx_order_status_history_createdAt", columnList = "created_at")
