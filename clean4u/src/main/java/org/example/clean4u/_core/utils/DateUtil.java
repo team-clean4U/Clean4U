@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class DateUtil {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    private static final DateTimeFormatter BIRTHFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter BIRTH_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static String timestampFormat(Timestamp time) {
         if (time == null) {
@@ -20,6 +20,6 @@ public class DateUtil {
         if (time == null) {
             return null;
         }
-        return time.format(BIRTHFORMATTER);
+        return time.format(BIRTH_FORMATTER);
     }
 }
