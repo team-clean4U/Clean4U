@@ -1,6 +1,7 @@
 package org.example.clean4u.workschedule;
 
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.Employee;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,23 +91,39 @@ public class WorkScheduleService {
         workScheduleRepository.delete(workScheduleEntity);
     }
 
-//    public PageResponse<EmployeeResponse.ListDTO> getAllScheduleWithSearch(int pageIndex, int size, String keyword, String category) {
-//        int validPage = Math.max(0, pageIndex);
-//        int validSize = Math.max(1, Math.min(50, size));
-//
-//        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
-//        Pageable pageable = PageRequest.of(validPage, validSize, sort);
-//
-//        Page<WorkSchedule> schedulePage;
-//
-//        if (keyword == null || keyword.trim().isBlank()) {
-//            schedulePage = workScheduleRepository.findAllSchedule(pageable);
-//        } else if ("time".equalsIgnoreCase(category)) {
-//            schedulePage = workScheduleRepository.findByDate(keyword.trim(), pageable);
-//        } else {
-//            schedulePage = workScheduleRepository.findAllSchedule(pageable);
-//        }
-//
-//        return new PageResponse<>(schedulePage, EmployeeResponse.ListDTO::new);
-//    }
+    public PageResponse<WorkScheduleResponse.ListDTO> getAllScheduleWithSearch(
+            int pageIndex, int size, String keyword, String category,
+            LocalTime startTime, LocalTime endTime
+            ) {
+        int validPage = Math.max(0, pageIndex);
+        int validSize = Math.max(1, Math.min(50, size));
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "startTime");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
+
+        Page<WorkSchedule> schedulePage;
+
+        if (startTime != null && endTime != null) {
+            if (startTime.isAfter(endTime)) {
+                throw new Exception400("검색 시작 시간는 검색 종료 시간보다 우선이어야 합니다.");
+            }
+            schedulePage = workScheduleRepository.searchByTimeRange(startTime, endTime, pageable);
+        } else if ("name".equalsIgnoreCase(category)) {
+            if (keyword == null || keyword.trim().isBlank()) {
+                schedulePage = workScheduleRepository.findAll(pageable);
+            } else {
+                schedulePage = workScheduleRepository.findByNameContaining(keyword.trim(), pageable);
+            }
+        } else if ("username".equalsIgnoreCase(category)) {
+            if (keyword == null || keyword.trim().isBlank()) {
+                schedulePage = workScheduleRepository.findAll(pageable);
+            } else {
+                schedulePage = workScheduleRepository.findByUsernameContaining(keyword.trim(), pageable);
+            }
+        } else {
+            schedulePage = workScheduleRepository.findAll(pageable);
+        }
+
+        return new PageResponse<>(schedulePage, WorkScheduleResponse.ListDTO::new);
+    }
 }

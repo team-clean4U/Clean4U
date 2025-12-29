@@ -25,7 +25,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Page<Employee> findAllEmployee(Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.name LIKE concat('%', :keyword, '%')")
+            "WHERE e.name LIKE concat('%', :keyword, '%') " +
+            "ORDER BY e.name DESC")
     Page<Employee> findByNameContaining(@Param("keyword") String name, Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
@@ -34,5 +35,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ORDER BY e.createdAt DESC")
     Page<Employee> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
+    @Query("SELECT e FROM Employee e " +
+            "WHERE e.email LIKE CONCAT('%', :keyword, '%') " +
+            "ORDER BY e.email DESC")
     Page<Employee> findByEmailContaining(String email, Pageable pageable);
 }

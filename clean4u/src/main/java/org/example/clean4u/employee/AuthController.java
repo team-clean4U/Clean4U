@@ -35,12 +35,12 @@ public class AuthController {
     ) {
         int pageIndex = Math.max(0, page - 1);
 
-        PageResponse<EmployeeResponse.ListDTO> employeeListPage = authService.getAllEmployeeWithSearch(pageIndex, size, keyword, category);
+        PageResponse<EmployeeResponse.ListDTO> employeePage = authService.getAllEmployeeWithSearch(pageIndex, size, keyword, category);
 
         boolean hasCategory = category != null && !category.isBlank();
         model.addAttribute("hasCategory", hasCategory);
 
-        model.addAttribute("employeeListPage", employeeListPage);
+        model.addAttribute("employeePage", employeePage);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("category", category == null ? "all" : category);
 
