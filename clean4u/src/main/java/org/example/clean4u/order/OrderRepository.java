@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderRepository extends OrderRepositoryCustom, JpaRepository<Order, Long> {
     Long countByCustomerIdAndStatus(Long customerId, OrderStatus status);
 
-    List<Order> findByCustomerIdOrderByOrderDateDesc(Long customer);
+    List<Order> findByCustomerIdOrderByOrderDateAsc(Long customer);
 
     @Query(value =
             "SELECT COUNT(*) FROM order_tb o " +
