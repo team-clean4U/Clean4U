@@ -2,6 +2,9 @@ package org.example.clean4u.dashboard;
 
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.utils.PriceUtil;
+import org.example.clean4u.customer.Customer;
+import org.example.clean4u.customer.CustomerRepository;
+import org.example.clean4u.customer.Grade;
 import org.example.clean4u.laundryItem.LaundryCategory;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.order.OrderStatus;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +33,7 @@ public class DashboardService {
     private final OrderStatusHistoryRepository orderStatusHistoryRepository;
     private final OrderItemOptionRepository orderItemOptionRepository;
     private final SupplyItemRepository supplyItemRepository;
+    private final CustomerRepository customerRepository;
 
     public Map<String, Object> getStatistics() {
         Map<String, Object> statistics = new HashMap<>();
@@ -187,6 +192,21 @@ public class DashboardService {
         Integer todaySales = orderRepository.countPriceTodayOrders();
         statistics.put("todayOrders", PriceUtil.format(todayOrders == null ? 0 : todayOrders));
         statistics.put("todaySales", PriceUtil.format(todaySales == null ? 0 : todaySales));
+
+        // 고객 등급별 평균 소비 금액
+        List<Map<String, Object>> avgList = new ArrayList<>();
+
+        for (Grade grade : Grade.values()) {
+            Integer avg = customerRepository.findAverageTotalPriceByGrade(grade.name());
+            if (avg != null) {
+                Map<String, Object> row = new HashMap<>();
+                row.put("grade", grade.name());
+                row.put("avg", PriceUtil.format(avg));
+                avgList.add(row);
+            }
+        }
+
+        statistics.put("avgTotalPriceByGrade", avgList);
 
         // 통계 전체 반환
         return statistics;

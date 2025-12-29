@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
@@ -26,4 +25,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c " +
             "ORDER BY c.createdAt DESC")
     Page<Customer> findAllCustomers(Pageable pageable);
+
+    @Query(value =
+            "SELECT AVG(o.total_price) FROM customer_tb c " +
+            "JOIN (SELECT customer_id, SUM(total_price) as total_price FROM order_tb GROUP BY customer_id) o " +
+            "ON c.id = o.customer_id " +
+            "WHERE c.grade = :grade;"
+    , nativeQuery = true)
+    Integer findAverageTotalPriceByGrade(@Param("grade") String grade);
 }
