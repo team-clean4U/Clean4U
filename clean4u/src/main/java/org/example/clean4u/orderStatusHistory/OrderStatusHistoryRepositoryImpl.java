@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u.order.OrderRequest;
+import org.example.clean4u.order.OrderStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class OrderStatusHistoryImpl implements OrderStatusHistoryCustom {
+public class OrderStatusHistoryRepositoryImpl implements OrderStatusHistoryRepositoryCustom {
     private final EntityManager em;
 
     @Override
@@ -25,8 +26,14 @@ public class OrderStatusHistoryImpl implements OrderStatusHistoryCustom {
 
         String customerName = searchDTO.getCustomerName();
         String phone = searchDTO.getPhone();
+        OrderStatus status = searchDTO.getStatus();
         LocalDate fromDate = searchDTO.getFromDate();
         LocalDate toDate = searchDTO.getToDate();
+
+        if(status != null) {
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("h.status LIKE :status");
+            hasCondition = true;
+        }
 
         if(customerName != null && !customerName.isEmpty()) {
             jpql.append(hasCondition ? " AND " : " WHERE ").append("c.name LIKE :customerName");
@@ -37,6 +44,7 @@ public class OrderStatusHistoryImpl implements OrderStatusHistoryCustom {
             jpql.append(hasCondition ? " AND " : " WHERE ").append("c.phone LIKE :phone");
             hasCondition = true;
         }
+
 
         if(fromDate != null) {
             jpql.append(hasCondition ? " AND " : " WHERE ").append("h.createdAt >= :fromDate");
@@ -70,6 +78,10 @@ public class OrderStatusHistoryImpl implements OrderStatusHistoryCustom {
                 Long.class
         );
 
+        if(status != null) {
+            query.setParameter("status", status);
+            countQuery.setParameter("status", status);
+        }
         if(customerName != null && !customerName.isEmpty()) {
             query.setParameter("customerName", customerName);
             countQuery.setParameter("customerName", customerName);
