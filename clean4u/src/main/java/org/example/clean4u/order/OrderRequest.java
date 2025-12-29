@@ -48,7 +48,6 @@ public class OrderRequest {
 
     @Data
     public static class SearchDTO {
-        @Size(max = 20, message = "상태값 입력은 최대 20자입니다.")
         private OrderStatus status;
 
         @Size(max = 20, message = "고객이름 입력은 최대 20자입니다.")

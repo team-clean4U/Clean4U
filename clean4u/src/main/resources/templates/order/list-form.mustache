@@ -131,13 +131,13 @@
             </li>
         {{/orderPage.pageLinks}}
 
-        {{#orderPage.NextPageNumber}}
+        {{#orderPage.nextPageNumber}}
             <li class="page-btn">
-                <a href="/order/list?page={{orderPage.NextPageNumber}}">
+                <a href="/order/list?page={{orderPage.nextPageNumber}}">
                 <i class="fa-solid fa-chevron-right"></i>
                 </a>
             </li>
-        {{/orderPage.NextPageNumber}}
+        {{/orderPage.nextPageNumber}}
         {{^orderPage.NextPageNumber}}
             <li class="page-btn disabled">
                 <i class="fa-solid fa-chevron-right"></i>

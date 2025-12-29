@@ -1,5 +1,6 @@
 package org.example.clean4u.dashboard;
 
+
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.customer.Customer;
@@ -8,11 +9,11 @@ import org.example.clean4u.customer.Grade;
 import org.example.clean4u.laundryItem.LaundryCategory;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.order.OrderStatus;
-import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
 import org.example.clean4u.orderItem.OrderItem;
 import org.example.clean4u.orderItem.OrderItemRepository;
 import org.example.clean4u.orderItemOption.OrderItemOption;
 import org.example.clean4u.orderItemOption.OrderItemOptionRepository;
+import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
 import org.example.clean4u.supplyItem.SupplyItem;
 import org.example.clean4u.supplyItem.SupplyItemRepository;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 public class DashboardService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
-    private final OrderStatusHistoryRepository orderStatusHistoryRepository;
+    private final OrderStatusHistoryRepository historyRepository;
     private final OrderItemOptionRepository orderItemOptionRepository;
     private final SupplyItemRepository supplyItemRepository;
     private final CustomerRepository customerRepository;
@@ -158,7 +159,7 @@ public class DashboardService {
         statistics.put("processingOrders", PriceUtil.format(progressiveOrdersCount));
 
         // 평균 처리 경과 시간
-        Double avgMinutes = orderStatusHistoryRepository.findAverageProcessingMinutes();
+        Double avgMinutes = historyRepository.findAverageProcessingMinutes();
 
         if (avgMinutes == null) {
             statistics.put("averageTime", "0 분");
