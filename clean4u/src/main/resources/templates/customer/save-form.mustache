@@ -18,14 +18,14 @@
                 <div class="update-items">
                     <label class="create-label"><i class="fa-solid fa-cake-candles"></i> 생년월일 :</label>
                     <div class="input-small">
-                        <input type="text" class="update-value" placeholder="생년월일" name="birth">
+                        <input type="date" min="1900-01-01" max="2100-01-01" class="update-value" placeholder="생년월일" name="birth">
                         <small class="input-instruction">ex) 2001-01-01 </small>
                     </div>
                 </div>
                 <div class="update-items">
                     <label class="create-label"><i class="fa-solid fa-mobile-screen"></i> 연락처 :</label>
                     <div class="input-small">
-                        <input type="tel" pattern="[0-9\-]+" class="update-value" placeholder="연락처" name="phone">
+                        <input id="phone" type="tel" pattern="[0-9\-]+" maxlength="13" class="update-value" placeholder="연락처" name="phone">
                         <small class="input-instruction">ex) 010-0000-0000 </small>
                     </div>
                 </div>
@@ -43,3 +43,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/customer.js"></script>
