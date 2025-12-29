@@ -1,10 +1,154 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{{> layout/header}}
+
+{{> layout/background}}
+
+<div class="content-section">
+    <div class="container">
+        <div class="header-container order">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-chart-line"></i>
+                    주문 상태 변경 이력
+                </h2>
+            </div>
+            <form class="search-wrapper" method="get" action="/order-status-history/list">
+                <div class="search-box">
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-user"></i>
+                        <input
+                                class="search-input"
+                                type="text"
+                                name="customerName"
+                                value="{{#searchView.customerName}}{{searchView.customerName}}{{/searchView.customerName}}"
+                                placeholder="고객명">
+                    </div>
+
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-phone"></i>
+                        <input
+                                class="search-input"
+                                type="tel"
+                                name="phone"
+                                value="{{#searchView.phone}}{{searchView.phone}}{{/searchView.phone}}"
+                                placeholder="연락처">
+                    </div>
+                    <div class="update-value category">
+                        <input type="hidden" name="status" id="category">
+                        <div class="category-select">
+                            <i class="fa-solid fa-info-circle"></i>
+                            <span class="category-selected">
+                                {{#searchView.status}}{{searchView.status.displayName}}{{/searchView.status}}
+                                {{^searchView.status}}전체 상태{{/searchView.status}}
+                            </span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <ul class="category-dropdown">
+                            <li data-type="RECEIVED">접수</li>
+                            <li data-type="WASHING">세탁중</li>
+                            <li data-type="DRYING">건조중</li>
+                            <li data-type="COMPLETED">세탁완료</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-calendar-alt"></i>
+                        <input
+                                type="date"
+                                name="fromDate"
+                                value="{{#searchView.fromDate}}{{searchView.fromDate}}{{/searchView.fromDate}}"
+                                class="search-input date-input" min="1900-01-01" max="9999-12-31">
+                    </div>
+                    <span class="date-separator">~</span>
+                    <div class="search-input-box date">
+                        <i class="fa-solid fa-calendar-alt"></i>
+                        <input
+                                type="date"
+                                name="toDate"
+                                value="{{#searchView.toDate}}{{searchView.toDate}}{{/searchView.toDate}}"
+                                class="search-input date-input"
+                                min="1900-01-01"
+                                max="9999-12-31">
+                    </div>
+                    <button type="submit" class="btn btn-submit">조회</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="history-container">
+            <table class="history-table">
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>주문 번호</th>
+                    <th>고객명</th>
+                    <th>휴대폰 번호</th>
+                    <th>상태</th>
+                    <th>일시</th>
+                    <th>수정자</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#statusHistoryList}}
+                    <tr>
+                        <td class="table-id">{{orderId}}</td>
+                        <td>{{customerName}}</td>
+                        <td>{{phone}}</td>
+                        <td><span class="status-badge {{status.cssClass}}">{{status.displayName}}</span></td>
+                        <td>{{createdAt}}</td>
+                        <td>{{editor}}</td>
+                    </tr>
+                {{/statusHistoryList}}
+                {{^statusHistoryList}}
+                    <tr>
+                        <td colspan="5" class="empty-message">주문 변경 이력이 없습니다.</td>
+                    </tr>
+                {{/statusHistoryList}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ul class="pagination">
+    {{#statusHistoryListPage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/order-status-history/list?page={{statusHistoryListPage.previousPageNumber}}
+            ">
+            <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/statusHistoryListPage.previousPageNumber}}
+    {{^statusHistoryListPage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/statusHistoryListPage.previousPageNumber}}
+
+    {{#statusHistoryListPage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/order-status-history/list?page={{displayNumber}}
+            &size={{statusHistoryListPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+        </li>
+    {{/statusHistoryListPage.pageLinks}}
+
+    {{#statusHistoryListPage.nextPageNumber}}
+        <li class="page-btn">
+            <a href="/order-status-history/list?page={{statusHistoryListPage.nextPageNumber}}">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/statusHistoryListPage.nextPageNumber}}
+    {{^statusHistoryListPage.nextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/statusHistoryListPage.nextPageNumber}}
+</ul>
