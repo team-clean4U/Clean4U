@@ -1,43 +1,121 @@
 <!-- http://localhost:8080/employee/list -->
 
 {{> layout/header}}
+{{> layout/background}}
 
-<div class="container">
-    <div class="section-header">
-        <h2 class="section-title">
-            <a href="/employee/list">
-                <i class="fa-solid fa-users"></i>
-                직원 목록
-            </a>
-        </h2>
-    </div>
+<div class="content-section">
+    <div class="container">
+        <div class="header-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <a href="/employee/list">
+                        <i class="fa-solid fa-users"></i>
+                        직원 목록
+                    </a>
+                </h2>
+            </div>
 
-    <div class="card-list">
-        {{#employeeListPage}}
-            <a href="/employee/{{id}}/detail" class="card">
-                <div class="card-header">
-                    <i class="fas fa-user"></i>
-                    <h4>{{name}}</h4>
+            <form class="search-wrapper" method="get" action="/employee/list">
+                <div class="search-input-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input class="search-input"
+                           type="text"
+                           placeholder="검색어를 입력해주세요."
+                           name="keyword"
+                           value="{{keyword}}">
+                    <input type="hidden" name="page" value="1">
+                    <input type="hidden" name="size" value="{{employeePage.size}}">
                 </div>
 
-                <div class="card-info">
-                    <span class="info-label">아이디</span>
-                    <span class="info-value">{{username}}</span>
+                <div class="update-value category">
+                    <input type="hidden"
+                           name="category"
+                           id="category"
+                           {{#category}}value="{{category}}"{{/category}}>
+
+                    <div class="category-select search-category"
+                         {{#category}}data-selected="{{category}}"{{/category}}>
+                        <i class="fa-solid fa-list"></i>
+                        <span class="category-selected">
+                            {{#category}}{{category}}{{/category}}
+                            {{^category}}전체{{/category}}
+                        </span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+
+                    <ul class="category-dropdown">
+                        <li data-type="all">전체</li>
+                        <li data-type="name">이름</li>
+                        <li data-type="email">이메일</li>
+                    </ul>
                 </div>
 
-                <div class="card-info">
-                    <span class="info-label">이메일</span>
-                    <span class="info-value">{{email}}</span>
-                </div>
-            </a>
-        {{/employeeListPage}}
-    </div>
-
-    {{^employeeListPage}}
-        <div class="blank">
-            <p>등록된 직원이 없습니다.</p>
+                <button type="submit" class="btn btn-submit">조회</button>
+            </form>
         </div>
-    {{/employeeListPage}}
+
+        <div class="card-list">
+            {{#employeePage.content}}
+                <a href="/employee/{{id}}/detail" class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-user"></i>
+                        <h4>{{name}}</h4>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-info">
+                            <span class="info-label">아이디:</span>
+                            <span class="info-value">{{username}}</span>
+                        </div>
+                        <div class="card-info">
+                            <span class="info-label">이메일:</span>
+                            <span class="info-value">{{email}}</span>
+                        </div>
+                    </div>
+                </a>
+            {{/employeePage.content}}
+        </div>
+
+        {{^employeePage.content}}
+            <p class="blank">등록된 직원이 없습니다.</p>
+        {{/employeePage.content}}
+    </div>
 </div>
+
+<ul class="pagination">
+    {{#employeePage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/employee/list?page={{employeePage.previousPageNumber}}&size={{employeePage.size}}">
+            <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/employeePage.previousPageNumber}}
+    {{^employeePage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/employeePage.previousPageNumber}}
+
+    {{#employeePage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/employee/list?page={{displayNumber}}&size={{employeePage.size}}">
+            {{displayNumber}}
+            </a>
+        </li>
+    {{/employeePage.pageLinks}}
+
+    {{#employeePage.nextPageNumber}}
+        <li class="page-btn">
+            <a href="/employee/list?page={{employeePage.nextPageNumber}}&size={{employeePage.size}}">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/employeePage.nextPageNumber}}
+    {{^employeePage.nextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/employeePage.nextPageNumber}}
+</ul>
 
 {{> layout/footer}}
