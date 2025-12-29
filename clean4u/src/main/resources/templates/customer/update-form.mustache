@@ -29,7 +29,8 @@
                             연락처:
                         </label>
                         <div class="input-small">
-                            <input type="text" id="phone" name="phone"
+                            <input type="tel" pattern="[0-9\-]+" id="phone" name="phone"
+                                   maxlength="13"
                                    placeholder="연락처를 입력해주세요" class="update-value-items"
                                    value="{{customer.phone}}">
                             <small class="input-instruction">ex) 010-0000-0000</small>
@@ -41,8 +42,10 @@
                             생년월일:
                         </label>
                         <div class="input-small">
-                            <input type="text" id="birth" name="birth"
+                            <input type="date" id="birth" name="birth"
                                    class="update-value-items"
+                                   min="1900-01-01"
+                                   max="2100-01-01"
                                    value="{{customer.birth}}">
                             <small class="input-instruction">ex) 2000-01-01 </small>
                         </div>
@@ -66,3 +69,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/customer.js"></script>
