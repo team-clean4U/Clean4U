@@ -162,12 +162,14 @@
                 <div class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-star"></i>
-                        <h4>주요 고객</h4>
+                        <h4>등급별 평균 소비금액</h4>
                     </div>
+                    {{#avgTotalPriceByGrade}}
                     <div class="card-info">
-                        <span class="info-label">VIP/단골</span>
-                        <span class="info-value">{{! importantCustomers }} 명</span>
+                        <span class="info-label">{{grade}}</span>
+                        <span class="info-value">{{avg}} 원</span>
                     </div>
+                    {{/avgTotalPriceByGrade}}
                 </div>
 
                 <div class="card">
