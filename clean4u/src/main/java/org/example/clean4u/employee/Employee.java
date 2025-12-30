@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.clean4u.time.BaseTimeEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "employee_tb")
-public class Employee extends BaseTimeEntity {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +29,12 @@ public class Employee extends BaseTimeEntity {
 
     @Column(name = "email", nullable = false, length = 50)
     private String email;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole = UserRole.일반직원;

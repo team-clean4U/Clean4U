@@ -6,14 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.time.BaseTimeEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.time.LocalTime;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "work_schedule_tb")
-public class WorkSchedule extends BaseTimeEntity {
+public class WorkSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +30,12 @@ public class WorkSchedule extends BaseTimeEntity {
 
     @Column(name = "end_time", nullable = false)
     private LocalTime endTime;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
     @Builder
     public WorkSchedule (Employee employee, LocalTime startTime, LocalTime endTime) {
