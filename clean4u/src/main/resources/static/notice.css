@@ -338,7 +338,7 @@
     font-size: 1rem;
 
     color: var(--color-gray);
-    border: 2px solid var(--color-gray);
+    border: 2px solid var(--color-light-gray);
     background-color: var(--color-light-gray);
 }
 
@@ -348,6 +348,7 @@
 
 .no-notice i {
     color: var(--color-gray);
+    margin-right: 0.5rem;
     margin-left: 0.5rem;
 }
 
