@@ -34,4 +34,6 @@ public interface NoticeRepository extends JpaRepository<Notice,Long> {
             @Param("currentCreatedAt") Timestamp currentCreatedAt,
             @Param("currentId") Long currentId
     );
+
+    
 }
