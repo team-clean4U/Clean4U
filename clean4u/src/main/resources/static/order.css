@@ -391,7 +391,7 @@ input.has-value {
     background-color: inherit;
 }
 
-.card.order-id {
+.order-id {
     display: flex;
     flex-direction: column;
     align-items: center;
