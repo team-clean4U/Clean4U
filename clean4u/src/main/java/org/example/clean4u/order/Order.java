@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.employee.Employee;
-import org.example.clean4u.time.BaseTimeEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @Entity
@@ -21,7 +23,7 @@ import java.time.LocalDate;
 )
 @NoArgsConstructor
 @Data
-public class Order extends BaseTimeEntity {
+public class Order{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,6 +48,14 @@ public class Order extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "editor_id", nullable = false)
     private Employee editor;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 
     @Builder
     public Order(Customer customer, OrderStatus status, Integer totalPrice, LocalDate orderDate, String memo, Employee editor) {
