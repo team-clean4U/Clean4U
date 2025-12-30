@@ -3,6 +3,7 @@ package org.example.clean4u.customer;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
+import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
@@ -91,6 +92,13 @@ public class CustomerService {
             customerPage = repository.findByNameContaining(keyword.trim(), pageable);
         } else if ("phone".equalsIgnoreCase(category)) {
             customerPage = repository.findByPhoneContaining(keyword.trim(), pageable);
+        } else if ("grade".equalsIgnoreCase(category)) {
+            try {
+                Grade grade = Grade.valueOf(keyword.trim().toUpperCase());
+                customerPage = repository.findCustomersByGrade(grade, pageable);
+            } catch (IllegalArgumentException e) {
+                throw new Exception404("존재하지 않는 등급입니다.");
+            }
         } else {
             customerPage = repository.findAllCustomers(pageable);
         }

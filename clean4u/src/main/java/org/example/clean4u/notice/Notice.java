@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.employee.Employee;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.sql.Timestamp;
@@ -32,7 +33,7 @@ public class Notice {
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 

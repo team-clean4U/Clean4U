@@ -16,6 +16,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Page<Customer> findByPhoneContaining(@Param("keyword")String keyword, Pageable pageable);
 
+    Page<Customer> findCustomersByGrade(@Param("keyword") Grade grade, Pageable pageable);
+
     @Query("SELECT c FROM Customer c " +
             "WHERE c.name LIKE CONCAT('%', :keyword, '%') " +
             "OR c.phone LIKE CONCAT('%', :keyword, '%') " +
