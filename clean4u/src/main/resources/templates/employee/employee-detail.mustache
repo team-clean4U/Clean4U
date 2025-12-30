@@ -4,48 +4,50 @@
     <div class="detail-container-content">
 
         <div class="buttons">
-            <a href="/employee/list" class="btn btn-back">
-                <i class="fas fa-arrow-left"></i> 목록으로
-            </a>
-
-            <form action="/employee/{{detail.id}}/delete" method="post">
-                <button type="submit" class="btn btn-delete">
-                    <i class="fas fa-trash"></i> 삭제
-                </button>
+            <form action="/employee/list" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
+
+            <div class="button-right">
+                <form action="/employee/{{detail.id}}/delete" method="post">
+                    <button type="submit" class="btn btn-delete">
+                        <i class="fa-solid fa-trash"></i>삭제
+                    </button>
+                </form>
+            </div>
         </div>
 
         <div class="detail-card">
             <div class="detail-header">
-                <i class="fas fa-user"></i>
-                {{detail.name}}
+                <i class="fa-solid fa-user"></i>
+                <h4>{{detail.name}}</h4>
             </div>
 
             <div class="detail-body">
                 <div class="detail-item">
                     <span class="detail-label">
-                        <i class="fas fa-id-badge"></i> 아이디
+                        <i class="fa-solid fa-id-badge"></i> 아이디
                     </span>
                     <span class="detail-value">{{detail.username}}</span>
                 </div>
 
                 <div class="detail-item">
                     <span class="detail-label">
-                        <i class="fas fa-envelope"></i> 이메일
+                        <i class="fa-solid fa-envelope"></i> 이메일
                     </span>
                     <span class="detail-value">{{detail.email}}</span>
                 </div>
 
                 <div class="detail-item">
                     <span class="detail-label">
-                        <i class="fas fa-user-shield"></i> 권한
+                        <i class="fa-solid fa-user-shield"></i> 권한
                     </span>
                     <span class="detail-value">{{detail.userRole}}</span>
                 </div>
 
                 <div class="detail-item">
                     <span class="detail-label">
-                        <i class="fas fa-toggle-on"></i> 상태
+                        <i class="fa-solid fa-toggle-on"></i> 상태
                     </span>
                     <span class="detail-value status-{{detail.userStatus}}">
                         {{detail.userStatus}}
