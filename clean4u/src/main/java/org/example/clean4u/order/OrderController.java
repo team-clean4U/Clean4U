@@ -142,9 +142,9 @@ public class OrderController {
     }
 
     @PostMapping("/order/{orderId}/delete")
-    public String deleteByOrderId(@PathVariable Long orderId, HttpSession session) {
+    public String deleteByOrderId(@PathVariable Long orderId, HttpSession session, @RequestParam(defaultValue = "false") boolean hardDelete) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        orderService.deleteByOrderId(orderId, sessionUser.getId());
+        orderService.deleteByOrderId(orderId, sessionUser.getId(), hardDelete);
         return "redirect:/order/list";
     }
 
