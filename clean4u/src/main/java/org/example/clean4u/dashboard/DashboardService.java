@@ -133,6 +133,7 @@ public class DashboardService {
         List<Map<String, Object>> lowStockItemList = lowStockItems.stream()
                 .map(item -> {
                     Map<String, Object> itemMap = new HashMap<>();
+                    itemMap.put("id", item.getId());
                     itemMap.put("name", item.getName());
                     itemMap.put("stockQuantity", item.getStockQuantity());
                     itemMap.put("safetyStock", item.getSafetyStock());
