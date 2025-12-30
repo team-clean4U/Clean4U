@@ -21,7 +21,7 @@
 
                 <div class="update-header">
                     <i class="bi bi-person-circle"></i>
-                    <span>{{! sessionUser.username }}</span>
+                    <p>{{sessionUser.name}}</p>
                 </div>
 
                 <div class="update-body">
@@ -36,7 +36,7 @@
                                 type="email"
                                 name="email"
                                 class="update-value"
-                                value="{{! sessionUser.email }}"
+                                value="{{sessionUser.email}}"
                                 placeholder="이메일을 입력하세요"
                                 required
                         />
