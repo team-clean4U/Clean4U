@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderRepository extends OrderRepositoryCustom, JpaRepository<Order, Long> {
     Long countByCustomerIdAndStatus(Long customerId, OrderStatus status);
@@ -43,4 +44,6 @@ public interface OrderRepository extends OrderRepositoryCustom, JpaRepository<Or
     , nativeQuery = true
     )
     Integer countPriceTodayOrders();
+
+    Optional<Order> findByReviewToken(String reviewToken);
 }

@@ -5,6 +5,7 @@ import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.customer.Grade;
 import org.example.clean4u.orderItem.OrderItemResponse;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
+import org.example.clean4u.review.ReviewResponse;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,11 +47,15 @@ public class OrderResponse {
         private String totalPrice;
         private List<OrderItemResponse.DetailDto> items;
         private List<OrderStatusHistoryResponse.DetailDTO> histories;
+        private String reviewLink;
+        private boolean hasReview;
+        private ReviewResponse.DetailDTO review;
 
         public DetailDTO(
                 Order order,
                 List<OrderItemResponse.DetailDto> items,
-                List<OrderStatusHistoryResponse.DetailDTO> histories
+                List<OrderStatusHistoryResponse.DetailDTO> histories,
+                ReviewResponse.DetailDTO review
         ) {
             this.orderId = order.getId();
             if(order.getCustomer() != null) {
@@ -63,6 +68,12 @@ public class OrderResponse {
             this.totalPrice = PriceUtil.format(order.getTotalPrice());
             this.items = items;
             this.histories = histories;
+            
+            if (order.getReviewToken() != null) {
+                this.reviewLink = "/review/save?token=" + order.getReviewToken();
+                this.hasReview = review != null;
+                this.review = review;
+            }
         }
     }
 

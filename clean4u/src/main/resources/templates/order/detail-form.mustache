@@ -120,9 +120,73 @@
                 </div>
             </div>
         </div>
+
+        {{#order.reviewLink}}
+            <div class="detail-card review-card">
+                <div class="detail-header">
+                    <h4>
+                        <i class="fa-solid fa-star"></i>
+                        리뷰
+                    </h4>
+                </div>
+
+                <div class="detail-body">
+                    {{#order.hasReview}}
+                        <div class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-star"></i>
+                                평점
+                            </span>
+                            <div class="detail-value">
+                                <span class="review-rating-stars">
+                                    {{#order.review.rating}}
+                                        {{#.}}★{{/.}}{{^.}}☆{{/.}}
+                                    {{/order.review.rating}}
+                                </span>
+                                <span>{{order.review.rating}}점</span>
+                            </div>
+                        </div>
+                        {{#order.review.comment}}
+                            <div class="detail-item">
+                                <span class="detail-label">
+                                    <i class="fa-solid fa-comment"></i>
+                                    리뷰 내용
+                                </span>
+                                <div class="detail-value review-comment">
+                                    {{order.review.comment}}
+                                </div>
+                            </div>
+                        {{/order.review.comment}}
+                        <div class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-calendar"></i>
+                                작성일
+                            </span>
+                            <span class="detail-value">{{order.review.createdAt}}</span>
+                        </div>
+                    {{/order.hasReview}}
+                    {{^order.hasReview}}
+                        <div class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-link"></i>
+                                리뷰 작성
+                            </span>
+                            <div class="detail-value">
+                                <button type="button" onclick="copyReviewLink(this, '{{order.reviewLink}}')" class="btn btn-create">
+                                    <i class="fa-solid fa-copy"></i> 리뷰 작성 링크 복사
+                                </button>
+                            </div>
+                        </div>
+                    {{/order.hasReview}}
+                </div>
+            </div>
+        {{/order.reviewLink}}
     </div>
 </div>
 {{>layout/footer}}
+
+<script src="/js/order-detail.js"></script>
+
 {{#alertMessage}}
     <script>
         alert("{{alertMessage}}")

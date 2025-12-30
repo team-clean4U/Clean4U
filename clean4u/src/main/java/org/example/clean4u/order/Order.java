@@ -45,6 +45,9 @@ public class Order{
     @Column(name = "memo", length = 50)
     private String memo;
 
+    @Column(name = "review_token", unique = true)
+    private String reviewToken;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "editor_id", nullable = false)
     private Employee editor;

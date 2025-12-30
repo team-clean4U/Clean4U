@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Clean4U</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.0.0/css/all.css">
+    <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="/layout.css">
+    <link rel="stylesheet" href="/components.css">
+    <link rel="stylesheet" href="/dropdown.css">
+    <link rel="stylesheet" href="/review.css">
+</head>
+
+<body class="review-page">
+
+{{> layout/background}}
+
+<div class="review-container">
+    <div class="review-container-content">
+        <div class="review-card">
+            <form action="/review/save" method="post">
+                <input type="hidden" name="token" value="{{token}}">
+                <div class="review-form-header review-header">
+                    <i class="fa-solid fa-star"></i>
+                    <b>리뷰 작성</b>
+                </div>
+                <div class="review-body">
+                    <div class="review-item">
+                        <label class="review-label">
+                            <i class="fa-solid fa-star"></i>
+                            평점
+                        </label>
+                        <div class="update-value category">
+                            <input type="hidden" name="rating" id="rating" required>
+                            <div class="category-select">
+                                <span class="category-selected">평점을 선택해주세요</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <ul class="category-dropdown">
+                                <li data-type="5">5점 (매우 만족)</li>
+                                <li data-type="4">4점 (만족)</li>
+                                <li data-type="3">3점 (보통)</li>
+                                <li data-type="2">2점 (불만족)</li>
+                                <li data-type="1">1점 (매우 불만족)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="review-item last">
+                        <label for="comment" class="review-label">
+                            <i class="fa-solid fa-comment"></i>
+                            리뷰 내용
+                            <span class="char-count">
+                                <span id="char-count">0</span> / 255
+                            </span>
+                        </label>
+                        <textarea id="comment" name="comment" placeholder="리뷰 내용을 입력해주세요. (선택사항)" rows="10"
+                                  maxlength="255" class="review-value"></textarea>
+                    </div>
+                </div>
+                <div class="review-buttons">
+                    <button type="submit" class="btn btn-submit">리뷰 작성</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/dropdown.js"></script>
+
+<script>
+    const commentTextarea = document.getElementById('comment');
+    const charCount = document.getElementById('char-count');
+
+    if (commentTextarea && charCount) {
+        commentTextarea.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+        });
+    }
+</script>
+
+</body>
+
+</html>
+

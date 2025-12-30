@@ -118,6 +118,10 @@ input.has-value {
     min-width: 250px;
 }
 
+.order-laundry-item .bottom-buttons {
+    padding: 1rem 0;
+}
+
 .order-item {
     padding-top: 0;
 }
@@ -437,6 +441,26 @@ input.has-value {
     .order-total .detail-label {
         width: auto;
     }
+}
+
+.review-card {
+    margin-top: 1.5rem;
+}
+
+.review-card .detail-header {
+    font-size: 1.5rem;
+}
+
+.review-card .detail-item:last-child {
+    border-bottom: none;
+}
+
+.review-card .btn-create {
+    gap: 0.5rem;
+}
+
+.review-card .review-rating-stars {
+    color: var(--star);
 }
 
 @media (max-width: 480px) {
