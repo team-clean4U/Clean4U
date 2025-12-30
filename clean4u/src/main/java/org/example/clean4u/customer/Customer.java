@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.clean4u.time.BaseTimeEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -18,7 +20,7 @@ import java.time.LocalDate;
         }
 )
 @Entity
-public class Customer extends BaseTimeEntity {
+public class Customer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
@@ -38,6 +40,14 @@ public class Customer extends BaseTimeEntity {
 
     @Column(name = "memo", length = 1000)
     private String memo;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
+
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 
     @Builder
     public Customer(String name, LocalDate birth, String phone, String memo) {
