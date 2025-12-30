@@ -383,6 +383,14 @@ input.has-value {
     gap: 0.3rem;
 }
 
+.history-table.no-hover tbody tr {
+    cursor: default;
+}
+
+.history-table.no-hover tbody tr:hover {
+    background-color: inherit;
+}
+
 @media (max-width: 1024px) {
     .order-laundry-item {
         padding: 1.5rem 2rem;

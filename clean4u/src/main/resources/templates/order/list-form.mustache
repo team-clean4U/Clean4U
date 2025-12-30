@@ -78,12 +78,13 @@
                     <button type="submit" class="btn btn-submit">조회</button>
                 </div>
             </form>
-
         </div>
 
         <div class="card-list order-card-list">
             {{#orderList}}
-                <a href="/order/{{orderId}}" class="card">
+                {{^isCancelled}}
+                <a href="/order/{{orderId}}" class="card" style="color: var(--color-blue);">
+                    No. {{orderId}}
                     <div class="card-header">
                         <i class="fa-solid fa-shopping-bag"></i>
                         <div class="customer-title">
@@ -106,6 +107,7 @@
                         </div>
                     </div>
                 </a>
+                {{/isCancelled}}
             {{/orderList}}
         </div>
 
