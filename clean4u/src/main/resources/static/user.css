@@ -251,3 +251,8 @@
 .employee-card .btn {
     gap: 0.2rem;
 }
+
+.employee-card:hover {
+    transform: none;
+    box-shadow: none;
+}
