@@ -103,7 +103,7 @@ public class OrderService {
         Pageable pageable = PageRequest.of(validPage, validSize, sort);
 
         boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if(!existingUser) {
+        if (!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
 
@@ -126,7 +126,7 @@ public class OrderService {
     // 주문 상세 조회
     public OrderResponse.DetailDTO detail(Long orderId, Long sessionUserId) {
         boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if(!existingUser) {
+        if (!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
         Order order = orderRepository.findById(orderId)
@@ -191,7 +191,7 @@ public class OrderService {
     // 주문 변경 화면 요청
     public OrderResponse.UpdateFormDTO updateForm(Long orderId, Long sessionUserId) {
         boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if(!existingUser) {
+        if (!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
 
@@ -207,7 +207,7 @@ public class OrderService {
 
         List<OrderItemResponse.UpdateFormDto> itemDtos = new ArrayList<>();
 
-        for(int i = 0; i < items.size(); i++) {
+        for (int i = 0; i < items.size(); i++) {
             OrderItem item = items.get(i);
 
             List<Long> selectedOptionIds = orderItemOptionRepository.findByOrderItemId(item.getId()).stream()
@@ -236,6 +236,8 @@ public class OrderService {
         // 1. 주문 조회
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
+
+        OrderStatus previousStatus = order.getStatus();
 
         int totalPrice = calculateTotalPrice(updateDto.getItems());
 
@@ -282,12 +284,14 @@ public class OrderService {
 
         OrderStatus newStatus = updateDto.getStatus();
 
-        OrderStatusHistory history = OrderStatusHistory.builder()
-                .order(order)
-                .status(newStatus)
-                .editor(editor)
-                .build();
-        orderStatusHistoryRepository.save(history);
+        if (newStatus != previousStatus) {
+            OrderStatusHistory history = OrderStatusHistory.builder()
+                    .order(order)
+                    .status(newStatus)
+                    .editor(editor)
+                    .build();
+            orderStatusHistoryRepository.save(history);
+        }
 
         Customer customer = customerRepository.findById(order.getCustomer().getId())
                 .orElseThrow(() -> new Exception404("해당 고객을 찾을 수 없습니다."));
@@ -303,14 +307,13 @@ public class OrderService {
                 customer.setGrade(Grade.REGULAR);
             }
         }
-
         return beforGrade != customer.getGrade();
     }
 
     @Transactional
     public void updateStatus(Long orderId, Long sessionUserId) {
         boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if(!existingUser) {
+        if (!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
 
@@ -324,7 +327,7 @@ public class OrderService {
     @Transactional
     public void deleteByOrderId(Long orderId, Long sessionUserId) {
         boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if(!existingUser) {
+        if (!existingUser) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
 
