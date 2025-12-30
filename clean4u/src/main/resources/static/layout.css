@@ -290,18 +290,13 @@ nav {
     background: var(--color-white);
     border-radius: 15px;
     box-shadow: 0 8px 30px var(--shadow);
-    width: 100%;
-    padding: 0.75rem 0 0.5rem 0;
+    padding: 0.75rem 0;
     margin-top: 0.25rem;
     z-index: 100;
     list-style: none;
     overflow: hidden;
     box-sizing: border-box;
-}
-
-.nav-item.dropdown.dropdown-admin .nav-link.dropdown-toggle,
-.nav-item.dropdown.dropdown-management .nav-link.dropdown-toggle {
-    min-width: 180px;
+    white-space: nowrap;
 }
 
 @media (min-width: 1025px) {
@@ -326,12 +321,13 @@ nav {
 
 .dropdown-item {
     display: block;
-    padding: 0.85rem 1rem;
+    padding: 0.85rem 1.2rem;
     color: var(--color-dark-blue);
     font-weight: 600;
     font-size: 1rem;
     text-decoration: none;
     transition: all 0.3s ease-in-out;
+    white-space: nowrap;
 }
 
 .dropdown-item:hover,
