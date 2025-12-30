@@ -12,7 +12,13 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "laundry_item_tb")
+@Table(
+        name = "laundry_item_tb",
+        indexes = {
+                @Index(name = "idx_laundry_item_category", columnList = "category"),
+                @Index(name = "idx_laundry_item_created_at", columnList = "created_at")
+        }
+)
 public class LaundryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
