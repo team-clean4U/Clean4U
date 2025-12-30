@@ -134,6 +134,13 @@ public class OrderController {
         return "redirect:/order/" + orderId;
     }
 
+    @PostMapping("/order/{orderId}/status")
+    public String updateStatus(@PathVariable Long orderId, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+        orderService.updateStatus(orderId, sessionUser.getId());
+        return "redirect:/order/list";
+    }
+
     @PostMapping("/order/{orderId}/delete")
     public String deleteByOrderId(@PathVariable Long orderId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
