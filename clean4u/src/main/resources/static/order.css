@@ -356,6 +356,9 @@ input.has-value {
     padding: 0.2rem 0.5rem;
 }
 
+.order-card-list .card {
+    padding: 1.5rem 2.5rem;
+}
 .update-body .last {
     border-bottom: 1px dashed var(--color-light-gray);
 }
@@ -416,16 +419,14 @@ input.has-value {
     flex-direction: column;
     align-items: center;
     border-bottom: 2px dashed var(--color-light-blue);
+    padding: 1.25rem 0;
 }
 
 .detail-id-card {
-    margin: 1rem;
-    padding: 0.5rem 1rem;
-    width: 10%;
-    text-align: center;
+    padding: 0.5rem 1.25rem;
     border-radius: 20px;
     background-color: var(--background-blue);
-    border: 1px solid var(--background-border);
+    border: 2px solid var(--background-border);
     color: var(--color-blue);
     font-size: 1rem;
     font-weight: 600;

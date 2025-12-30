@@ -243,3 +243,11 @@
         gap: 1.2rem;
     }
 }
+
+.employee-card .btn i {
+    color: var(--color-white);
+}
+
+.employee-card .btn {
+    gap: 0.2rem;
+}
