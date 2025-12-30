@@ -118,6 +118,10 @@ input.has-value {
     min-width: 250px;
 }
 
+.order-laundry-item .bottom-buttons {
+    padding: 1rem 0;
+}
+
 .order-item {
     padding-top: 0;
 }
