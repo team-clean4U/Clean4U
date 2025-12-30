@@ -272,6 +272,10 @@
     gap: 0.2rem;
 }
 
+.employee-card .button-right {
+    padding-bottom: 0;
+}
+
 .employee-card:hover {
     transform: none;
     box-shadow: none;
@@ -301,4 +305,8 @@
 
 .me-container .bottom-buttons i {
     color: var(--color-white);
+}
+
+.employee-update-card .bottom-buttons {
+    padding: 0 0 2rem;
 }
