@@ -14,7 +14,15 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "supply_item_history_tb")
+@Table(
+        name = "supply_item_history_tb",
+        indexes = {
+                @Index(name = "idx_supply_item_history_supply_item", columnList = "supply_item_id"),
+                @Index(name = "idx_supply_item_history_employee", columnList = "employee_id"),
+                @Index(name = "idx_supply_item_history_type", columnList = "type"),
+                @Index(name = "idx_supply_item_history_created_at", columnList = "created_at")
+        }
+)
 public class SupplyItemHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
