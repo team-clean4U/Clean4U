@@ -6,13 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.supplyItem.SupplyItem;
-import org.example.clean4u.time.BaseTimeEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Data
 @Entity
 @Table(name = "supply_item_history_tb")
-public class SupplyItemHistory extends BaseTimeEntity {
+public class SupplyItemHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "supply_item_history_id")
@@ -41,6 +44,14 @@ public class SupplyItemHistory extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 
     @Builder
     public SupplyItemHistory(SupplyItem supplyItem, Type type, Integer quantity, Integer stockBefore, Integer stockAfter, String memo, Employee employee) {
