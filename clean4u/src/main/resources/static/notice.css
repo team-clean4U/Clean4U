@@ -267,6 +267,7 @@
     justify-content: flex-end;
     align-items: center;
     gap: 1rem;
+    padding: 0.5rem 0;
 }
 
 .notice-detail-writer {
@@ -304,7 +305,7 @@
 }
 
 .notice-detail-item {
-    margin: 30px 0;
+    margin: 0.5rem 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
