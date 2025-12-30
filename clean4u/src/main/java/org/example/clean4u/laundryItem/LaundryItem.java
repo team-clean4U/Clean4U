@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.clean4u.time.BaseTimeEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @Data
 @Entity
 @Table(name = "laundry_item_tb")
-public class LaundryItem extends BaseTimeEntity {
+public class LaundryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "laundry_item_id")
@@ -28,6 +31,14 @@ public class LaundryItem extends BaseTimeEntity {
 
     @Column(name = "description")
     private String description;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 
     @Builder
     public LaundryItem(String name, LaundryCategory category, Integer basePrice, String description) {
