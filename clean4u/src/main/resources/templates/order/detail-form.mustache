@@ -18,10 +18,10 @@
         </div>
 
         <div class="detail-card">
+            <div class="id-container">
+                <div class="detail-id-card">NO.{{orderId}}</div>
+            </div>
             <div class="detail-header order-detail-header">
-                <div style="font-size: 1rem;">
-                No. {{order.orderId}}
-                </div>
                 <span class="user-info {{#order.grade}}grade-{{order.grade}}{{/order.grade}}">{{order.grade}}</span>
                 <h4>{{order.customerName}}</h4>
             </div>
