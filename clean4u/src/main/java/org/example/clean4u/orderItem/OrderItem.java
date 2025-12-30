@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import org.example.clean4u.laundryItem.LaundryItem;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.time.BaseTimeEntity;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
 @Table(
@@ -17,7 +21,7 @@ import org.example.clean4u.time.BaseTimeEntity;
 )
 @Data
 @NoArgsConstructor
-public class OrderItem extends BaseTimeEntity {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,6 +36,14 @@ public class OrderItem extends BaseTimeEntity {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Timestamp updatedAt;
 
     @Builder
     public OrderItem(Order order, LaundryItem laundryItem, Integer quantity) {

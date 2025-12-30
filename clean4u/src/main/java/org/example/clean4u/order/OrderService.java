@@ -307,6 +307,19 @@ public class OrderService {
         return beforGrade != customer.getGrade();
     }
 
+    @Transactional
+    public void updateStatus(Long orderId, Long sessionUserId) {
+        boolean existingUser = employeeRepository.existsById(sessionUserId);
+        if(!existingUser) {
+            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
+
+        order.setStatus(OrderStatus.CANCELLED);
+    }
+
     // 주문 삭제 기능 요청
     @Transactional
     public void deleteByOrderId(Long orderId, Long sessionUserId) {
@@ -341,4 +354,5 @@ public class OrderService {
         }
         return totalPrice;
     }
+
 }
