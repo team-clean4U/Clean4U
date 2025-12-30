@@ -22,6 +22,9 @@ import org.example.clean4u.orderItem.*;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistory;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
+import org.example.clean4u.review.ReviewRepository;
+import org.example.clean4u.review.ReviewResponse;
+import org.example.clean4u.review.ReviewService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,6 +51,8 @@ public class OrderService {
     private final OrderStatusHistoryRepository orderStatusHistoryRepository;
     private final EmployeeRepository employeeRepository;
     private final EntityManager entityManager;
+    private final ReviewService reviewService;
+    private final ReviewRepository reviewRepository;
 
     // 주문 생성
     @Transactional
@@ -185,7 +190,12 @@ public class OrderService {
                 .map(OrderStatusHistoryResponse.DetailDTO::from)
                 .toList();
 
-        return new OrderResponse.DetailDTO(order, itemDtos, historyList);
+        ReviewResponse.DetailDTO review = null;
+        if (order.getReviewToken() != null && reviewRepository.existsByOrderId(order.getId())) {
+            review = reviewService.getDetailByOrderId(order.getId());
+        }
+
+        return new OrderResponse.DetailDTO(order, itemDtos, historyList, review);
     }
 
     // 주문 변경 화면 요청
@@ -302,6 +312,8 @@ public class OrderService {
             } else if (completedCount >= 5) {
                 customer.setGrade(Grade.REGULAR);
             }
+
+            reviewService.generateReviewToken(order.getId());
         }
 
         return beforGrade != customer.getGrade();
