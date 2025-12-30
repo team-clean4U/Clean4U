@@ -112,7 +112,7 @@
                         인기 세탁 카테고리
                     </h3>
                 </div>
-                <div class="card">
+                <a href="/laundry-item/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-{{mostOrderedCategoryIcon}}"></i>
                         <h4>{{mostOrderedCategory}}</h4>
@@ -125,7 +125,7 @@
                         <span class="info-label">가격 범위</span>
                         <span class="info-value">{{mostOrderedCategoryMinPrice}}원 ~ {{mostOrderedCategoryMaxPrice}}원</span>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="dashboard-group">
@@ -135,7 +135,7 @@
                         인기 세탁 옵션
                     </h3>
                 </div>
-                <div class="card">
+                <a href="/laundry-option/list"  class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-tag"></i>
                         <h4>{{mostOrderedOptionName}}</h4>
@@ -148,7 +148,7 @@
                         <span class="info-label">가격</span>
                         <span class="info-value">{{mostOrderedOptionPrice}} 원</span>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
         <div class="dashboard-group">
@@ -179,12 +179,12 @@
                     </div>
                     <div class="low-stock-list">
                         {{#lowStockItems}}
-                            <div class="low-stock-card">
+                            <a href="/supply-item/{{id}}" class="low-stock-card">
                                 <i class="fa-solid fa-triangle-exclamation"></i>
                                 <p>
                                     재고 부족: <b>{{name}}</b> ({{stockQuantity}}{{unit}} 남음 / 안전재고 : {{safetyStock}}{{unit}})
                                 </p>
-                            </div>
+                            </a>
                         {{/lowStockItems}}
                         {{^lowStockItems}}
                             <div>

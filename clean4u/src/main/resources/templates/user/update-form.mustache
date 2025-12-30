@@ -2,16 +2,16 @@
 
 {{> layout/header}}
 
-<div class="update-container">
-    <div class="update-container-content">
+<div class="container me-container">
+    <div class="container-content">
 
         <div class="section-header">
             <h2 class="section-title">
-                <i class="bi bi-person-gear"></i>
+                <i class="fa-solid fa-user"></i>
                 내 정보 수정
             </h2>
             <a href="/main" class="btn btn-back">
-                <i class="bi bi-arrow-left"></i>
+                <i class="fa-solid fa-arrow-left"></i>
                 돌아가기
             </a>
         </div>
@@ -20,8 +20,8 @@
             <div class="update-card">
 
                 <div class="update-header">
-                    <i class="bi bi-person-circle"></i>
-                    <p>{{sessionUser.name}}</p>
+                    <i class="fa-solid fa-user"></i>
+                    <h4>{{sessionUser.name}}</h4>
                 </div>
 
                 <div class="update-body">
@@ -29,7 +29,7 @@
                     <!-- 이메일 -->
                     <div class="update-item">
                         <div class="update-label">
-                            <i class="bi bi-envelope"></i>
+                            <i class="fa-solid fa-envelope"></i>
                             이메일
                         </div>
                         <input
@@ -45,7 +45,7 @@
                     <!-- 비밀번호 -->
                     <div class="update-item">
                         <div class="update-label">
-                            <i class="bi bi-lock"></i>
+                            <i class="fa-solid fa-lock"></i>
                             새 비밀번호
                         </div>
                         <input
@@ -56,15 +56,10 @@
                                 required
                         />
                     </div>
-
                 </div>
-            </div>
-
-            <div class="buttons">
-                <div></div>
-                <div class="button-right">
-                    <button type="submit" class="btn btn-edit">
-                        <i class="bi bi-check-circle"></i>
+                <div class="bottom-buttons">
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fa-solid fa-check"></i>
                         수정 완료
                     </button>
                 </div>

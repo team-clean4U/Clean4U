@@ -96,6 +96,11 @@
     margin-bottom: 1rem;
 }
 
+.dashboard-group div.card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
 .badge-blue {
     background: var(--color-light-blue);
 }
@@ -104,6 +109,12 @@
     display: grid;
     gap: 1.7rem;
     grid-template-columns: repeat(2, 1fr);
+    align-items: stretch;
+}
+
+.card-list-two .dashboard-group {
+    display: flex;
+    flex-direction: column;
 }
 
 .low-stock-list {
@@ -127,6 +138,15 @@
     border: 2px solid var(--stock-warning-border);
     color: var(--stock-warning-text);
     border-radius: 15px;
+}
+
+.low-stock-card:hover {
+    background: var(--stock-warning-border);
+    color: var(--color-white);
+}
+
+.low-stock-card:hover i {
+    color: var(--color-white);
 }
 
 @media (max-width: 1024px) {
@@ -250,4 +270,43 @@
 
 .employee-card .btn {
     gap: 0.2rem;
+}
+
+.employee-card .button-right {
+    padding-bottom: 0;
+}
+
+.employee-card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.container.me-container {
+    max-width: 700px;
+}
+
+.me-container .update-header i {
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    background: var(--color-lighter-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 1.5rem;
+}
+
+.me-container .bottom-buttons .btn {
+    width: 100%;
+    padding: 1rem;
+    gap: 0.5rem;
+}
+
+.me-container .bottom-buttons i {
+    color: var(--color-white);
+}
+
+.employee-update-card .bottom-buttons {
+    padding: 0 0 2rem;
 }
