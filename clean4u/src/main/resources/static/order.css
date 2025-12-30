@@ -403,6 +403,26 @@ input.has-value {
     }
 }
 
+.review-card {
+    margin-top: 1.5rem;
+}
+
+.review-card .detail-header {
+    font-size: 1.5rem;
+}
+
+.review-card .detail-item:last-child {
+    border-bottom: none;
+}
+
+.review-card .btn-create {
+    gap: 0.5rem;
+}
+
+.review-card .review-rating-stars {
+    color: var(--star);
+}
+
 @media (max-width: 480px) {
     .order-laundry-item .order-button {
         padding: 32px 0;
