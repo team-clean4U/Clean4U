@@ -33,7 +33,7 @@
                 </h3>
             </div>
             <div class="card-list">
-                <div class="card">
+                <a href="/employee/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-users"></i>
                         <h4>직원 수</h4>
@@ -42,9 +42,9 @@
                         <span class="info-label">전체 직원</span>
                         <span class="info-value">{{! employeeCount }} 명</span>
                     </div>
-                </div>
+                </a>
 
-                <div class="card">
+                <a href="/schedule/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-calendar-check"></i>
                         <h4>오늘 근무</h4>
@@ -53,9 +53,9 @@
                         <span class="info-label">근무 인원</span>
                         <span class="info-value">{{! todayWorkingCount }} 명</span>
                     </div>
-                </div>
+                </a>
 
-                <div class="card">
+                <a href="/override/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-arrows-rotate"></i>
                         <h4>대체 근무</h4>
@@ -64,7 +64,7 @@
                         <span class="info-label">오늘 교체</span>
                         <span class="info-value">{{! overrideCount }} 건</span>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -133,7 +133,7 @@
                         인기 세탁 카테고리
                     </h3>
                 </div>
-                <div class="card">
+                <a href="/laundry-item/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-{{mostOrderedCategoryIcon}}"></i>
                         <h4>{{mostOrderedCategory}}</h4>
@@ -146,7 +146,7 @@
                         <span class="info-label">매출액</span>
                         <span class="info-value">{{mostOrderedCategoryTotalPrice}} 원</span>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="dashboard-group">
@@ -156,7 +156,7 @@
                         인기 세탁 옵션
                     </h3>
                 </div>
-                <div class="card">
+                <a href="/laundry-option/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-tag"></i>
                         <h4>{{mostOrderedOptionName}}</h4>
@@ -169,7 +169,7 @@
                         <span class="info-label">매출액</span>
                         <span class="info-value">{{mostOrderedOptionTotalPrice}} 원</span>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -187,12 +187,12 @@
                 </div>
                 <div class="low-stock-list">
                     {{#lowStockItems}}
-                        <div class="low-stock-card">
+                        <a href="/supply-item/{{id}}" class="low-stock-card">
                             <i class="fa-solid fa-triangle-exclamation"></i>
                             <p>
                                 재고 부족: <b>{{name}}</b> ({{stockQuantity}}{{unit}} 남음 / 안전재고 : {{safetyStock}}{{unit}})
                             </p>
-                        </div>
+                        </a>
                     {{/lowStockItems}}
                     {{^lowStockItems}}
                         <div>
