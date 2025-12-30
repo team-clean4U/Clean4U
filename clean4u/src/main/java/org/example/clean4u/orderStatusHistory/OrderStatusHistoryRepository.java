@@ -1,6 +1,7 @@
 package org.example.clean4u.orderStatusHistory;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -19,4 +20,8 @@ public interface OrderStatusHistoryRepository extends OrderStatusHistoryReposito
     Double findAverageProcessingMinutes();
 
     List<OrderStatusHistory> findByOrderIdOrderByCreatedAtAsc(@Param("orderId") Long orderId);
+
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM OrderStatusHistory sh WHERE sh.order.id = :orderId")
+    void deleteByOrderId(Long orderId);
 }

@@ -11,7 +11,7 @@
                 <a href="/order/{{order.orderId}}/update" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
-                <form action="/order/{{order.orderId}}/status" method="post">
+                <form action="/order/{{order.orderId}}/status" method="post" onsubmit="return confirm('주문을 취소(삭제)하시겠습니까?')">
                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>주문 취소</button>
                 </form>
             </div>

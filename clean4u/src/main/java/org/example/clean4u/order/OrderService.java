@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
+import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.customer.Customer;
@@ -325,15 +326,30 @@ public class OrderService {
 
     // 주문 삭제 기능 요청
     @Transactional
-    public void deleteByOrderId(Long orderId, Long sessionUserId) {
-        boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if (!existingUser) {
-            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+    public void deleteByOrderId(Long orderId, Long sessionUserId, boolean hardDelete) {
+        Employee employee = employeeRepository.findById(sessionUserId)
+                .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
+
+        if(!hardDelete) {
+            if(order.getStatus() == OrderStatus.CANCELLED) {
+                throw new Exception400("이미 취소된 주문입니다.");
+            }
+            updateStatus(orderId, sessionUserId); // 상태 변경(취소)은 직원 모두 가능
+            return;
+        }
+        if(!employee.isAdmin()) {
+            throw new Exception403("삭제 권한이 없습니다.");
+        }
+        if(order.getStatus() != OrderStatus.CANCELLED) {
+            throw new Exception400("취소된 주문만 삭제할 수 있습니다.");
         }
 
-        orderItemOptionRepository.deleteByOrderId(orderId);
-        orderItemRepository.deleteByOrderId(orderId);
-        orderRepository.deleteById(orderId);
+        orderStatusHistoryRepository.deleteByOrderId(order.getId());
+        orderItemOptionRepository.deleteByOrderId(order.getId());
+        orderItemRepository.deleteByOrderId(order.getId());
+        orderRepository.deleteById(order.getId());
     }
 
     // 총 합 계산
