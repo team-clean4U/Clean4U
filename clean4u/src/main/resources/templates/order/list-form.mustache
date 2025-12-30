@@ -83,8 +83,10 @@
         <div class="card-list order-card-list">
             {{#orderList}}
                 {{^isCancelled}}
-                <a href="/order/{{orderId}}" class="card" style="color: var(--color-blue);">
-                    No. {{orderId}}
+                <a href="/order/{{orderId}}" class="card">
+                    <div class="order-id">
+                        <div class="id-card">NO.{{orderId}}</div>
+                    </div>
                     <div class="card-header">
                         <i class="fa-solid fa-shopping-bag"></i>
                         <div class="customer-title">
