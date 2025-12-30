@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.clean4u.laundryItem.LaundryItem;
 import org.example.clean4u.order.Order;
-import org.example.clean4u.time.BaseTimeEntity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 

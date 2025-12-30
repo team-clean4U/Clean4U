@@ -1,9 +1,7 @@
 package org.example.clean4u.dashboard;
 
-
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.utils.PriceUtil;
-import org.example.clean4u.customer.Customer;
 import org.example.clean4u.customer.CustomerRepository;
 import org.example.clean4u.customer.Grade;
 import org.example.clean4u.laundryItem.LaundryCategory;
