@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public interface WorkScheduleOverrideRepository extends JpaRepository<WorkScheduleOverride, Long> {
@@ -22,4 +23,5 @@ public interface WorkScheduleOverrideRepository extends JpaRepository<WorkSchedu
             "WHERE w.startTime >= :start AND w.startTime <= :end")
     Page<WorkScheduleOverride> searchByTimeRange(@Param("start") LocalTime start, @Param("end") LocalTime end, Pageable pageable);
 
+    Page<WorkScheduleOverride> findByDate(LocalDate date, Pageable pageable);
 }

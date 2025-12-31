@@ -1,5 +1,6 @@
 package org.example.clean4u.workschedule;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
@@ -27,7 +28,7 @@ public class WorkScheduleOverrideService {
     private final WorkScheduleOverrideRepository workScheduleOverrideRepository;
 
     @Transactional
-    public WorkScheduleOverride saveOverride(WorkScheduleRequest.SaveDTO saveDTO) {
+    public WorkScheduleOverride saveOverride(@Valid WorkScheduleRequest.SaveDTO saveDTO) {
         Employee originalEntity = employeeRepository.findById(saveDTO.getEmployeeId())
                 .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
 
@@ -63,7 +64,7 @@ public class WorkScheduleOverrideService {
     }
 
     @Transactional
-    public WorkScheduleOverride overrideUpdateProc(Long scheduleId, WorkScheduleOverrideRequest.UpdateDTO updateDTO) {
+    public WorkScheduleOverride overrideUpdateProc(Long scheduleId, @Valid WorkScheduleOverrideRequest.UpdateDTO updateDTO) {
         WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다"));
 
@@ -98,7 +99,10 @@ public class WorkScheduleOverrideService {
 
         Page<WorkScheduleOverride> schedulePage;
 
-        if (startTime != null && endTime != null) {
+        if ("time".equalsIgnoreCase(category)) {
+            if (startTime == null && endTime == null) {
+                throw new Exception400("시작 시간과 종료 시간을 입력해야합니다.");
+            }
             if (startTime.isAfter(endTime)) {
                 throw new Exception400("검색 시작 시간는 검색 종료 시간보다 우선이어야 합니다.");
             }
@@ -115,10 +119,15 @@ public class WorkScheduleOverrideService {
             } else {
                 schedulePage = workScheduleOverrideRepository.findByOverrideEmployeeNameContaining(keyword.trim(), pageable);
             }
+        } else if ("date".equalsIgnoreCase(category)) {
+            if (date == null) {
+                schedulePage = workScheduleOverrideRepository.findAll(pageable);
+            } else {
+                schedulePage = workScheduleOverrideRepository.findByDate(date, pageable);
+            }
         } else {
             schedulePage = workScheduleOverrideRepository.findAll(pageable);
         }
-
         return new PageResponse<>(schedulePage, WorkScheduleOverrideResponse.ListDTO::new);
     }
 }

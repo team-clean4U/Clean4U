@@ -1,5 +1,6 @@
 package org.example.clean4u.workschedule;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,9 +47,10 @@ public class WorkScheduleOverrideController {
         model.addAttribute("startTime", startTime != null ?  startTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "09:00");
         model.addAttribute("endTime", endTime != null ? endTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "18:00");
         model.addAttribute("date", date != null ? date : LocalDate.now());
-
-//        List<WorkScheduleOverrideResponse.ListDTO> overrideList = workScheduleOverrideService.overrideList();
-//        model.addAttribute("overrideList", overrideList);
+        model.addAttribute("isOriginalName", "originalName".equalsIgnoreCase(category));
+        model.addAttribute("isOverrideName", "overrideName".equalsIgnoreCase(category));
+        model.addAttribute("isDate", "date".equalsIgnoreCase(category));
+        model.addAttribute("isTime", "time".equalsIgnoreCase(category));
 
         return "workschedule/override-list-form";
     }
@@ -80,7 +82,7 @@ public class WorkScheduleOverrideController {
     @PostMapping("/override/{scheduleId}/update")
     public String overrideUpdateProc(
             @PathVariable Long scheduleId,
-            WorkScheduleOverrideRequest.UpdateDTO updateDTO,
+            @Valid WorkScheduleOverrideRequest.UpdateDTO updateDTO,
             Model model
     ) {
         WorkScheduleOverride override = workScheduleOverrideService.overrideUpdateProc(scheduleId, updateDTO);
