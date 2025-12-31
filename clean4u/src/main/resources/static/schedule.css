@@ -1,0 +1,41 @@
+.schedule .search-wrapper {
+    flex-direction: column;
+}
+
+.schedule .search-wrapper .search-box:first-child {
+    border-bottom: 2px dashed var(--color-light-blue);
+    padding-bottom: 1rem;
+}
+
+.schedule .category-select i:first-child {
+    margin-right: 0.5rem;
+}
+
+@media (max-width: 800px) {
+    .schedule .btn-submit {
+        width: 100%;
+        padding: 1rem 2rem;
+    }
+}
+
+@media (max-width: 690px) {
+    .schedule .date-separator {
+        display: none;
+    }
+
+    .schedule .search-box {
+        flex-direction: column;
+    }
+}
+
+.search-box .date-range-row {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1.5;
+}
+
+.date-range-row div {
+    min-width: 0;
+    flex: 1;
+    max-width: 100%;
+}

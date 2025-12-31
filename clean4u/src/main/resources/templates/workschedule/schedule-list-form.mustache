@@ -5,7 +5,7 @@
 
 <div class="content-section">
     <div class="container">
-        <div class="header-container">
+        <div class="header-container schedule">
             <div class="section-header">
                 <h2 class="section-title">
                     <a href="/schedule/list">
@@ -20,52 +20,56 @@
 
             <!-- 일반 검색 (이름, 유저이름) -->
             <form class="search-wrapper" method="get" action="/schedule/list">
-                <div class="search-input-box">
-                    <i class="fa-solid fa-search"></i>
-                    <input class="search-input"
-                           type="text"
-                           name="keyword"
-                           placeholder="검색어를 입력해주세요."
-                           value="{{keyword}}">
-                    <input type="hidden" name="page" value="1">
-                    <input type="hidden" name="size" value="{{scheduleListPage.size}}">
-                </div>
+                <div class="search-box">
+                    <div class="update-value category">
+                        <input type="hidden" name="category" id="category" {{#category}}value="{{category}}"{{/category}}>
 
-                <div class="update-value category">
-                    <input type="hidden" name="category" id="category" {{#category}}value="{{category}}"{{/category}}>
+                        <div class="category-select">
+                            <i class="fa-solid fa-list"></i>
+                            <span class="category-selected">
+                                {{^isName}}{{^isUsername}}전체{{/isUsername}}{{/isName}}
+                                {{#isName}}이름{{/isName}}
+                                {{#isUsername}}유저이름{{/isUsername}}
+                            </span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
 
-                    <div class="category-select search-category" {{#category}}data-selected="{{category}}"{{/category}}>
-                        <i class="fa-solid fa-list"></i>
-                        <span class="category-selected">
-                            {{#category}}{{category}}{{/category}}
-                            {{^category}}전체{{/category}}
-                        </span>
-                        <i class="fa-solid fa-chevron-down"></i>
+                        <ul class="category-dropdown">
+                            <li data-type="all">전체</li>
+                            <li data-type="name">이름</li>
+                            <li data-type="username">유저이름</li>
+                        </ul>
                     </div>
 
-                    <ul class="category-dropdown">
-                        <li data-type="all">전체</li>
-                        <li data-type="name">이름</li>
-                        <li data-type="username">유저이름</li>
-                    </ul>
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input class="search-input"
+                               type="text"
+                               name="keyword"
+                               placeholder="검색어를 입력해주세요."
+                               value="{{keyword}}">
+                        <input type="hidden" name="page" value="1">
+                        <input type="hidden" name="size" value="{{scheduleListPage.size}}">
+                    </div>
                 </div>
 
-                <button type="submit" class="btn btn-submit">조회</button>
-            </form>
+                <!-- 시간 검색 별도 -->
+                <div class="search-box">
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-clock"></i>
+                        <input class="search-input" type="time" name="startTime" value="{{startTime}}">
+                    </div>
+                    <span class="date-separator">~</span>
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-clock"></i>
+                        <input class="search-input" type="time" name="endTime" value="{{endTime}}">
+                    </div>
+                    <input type="hidden" name="page" value="1">
+                    <input type="hidden" name="size" value="{{scheduleListPage.size}}">
 
-            <!-- 시간 검색 별도 -->
-            <form class="search-wrapper" method="get" action="/schedule/list">
-                <div class="search-input-box">
-                    <i class="fa-solid fa-clock"></i>
-                    <input type="time" name="startTime" value="{{startTime}}">
-                    <span>~</span>
-                    <input type="time" name="endTime" value="{{endTime}}">
+                    <button type="submit" class="btn btn-submit">조회</button>
                 </div>
-                <input type="hidden" name="page" value="1">
-                <input type="hidden" name="size" value="{{scheduleListPage.size}}">
-                <button type="submit" class="btn btn-submit">시간 검색</button>
             </form>
-
         </div>
 
         <div class="card-list">
@@ -84,46 +88,47 @@
                     </div>
                 </a>
             {{/scheduleListPage.content}}
-
-            {{^scheduleListPage.content}}
-                <p class="blank text-center">등록된 일정이 없습니다.</p>
-            {{/scheduleListPage.content}}
         </div>
 
-        <!-- 페이지네이션 -->
-        <ul class="pagination">
-            {{#scheduleListPage.previousPageNumber}}
-                <li class="page-btn">
-                    <a href="/schedule/list?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#startTime}}&startTime={{startTime}}{{/startTime}}{{#endTime}}&endTime={{endTime}}{{/endTime}}">
-                    <i class="fa-solid fa-chevron-left"></i>
-                    </a>
-                </li>
-            {{/scheduleListPage.previousPageNumber}}
-            {{^scheduleListPage.previousPageNumber}}
-                <li class="page-btn disabled"><i class="fa-solid fa-chevron-left"></i></li>
-            {{/scheduleListPage.previousPageNumber}}
-
-            {{#scheduleListPage.pageLinks}}
-                <li class="page-btn {{#active}}active{{/active}}">
-                    <a href="/schedule/list?page={{displayNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#startTime}}&startTime={{startTime}}{{/startTime}}{{#endTime}}&endTime={{endTime}}{{/endTime}}">
-                    {{displayNumber}}
-                    </a>
-                </li>
-            {{/scheduleListPage.pageLinks}}
-
-            {{#scheduleListPage.nextPageNumber}}
-                <li class="page-btn">
-                    <a href="/schedule/list?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#startTime}}&startTime={{startTime}}{{/startTime}}{{#endTime}}&endTime={{endTime}}{{/endTime}}">
-                    <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </li>
-            {{/scheduleListPage.nextPageNumber}}
-            {{^scheduleListPage.nextPageNumber}}
-                <li class="page-btn disabled"><i class="fa-solid fa-chevron-right"></i></li>
-            {{/scheduleListPage.nextPageNumber}}
-        </ul>
-
+        {{^scheduleListPage.content}}
+            <p class="blank text-center">등록된 일정이 없습니다.</p>
+        {{/scheduleListPage.content}}
     </div>
 </div>
+
+<!-- 페이지네이션 -->
+<ul class="pagination">
+    {{#scheduleListPage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/schedule/list?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#startTime}}&startTime={{startTime}}{{/startTime}}{{#endTime}}&endTime={{endTime}}{{/endTime}}">
+            <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/scheduleListPage.previousPageNumber}}
+    {{^scheduleListPage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/scheduleListPage.previousPageNumber}}
+
+    {{#scheduleListPage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/schedule/list?page={{displayNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#startTime}}&startTime={{startTime}}{{/startTime}}{{#endTime}}&endTime={{endTime}}{{/endTime}}">{{displayNumber}}</a>
+        </li>
+    {{/scheduleListPage.pageLinks}}
+
+    {{#scheduleListPage.nextPageNumber}}
+        <li class="page-btn">
+            <a href="/schedule/list?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#startTime}}&startTime={{startTime}}{{/startTime}}{{#endTime}}&endTime={{endTime}}{{/endTime}}">
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/scheduleListPage.nextPageNumber}}
+    {{^scheduleListPage.nextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/scheduleListPage.nextPageNumber}}
+</ul>
 
 {{> layout/footer}}

@@ -1,53 +1,83 @@
 {{> layout/header}}
+{{> layout/background}}
 
 <div class="content-section">
     <div class="container">
-
-        <!-- 섹션 헤더 -->
-        <div class="section-header">
-            <h2 class="section-title">
-                <a href="/override/list">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                    병결/대체 근무 목록
+        <div class="header-container schedule">
+            <!-- 섹션 헤더 -->
+            <div class="section-header">
+                <h2 class="section-title">
+                    <a href="/override/list">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        병결/대체 근무 목록
+                    </a>
+                </h2>
+                <a href="/schedule" class="btn btn-create">
+                    <span>+</span> 새 일정 등록
                 </a>
-            </h2>
-            <a href="/schedule" class="btn btn-create">
-                <span>+</span> 새 일정 등록
-            </a>
+            </div>
+
+            <!-- 검색폼 -->
+            <form method="get" action="/override/list" class="search-wrapper">
+                <div class="search-box">
+
+                    <!-- 카테고리 + 키워드 -->
+                    <div class="update-value category">
+                        <input type="hidden" name="category" id="category">
+
+                        <div class="category-select">
+                            <i class="fa-solid fa-list"></i>
+                            <span class="category-selected">
+                                {{#isOriginalName}}원본 이름{{/isOriginalName}}
+                                {{#isOverrideName}}대체 근무자{{/isOverrideName}}
+                                {{#isDate}}날짜{{/isDate}}
+                                {{#isTime}}시간{{/isTime}}
+                                {{^isOriginalName}}{{^isOverrideName}}{{^isDate}}{{^isTime}}
+                                    전체 상태{{/isTime}}{{/isDate}}{{/isOverrideName}}{{/isOriginalName}}
+                            </span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <ul class="category-dropdown">
+                            <li data-type="all">전체 상태</li>
+                            <li data-type="originalName">원본 이름</li>
+                            <li data-type="overrideName">대체 근무자</li>
+                            <li data-type="date">날짜</li>
+                            <li data-type="time">시간</li>
+                        </ul>
+                    </div>
+
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="keyword" placeholder="검색어를 입력해주세요." value="{{keyword}}"
+                               class="search-input"/>
+                    </div>
+                </div>
+
+                <!-- 날짜 + 시간 -->
+                <div class="search-box">
+                    <div class="search-input-box">
+                        <i class="fa-solid fa-calendar-alt"></i>
+                        <input type="date" name="date" value="{{date}}" class="search-input date-input" min="1900-01-01"
+                               max="9999-12-31">
+                    </div>
+                    <div class="date-range-row">
+                        <div class="search-input-box">
+                            <i class="fa-solid fa-clock"></i>
+                            <input class="search-input" type="time" name="startTime" value="{{startTime}}">
+                        </div>
+                        <span class="date-separator">~</span>
+                        <div class="search-input-box">
+                            <i class="fa-solid fa-clock"></i>
+                            <input class="search-input" type="time" name="endTime" value="{{endTime}}">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-submit">조회</button>
+                </div>
+            </form>
         </div>
 
-        <!-- 검색폼 -->
-        <form method="get" action="/override/list" class="search-wrapper">
-
-            <!-- 카테고리 + 키워드 -->
-            <div class="update-value category">
-                <select name="category" id="category" class="category-select">
-                    <option value="all" {{^isOriginalName}}{{^isOverrideName}}{{^isDate}}{{^isTime}}selected{{/isTime}}{{/isDate}}{{/isOverrideName}}{{/isOriginalName}}>전체</option>
-                    <option value="originalName" {{#isOriginalName}}selected{{/isOriginalName}}>원본 이름</option>
-                    <option value="overrideName" {{#isOverrideName}}selected{{/isOverrideName}}>대체 근무자</option>
-                    <option value="date" {{#isDate}}selected{{/isDate}}>날짜</option>
-                    <option value="time" {{#isTime}}selected{{/isTime}}>시간</option>
-                </select>
-            </div>
-
-            <div class="search-input-box">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" name="keyword" placeholder="검색어를 입력해주세요." value="{{keyword}}" class="search-input"/>
-            </div>
-
-            <!-- 날짜 + 시간 -->
-            <div class="update-value date-time">
-                <input type="date" name="date" value="{{date}}" />
-                <input type="time" name="startTime" value="{{startTime}}" />
-                <span class="time-separator">~</span>
-                <input type="time" name="endTime" value="{{endTime}}" />
-            </div>
-
-            <button type="submit" class="btn btn-submit">조회</button>
-        </form>
-
         <!-- 카드 리스트 -->
-        <div class="card-list mt-4">
+        <div class="card-list">
             {{#scheduleListPage.content}}
                 <a href="/override/{{id}}/detail" class="card">
                     <div class="card-header">
@@ -64,52 +94,48 @@
                     </div>
                 </a>
             {{/scheduleListPage.content}}
-
-            {{^scheduleListPage.content}}
-                <div class="blank">
-                    <p class="text-center">등록된 대체 근무 일정이 없습니다.</p>
-                </div>
-            {{/scheduleListPage.content}}
         </div>
-
-        <!-- 페이지네이션 -->
-        <ul class="pagination justify-content-center mt-4">
-            {{#scheduleListPage.previousPageNumber}}
-                <li class="page-item">
-                    <a class="page-link" href="/override/list?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}">
-                    <i class="fa-solid fa-chevron-left"></i>
-                    </a>
-                </li>
-            {{/scheduleListPage.previousPageNumber}}
-            {{^scheduleListPage.previousPageNumber}}
-                <li class="page-item disabled">
-                    <span class="page-link"><i class="fa-solid fa-chevron-left"></i></span>
-                </li>
-            {{/scheduleListPage.previousPageNumber}}
-
-            {{#scheduleListPage.pageLinks}}
-                <li class="page-item {{#active}}active{{/active}}">
-                    <a class="page-link" href="/override/list?page={{displayNumber}}&size={{scheduleListPage.size}}">
-                    {{displayNumber}}
-                    </a>
-                </li>
-            {{/scheduleListPage.pageLinks}}
-
-            {{#scheduleListPage.nextPageNumber}}
-                <li class="page-item">
-                    <a class="page-link" href="/override/list?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}">
-                    <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </li>
-            {{/scheduleListPage.nextPageNumber}}
-            {{^scheduleListPage.nextPageNumber}}
-                <li class="page-item disabled">
-                    <span class="page-link"><i class="fa-solid fa-chevron-right"></i></span>
-                </li>
-            {{/scheduleListPage.nextPageNumber}}
-        </ul>
-
+        {{^scheduleListPage.content}}
+            <div class="blank">
+                <p class="text-center">등록된 대체 근무 일정이 없습니다.</p>
+            </div>
+        {{/scheduleListPage.content}}
     </div>
 </div>
+
+<!-- 페이지네이션 -->
+<ul class="pagination">
+    {{#scheduleListPage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/override/list?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}">
+            <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/scheduleListPage.previousPageNumber}}
+    {{^scheduleListPage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/scheduleListPage.previousPageNumber}}
+
+    {{#scheduleListPage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/override/list?page={{displayNumber}}&size={{scheduleListPage.size}}">{{displayNumber}}</a>
+        </li>
+    {{/scheduleListPage.pageLinks}}
+
+    {{#scheduleListPage.nextPageNumber}}
+        <li class="page-btn">
+            <a href="/override/list?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}">
+            <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/scheduleListPage.nextPageNumber}}
+    {{^scheduleListPage.nextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/scheduleListPage.nextPageNumber}}
+</ul>
 
 {{> layout/footer}}

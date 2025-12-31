@@ -163,6 +163,33 @@ input[type="date"]:valid {
     color: var(--color-dark-blue);
 }
 
+input[type="time"] {
+    position: relative;
+    padding-right: 2.5rem;
+    cursor: text;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 1;
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5rem;
+    height: 1.5rem;
+    z-index: 1;
+}
+
+input[type="time"] {
+    color: var(--color-gray);
+}
+
+input[type="time"]:focus,
+input[type="time"]:valid {
+    color: var(--color-dark-blue);
+}
+
 .text-line-break {
     white-space: pre-line;
 }
