@@ -23,5 +23,5 @@ public interface OrderStatusHistoryRepository extends OrderStatusHistoryReposito
 
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM OrderStatusHistory sh WHERE sh.order.id = :orderId")
-    void deleteByOrderId(Long orderId);
+    void deleteByOrderId(@Param("orderId") Long orderId);
 }
