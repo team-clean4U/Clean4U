@@ -42,6 +42,7 @@ public class OrderResponse {
         private OrderStatus status;
         private boolean isCancelled;
         private String memo;
+        private String laundryImage;
 
         private String totalPrice;
         private List<OrderItemResponse.DetailDto> items;
@@ -65,6 +66,7 @@ public class OrderResponse {
             this.status = order.getStatus();
             this.isCancelled = order.getStatus() == OrderStatus.CANCELLED;
             this.memo = order.getMemo();
+            this.laundryImage = order.getLaundryImage();
             this.totalPrice = PriceUtil.format(order.getTotalPrice());
             this.items = items;
             this.histories = histories;
