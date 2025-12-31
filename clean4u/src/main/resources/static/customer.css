@@ -24,29 +24,29 @@
 }
 
 .grade-NEW {
-    background: var(--color-cream-blue);
+    background: linear-gradient(135deg, #eafffd ,#c9f0ff);
     border-radius: 50px;
-    color: var(--color-cyan);
+    color: var(--color-light-blue);
     padding: 0.3rem 0.7rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
     text-align: center;
 }
 
 .grade-REGULAR {
-    background: var(--color-light-blue);
+    background: linear-gradient(135deg, #cea8ed, #7860c8);
     border-radius: 50px;
     color: var(--color-white);
     padding: 0.3rem 0.7rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
     text-align: center;
 }
 
 .grade-VIP {
-    background-color: rgba(0,0,0,0.5);
+    background: linear-gradient(135deg, #ffbf47, #ee7f56);
     border-radius: 50px;
-    color: rgba(255, 255, 0, 1);
-    padding: 0.3rem 0.7rem;
-    font-size: 1rem;
+    color: var(--color-white);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
     text-align: center;
 }
 
