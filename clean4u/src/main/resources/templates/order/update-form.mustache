@@ -9,8 +9,9 @@
             </div>
             <form action="/order/{{order.orderId}}/update" method="post" enctype="multipart/form-data">
                 <div class="detail-header order-detail-header">
+                    <i class="fa-solid fa-shopping-bag"></i>
+                    <h4>{{order.customerName}} <span class="info-label">님 주문</span></h4>
                     <span class="user-info {{#order.grade}}grade-{{order.grade}}{{/order.grade}}">{{order.grade}}</span>
-                    <h4>{{order.customerName}}</h4>
                 </div>
 
                 <div class="detail-body">
