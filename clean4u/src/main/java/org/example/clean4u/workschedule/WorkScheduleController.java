@@ -1,5 +1,6 @@
 package org.example.clean4u.workschedule;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.AuthService;
@@ -57,7 +58,7 @@ public class WorkScheduleController {
     }
 
     @PostMapping("/schedule")
-    public String saveProc(WorkScheduleRequest.SaveDTO saveDTO) {
+    public String saveProc(@Valid WorkScheduleRequest.SaveDTO saveDTO) {
 
         if (saveDTO.isSick()) {
             workScheduleOverrideService.saveOverride(saveDTO);
@@ -125,7 +126,7 @@ public class WorkScheduleController {
     @PostMapping("/schedule/{scheduleId}/update")
     public String scheduleUpdateProc(
             @PathVariable Long scheduleId,
-            WorkScheduleRequest.UpdateDTO updateDTO,
+            @Valid WorkScheduleRequest.UpdateDTO updateDTO,
             Model model
     ) {
         WorkSchedule schedule = workScheduleService.scheduleUpdateProc(scheduleId, updateDTO);

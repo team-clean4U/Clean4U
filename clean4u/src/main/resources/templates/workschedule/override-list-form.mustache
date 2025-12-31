@@ -1,24 +1,57 @@
-<!-- http://localhost:8080/override/list -->
-
 {{> layout/header}}
 
-<div class="container">
+<div class="content-section">
+    <div class="container">
 
-    <div class="section-header">
-        <h2 class="section-title">
-            <a href="/override/list">
-                <i class="fa-solid fa-arrows-rotate"></i>
-                병결/대체 근무 목록
+        <!-- 섹션 헤더 -->
+        <div class="section-header">
+            <h2 class="section-title">
+                <a href="/override/list">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    병결/대체 근무 목록
+                </a>
+            </h2>
+            <a href="/schedule" class="btn btn-create">
+                <span>+</span> 새 일정 등록
             </a>
-        </h2>
-        <a href="/schedule" class="btn btn-create">
-            <span>+</span> 새 일정 등록
-        </a>
-    </div>
-        <div class="card-list">
-            {{#overrideList}}
+        </div>
+
+        <!-- 검색폼 -->
+        <form method="get" action="/override/list" class="search-wrapper">
+
+            <!-- 카테고리 + 키워드 -->
+            <div class="update-value category">
+                <select name="category" id="category" class="category-select">
+                    <option value="all" {{^isOriginalName}}{{^isOverrideName}}{{^isDate}}{{^isTime}}selected{{/isTime}}{{/isDate}}{{/isOverrideName}}{{/isOriginalName}}>전체</option>
+                    <option value="originalName" {{#isOriginalName}}selected{{/isOriginalName}}>원본 이름</option>
+                    <option value="overrideName" {{#isOverrideName}}selected{{/isOverrideName}}>대체 근무자</option>
+                    <option value="date" {{#isDate}}selected{{/isDate}}>날짜</option>
+                    <option value="time" {{#isTime}}selected{{/isTime}}>시간</option>
+                </select>
+            </div>
+
+            <div class="search-input-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="keyword" placeholder="검색어를 입력해주세요." value="{{keyword}}" class="search-input"/>
+            </div>
+
+            <!-- 날짜 + 시간 -->
+            <div class="update-value date-time">
+                <input type="date" name="date" value="{{date}}" />
+                <input type="time" name="startTime" value="{{startTime}}" />
+                <span class="time-separator">~</span>
+                <input type="time" name="endTime" value="{{endTime}}" />
+            </div>
+
+            <button type="submit" class="btn btn-submit">조회</button>
+        </form>
+
+        <!-- 카드 리스트 -->
+        <div class="card-list mt-4">
+            {{#scheduleListPage.content}}
                 <a href="/override/{{id}}/detail" class="card">
                     <div class="card-header">
+                        <i class="fa-solid fa-user"></i>
                         <h4>{{originalName}}</h4>
                     </div>
                     <div class="card-info">
@@ -30,15 +63,53 @@
                         <span class="info-value">{{date}}</span>
                     </div>
                 </a>
-            {{/overrideList}}
+            {{/scheduleListPage.content}}
+
+            {{^scheduleListPage.content}}
+                <div class="blank">
+                    <p class="text-center">등록된 대체 근무 일정이 없습니다.</p>
+                </div>
+            {{/scheduleListPage.content}}
         </div>
 
-    {{^overrideList}}
-        <div class="blank">
-            <p class="text-center">등록된 대체 근무 일정이 없습니다.</p>
-        </div>
-    {{/overrideList}}
+        <!-- 페이지네이션 -->
+        <ul class="pagination justify-content-center mt-4">
+            {{#scheduleListPage.previousPageNumber}}
+                <li class="page-item">
+                    <a class="page-link" href="/override/list?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}">
+                    <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                </li>
+            {{/scheduleListPage.previousPageNumber}}
+            {{^scheduleListPage.previousPageNumber}}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="fa-solid fa-chevron-left"></i></span>
+                </li>
+            {{/scheduleListPage.previousPageNumber}}
 
+            {{#scheduleListPage.pageLinks}}
+                <li class="page-item {{#active}}active{{/active}}">
+                    <a class="page-link" href="/override/list?page={{displayNumber}}&size={{scheduleListPage.size}}">
+                    {{displayNumber}}
+                    </a>
+                </li>
+            {{/scheduleListPage.pageLinks}}
+
+            {{#scheduleListPage.nextPageNumber}}
+                <li class="page-item">
+                    <a class="page-link" href="/override/list?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}">
+                    <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </li>
+            {{/scheduleListPage.nextPageNumber}}
+            {{^scheduleListPage.nextPageNumber}}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="fa-solid fa-chevron-right"></i></span>
+                </li>
+            {{/scheduleListPage.nextPageNumber}}
+        </ul>
+
+    </div>
 </div>
 
 {{> layout/footer}}

@@ -1,5 +1,6 @@
 package org.example.clean4u.workschedule;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
@@ -28,7 +29,7 @@ public class WorkScheduleService {
     private final WorkScheduleRepository workScheduleRepository;
 
     @Transactional
-    public WorkSchedule saveNormal(WorkScheduleRequest.SaveDTO saveDTO) {
+    public WorkSchedule saveNormal(@Valid WorkScheduleRequest.SaveDTO saveDTO) {
         Employee employeeEntity = employeeRepository.findById(saveDTO.getEmployeeId())
                 .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
 
@@ -74,7 +75,7 @@ public class WorkScheduleService {
     }
 
     @Transactional
-    public WorkSchedule scheduleUpdateProc(Long scheduleId, WorkScheduleRequest.UpdateDTO updateDTO) {
+    public WorkSchedule scheduleUpdateProc(Long scheduleId, @Valid WorkScheduleRequest.UpdateDTO updateDTO) {
         WorkSchedule workScheduleEntity = workScheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다."));
 
