@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.errors.exception.Exception500;
 import org.example.clean4u._core.response.PageResponse;
+import org.example.clean4u._core.utils.FileUtil;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.customer.CustomerRepository;
 import org.example.clean4u.customer.Grade;
@@ -33,6 +35,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +67,20 @@ public class OrderService {
         Customer customer = customerRepository.findById(saveDto.getCustomerId())
                 .orElseThrow(() -> new Exception404("해당 고객을 찾을 수 없습니다."));
 
+        String laundryImageFileName = null;
+
+        if(saveDto.getLaundryImage() != null) {
+            try {
+                if(!FileUtil.isImageFile(saveDto.getLaundryImage())) {
+                    throw new Exception400("이미지 파일만 업로드 가능합니다.");
+                }
+                laundryImageFileName = FileUtil.saveFile(saveDto.getLaundryImage());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
         int totalPrice = calculateTotalPrice(saveDto.getItems());
-        Order order = saveDto.toEntity(customer, totalPrice, sessionUser);
+        Order order = saveDto.toEntity(customer, totalPrice, sessionUser, laundryImageFileName);
         orderRepository.save(order);
 
         for (OrderItemRequest.SaveDto item : saveDto.getItems()) {
@@ -244,6 +259,9 @@ public class OrderService {
     // 주문 변경 기능 요청
     @Transactional
     public boolean updateProc(Long orderId, OrderRequest.@Valid UpdateDTO updateDto, Long sessionUserId) {
+        Employee editor = employeeRepository.findById(sessionUserId)
+                .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
+
         // 1. 주문 조회
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
@@ -252,8 +270,25 @@ public class OrderService {
 
         int totalPrice = calculateTotalPrice(updateDto.getItems());
 
-        Employee editor = employeeRepository.findById(sessionUserId)
-                .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
+        String oldLaundryImage = order.getLaundryImage();
+
+        if(updateDto.getLaundryImage() != null && !updateDto.getLaundryImage().isEmpty()) {
+            if(!FileUtil.isImageFile(updateDto.getLaundryImage())) {
+                throw new Exception400("이미지 파일만 업로드 가능합니다.");
+            }
+            try {
+                String newLaundryImageName = FileUtil.saveFile(updateDto.getLaundryImage());
+                updateDto.setLaundryImageFileName(newLaundryImageName);
+
+                if(oldLaundryImage != null && !oldLaundryImage.isEmpty()) {
+                    FileUtil.deleteFile(oldLaundryImage);
+                }
+            } catch (IOException e) {
+                throw new Exception500("파일 저장에 실패했습니다.");
+            }
+        } else {
+            updateDto.setLaundryImageFileName(oldLaundryImage);
+        }
 
         // 2. 주문 기본 정보 수정
         order.updateOrder(updateDto);
@@ -323,6 +358,28 @@ public class OrderService {
         return beforGrade != customer.getGrade();
     }
 
+    // 세탁물 사진 이미지 삭제
+    @Transactional
+    public void deleteLaundryImage(Long orderId, Long sessionUserId) {
+        boolean existingUser = employeeRepository.existsById(sessionUserId);
+        if (!existingUser) {
+            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
+
+        String laundryImage = order.getLaundryImage();
+        if(laundryImage != null && !laundryImage.isEmpty()) {
+            try {
+                FileUtil.deleteFile(laundryImage);
+            } catch (IOException e) {
+                throw new Exception500("파일 삭제에 실패했습니다.");
+            }
+        }
+        order.setLaundryImage(null);
+    }
+
     // 취소 상태로 변경
     @Transactional
     public void updateStatus(Long orderId, Long sessionUserId) {
@@ -367,10 +424,13 @@ public class OrderService {
             throw new Exception400("취소된 주문만 삭제할 수 있습니다.");
         }
 
-        orderStatusHistoryRepository.deleteByOrderId(order.getId());
-        orderItemOptionRepository.deleteByOrderId(order.getId());
-        orderItemRepository.deleteByOrderId(order.getId());
-        orderRepository.deleteById(order.getId());
+        reviewRepository.findByOrderId(orderId)
+                        .ifPresent(reviewRepository::delete);
+
+        orderStatusHistoryRepository.deleteByOrderId(orderId);
+        orderItemOptionRepository.deleteByOrderId(orderId);
+        orderItemRepository.deleteByOrderId(orderId);
+        orderRepository.deleteById(orderId);
 
         return orderRepository.existsById(orderId);
     }

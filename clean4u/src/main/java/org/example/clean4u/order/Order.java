@@ -68,18 +68,20 @@ public class Order{
     private Timestamp updatedAt;
 
     @Builder
-    public Order(Customer customer, OrderStatus status, Integer totalPrice, LocalDate orderDate, String memo, Employee editor) {
+    public Order(Customer customer, OrderStatus status, Integer totalPrice, LocalDate orderDate, String memo, Employee editor, String laundryImage) {
         this.customer = customer;
         this.status = status == null ? OrderStatus.RECEIVED : status;
         this.totalPrice = totalPrice ;
         this.orderDate = orderDate == null ? LocalDate.now() : orderDate;
         this.memo = memo;
         this.editor = editor;
+        this.laundryImage = laundryImage;
     }
 
     public void updateOrder(OrderRequest.UpdateDTO updateDto) {
         this.status = updateDto.getStatus();
         this.memo = updateDto.getMemo();
+        this.laundryImage = updateDto.getLaundryImageFileName();
     }
 
     public void updatePrice(Integer totalPrice) {

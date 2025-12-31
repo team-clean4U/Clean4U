@@ -84,6 +84,25 @@
     min-width: 100px;
 }
 
+.image-label-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.detail-label.image-btn {
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    font-weight: 500;
+    padding: 0.3rem 0.2rem;
+    border-radius: 50px;
+    border: none;
+}
+
+.image-btn:hover {
+    background-color: var(--color-light-blue);
+}
+
 .detail-label i {
     color: var(--color-blue);
     margin-right: 0.5rem;

@@ -135,6 +135,13 @@ public class OrderController {
         return "redirect:/order/" + orderId;
     }
 
+    @PostMapping("/order/{orderId}/laundry-image/delete")
+    public String deleteLaundryImage(@PathVariable Long orderId, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+         orderService.deleteLaundryImage(orderId, sessionUser.getId());
+        return "redirect:/order/" + orderId;
+    }
+
     @PostMapping("/order/{orderId}/delete")
     public String deleteByOrderId(@PathVariable Long orderId, HttpSession session, @RequestParam(defaultValue = "false") boolean hardDelete) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
@@ -144,5 +151,4 @@ public class OrderController {
         }
         return "redirect:/order/" + orderId;
     }
-
 }
