@@ -75,10 +75,7 @@
 <ul class="pagination">
     {{#laundryItemPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/laundry-item/list?page={{laundryItemPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}
-            ">
-            <i class="fa-solid fa-chevron-right"></i>
-            </a>
+            <a href="/laundry-item/list?page={{laundryItemPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}"><i class="fa-solid fa-chevron-left"></i></a>
         </li>
     {{/laundryItemPage.previousPageNumber}}
     {{^laundryItemPage.previousPageNumber}}
@@ -89,17 +86,13 @@
 
     {{#laundryItemPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/laundry-item/list?page={{displayNumber}}
-            &size={{laundryItemPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+            <a href="/laundry-item/list?page={{displayNumber}}&size={{laundryItemPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
         </li>
     {{/laundryItemPage.pageLinks}}
 
     {{#laundryItemPage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/laundry-item/list?page={{laundryItemPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}
-            ">
-            <i class="fa-solid fa-chevron-right"></i>
-            </a>
+            <a href="/laundry-item/list?page={{laundryItemPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}"><i class="fa-solid fa-chevron-right"></i></a>
         </li>
     {{/laundryItemPage.nextPageNumber}}
     {{^laundryItemPage.nextPageNumber}}

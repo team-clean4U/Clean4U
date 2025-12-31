@@ -95,8 +95,7 @@
 <ul class="pagination">
     {{#supplyItemHistoryPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/supply-item-history/list?page={{supplyItemHistoryPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}
-            ">
+            <a href="/supply-item-history/list?page={{supplyItemHistoryPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -109,15 +108,13 @@
 
     {{#supplyItemHistoryPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/supply-item-history/list?page={{displayNumber}}
-            &size={{supplyItemHistoryPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+            <a href="/supply-item-history/list?page={{displayNumber}}&size={{supplyItemHistoryPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
         </li>
     {{/supplyItemHistoryPage.pageLinks}}
 
     {{#supplyItemHistoryPage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/supply-item-history/list?page={{supplyItemHistoryPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}
-            ">
+            <a href="/supply-item-history/list?page={{supplyItemHistoryPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>

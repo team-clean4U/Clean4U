@@ -34,7 +34,7 @@ public class SupplyItemController {
         String queryString = request.getQueryString();
 
         if (queryString != null) {
-            queryString = queryString.replaceAll("(&page=\\d+)", "");
+            queryString = queryString.replaceAll("(page=\\d+)", "");
             queryString = queryString.replaceAll("(&size=\\d+)", "");
             if (!queryString.isBlank()) {
                 queryString = "&" + queryString;
