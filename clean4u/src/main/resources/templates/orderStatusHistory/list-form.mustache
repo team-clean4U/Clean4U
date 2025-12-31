@@ -47,6 +47,7 @@
                             <li data-type="WASHING">세탁중</li>
                             <li data-type="DRYING">건조중</li>
                             <li data-type="COMPLETED">세탁완료</li>
+                            <li data-type="CANCELLED">접수취소</li>
                         </ul>
                     </div>
                 </div>
@@ -120,8 +121,7 @@
 <ul class="pagination">
     {{#statusHistoryListPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/order-status-history/list?page={{statusHistoryListPage.previousPageNumber}}
-            ">
+            <a href="/order-status-history/list?page={{statusHistoryListPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -134,14 +134,13 @@
 
     {{#statusHistoryListPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/order-status-history/list?page={{displayNumber}}
-            &size={{statusHistoryListPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+            <a href="/order-status-history/list?page={{displayNumber}}&size={{statusHistoryListPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
         </li>
     {{/statusHistoryListPage.pageLinks}}
 
     {{#statusHistoryListPage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/order-status-history/list?page={{statusHistoryListPage.nextPageNumber}}">
+            <a href="/order-status-history/list?page={{statusHistoryListPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>

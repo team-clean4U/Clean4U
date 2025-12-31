@@ -16,9 +16,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     private final EntityManager em;
 
     @Override
-    public Page<Order> searchOrder(Pageable pageable, OrderRequest.SearchDTO searchDTO) {
+    public Page<Order> searchOrders(Pageable pageable, OrderRequest.SearchDTO searchDTO) {
         StringBuilder jpql = new StringBuilder();
-        jpql.append("SELECT o FROM Order o JOIN o.customer c WHERE o.status <> :cancelled");
+        jpql.append("SELECT o FROM Order o JOIN o.customer c");
+        boolean hasCondition = false;
 
         OrderStatus status = searchDTO.getStatus();
         String customerName = searchDTO.getCustomerName();
@@ -27,23 +28,28 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         LocalDate toDate = searchDTO.getToDate();
 
         if(status != null) {
-            jpql.append(" AND o.status = :status");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("o.status = :status");
+            hasCondition = true;
         }
 
         if(customerName != null && !customerName.isEmpty()) {
-            jpql.append(" AND c.name LIKE CONCAT('%', :customerName, '%')");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("c.name LIKE CONCAT('%', :customerName, '%')");
+            hasCondition = true;
         }
 
         if(phone != null && !phone.isEmpty()) {
-            jpql.append(" c.phone LIKE CONCAT('%', :phone, '%')");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("c.phone LIKE CONCAT('%', :phone, '%')");
+            hasCondition = true;
         }
 
         if(fromDate != null) {
-            jpql.append(" o.orderDate >= :fromDate");;
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("o.orderDate >= :fromDate");
+            hasCondition = true;
         }
 
         if(toDate != null) {
-            jpql.append(" o.orderDate <= :toDate");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("o.orderDate <= :toDate");
+            hasCondition = true;
         }
 
         StringBuilder listJpql = new StringBuilder(jpql);
@@ -67,9 +73,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 jpql.toString().replace("SELECT o", "SELECT COUNT(o)"),
                 Long.class
         );
-
-        query.setParameter("cancelled", OrderStatus.CANCELLED);
-        countQuery.setParameter("cancelled", OrderStatus.CANCELLED);
 
         if(status != null) {
             query.setParameter("status", status);

@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,32 +27,37 @@ public class OrderStatusHistoryRepositoryImpl implements OrderStatusHistoryRepos
         String customerName = searchDTO.getCustomerName();
         String phone = searchDTO.getPhone();
         OrderStatus status = searchDTO.getStatus();
-        LocalDate fromDate = searchDTO.getFromDate();
-        LocalDate toDate = searchDTO.getToDate();
+        LocalDateTime fromDateTime = null;
+        LocalDateTime toDateTime = null;
+        if(searchDTO.getFromDate() != null) {
+            fromDateTime = searchDTO.getFromDate().atStartOfDay();
+        }
+        if(searchDTO.getToDate() != null) {
+            toDateTime = searchDTO.getToDate().atTime(23, 59, 59);
+        }
 
         if(status != null) {
-            jpql.append(hasCondition ? " AND " : " WHERE ").append("h.status LIKE :status");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("h.status = :status");
             hasCondition = true;
         }
 
         if(customerName != null && !customerName.isEmpty()) {
-            jpql.append(hasCondition ? " AND " : " WHERE ").append("c.name LIKE :customerName");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("c.name LIKE CONCAT('%', :customerName, '%')");
             hasCondition = true;
         }
 
         if(phone != null && !phone.isEmpty()) {
-            jpql.append(hasCondition ? " AND " : " WHERE ").append("c.phone LIKE :phone");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("c.phone LIKE CONCAT('%', :phone, '%')");
             hasCondition = true;
         }
 
-
-        if(fromDate != null) {
-            jpql.append(hasCondition ? " AND " : " WHERE ").append("h.createdAt >= :fromDate");
+        if(fromDateTime != null) {
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("h.createdAt >= :fromDateTime");
             hasCondition = true;
         }
 
-        if(toDate != null) {
-            jpql.append(hasCondition ? " AND " : " WHERE ").append("h.createdAt <= :toDate");
+        if(toDateTime != null) {
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("h.createdAt <= :toDateTime");
             hasCondition = true;
         }
 
@@ -90,13 +95,13 @@ public class OrderStatusHistoryRepositoryImpl implements OrderStatusHistoryRepos
             query.setParameter("phone", phone);
             countQuery.setParameter("phone", phone);
         }
-        if(fromDate != null) {
-            query.setParameter("fromDate", fromDate);
-            countQuery.setParameter("fromDate", fromDate);
+        if(fromDateTime != null) {
+            query.setParameter("fromDateTime", fromDateTime);
+            countQuery.setParameter("fromDateTime", fromDateTime);
         }
-        if(toDate != null) {
-            query.setParameter("toDate", toDate);
-            countQuery.setParameter("toDate", toDate);
+        if(toDateTime != null) {
+            query.setParameter("toDateTime", toDateTime);
+            countQuery.setParameter("toDateTime", toDateTime);
         }
 
         query.setFirstResult((int) pageable.getOffset());

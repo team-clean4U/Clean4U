@@ -74,7 +74,7 @@ public class OrderController {
         String queryString = request.getQueryString();
 
         if(queryString != null) {
-            queryString = queryString.replaceAll("(&page=\\d+)", "");
+            queryString = queryString.replaceAll("(page=\\d+)", "");
             queryString = queryString.replaceAll("(&size=\\d+)", "");
             if(!queryString.isBlank()) {
                 queryString = "&" + queryString;
@@ -93,6 +93,7 @@ public class OrderController {
     public String detail(@PathVariable Long orderId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         OrderResponse.DetailDTO order = orderService.detail(orderId, sessionUser.getId());
+        model.addAttribute("isAdmin", sessionUser.isAdmin());
         model.addAttribute("order", order);
         model.addAttribute("items", order.getItems());
         model.addAttribute("history", order.getHistories());
@@ -134,18 +135,14 @@ public class OrderController {
         return "redirect:/order/" + orderId;
     }
 
-    @PostMapping("/order/{orderId}/status")
-    public String updateStatus(@PathVariable Long orderId, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        orderService.updateStatus(orderId, sessionUser.getId());
-        return "redirect:/order/list";
-    }
-
     @PostMapping("/order/{orderId}/delete")
     public String deleteByOrderId(@PathVariable Long orderId, HttpSession session, @RequestParam(defaultValue = "false") boolean hardDelete) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        orderService.deleteByOrderId(orderId, sessionUser.getId(), hardDelete);
-        return "redirect:/order/list";
+        boolean existing = orderService.deleteByOrderId(orderId, sessionUser.getId(), hardDelete);
+        if(!existing) {
+            return "redirect:/order/list";
+        }
+        return "redirect:/order/" + orderId;
     }
 
 }

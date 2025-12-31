@@ -124,7 +124,7 @@ public class OrderService {
             throw new Exception400("검색 시작 날짜는 검색 종료 날짜보다 우선이어야 합니다.");
         }
 
-        Page<Order> orderPage = orderRepository.searchOrder(pageable, searchDTO);
+        Page<Order> orderPage = orderRepository.searchOrders(pageable, searchDTO);
 
         return new PageResponse<>(orderPage, OrderResponse.ListDTO::new);
     }
@@ -323,33 +323,42 @@ public class OrderService {
         return beforGrade != customer.getGrade();
     }
 
+    // 취소 상태로 변경
     @Transactional
     public void updateStatus(Long orderId, Long sessionUserId) {
-        boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if (!existingUser) {
-            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
-        }
+        Employee employee = employeeRepository.findById(sessionUserId)
+                .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
+        if(order.getStatus() == OrderStatus.CANCELLED) {
+            throw new Exception400("이미 취소된 주문입니다.");
+        }
+
+        if(order.getStatus() != OrderStatus.RECEIVED) {
+            throw new Exception400("진행중인 주문은 취소할 수 없습니다.");
+        }
+
         order.setStatus(OrderStatus.CANCELLED);
+        orderStatusHistoryRepository.save(OrderStatusHistory.builder()
+                        .order(order)
+                        .status(order.getStatus())
+                        .editor(employee)
+                         .build());
     }
 
     // 주문 삭제 기능 요청
     @Transactional
-    public void deleteByOrderId(Long orderId, Long sessionUserId, boolean hardDelete) {
+    public boolean deleteByOrderId(Long orderId, Long sessionUserId, boolean hardDelete) {
         Employee employee = employeeRepository.findById(sessionUserId)
                 .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
         if(!hardDelete) {
-            if(order.getStatus() == OrderStatus.CANCELLED) {
-                throw new Exception400("이미 취소된 주문입니다.");
-            }
-            updateStatus(orderId, sessionUserId); // 상태 변경(취소)은 직원 모두 가능
-            return;
+            updateStatus(orderId, sessionUserId);
+            return true;
         }
         if(!employee.isAdmin()) {
             throw new Exception403("삭제 권한이 없습니다.");
@@ -362,6 +371,8 @@ public class OrderService {
         orderItemOptionRepository.deleteByOrderId(order.getId());
         orderItemRepository.deleteByOrderId(order.getId());
         orderRepository.deleteById(order.getId());
+
+        return orderRepository.existsById(orderId);
     }
 
     // 총 합 계산

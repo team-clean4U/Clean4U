@@ -4,5 +4,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface OrderRepositoryCustom {
-     Page<Order> searchOrder(Pageable pageable, OrderRequest.SearchDTO searchDTO);
+     Page<Order> searchOrders(Pageable pageable, OrderRequest.SearchDTO searchDTO);
 }

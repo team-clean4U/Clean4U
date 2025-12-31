@@ -14,6 +14,10 @@
     background-color: var(--status-completed);
 }
 
+.status-cancelled {
+    background-color: var(--status-inactive);
+}
+
 .btn-search span {
     background: var(--color-cyan);
     border-radius: 25px;

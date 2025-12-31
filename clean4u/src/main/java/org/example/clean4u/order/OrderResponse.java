@@ -20,7 +20,6 @@ public class OrderResponse {
         private Grade grade;
         private LocalDate orderDate;
         private OrderStatus status;
-        private boolean isCancelled;
 
         public ListDTO(Order order) {
             this.orderId = order.getId();
@@ -31,7 +30,6 @@ public class OrderResponse {
             }
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();
-            this.isCancelled = order.getStatus() == OrderStatus.CANCELLED;
         }
     }
 
@@ -42,6 +40,7 @@ public class OrderResponse {
         private Grade grade;
         private LocalDate orderDate;
         private OrderStatus status;
+        private boolean isCancelled;
         private String memo;
 
         private String totalPrice;
@@ -64,6 +63,7 @@ public class OrderResponse {
             }
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();
+            this.isCancelled = order.getStatus() == OrderStatus.CANCELLED;
             this.memo = order.getMemo();
             this.totalPrice = PriceUtil.format(order.getTotalPrice());
             this.items = items;

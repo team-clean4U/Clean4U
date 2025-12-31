@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum OrderStatus {
-    CANCELLED("취소", "status-cancelled"),
+    CANCELLED("접수취소", "status-cancelled"),
     RECEIVED("접수", "status-received"),
     WASHING("세탁중", "status-washing"),
     DRYING("건조중", "status-drying"),

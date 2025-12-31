@@ -52,6 +52,7 @@
                             <li data-type="WASHING">세탁중</li>
                             <li data-type="DRYING">건조중</li>
                             <li data-type="COMPLETED">세탁완료</li>
+                            <li data-type="CANCELLED">접수취소</li>
                         </ul>
                     </div>
                 </div>
@@ -82,7 +83,6 @@
 
         <div class="card-list order-card-list">
             {{#orderList}}
-                {{^isCancelled}}
                 <a href="/order/{{orderId}}" class="card">
                     <div class="order-id">
                         <div class="id-card">NO.{{orderId}}</div>
@@ -109,7 +109,6 @@
                         </div>
                     </div>
                 </a>
-                {{/isCancelled}}
             {{/orderList}}
         </div>
 
