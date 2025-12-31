@@ -94,7 +94,7 @@ public class WorkScheduleService {
 
     public PageResponse<WorkScheduleResponse.ListDTO> getAllScheduleWithSearch(
             int pageIndex, int size, String keyword, String category,
-            LocalTime startTime, LocalTime endTime
+            LocalTime searchStartTime, LocalTime searchEndTime
             ) {
         int validPage = Math.max(0, pageIndex);
         int validSize = Math.max(1, Math.min(50, size));
@@ -104,12 +104,7 @@ public class WorkScheduleService {
 
         Page<WorkSchedule> schedulePage;
 
-        if (startTime != null && endTime != null) {
-            if (startTime.isAfter(endTime)) {
-                throw new Exception400("검색 시작 시간는 검색 종료 시간보다 우선이어야 합니다.");
-            }
-            schedulePage = workScheduleRepository.searchByTimeRange(startTime, endTime, pageable);
-        } else if ("name".equalsIgnoreCase(category)) {
+        if ("name".equalsIgnoreCase(category)) {
             if (keyword == null || keyword.trim().isBlank()) {
                 schedulePage = workScheduleRepository.findAll(pageable);
             } else {
@@ -121,6 +116,11 @@ public class WorkScheduleService {
             } else {
                 schedulePage = workScheduleRepository.findByUsernameContaining(keyword.trim(), pageable);
             }
+        } else if (searchStartTime != null && searchEndTime != null) {
+            if (searchStartTime.isAfter(searchEndTime)) {
+                throw new Exception400("검색 시작 시간는 검색 종료 시간보다 우선이어야 합니다.");
+            }
+            schedulePage = workScheduleRepository.searchByTimeRange(searchStartTime, searchEndTime, pageable);
         } else {
             schedulePage = workScheduleRepository.findAll(pageable);
         }

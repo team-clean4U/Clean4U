@@ -74,15 +74,15 @@ public class WorkScheduleController {
             Model model,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime startTime,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime endTime,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime searchStartTime,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime searchEndTime,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "9") int size
     ) {
         int pageIndex = Math.max(0, page - 1);
 
         PageResponse<WorkScheduleResponse.ListDTO> scheduleListPage =
-                workScheduleService.getAllScheduleWithSearch(pageIndex, size, keyword, category, startTime, endTime);
+                workScheduleService.getAllScheduleWithSearch(pageIndex, size, keyword, category, searchStartTime, searchEndTime);
 
         boolean hasCategory = category != null && !category.isBlank();
         model.addAttribute("hasCategory", hasCategory);
@@ -90,11 +90,10 @@ public class WorkScheduleController {
         model.addAttribute("scheduleListPage", scheduleListPage);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("category", category == null ? "all" : category);
-        model.addAttribute("startTime", startTime != null ?  startTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "09:00");
-        model.addAttribute("endTime", endTime != null ? endTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "18:00");
-
-//        List<WorkScheduleResponse.ListDTO> scheduleList = workScheduleService.scheduleList();
-//        model.addAttribute("scheduleList", scheduleList);
+        model.addAttribute("searchStartTime", searchStartTime != null ?  searchStartTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
+        model.addAttribute("searchEndTime", searchEndTime != null ? searchEndTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
+        model.addAttribute("isName", "name".equalsIgnoreCase(category));
+        model.addAttribute("isUserName", "username".equalsIgnoreCase(category));
 
         return "workschedule/schedule-list-form";
     }
