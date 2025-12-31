@@ -10,6 +10,7 @@ import org.example.clean4u.order.OrderStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -36,19 +37,21 @@ public class ReviewService {
             throw new Exception400("세탁이 완료된 주문만 리뷰 토큰을 생성할 수 있습니다.");
         }
 
-        if (order.getReviewToken() != null) {
-            return order.getReviewToken();
+        if (order.getReviewToken() != null && order.getReviewTokenExpiresAt() != null) {
+            if (order.getReviewTokenExpiresAt().isAfter(LocalDateTime.now())) {
+                return order.getReviewToken();
+            }
         }
 
         String token = UUID.randomUUID().toString();
         order.setReviewToken(token);
+        order.setReviewTokenExpiresAt(LocalDateTime.now().plusDays(14));
         orderRepository.save(order);
 
         return token;
     }
 
-    @Transactional
-    public Review save(@Valid ReviewRequest.SaveDTO saveDTO, String token) {
+    public void validateToken(String token) {
         Order order = orderRepository.findByReviewToken(token)
                 .orElseThrow(() -> new Exception404("유효하지 않은 토큰입니다."));
 
@@ -56,9 +59,21 @@ public class ReviewService {
             throw new Exception400("세탁이 완료된 주문만 리뷰를 작성할 수 있습니다.");
         }
 
+        if (order.getReviewTokenExpiresAt() == null || order.getReviewTokenExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new Exception400("리뷰 작성 링크가 만료되었습니다.");
+        }
+
         if (reviewRepository.existsByOrderId(order.getId())) {
             throw new Exception400("이미 리뷰가 작성된 주문입니다.");
         }
+    }
+
+    @Transactional
+    public Review save(@Valid ReviewRequest.SaveDTO saveDTO, String token) {
+        validateToken(token);
+        
+        Order order = orderRepository.findByReviewToken(token)
+                .orElseThrow(() -> new Exception404("유효하지 않은 토큰입니다."));
 
         Review review = saveDTO.toEntity(order);
         return reviewRepository.save(review);

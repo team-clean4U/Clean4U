@@ -12,6 +12,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(
@@ -47,6 +48,9 @@ public class Order{
 
     @Column(name = "review_token", unique = true)
     private String reviewToken;
+
+    @Column(name = "review_token_expires_at")
+    private LocalDateTime reviewTokenExpiresAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "editor_id", nullable = false)

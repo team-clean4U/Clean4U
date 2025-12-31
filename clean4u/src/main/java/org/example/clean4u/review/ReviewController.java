@@ -15,6 +15,7 @@ public class ReviewController {
 
     @GetMapping("/review/save")
     public String saveForm(@RequestParam String token, Model model) {
+        service.validateToken(token);
         model.addAttribute("token", token);
         return "review/save-form";
     }
