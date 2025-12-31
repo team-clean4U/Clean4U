@@ -91,6 +91,11 @@
     background: var(--action-delete);
 }
 
+.btn-cancel {
+    padding: 0.5rem 1rem;
+    background: var(--status-inactive);
+}
+
 .btn-activate {
     padding: 0.5rem 1rem;
     background: var(--action-active);
@@ -143,6 +148,7 @@
 
     .btn-edit,
     .btn-delete,
+    .btn-cancel
     .btn-activate {
         padding: 0.45rem 0.9rem;
         font-size: 0.85rem;
@@ -178,6 +184,7 @@
 
     .btn-edit,
     .btn-delete,
+    .btn-cancel,
     .btn-activate {
         padding: 0.4rem 0.8rem;
         font-size: 0.8rem;
