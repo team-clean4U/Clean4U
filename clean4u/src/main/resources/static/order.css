@@ -35,39 +35,6 @@ input.has-value {
     font-size: 1.2rem;
 }
 
-.order-header {
-    padding: 3rem 2.5rem;
-}
-
-.order-detail-header {
-    padding: 3rem 2.5rem;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.order-detail-header .user-info {
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    font-size: 0.75rem;
-    padding: 0.4rem 0.65rem;
-}
-
-
-.order-header i.user-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    background: var(--color-light-blue);
-    color: var(--color-white);
-}
-
 .order .search-wrapper {
     flex-direction: column;
 }
@@ -123,7 +90,7 @@ input.has-value {
 }
 
 .order-laundry-item .bottom-buttons {
-    padding: 1rem 0;
+    padding: 0 0 1rem;
 }
 
 .order-item {
@@ -140,6 +107,7 @@ input.has-value {
 .btn-add {
     padding: 0.6rem 1.3rem;
     background: var(--color-blue);
+    gap: 0.5rem;
 }
 
 .image-add {
@@ -160,16 +128,19 @@ input.has-value {
 
 .order-laundry-item {
     padding: 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .laundry-card {
-    margin: 1.5rem 0;
     box-shadow: 0 2px 8px var(--shadow-hover);
     display: flex;
     flex-direction: column;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 15px;
     padding: 2rem;
+    width: 100%;
 }
 
 .laundry-info-header {
@@ -279,7 +250,6 @@ input.has-value {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1.5rem;
     padding: 1.5rem 0;
     border-top: 2px solid var(--color-light-gray);
 }
@@ -356,20 +326,26 @@ input.has-value {
 
 .customer-title {
     display: flex;
-    justify-content: center;
-    gap: 1rem;
-    text-align: center;
+    gap: 0.4rem;
+    flex-direction: column;
     align-items: center;
 }
 
-.order-card-list .info-value {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.5rem;
+.order-card-list .card {
+    padding: 2rem 2.5rem;
 }
 
-.order-card-list .card {
-    padding: 1.5rem 2.5rem;
+.order-card-list .order-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 2.2rem;
 }
+
+.order-header i {
+    margin: 1.25rem 0 1rem;
+}
+
 .update-body .last {
     border-bottom: 1px dashed var(--color-light-gray);
 }
@@ -380,10 +356,6 @@ input.has-value {
 
 .order-laundry-item .each-label {
     min-width: 100px;
-}
-
-.order-laundry-item .order-button {
-    padding: 32px 40px;
 }
 
 .status-label {
@@ -409,15 +381,8 @@ input.has-value {
     background-color: inherit;
 }
 
-.order-id {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .id-card {
     padding: 0.5rem 1rem;
-    margin-bottom: 1.2rem;
     border-radius: 20px;
     background-color: var(--background-blue);
     border: 1px solid var(--background-border);
@@ -441,6 +406,32 @@ input.has-value {
     color: var(--color-blue);
     font-size: 1rem;
     font-weight: 600;
+}
+
+.order-detail-header {
+    align-items: center;
+    padding: 2.75rem;
+}
+
+.order-detail-header i {
+    font-size: 2rem;
+    width: 70px;
+    height: 70px;
+    border-radius: 100px;
+    background: var(--color-light-blue);
+    color: var(--color-white);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.3rem;
+}
+
+.order-detail-header h4 {
+    margin-bottom: 0.5rem;
+}
+
+.order-detail-header h4 span {
+    font-size: 1.2rem;
 }
 
 @media (max-width: 1024px) {
