@@ -52,7 +52,7 @@ public class OrderController {
     }
 
     @PostMapping("/order/save")
-    public String saveProc(@Valid OrderRequest.SaveDTO saveDTO, HttpSession session) {
+    public String saveProc(@Valid OrderRequest.SaveDTO saveDTO,  HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         Order order = orderService.saveProc(saveDTO, sessionUser.getId());
 
