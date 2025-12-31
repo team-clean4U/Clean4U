@@ -16,25 +16,27 @@
         </div>
         <div class="notice-body">
             {{#noticePage.content}}
-            <div class="notice-items">
-                <div class="notice-left">
-                    <i class="fa-solid fa-bullhorn"></i>
-                </div>
-                <div class="notice-right">
-                    <div class="notice-first-line">
-                        <span class="notice-title">{{title}}</span>
-                        <a href="/notice/{{id}}" class="notice-detail">자세히 보기 →</a>
+            <a href="/notice/{{id}}" class="notice-item-link">
+                <div class="notice-items">
+                    <div class="notice-left">
+                        <i class="fa-solid fa-bullhorn"></i>
                     </div>
-                    <div class="notice-second-line">
-                        <span class="notice-info">
-                            <i class="fa-solid fa-user-tie"></i>{{writer}}
-                        </span>
-                        <span class="notice-info">
-                            <i class="fa-solid fa-calendar-alt"></i>{{createdAt}}
-                        </span>
+                    <div class="notice-right">
+                        <div class="notice-first-line">
+                            <span class="notice-title">{{title}}</span>
+                            <span class="notice-detail">자세히 보기 →</span>
+                        </div>
+                        <div class="notice-second-line">
+                            <span class="notice-info">
+                                <i class="fa-solid fa-user-tie"></i>{{writer}}
+                            </span>
+                            <span class="notice-info">
+                                <i class="fa-solid fa-calendar-alt"></i>{{createdAt}}
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
             {{/noticePage.content}}
         </div>
     </div>
