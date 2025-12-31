@@ -56,6 +56,9 @@ public class Order{
     @JoinColumn(name = "editor_id", nullable = false)
     private Employee editor;
 
+    @Column(name = "laundry_image")
+    private String laundryImage;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
