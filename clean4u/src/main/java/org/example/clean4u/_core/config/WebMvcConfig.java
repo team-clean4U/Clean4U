@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -25,7 +26,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(sessionInterceptor)
                 .addPathPatterns("/**");
 
-
         registry.addInterceptor(accessInterceptor)
                 .addPathPatterns(
                         "/employee/**",
@@ -36,6 +36,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/supply-item-history/**",
                         "/customer/**",
                         "/order/**",
+                        "/order-status-history/**",
                         "/notice/**"
                 )
                 .excludePathPatterns(
@@ -55,9 +56,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/employee/**", "/schedule/**", "/override/**");
 
-
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:///C:/uploads");
+    }
 }
