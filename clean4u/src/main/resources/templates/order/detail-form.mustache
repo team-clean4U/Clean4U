@@ -74,10 +74,15 @@
             </div>
 
             <div class="order-laundry-item">
+                <div class="image-label-row">
                 <span class="detail-label">
                     <i class="fa-solid fa-shirt"></i>
                     세탁 물품
                 </span>
+                {{#order.laundryImage}}
+                <button type="button" class="detail-label image-btn" onclick="openImageModal('/images/{{order.laundryImage}}')">물품 사진 조회</button>
+                {{/order.laundryImage}}
+                </div>
 
                 {{#items}}
                     <div class="laundry-card">
@@ -193,12 +198,16 @@
         {{/order.reviewLink}}
     </div>
 </div>
-{{>layout/footer}}
 
+<div id="imageModal" class="imageModal" onclick="closeImageModal()">
+    <img id="modalImage" class="modalImage" alt="세탁물품 사진">
+</div>
 <script src="/js/order-detail.js"></script>
 
+{{>layout/footer}}
+
 {{#alertMessage}}
-    <script>
-        alert("{{alertMessage}}")
-    </script>
+    alert("{{alertMessage}}")
 {{/alertMessage}}
+
+

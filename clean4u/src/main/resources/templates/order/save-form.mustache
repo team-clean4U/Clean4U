@@ -3,7 +3,7 @@
 <div class="update-container">
     <div class="update-container-content">
         <div class="update-card">
-            <form action="/order/save" method="post">
+            <form action="/order/save" method="post" enctype="multipart/form-data">
                 <div class="update-header">
                     <i class="fa-solid fa-shopping-bag"></i>
                     <b>주문 등록</b>
@@ -52,6 +52,11 @@
                         <button type="button" class="btn btn-add" onclick="addItem()">
                             + <span>세탁 물품</span> 추가
                         </button>
+                        <label for="laundryImage" class="btn image-add">
+                            <span id="image-label">+ 사진 추가(선택)</span>
+                        </label>
+                        <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
+                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>
                     </div>
                     <div class="bottom-buttons order-button">
                         <a href="/order/list" class="btn btn-back">취소</a>
@@ -68,6 +73,7 @@
 
 <script src="/js/order-update.js"></script>
 <script src="/js/order-save.js"></script>
+<script src="/js/file-upload.js"></script>
 
 <script id="customers-data" type="application/json">
 {{& customerJson}}

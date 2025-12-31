@@ -142,6 +142,13 @@ input.has-value {
     background: var(--color-blue);
 }
 
+.image-add {
+    padding: 0.6rem 1.3rem;
+    background: var(--color-blue);
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
 .btn-add:hover {
     background: var(--color-light-blue);
 }
@@ -466,6 +473,27 @@ input.has-value {
 
 .review-card .review-rating-stars {
     color: var(--star);
+}
+
+.imageModal {
+    display:none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalImage {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 8px;
+}
+
+.image-label {
+    font-size: 0.8rem;
+    color: var(--text-gray)
 }
 
 @media (max-width: 480px) {

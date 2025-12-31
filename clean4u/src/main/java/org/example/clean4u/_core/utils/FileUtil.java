@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 public class FileUtil {
-    public static final String IMAGES_DIR = "D:/uploads/";
+    public static final String IMAGES_DIR = "C:/uploads/";
 
     public static String saveFile(MultipartFile file) throws IOException {
         return saveFile(file, IMAGES_DIR);
@@ -19,7 +19,7 @@ public class FileUtil {
         if(file == null || file.isEmpty()) {
             return null;
         }
-        Path uploadPath = Paths.get(IMAGES_DIR);
+        Path uploadPath = Paths.get(uploadDir);
 
         if(!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
@@ -41,7 +41,7 @@ public class FileUtil {
     }
 
      public static boolean isImageFile(MultipartFile file) {
-        if(file == null | file.isEmpty()) {
+        if(file == null || file.isEmpty()) {
             return false;
         }
          String contentType = file.getContentType();

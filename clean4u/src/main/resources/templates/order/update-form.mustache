@@ -7,7 +7,7 @@
             <div class="id-container">
                 <div class="detail-id-card">NO.{{orderId}}</div>
             </div>
-            <form action="/order/{{order.orderId}}/update" method="post">
+            <form action="/order/{{order.orderId}}/update" method="post" enctype="multipart/form-data">
                 <div class="detail-header order-detail-header">
                     <span class="user-info {{#order.grade}}grade-{{order.grade}}{{/order.grade}}">{{order.grade}}</span>
                     <h4>{{order.customerName}}</h4>
@@ -52,11 +52,17 @@
                         <button type="button" class="btn btn-add" onclick="addItem()">
                             + <span>세탁 물품</span> 추가
                         </button>
+                        <label for="laundryImage" class="btn image-add">
+                            <span id="image-label">+ 사진 추가(선택)</span>
+                        </label>
+                        <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
+                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>
                     </div>
 
                     {{#items}}
                         <div class="laundry-card" data-index="{{index}}">
                             <input type="hidden" name="items[{{index}}].laundryItemId" value="{{laundryItemId}}">
+                            <input type="hidden" id="itemsSize" value="{{itemsSize}}">
                             <div class="laundry-info-header">
                                 <span>{{laundryItemName}}</span>
                                 <span>
@@ -106,8 +112,8 @@
     </div>
 </div>
 {{>layout/footer}}
-
 <script src="/js/order-update.js"></script>
+<script src="/js/file-upload.js"></script>
 
 <script id="laundry-items-data" type="application/json">
 {{& laundryItemJson}}
@@ -116,5 +122,3 @@
 <script id="laundry-options-data" type="application/json">
 {{& laundryOptionsJson}}
 </script>
-
-<input type="hidden" id="itemsSize" value="{{itemsSize}}">

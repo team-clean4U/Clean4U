@@ -6,6 +6,7 @@ import lombok.Data;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.orderItem.OrderItemRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,7 +23,9 @@ public class OrderRequest {
         @NotNull(message = "주문 품목을 입력하세요")
         private List<OrderItemRequest.SaveDto> items;
 
-        public Order toEntity(Customer customer, Integer totalPrice, Employee editor) {
+        private MultipartFile laundryImage;
+
+        public Order toEntity(Customer customer, Integer totalPrice, Employee editor, String laundryImageName) {
             return Order.builder()
                     .customer(customer)
                     .status(OrderStatus.RECEIVED)
@@ -30,6 +33,7 @@ public class OrderRequest {
                     .orderDate(LocalDate.now())
                     .memo(memo)
                     .editor(editor)
+                    .laundryImage(laundryImageName)
                     .build();
         }
     }
@@ -44,6 +48,9 @@ public class OrderRequest {
 
         @NotNull(message = "주문 품목을 입력하세요")
         private List<OrderItemRequest.UpdateDto> items;
+
+        private MultipartFile laundryImage;
+        private String laundryImageFileName;
     }
 
     @Data
