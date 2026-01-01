@@ -33,7 +33,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="update-item last">
+                    <div class="update-item">
                         <label class="update-label">
                             <i class="fa-solid fa-note-sticky"></i>
                             메모
@@ -41,9 +41,22 @@
                         <input type="text" name="memo"
                                placeholder="메모를 입력하세요(선택)" class="update-value">
                     </div>
+                    <div class="update-item last">
+                        <label class="update-label">
+                            <i class="fa-solid fa-image"></i>
+                            사진 추가
+                        </label>
+                        <label for="laundryImage" class="btn image-add">
+                            <span id="image-label">
+                                <i class="fa-solid fa-upload"></i>
+                                파일 선택</span>
+                        </label>
+                        <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
+                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>
+                    </div>
                 </div>
 
-                <div class="order-laundry-item">
+                <div class="order-laundry-item update">
                     <div class="item-add add-card">
                         <span class="update-label each-label">
                             <i class="fa-solid fa-shirt"></i>
@@ -52,11 +65,6 @@
                         <button type="button" class="btn btn-add" onclick="addItem()">
                             + <span>세탁 물품</span> 추가
                         </button>
-                        <label for="laundryImage" class="btn image-add">
-                            <span id="image-label">+ 사진 추가(선택)</span>
-                        </label>
-                        <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
-                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>
                     </div>
                     <div class="bottom-buttons order-button">
                         <a href="/order/list" class="btn btn-back">취소</a>

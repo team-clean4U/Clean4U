@@ -43,21 +43,42 @@
                                placeholder="메모를 작성해주세요" class="update-value"
                                {{#order.memo}}value="{{order.memo}}"{{/order.memo}}>
                     </div>
+                    <div class="detail-item">
+                        <label class="detail-label">
+                            <i class="fa-solid fa-image"></i>
+                            사진 추가
+                        </label>
+                        {{^order.laundryImage}}
+                            <label for="laundryImage" class="btn image-add">
+                                <span id="image-label">
+                                    <i class="fa-solid fa-upload"></i>
+                                    파일 선택
+                                </span>
+                            </label>
+                            <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
+                            <span id="fileName" class="image-label"> 선택된 파일 없음</span>
+                        {{/order.laundryImage}}
+                        {{#order.laundryImage}}
+                            <label for="laundryImage" class="btn image-add">
+                                <span id="image-label">
+                                    <i class="fa-solid fa-upload"></i>
+                                    파일 수정
+                                </span>
+                            </label>
+                            <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
+                            <span id="fileName" class="image-label">{{order.laundryImage}}</span>
+                        {{/order.laundryImage}}
+                    </div>
                 </div>
-                <div class="order-laundry-item">
+                <div class="order-laundry-item update">
                     <div class="item-add">
                         <span class="detail-label">
                             <i class="fa-solid fa-shirt"></i>
                             세탁 물품
                         </span>
-                        <button type="button" class="btn btn-add" onclick="addItem()">
+                        <button type="button" class="btn laundry-add" onclick="addItem()">
                             + <span>세탁 물품</span> 추가
                         </button>
-                        <label for="laundryImage" class="btn image-add">
-                            <span id="image-label">+ 사진 추가(선택)</span>
-                        </label>
-                        <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
-                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>
                     </div>
 
                     {{#items}}

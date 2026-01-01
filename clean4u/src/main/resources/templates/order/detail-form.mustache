@@ -75,13 +75,17 @@
             </div>
 
             <div class="order-laundry-item">
-                <div class="image-label-row">
-                <span class="detail-label">
-                    <i class="fa-solid fa-shirt"></i>
-                    세탁 물품
-                </span>
+                <div class="detail-item last">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-shirt"></i>
+                        세탁 물품
+                    </span>
                 {{#order.laundryImage}}
-                <button type="button" class="detail-label image-btn" onclick="openImageModal('/images/{{order.laundryImage}}')">물품 사진 조회</button>
+                    <button style="margin: 0;"
+                            type="button" class="btn image-item" onclick="openImageModal('/images/{{order.laundryImage}}')">
+                        <i class="fa-solid fa-image"></i>
+                         <span>물품 사진 보기</span>
+                    </button>
                 {{/order.laundryImage}}
                 </div>
 
