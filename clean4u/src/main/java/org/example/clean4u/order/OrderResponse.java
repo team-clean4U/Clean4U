@@ -86,6 +86,7 @@ public class OrderResponse {
         private Grade grade;
         private OrderStatus status;
         private String memo;
+        private String laundryImage;
         private List<OrderItemResponse.UpdateFormDto> items;
 
         public UpdateFormDTO(Order order, List<OrderItemResponse.UpdateFormDto> items) {
@@ -96,6 +97,7 @@ public class OrderResponse {
             }
             this.status = order.getStatus();
             this.memo = order.getMemo();
+            this.laundryImage = order.getLaundryImage();
             this.items = items;
         }
     }
