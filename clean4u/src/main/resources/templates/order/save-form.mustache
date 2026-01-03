@@ -46,12 +46,12 @@
                             <i class="fa-solid fa-image"></i>
                             사진 추가
                         </label>
+                        <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
                         <label for="laundryImage" class="btn image-add">
-                            <span id="image-label">
+                            <span id="imageLabel">
                                 <i class="fa-solid fa-upload"></i>
                                 파일 선택</span>
                         </label>
-                        <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
                         <span id="fileName" class="image-label"> 선택된 파일 없음</span>
                     </div>
                 </div>
@@ -71,7 +71,6 @@
                         <button type="submit" class="btn btn-create">완료</button>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -81,7 +80,6 @@
 
 <script src="/js/order-update.js"></script>
 <script src="/js/order-save.js"></script>
-<script src="/js/file-upload.js"></script>
 
 <script id="customers-data" type="application/json">
 {{& customerJson}}
