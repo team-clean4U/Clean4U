@@ -19,6 +19,19 @@
                     <textarea name="content" placeholder="내용을 입력해주세요." rows="16"
                               class="update-value update-notice-content">{{notice.content}}</textarea>
                 </div>
+                <div class="update-item last">
+                    <label class="notice-label">
+                        <i class="fa-solid fa-image"></i>
+                        사진 추가
+                    </label>
+                    <label for="NoticeImage" class="btn image-add">
+                            <span id="image-label">
+                                <i class="fa-solid fa-upload"></i>
+                                파일 선택</span>
+                    </label>
+                    <input type="file" id="NoticeImage" name="NoticeImage" accept="image/*" hidden>
+                    <span id="fileName" class="image-label"> 선택된 파일 없음</span>
+                </div>
             </div>
             <div class="bottom-buttons">
                 <a href="/notice/{{notice.id}}" class="btn btn-back">취소</a>

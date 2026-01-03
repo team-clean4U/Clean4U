@@ -111,6 +111,15 @@
     white-space: pre-wrap;
 }
 
+.image-preview img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin-right: 8px;
+    margin-top: 8px;
+    border-radius: 6px;
+}
+
 /*list-form*/
 .notice-list-container {
     margin: 0 auto;

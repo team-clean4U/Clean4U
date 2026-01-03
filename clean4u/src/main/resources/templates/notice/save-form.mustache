@@ -4,7 +4,7 @@
 
 <div class="notice-container">
     <div class="notice-container-content">
-        <form action="/notice/save" method="post">
+        <form action="/notice/save" method="post" enctype="multipart/form-data">
             <div class="notice-header">
                 <label class="notice-label">
                     <i class="fa-solid fa-bullhorn"></i>제목:
@@ -19,6 +19,22 @@
                     <textarea name="content" placeholder="내용을 입력해주세요." rows="16"
                               class="update-value update-notice-content"></textarea>
                 </div>
+                <div class="update-item last">
+                    <label class="notice-label">
+                        <i class="fa-solid fa-image"></i>
+                        사진 추가
+                    </label>
+                    <div class="file-button">
+                        <label for="noticeImages" class="btn image-add">
+                                <span id="image-label">
+                                    <i class="fa-solid fa-upload"></i>
+                                    파일 선택</span>
+                        </label>
+                    </div>
+                    <input type="file" id="noticeImages" name="noticeImages" accept="image/*" hidden multiple>
+                    <span id="fileName" class="image-label"> 선택된 파일 없음</span>
+                    <div id="preview" class="image-preview"></div>
+                </div>
             </div>
             <div class="bottom-buttons">
                 <a href="/notice/list" class="btn btn-back">취소</a>
@@ -29,3 +45,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/file-upload.js"></script>

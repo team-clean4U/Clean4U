@@ -1,11 +1,14 @@
 package org.example.clean4u._core.utils;
 
+import org.example.clean4u._core.errors.exception.Exception400;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class FileUtil {
@@ -40,12 +43,44 @@ public class FileUtil {
         return savedFileName;
     }
 
+    public static List<String> saveFiles(List<MultipartFile> files, String uploadDir) throws IOException {
+        if (files == null || files.isEmpty()) {
+            return List.of();
+        }
+
+        List<String> savedNames = new ArrayList<>();
+        for (MultipartFile file: files) {
+            String saved = saveFile(file, uploadDir);
+            if (saved != null) {
+                savedNames.add(saved);
+            }
+        }
+        return savedNames;
+    }
+
      public static boolean isImageFile(MultipartFile file) {
         if(file == null || file.isEmpty()) {
             return false;
         }
          String contentType = file.getContentType();
         return contentType != null && contentType.startsWith("image/");
+     }
+
+     public static boolean isImageFiles(List<MultipartFile> files) {
+        if (files == null || files.isEmpty()) {
+            return true;
+        }
+        for (MultipartFile file: files) {
+            if (file == null || file.isEmpty()) {
+                continue;
+            }
+
+            String contentType = file.getContentType();
+            if (contentType == null || !contentType.startsWith("image/")) {
+                return false;
+            }
+        }
+        return true;
      }
 
     public static void deleteFile(String filename) throws IOException {
