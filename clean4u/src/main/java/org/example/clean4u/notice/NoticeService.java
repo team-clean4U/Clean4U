@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.errors.exception.Exception500;
 import org.example.clean4u._core.response.PageResponse;
+import org.example.clean4u._core.utils.FileUtil;
 import org.example.clean4u.employee.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,8 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,12 +25,26 @@ import java.util.stream.Collectors;
 public class NoticeService {
     private final NoticeRepository noticeRepository;
 
-    @Transactional
-    public NoticeResponse.DetailDTO saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
-        Notice notice = dto.toEntity(sessionUser);
-        Notice savedNotice = noticeRepository.save(notice);
+    public static final String NOTICE_IMAGES_DIR = "C:/uploads/notice";
 
-        return new NoticeResponse.DetailDTO(savedNotice);
+    @Transactional
+    public Notice saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
+        List<String> noticeImageFileNames = List.of();
+
+        if (dto.getNoticeImages() != null && !dto.getNoticeImages().isEmpty()) {
+            try {
+                if (!FileUtil.isImageFiles(dto.getNoticeImages())) {
+                    throw new Exception400("이미지 파일만 업로드 가능합니다");
+                }
+                noticeImageFileNames = FileUtil.saveFiles(dto.getNoticeImages(), NOTICE_IMAGES_DIR);
+            } catch (IOException e) {
+                throw new Exception500("파일 저장 중 오류가 발생했습니다");
+            }
+        }
+        Notice notice = dto.toEntity(sessionUser, noticeImageFileNames);
+        noticeRepository.save(notice);
+
+        return notice;
     }
 
     public PageResponse<NoticeResponse.ListDTO> getAllNoticeList(int page, int size) {
@@ -70,7 +86,22 @@ public class NoticeService {
             throw new Exception403("공지사항 수정 권한이 없습니댜다.");
         }
 
-        notice.update(dto);
+        notice.update(dto); // 제목, 내용만
+
+        if (dto.getNoticeImages() != null && !dto.getNoticeImages().isEmpty()) {
+            if (!FileUtil.isImageFiles(dto.getNoticeImages())) {
+                throw new Exception400("이미지 파일만 업로드 가능합니다");
+            }
+            notice.clearImages(); // 전체 교체
+
+            List<String> savedNames;
+            try {
+                savedNames = FileUtil.saveFiles(dto.getNoticeImages(), NOTICE_IMAGES_DIR);
+            } catch (IOException e) {
+                throw new Exception500("파일 저장 중 오류가 발생했습니다");
+            }
+            notice.addImages(savedNames);
+        }
         return new NoticeResponse.DetailDTO(notice);
     }
 
@@ -81,6 +112,17 @@ public class NoticeService {
 
         if (!notice.getEmployee().getId().equals(sessionUserId)) {
             throw new Exception403("삭제 권한이 없습니다.");
+        }
+
+        List<String> noticeImages = notice.getNoticeImages();
+        if (noticeImages != null && !noticeImages.isEmpty()) {
+            try {
+                for (String noticeImage : noticeImages) {
+                    FileUtil.deleteFile(noticeImage, NOTICE_IMAGES_DIR);
+                }
+            } catch (IOException e) {
+                throw new Exception500("파일 삭제 중 오류가 발생했습니다");
+            }
         }
 
         noticeRepository.deleteById(noticeId);
@@ -102,5 +144,27 @@ public class NoticeService {
         return noticeRepository
                 .findPrevId(notice.getCreatedAt(), noticeId)
                 .orElse(null);
+    }
+
+    @Transactional
+    public void deleteNoticeImages(Long noticeId, Long sessionUserId) {
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new Exception404("공지사항이 없습니다"));
+
+        if (!notice.getEmployee().getId().equals(sessionUserId)) {
+            throw new Exception403("삭제 권한이 없습니다.");
+        }
+
+        List<String> noticeImages = notice.getNoticeImages();
+        if (noticeImages != null && !noticeImages.isEmpty()) {
+            try {
+                for (String noticeImage : noticeImages) {
+                    FileUtil.deleteFile(noticeImage, NOTICE_IMAGES_DIR);
+                }
+            } catch (IOException e) {
+                throw new Exception500("파일 삭제 중 오류가 발생했습니다");
+            }
+        }
+        notice.clearImages();
     }
 }

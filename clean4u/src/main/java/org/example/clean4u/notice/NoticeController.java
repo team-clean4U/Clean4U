@@ -51,7 +51,7 @@ public class NoticeController {
             throw new Exception403("공지사항 작성 권한이 없습니다.");
         }
 
-        NoticeResponse.DetailDTO notice = noticeService.saveNotice(dto, sessionUser);
+        Notice notice = noticeService.saveNotice(dto, sessionUser);
 
         return "redirect:/notice/" + notice.getId();
     }
@@ -140,6 +140,22 @@ public class NoticeController {
 
         noticeService.deleteNoticeById(noticeId, sessionUser.getId());
         return "redirect:/notice/list";
+    }
+
+    @PostMapping("/notice/{noticeId}/images/delete")
+    public String deleteNoticeImages(@PathVariable Long noticeId, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+
+        if (!sessionUser.isAdmin()) {
+            throw new Exception403("공지사항 관련 권한이 없습니다.");
+        }
+
+        noticeService.deleteNoticeImages(noticeId, sessionUser.getId());
+        return "redirect:/notice/" + noticeId;
     }
 
 }

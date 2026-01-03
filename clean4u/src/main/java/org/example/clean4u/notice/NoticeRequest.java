@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.example.clean4u.employee.Employee;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public class NoticeRequest {
     @Data
@@ -14,9 +17,19 @@ public class NoticeRequest {
         @NotBlank(message = "내용은 필수입니다.")
         @Size(max = 1000, message = "내용은 1000자 이내여야 합니다.")
         private String content;
+        private List<MultipartFile> noticeImages;
 
-        public Notice toEntity(Employee employee) {
-            return new Notice(title, content, employee);
+        public Notice toEntity(Employee employee, List<String> noticeImageNames) {
+            Notice notice = Notice.builder()
+                    .title(this.title)
+                    .content(this.content)
+                    .employee(employee)
+                    .build();
+
+            if (noticeImageNames != null && !noticeImageNames.isEmpty()) {
+                notice.addImages(noticeImageNames);
+            }
+            return notice;
         }
     }
 
@@ -28,6 +41,8 @@ public class NoticeRequest {
         @NotBlank(message = "내용은 필수입니다.")
         @Size(max = 1000, message = "내용은 1000자 이내여야 합니다.")
         private String content;
+        private List<MultipartFile> noticeImages;
+        private List<String> noticeImageNames;
     }
 
 }
