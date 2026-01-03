@@ -48,26 +48,26 @@
                             <i class="fa-solid fa-image"></i>
                             사진 추가
                         </label>
-                        {{^order.laundryImage}}
-                            <label for="laundryImage" class="btn image-add">
-                                <span id="image-label">
-                                    <i class="fa-solid fa-upload"></i>
+                        <label for="laundryImage" class="btn image-add">
+                            <span id="image-label">
+                            {{^order.laundryImage}}
+                                <i class="fa-solid fa-upload"></i>
                                     파일 선택
-                                </span>
-                            </label>
-                            <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
-                            <span id="fileName" class="image-label"> 선택된 파일 없음</span>
-                        {{/order.laundryImage}}
-                        {{#order.laundryImage}}
-                            <label for="laundryImage" class="btn image-add">
-                                <span id="image-label">
-                                    <i class="fa-solid fa-upload"></i>
+                            {{/order.laundryImage}}
+                            {{#order.laundryImage}}
+                                <i class="fa-solid fa-upload"></i>
                                     파일 수정
-                                </span>
-                            </label>
-                            <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
-                            <span id="fileName" class="image-label">{{order.laundryImage}}</span>
-                        {{/order.laundryImage}}
+                            {{/order.laundryImage}}
+                            </span>
+                        </label>
+                        <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
+                        <span id="fileName" class="image-label">
+                        {{^order.laundryImage}} 선택된 파일 없음{{/order.laundryImage}}
+                        {{#order.laundryImage}}{{order.laundryImage}}{{/order.laundryImage}}
+                        </span>
+                        <button type="submit" class="btn btn-delete" form="deleteImage">
+                            <i class="fa-solid fa-trash"></i>삭제
+                        </button>
                     </div>
                 </div>
                 <div class="order-laundry-item update">
@@ -130,9 +130,14 @@
                     </div>
                 </div>
             </form>
+            <form id="deleteImage"
+                  action="/order/{{order.orderId}}/laundry-image/delete"
+                  method="post"
+                  onsubmit="return confirm('이미지를 삭제하시겠습니까?')"></form>
         </div>
     </div>
 </div>
+
 {{>layout/footer}}
 <script src="/js/order-update.js"></script>
 <script src="/js/file-upload.js"></script>
