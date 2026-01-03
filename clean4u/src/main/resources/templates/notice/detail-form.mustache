@@ -50,6 +50,11 @@
                     <i class="fa-solid fa-message"></i>
                     <p class="detail-value content">{{notice.content}}</p>
                 </div>
+                <div>
+                    {{#noticeImagePaths}}
+                    <img src="{{noticeImagePaths}}" alt="예시사진" class="">
+                    {{/noticeImagePaths}}
+                </div>
             </div>
 
             <div class="bottom-button-list">
