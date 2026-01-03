@@ -2,45 +2,64 @@
 
 {{> layout/header}}
 
-<div class="update-container">
-    <div class="update-container-content">
-        <div class="update-card">
-            <div class="update-header">
+<div class="detail-container">
+    <div class="detail-container-content">
+        <div class="buttons">
+            <form action="/override/list" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            </form>
+            <div class="button-right">
+                <form action="/override/{{override.id}}/delete" method="post">
+                    <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="detail-card">
+            <div class="detail-header">
                 <i class="fa-solid fa-calendar-check"></i>
-                <span>병결/대체 근무 상세</span>
+                <h4>병결/대체 근무 상세</h4>
             </div>
 
-            <div class="update-body">
-                <div class="update-item">
-                    <span class="update-label">원래 근무자:</span>
-                    <span class="update-value">{{override.originalName}}</span>
+            <div class="detail-body">
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-user"></i>
+                        원래 근무자
+                    </span>
+                    <span class="detail-value">{{override.originalName}}</span>
                 </div>
 
-                <div class="update-item">
-                    <span class="update-label">대체 근무자:</span>
-                    <span class="update-value">{{override.overrideName}}</span>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-user-check"></i>
+                        대체 근무자
+                    </span>
+                    <span class="detail-value">{{override.overrideName}}</span>
                 </div>
 
-                <div class="update-item">
-                    <span class="update-label">날짜:</span>
-                    <span class="update-value">{{override.date}}</span>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        날짜
+                    </span>
+                    <span class="detail-value">{{override.date}}</span>
                 </div>
 
-                <div class="update-item">
-                    <span class="update-label">시작 시간:</span>
-                    <span class="update-value">{{override.startTime}}</span>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-clock"></i>
+                        시작 시간
+                    </span>
+                    <span class="detail-value">{{override.startTime}}</span>
                 </div>
 
-                <div class="update-item">
-                    <span class="update-label">종료 시간:</span>
-                    <span class="update-value">{{override.endTime}}</span>
-                </div>
-
-                <div class="bottom-buttons" style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
-                    <form action="/override/{{override.id}}/delete" method="post" style="flex: 1;">
-                        <button type="submit" class="btn stock-badge badge-warn" style="width: 100%;">삭제</button>
-                    </form>
-                    <a href="/override/list" class="btn stock-badge badge-blue" style="flex: 1; text-align: center;">목록</a>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-clock"></i>
+                        종료 시간
+                    </span>
+                    <span class="detail-value">{{override.endTime}}</span>
                 </div>
             </div>
         </div>
