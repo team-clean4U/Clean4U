@@ -159,8 +159,6 @@ input.has-value {
     flex-direction: column;
 }
 
-
-
 .laundry-card {
     box-shadow: 0 2px 8px var(--shadow-hover);
     display: flex;
@@ -169,6 +167,7 @@ input.has-value {
     border-radius: 15px;
     padding: 2rem;
     width: 100%;
+    margin-bottom: 1.5rem;
 }
 
 .laundry-info-header {
@@ -402,6 +401,18 @@ input.has-value {
     gap: 0.3rem;
 }
 
+@media (max-width: 768px) {
+    .status-label {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .history-items {
+        padding-left: 2rem;
+    }
+}
+
 .history-table.no-hover tbody tr {
     cursor: default;
 }
@@ -461,12 +472,6 @@ input.has-value {
 
 .order-detail-header h4 span {
     font-size: 1.2rem;
-}
-
-@media (max-width: 1024px) {
-    .order-laundry-item {
-        padding: 1.5rem 2rem;
-    }
 }
 
 @media (max-width: 784px) {
