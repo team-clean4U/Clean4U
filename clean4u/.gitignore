@@ -36,5 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### secret properties ###
-**/application-secret.properties
+### secret yml ###
+**/application-secret.yml
+
+.env
