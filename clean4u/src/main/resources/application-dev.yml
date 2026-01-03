@@ -45,3 +45,7 @@ spring:
         default_batch_fetch_size: 100
     defer-datasource-initialization: true
     open-in-view: false
+
+portone:
+    imp-key: ${IMP_REST_API_KEY}
+    imp-secret: ${IMP_SECRET_KEY}
