@@ -40,8 +40,8 @@ public class OrderItemRequest {
         public OrderItem toEntity(Order order, LaundryItem laundryItem) {
             return OrderItem.builder()
                     .order(order)
-                    .quantity(this.quantity)
                     .laundryItem(laundryItem)
+                    .quantity(this.quantity)
                     .build();
         }
     }
