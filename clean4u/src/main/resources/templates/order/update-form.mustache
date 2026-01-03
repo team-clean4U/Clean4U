@@ -78,9 +78,11 @@
                             <i class="fa-solid fa-shirt"></i>
                             세탁 물품
                         </span>
+                        {{^order.isPaid}}
                         <button type="button" class="btn laundry-add" onclick="addItem()">
                             + <span>세탁 물품</span> 추가
                         </button>
+                        {{/order.isPaid}}
                     </div>
 
                     {{#items}}
@@ -89,13 +91,15 @@
                             <input type="hidden" id="itemsSize" value="{{itemsSize}}">
                             <div class="laundry-info-header">
                                 <span>{{laundryItemName}}</span>
+                                {{^order.isPaid}}
                                 <span>
-                                <button class="btn btn-delete"
-                                        type="button"
-                                        onclick="removeItem(this)"
-                                ><i class="fa-solid fa-trash"></i>삭제
-                                </button>
-                            </span>
+                                    <button class="btn btn-delete"
+                                            type="button"
+                                            onclick="removeItem(this)"
+                                    ><i class="fa-solid fa-trash"></i>삭제
+                                    </button>
+                                 </span>
+                                {{/order.isPaid}}
                             </div>
                             <div class="laundry-info-detail">
                                 <div class="laundry-item-row">
@@ -105,18 +109,19 @@
                                             type="number"
                                             name="items[{{index}}].quantity"
                                             min="1"
-                                            value="{{quantity}}">
+                                            value="{{quantity}}" {{#order.isPaid}}disabled{{/order.isPaid}}>
                                 </div>
                                 <div class="laundry-item-row">
                                     <span class="laundry-item-label">옵션</span>
                                     <div class="laundry-item-option">
                                         {{#options}}
-                                            <label>
+                                            <label >
                                                 <input
                                                         type="checkbox"
                                                         name="items[{{index}}].optionIds"
                                                         value="{{id}}"
                                                         {{#checked}}checked{{/checked}}
+                                                        {{#order.isPaid}}disabled{{/order.isPaid}}
                                                 >
                                                 {{name}} (+{{extraPrice}})
                                             </label>

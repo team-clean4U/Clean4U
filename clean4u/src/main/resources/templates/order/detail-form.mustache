@@ -132,11 +132,20 @@
                 <div class="order-total">
                     <span class="detail-label">
                         <i class="fa-solid fa-won-sign"></i>
-                        총 결제금액
+                        총 결제 예정 금액
                     </span>
                     <span class="order-total-value">
-                        총 {{order.totalPrice}}원
+                        총 <span id="amount">{{order.totalPrice}}</span>원
                     </span>
+                    <span>
+                        <input type="hidden" id="orderId" value="{{order.orderId}}">
+                        {{^order.isPaid}}
+                        <button type="button" id="paymentBtn" class="btn btn-submit" style="padding: 0.8rem 1rem;">
+                            결제하기
+                        </button>
+                        {{/order.isPaid}}
+                    </span>
+
                 </div>
             </div>
         </div>
@@ -208,6 +217,8 @@
     <img id="modalImage" class="modalImage" alt="세탁물품 사진">
 </div>
 <script src="/js/order-detail.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script src="/js/payment.js"></script>
 
 {{>layout/footer}}
 

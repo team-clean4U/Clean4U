@@ -25,6 +25,9 @@ import org.example.clean4u.orderItem.*;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistory;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
+import org.example.clean4u.payment.Payment;
+import org.example.clean4u.payment.PaymentRepository;
+import org.example.clean4u.payment.PaymentStatus;
 import org.example.clean4u.review.ReviewRepository;
 import org.example.clean4u.review.ReviewResponse;
 import org.example.clean4u.review.ReviewService;
@@ -40,6 +43,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,6 +54,7 @@ public class OrderService {
     private final CustomerRepository customerRepository;
     private final OrderItemRepository orderItemRepository;
     private final OrderItemOptionRepository orderItemOptionRepository;
+    private final PaymentRepository paymentRepository;
     private final LaundryItemRepository laundryItemRepository;
     private final LaundryOptionRepository laundryOptionRepository;
     private final OrderStatusHistoryRepository orderStatusHistoryRepository;
@@ -69,7 +74,7 @@ public class OrderService {
 
         String laundryImageFileName = null;
 
-        if(saveDto.getLaundryImage() != null) {
+        if(saveDto.getLaundryImage() != null && !saveDto.getLaundryImage().isEmpty()) {
             try {
                 if(!FileUtil.isImageFile(saveDto.getLaundryImage())) {
                     throw new Exception400("이미지 파일만 업로드 가능합니다.");
@@ -206,12 +211,29 @@ public class OrderService {
                 .map(OrderStatusHistoryResponse.DetailDTO::from)
                 .toList();
 
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseGet(() -> {
+                    String merchantUid = generateMerchantUid(orderId);
+                    while (paymentRepository.existsByMerchantUid(merchantUid)) {
+                        merchantUid = generateMerchantUid(orderId);
+                    }
+
+                    Payment newPayment = Payment.builder()
+                            .order(order)
+                            .impUid(null)
+                            .merchantUid(merchantUid)
+                            .amount(order.getTotalPrice())
+                            .paymentStatus(PaymentStatus.PENDING)
+                            .build();
+                    return paymentRepository.save(newPayment);
+                });
+
         ReviewResponse.DetailDTO review = null;
         if (order.getReviewToken() != null && reviewRepository.existsByOrderId(order.getId())) {
             review = reviewService.getDetailByOrderId(order.getId());
         }
 
-        return new OrderResponse.DetailDTO(order, itemDtos, historyList, review);
+        return new OrderResponse.DetailDTO(order, itemDtos, historyList, payment.getPaymentStatus(), review);
     }
 
     // 주문 변경 화면 요청
@@ -253,7 +275,10 @@ public class OrderService {
             itemDtos.add(dto);
         }
 
-        return new OrderResponse.UpdateFormDTO(order, itemDtos);
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new Exception404("해당 결제정보를 찾을 수 없습니다."));
+
+        return new OrderResponse.UpdateFormDTO(order, itemDtos, payment.getPaymentStatus());
     }
 
     // 주문 변경 기능 요청
@@ -389,12 +414,19 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new Exception404("해당 결제정보를 찾을 수 없습니다."));
+
         if(order.getStatus() == OrderStatus.CANCELLED) {
             throw new Exception400("이미 취소된 주문입니다.");
         }
 
         if(order.getStatus() != OrderStatus.RECEIVED) {
             throw new Exception400("진행중인 주문은 취소할 수 없습니다.");
+        }
+
+        if(payment.getPaymentStatus() != PaymentStatus.PENDING) {
+            throw new Exception400("결제 대기 상태인 주문만 취소할 수 있습니다.");
         }
 
         order.setStatus(OrderStatus.CANCELLED);
@@ -412,6 +444,8 @@ public class OrderService {
                 .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new Exception404("해당 결제정보를 찾을 수 없습니다."));
 
         if(!hardDelete) {
             updateStatus(orderId, sessionUserId);
@@ -422,6 +456,9 @@ public class OrderService {
         }
         if(order.getStatus() != OrderStatus.CANCELLED) {
             throw new Exception400("취소된 주문만 삭제할 수 있습니다.");
+        }
+        if(payment.getPaymentStatus() != PaymentStatus.PENDING) {
+            throw new Exception400("결제 대기 상태인 주문만 삭제 가능합니다.");
         }
 
         reviewRepository.findByOrderId(orderId)
@@ -455,6 +492,11 @@ public class OrderService {
             totalPrice += itemPrice;
         }
         return totalPrice;
+    }
+
+    // 주문 고유 번호 생성
+    private String generateMerchantUid(Long orderId) {
+        return "order_" + orderId + "_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().substring(0, 8);
     }
 
 }
