@@ -93,7 +93,7 @@ public class OrderResponse {
         private String memo;
         private String laundryImage;
         private List<OrderItemResponse.UpdateFormDto> items;
-        private boolean isPending;
+        private boolean isPaid;
 
         public UpdateFormDTO(Order order, List<OrderItemResponse.UpdateFormDto> items, PaymentStatus paymentStatus) {
             this.orderId = order.getId();
@@ -105,7 +105,7 @@ public class OrderResponse {
             this.memo = order.getMemo();
             this.laundryImage = order.getLaundryImage();
             this.items = items;
-            this.isPending = paymentStatus == PaymentStatus.PENDING;
+            this.isPaid = paymentStatus == PaymentStatus.PAID;
         }
     }
 }
