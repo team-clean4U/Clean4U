@@ -1,0 +1,27 @@
+.btn-payment-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-activate {
+    padding: 0.5rem 1rem;
+    background: var(--action-active);
+}
+
+.btn-payment {
+    background: var(--action-active);
+    width: 50%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    gap: 0.5rem;
+}
+
+.payment-card {
+    background-color: var(--success);
+    color: var(--color-white);
+    width: 50%;
+    padding: 0.8rem;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+}
