@@ -292,6 +292,9 @@ public class OrderService {
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
         OrderStatus previousStatus = order.getStatus();
+        if(previousStatus == OrderStatus.CANCELLED) {
+            throw new Exception400("접수 취소된 주문은 변경 불가능합니다.");
+        }
 
         int totalPrice = calculateTotalPrice(updateDto.getItems());
 
@@ -353,9 +356,15 @@ public class OrderService {
             }
         }
 
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new Exception404("결제정보를 찾을 수 없습니다."));
+
         OrderStatus newStatus = updateDto.getStatus();
 
-        if (newStatus != previousStatus) {
+        if(previousStatus != newStatus) {
+            if(!previousStatus.canChangeTo(newStatus, payment.getPaymentStatus())) {
+                throw new Exception400("이전 상태로 변경 혹은 결제 미완료 주문은 다음 단계로 변경이 불가능합니다.");
+            }
             OrderStatusHistory history = OrderStatusHistory.builder()
                     .order(order)
                     .status(newStatus)
@@ -425,8 +434,8 @@ public class OrderService {
             throw new Exception400("진행중인 주문은 취소할 수 없습니다.");
         }
 
-        if(payment.getPaymentStatus() != PaymentStatus.PENDING) {
-            throw new Exception400("결제 대기 상태인 주문만 취소할 수 있습니다.");
+        if(payment.getPaymentStatus() == PaymentStatus.PAID) {
+            throw new Exception400("이미 결제된 주문은 취소할 수 없습니다.");
         }
 
         order.setStatus(OrderStatus.CANCELLED);
