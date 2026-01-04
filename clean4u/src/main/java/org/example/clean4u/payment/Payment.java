@@ -32,6 +32,7 @@ public class Payment {
     private Integer amount;
 
     @Column(name = "payment_status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
     @Column(name = "created_at", nullable = false, updatable = false)
