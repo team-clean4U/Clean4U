@@ -1,6 +1,8 @@
 package org.example.clean4u.order;
 
 import lombok.Getter;
+import org.example.clean4u._core.errors.exception.Exception400;
+import org.example.clean4u.payment.PaymentStatus;
 
 @Getter
 public enum OrderStatus {
@@ -16,5 +18,27 @@ public enum OrderStatus {
     OrderStatus(String displayName, String cssClass) {
         this.displayName = displayName;
         this.cssClass = cssClass;
+    }
+
+    public boolean isBefore(OrderStatus changeStatus) {
+        // 취소단계에서 상태변경 안됨
+        if(this == CANCELLED || changeStatus == CANCELLED) {
+            return false;
+        }
+        // 현재 단계보다 변경할 단계(매개변수)가 뒤 인경우 (옳은 흐름)
+        return this.compareTo(changeStatus) < 0;
+    }
+
+    // 접수 -> 접수취소 순서는 허용(단, 결제 완료상태 경우 제외)
+    public boolean isReceivedCancel(OrderStatus changeStatus, PaymentStatus paymentStatus) {
+        if(this == RECEIVED && changeStatus == CANCELLED) {
+            return paymentStatus != PaymentStatus.PAID;
+        }
+        return true;
+    }
+
+    public boolean canChangeTo(OrderStatus changeStatus, PaymentStatus paymentStatus) {
+        if(this.isReceivedCancel(changeStatus, paymentStatus)) return true;
+        return this.isBefore(changeStatus) && paymentStatus == PaymentStatus.PAID;
     }
 }

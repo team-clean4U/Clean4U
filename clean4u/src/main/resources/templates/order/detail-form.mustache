@@ -12,16 +12,22 @@
                 <a href="/order/{{order.orderId}}/update" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
-                <form action="/order/{{order.orderId}}/delete" method="post" onsubmit="return confirm('주문 접수를 취소하시겠습니까?')">
-                    <button class="btn btn-cancel"><i class="fa-solid fa-xmark"></i>접수 취소</button>
-                </form>
+                {{#order.isReceived}}
+                    {{^order.isPaid}}
+                        <form action="/order/{{order.orderId}}/delete" method="post" onsubmit="return confirm('주문 접수를 취소하시겠습니까?')">
+                            <button class="btn btn-cancel"><i class="fa-solid fa-xmark"></i>접수 취소</button>
+                        </form>
+                    {{/order.isPaid}}
+                {{/order.isReceived}}
                 {{/order.isCancelled}}
                 <form action="/order/{{order.orderId}}/delete" method="post" onsubmit="return confirm('주문 내역이 완전히 삭제됩니다. 삭제하시겠습니까?')">
                 {{#isAdmin}}
+                    {{^order.isPaid}}
                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>
                         <input type="hidden" name="hardDelete" value="true">
                         주문 삭제
                     </button>
+                    {{/order.isPaid}}
                 {{/isAdmin}}
                 </form>
             </div>
@@ -132,20 +138,28 @@
                 <div class="order-total">
                     <span class="detail-label">
                         <i class="fa-solid fa-won-sign"></i>
-                        총 결제 예정 금액
+                        {{^order.isPaid}}총 결제 예정 금액{{/order.isPaid}}
+                        {{#order.isPaid}}총 결제 금액{{/order.isPaid}}
                     </span>
                     <span class="order-total-value">
                         총 <span id="amount">{{order.totalPrice}}</span>원
                     </span>
-                    <span>
-                        <input type="hidden" id="orderId" value="{{order.orderId}}">
-                        {{^order.isPaid}}
-                        <button type="button" id="paymentBtn" class="btn btn-submit" style="padding: 0.8rem 1rem;">
-                            결제하기
-                        </button>
+                </div>
+                <div style="text-align: center;">
+                    <input type="hidden" id="orderId" value="{{order.orderId}}">
+                        <div class="btn-payment-wrapper">
+                         {{^order.isPaid}}{{^order.isCancelled}}
+                            <button type="button" id="paymentBtn" class="btn btn-payment">
+                                <span>
+                                    <i class="fa-solid fa-credit-card"></i>
+                                </span>
+                                <span>결제 QR 요청하기</span>
+                            </button>
+                         {{/order.isCancelled}}{{/order.isPaid}}
+                        {{#order.isPaid}}
+                            <span class="payment-card">결제 완료</span>
                         {{/order.isPaid}}
-                    </span>
-
+                        </div>
                 </div>
             </div>
         </div>

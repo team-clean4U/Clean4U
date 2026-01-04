@@ -112,8 +112,14 @@ VALUES
         (6,  'RECEIVED',  4500, '2025-11-25', NULL,              1, '2025-11-25 11:00:00'),
         (1, 'RECEIVED',8000, '2025-11-25', NULL,              1, '2025-11-25 11:10:00'),
         (21, 'WASHING',  3500, '2025-10-22', NULL,              1, '2025-10-22 11:20:00'),
-        (1, 'DRYING',9000, '2025-11-25', NULL,              1, '2025-10-18 11:30:00'),
-        (1, 'COMPLETED',3000, '2025-10-26', NULL,              1, '2025-10-18 11:40:00');
+        (1, 'DRYING',9000, '2025-10-18', NULL,              1, '2025-10-18 11:30:00'),
+        (1, 'COMPLETED',3000, '2025-10-26', NULL,              1, '2025-10-26 11:40:00');
+
+INSERT INTO payment_tb (order_id, imp_uid, merchant_uid, amount, payment_status, created_at)
+VALUES (28,NULL,'employee_20251026_0001',3000,'PAID','2025-10-26 11:45:00'),
+       (27, null, 'employee_632235_1111', 9000, 'PAID', '2025-10-18 11:32:00'),
+       (26, null, 'employee_135433_1321', 3500, 'PAID', '2025-10-22 11:25:00'),
+       (25, null, 'employee_1234_341231', 8000, 'PAID', '2025-11-25 11:15:00');
 
 INSERT INTO order_item_tb (order_id, laundry_item_id, quantity, created_at)
 VALUES (1, 1, 2, '2025-09-15 09:15:00'),

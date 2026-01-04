@@ -109,7 +109,7 @@
                                             type="number"
                                             name="items[{{index}}].quantity"
                                             min="1"
-                                            value="{{quantity}}" {{#order.isPaid}}disabled{{/order.isPaid}}>
+                                            value="{{quantity}}" {{#order.isPaid}}readonly{{/order.isPaid}}>
                                 </div>
                                 <div class="laundry-item-row">
                                     <span class="laundry-item-label">옵션</span>
@@ -123,6 +123,11 @@
                                                         {{#checked}}checked{{/checked}}
                                                         {{#order.isPaid}}disabled{{/order.isPaid}}
                                                 >
+                                                {{#order.isPaid}}
+                                                    {{#checked}}
+                                                         <input type="hidden" name="items[{{index}}].optionIds" value="{{id}}">
+                                                    {{/checked}}
+                                                {{/order.isPaid}}
                                                 {{name}} (+{{extraPrice}})
                                             </label>
                                         {{/options}}
@@ -148,7 +153,7 @@
 
 {{>layout/footer}}
 <script src="/js/order-update.js"></script>
-<script src="/js/file-upload.js"></script>
+<script src="/js/order-file.js"></script>
 
 <script id="laundry-items-data" type="application/json">
 {{& laundryItemJson}}
