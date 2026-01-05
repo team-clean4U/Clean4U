@@ -43,16 +43,20 @@ public class CustomerService {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
-        List<Order> orders = orderRepository.findByCustomerIdOrderByOrderDateAsc(customerId);
+        List<Order> orders = orderRepository.findByCustomerIdOrderByIdDesc(customerId);
 
-        return new CustomerResponse.DetailDTO(customer, orders);
+        List<CustomerResponse.OrderDTO> orderDTOs = orders.stream()
+                .map(CustomerResponse.OrderDTO::new)
+                .toList();
+
+        return new CustomerResponse.DetailDTO(customer, orderDTOs);
     }
 
     public CustomerResponse.UpdateDTO getFormForUpdate(Long customerId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
 
-        List<Order> orders = orderRepository.findByCustomerIdOrderByOrderDateAsc(customerId);
+        List<Order> orders = orderRepository.findByCustomerIdOrderByIdDesc(customerId);
 
         return new CustomerResponse.UpdateDTO(customer);
     }
