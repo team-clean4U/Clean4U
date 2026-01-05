@@ -85,7 +85,7 @@ public class OrderService {
             }
         }
         int totalPrice = calculateTotalPrice(saveDto.getItems());
-        Order order = saveDto.toEntity(customer, totalPrice, sessionUser, laundryImageFileName);
+        Order order = saveDto.toEntity(customer, totalPrice, sessionUser, laundryImageFileName, true);
         orderRepository.save(order);
 
         for (OrderItemRequest.SaveDto item : saveDto.getItems()) {
@@ -211,29 +211,12 @@ public class OrderService {
                 .map(OrderStatusHistoryResponse.DetailDTO::from)
                 .toList();
 
-        Payment payment = paymentRepository.findByOrderId(orderId)
-                .orElseGet(() -> {
-                    String merchantUid = generateMerchantUid(orderId);
-                    while (paymentRepository.existsByMerchantUid(merchantUid)) {
-                        merchantUid = generateMerchantUid(orderId);
-                    }
-
-                    Payment newPayment = Payment.builder()
-                            .order(order)
-                            .impUid(null)
-                            .merchantUid(merchantUid)
-                            .amount(order.getTotalPrice())
-                            .paymentStatus(PaymentStatus.PENDING)
-                            .build();
-                    return paymentRepository.save(newPayment);
-                });
-
         ReviewResponse.DetailDTO review = null;
         if (order.getReviewToken() != null && reviewRepository.existsByOrderId(order.getId())) {
             review = reviewService.getDetailByOrderId(order.getId());
         }
 
-        return new OrderResponse.DetailDTO(order, itemDtos, historyList, payment.getPaymentStatus(), review);
+        return new OrderResponse.DetailDTO(order, itemDtos, historyList, review);
     }
 
     // 주문 변경 화면 요청
@@ -275,10 +258,7 @@ public class OrderService {
             itemDtos.add(dto);
         }
 
-        Payment payment = paymentRepository.findByOrderId(orderId)
-                .orElseThrow(() -> new Exception404("해당 결제정보를 찾을 수 없습니다."));
-
-        return new OrderResponse.UpdateFormDTO(order, itemDtos, payment.getPaymentStatus());
+        return new OrderResponse.UpdateFormDTO(order, itemDtos);
     }
 
     // 주문 변경 기능 요청
@@ -356,13 +336,10 @@ public class OrderService {
             }
         }
 
-        Payment payment = paymentRepository.findByOrderId(orderId)
-                .orElseThrow(() -> new Exception404("결제정보를 찾을 수 없습니다."));
-
         OrderStatus newStatus = updateDto.getStatus();
 
         if(previousStatus != newStatus) {
-            if(!previousStatus.canChangeTo(newStatus, payment.getPaymentStatus())) {
+            if(!previousStatus.canChangeTo(newStatus, order)) {
                 throw new Exception400("이전 상태로 변경 혹은 결제 미완료 주문은 다음 단계로 변경이 불가능합니다.");
             }
             OrderStatusHistory history = OrderStatusHistory.builder()
@@ -453,8 +430,6 @@ public class OrderService {
                 .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
-        Payment payment = paymentRepository.findByOrderId(orderId)
-                .orElseThrow(() -> new Exception404("해당 결제정보를 찾을 수 없습니다."));
 
         if(!hardDelete) {
             updateStatus(orderId, sessionUserId);
@@ -466,7 +441,7 @@ public class OrderService {
         if(order.getStatus() != OrderStatus.CANCELLED) {
             throw new Exception400("취소된 주문만 삭제할 수 있습니다.");
         }
-        if(payment.getPaymentStatus() != PaymentStatus.PENDING) {
+        if(!order.isPending()) {
             throw new Exception400("결제 대기 상태인 주문만 삭제 가능합니다.");
         }
 

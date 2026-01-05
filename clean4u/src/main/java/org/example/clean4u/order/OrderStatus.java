@@ -29,16 +29,13 @@ public enum OrderStatus {
         return this.compareTo(changeStatus) < 0;
     }
 
-    // 접수 -> 접수취소 순서는 허용(단, 결제 완료상태 경우 제외)
-    public boolean isReceivedCancel(OrderStatus changeStatus, PaymentStatus paymentStatus) {
-        if(this == RECEIVED && changeStatus == CANCELLED) {
-            return paymentStatus != PaymentStatus.PAID;
-        }
-        return true;
+    // 접수 -> 접수취소 순서는 허용(결제 대기 상태인 경우에만)
+    public boolean canCancel(OrderStatus changeStatus, Order order) {
+        return this == RECEIVED && changeStatus == CANCELLED && order.isPending();
     }
 
-    public boolean canChangeTo(OrderStatus changeStatus, PaymentStatus paymentStatus) {
-        if(this.isReceivedCancel(changeStatus, paymentStatus)) return true;
-        return this.isBefore(changeStatus) && paymentStatus == PaymentStatus.PAID;
+    public boolean canChangeTo(OrderStatus changeStatus, Order order) {
+        if(this.isBefore(changeStatus) && !order.isPending()) return true;
+        return this.canCancel(changeStatus, order);
     }
 }
