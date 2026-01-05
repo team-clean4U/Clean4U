@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("noticeImages");
+    const input = document.getElementById("uploadImages");
     const fileName = document.getElementById("fileName");
     const imageLabel = document.getElementById("image-label");
     const preview = document.getElementById("preview");
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Array.from(files).forEach(file => {
             const render = new FileReader();
             render.onload = (e) => {
-                const img = documnet.createElement("img");
+                const img = document.createElement("img");
                 img.src = e.target.result;
                 preview.appendChild(img);
             };
