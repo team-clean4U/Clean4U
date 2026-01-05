@@ -84,7 +84,7 @@ public class Notice {
             if (image.startsWith("http")) {
                 noticeImagePaths.add(image);
             } else {
-                noticeImagePaths.add("/images/notice" + image);
+                noticeImagePaths.add("/images/notice/" + image);
             }
         }
 
