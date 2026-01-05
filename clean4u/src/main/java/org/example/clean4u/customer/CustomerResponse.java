@@ -59,7 +59,7 @@ public class CustomerResponse {
         private String memo;
         private List<OrderDTO> orders;
 
-        public DetailDTO(Customer customer, List<Order> orderList) {
+        public DetailDTO(Customer customer, List<OrderDTO> orderList) {
             this.customerId = customer.getId();
             this.grade = customer.getGrade();
             this.name = customer.getName();
@@ -69,14 +69,7 @@ public class CustomerResponse {
             this.phone = customer.getPhone();
             this.createdAt = DateUtil.timestampFormat(customer.getCreatedAt());
             this.memo = customer.getMemo();
-
-            if (orderList != null && !orderList.isEmpty()) {
-                int seq = 1;
-                this.orders = new ArrayList<>();
-                for (Order order: orderList) {
-                    this.orders.add(new OrderDTO(order, seq++));
-                }
-            }
+            this.orders = orderList;
         }
         public String getMemoOrDash() {
             return memo == null ? "-" : memo;
@@ -85,14 +78,12 @@ public class CustomerResponse {
 
     @Data
     public static class OrderDTO {
-        private int orderNo;
         private Long orderId;
         private LocalDate orderDate;
         private OrderStatus status;
         private String totalPrice;
 
-        public OrderDTO(Order order, int orderNo) {
-            this.orderNo = orderNo;
+        public OrderDTO(Order order) {
             this.orderId = order.getId();
             this.orderDate = order.getOrderDate();
             this.status = order.getStatus();

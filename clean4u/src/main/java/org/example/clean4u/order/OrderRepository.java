@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface OrderRepository extends OrderRepositoryCustom, JpaRepository<Order, Long> {
     Long countByCustomerIdAndStatus(Long customerId, OrderStatus status);
 
-    List<Order> findByCustomerIdOrderByOrderDateAsc(Long customer);
+    List<Order> findByCustomerIdOrderByIdDesc(Long customer);
 
     @Query(value =
             "SELECT COUNT(*) FROM order_tb o " +
