@@ -15,9 +15,9 @@ public class NoticeRequest {
         @Size(max = 100, message = "제목은 100자 이내여야 합니다.")
         private String title;
         @NotBlank(message = "내용은 필수입니다.")
-        @Size(max = 1000, message = "내용은 1000자 이내여야 합니다.")
+        @Size(max = 2000, message = "내용은 2000자 이내여야 합니다.")
         private String content;
-        private List<MultipartFile> noticeImages;
+        private List<MultipartFile> uploadImages;
 
         public Notice toEntity(Employee employee, List<String> noticeImageNames) {
             Notice notice = Notice.builder()
@@ -39,9 +39,9 @@ public class NoticeRequest {
         @Size(max = 100, message = "제목은 100자 이내여야 합니다.")
         private String title;
         @NotBlank(message = "내용은 필수입니다.")
-        @Size(max = 1000, message = "내용은 1000자 이내여야 합니다.")
+        @Size(max = 2000, message = "내용은 2000자 이내여야 합니다.")
         private String content;
-        private List<MultipartFile> noticeImages;
+        private List<MultipartFile> uploadImages;
         private List<String> noticeImageNames;
     }
 

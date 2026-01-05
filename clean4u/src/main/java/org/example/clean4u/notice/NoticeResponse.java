@@ -2,6 +2,9 @@ package org.example.clean4u.notice;
 
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public class NoticeResponse {
 
@@ -31,6 +34,7 @@ public class NoticeResponse {
         private String writer;
         private String content;
         private String createdAt;
+        private List<String> uploadImages;
 
         public DetailDTO(Notice notice){
             this.id = notice.getId();
@@ -42,6 +46,7 @@ public class NoticeResponse {
             if (notice.getCreatedAt() != null) {
                 this.createdAt = DateUtil.timestampFormat(notice.getCreatedAt());
             }
+            this.uploadImages = notice.getNoticeImagePath();
         }
     }
 }
