@@ -24,14 +24,17 @@
                         <i class="fa-solid fa-image"></i>
                         사진 추가
                     </label>
-                    <label for="NoticeImage" class="btn image-add">
-                            <span id="image-label">
-                                <i class="fa-solid fa-upload"></i>
-                                파일 선택</span>
-                    </label>
-                    <input type="file" id="NoticeImage" name="NoticeImage" accept="image/*" hidden>
+                    <div class="file-button">
+                        <label for="uploadImages" class="btn image-add">
+                                <span id="image-label">
+                                    <i class="fa-solid fa-upload"></i>
+                                    파일 선택</span>
+                        </label>
+                    </div>
+                    <input type="file" id="uploadImages" name="noticeImages" accept="image/*" hidden multiple>
                     <span id="fileName" class="image-label"> 선택된 파일 없음</span>
                 </div>
+                <div id="preview" class="image-preview"></div>
             </div>
             <div class="bottom-buttons">
                 <a href="/notice/{{notice.id}}" class="btn btn-back">취소</a>
@@ -42,3 +45,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/notice-file.js"></script>

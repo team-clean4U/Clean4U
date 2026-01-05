@@ -23,7 +23,7 @@ public class Notice {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -69,7 +69,7 @@ public class Notice {
         }
     }
 
-    public List<String> getNoticeImages() {
+    public List<String> getNoticeImagePath() {
         if (this.noticeImages == null || this.noticeImages.isEmpty()) {
             return List.of();
         }
