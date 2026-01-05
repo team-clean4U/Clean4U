@@ -104,6 +104,22 @@
                             <span class="info-label">세탁상태:</span>
                             <span class="status-badge {{status.cssClass}}">{{status.displayName}}</span>
                         </div>
+                        <div class="card-info">
+                            <span class="info-label">결제상태:</span>
+                            {{#isPending}}
+                                <span style="color: var(--type-out-text); font-weight: 600;">
+                                <i class="fa-solid fa-times-circle" style="color: var(--type-out-text)"></i>
+                                    미결제
+                                </span>
+                            {{/isPending}}
+
+                            {{^isPending}}
+                                <span style="color: var(--icon-success); font-weight: 600;">
+                                <i class="fa-solid fa-circle-check" style="color: var(--icon-success)"></i>
+                                    결제완료
+                                </span>
+                            {{/isPending}}
+                        </div>
                     </div>
                 </a>
             {{/orderList}}
