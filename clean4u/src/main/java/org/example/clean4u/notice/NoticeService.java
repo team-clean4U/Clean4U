@@ -31,12 +31,12 @@ public class NoticeService {
     public Notice saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
         List<String> noticeImageFileNames = List.of();
 
-        if (dto.getNoticeImages() != null && !dto.getNoticeImages().isEmpty()) {
+        if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
             try {
-                if (!FileUtil.isImageFiles(dto.getNoticeImages())) {
+                if (!FileUtil.isImageFiles(dto.getUploadImages())) {
                     throw new Exception400("이미지 파일만 업로드 가능합니다");
                 }
-                noticeImageFileNames = FileUtil.saveFiles(dto.getNoticeImages(), NOTICE_IMAGES_DIR);
+                noticeImageFileNames = FileUtil.saveFiles(dto.getUploadImages(), NOTICE_IMAGES_DIR);
             } catch (IOException e) {
                 throw new Exception500("파일 저장 중 오류가 발생했습니다");
             }
@@ -88,15 +88,15 @@ public class NoticeService {
 
         notice.update(dto); // 제목, 내용만
 
-        if (dto.getNoticeImages() != null && !dto.getNoticeImages().isEmpty()) {
-            if (!FileUtil.isImageFiles(dto.getNoticeImages())) {
+        if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
+            if (!FileUtil.isImageFiles(dto.getUploadImages())) {
                 throw new Exception400("이미지 파일만 업로드 가능합니다");
             }
             notice.clearImages(); // 전체 교체
 
             List<String> savedNames;
             try {
-                savedNames = FileUtil.saveFiles(dto.getNoticeImages(), NOTICE_IMAGES_DIR);
+                savedNames = FileUtil.saveFiles(dto.getUploadImages(), NOTICE_IMAGES_DIR);
             } catch (IOException e) {
                 throw new Exception500("파일 저장 중 오류가 발생했습니다");
             }
