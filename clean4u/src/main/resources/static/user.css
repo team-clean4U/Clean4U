@@ -14,7 +14,7 @@
     box-shadow: 0 10px 40px var(--shadow);
     border: 2px solid var(--color-light-blue);
     height: auto;
-    width: 500px;
+    width: 600px;
 }
 
 .login-title {
@@ -309,4 +309,108 @@
 
 .employee-update-card .bottom-buttons {
     padding: 0 0 2rem;
+}
+
+
+.detail-item {
+    margin-bottom: 1rem;
+}
+
+.detail-label {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #333;
+}
+
+.detail-label i {
+    margin-right: 6px;
+    color: #666;
+}
+
+
+.email-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.email-group input {
+    flex: 1;
+}
+
+.btn-send {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-send:hover {
+    background-color: #0b5ed7;
+}
+
+
+#code-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+}
+
+#code-box .input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+#code-box input {
+    flex: 1;
+}
+
+.btn-verify {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-verify:hover {
+    background-color: #218838;
+}
+
+#msg {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+#code-box {
+    display: none;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+#code-box .input-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+#code-box input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.btn-verify {
+    flex-shrink: 0;
 }
