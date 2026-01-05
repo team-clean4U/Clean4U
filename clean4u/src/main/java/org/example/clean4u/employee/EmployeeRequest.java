@@ -1,5 +1,6 @@
 package org.example.clean4u.employee;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -49,5 +50,12 @@ public class EmployeeRequest {
         private String email;
     }
 
+    @Data
+    public static class EmailCheck {
+        @NotBlank(message = "이메일은 비어있을 수 없습니다.")
+        @Email(message = "올바른 이메일 형식이 아닙니다.")
+        private String email;
+        private String code;
+    }
 
 }

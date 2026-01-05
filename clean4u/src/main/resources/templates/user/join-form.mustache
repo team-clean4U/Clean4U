@@ -38,12 +38,33 @@
                     <input type="password" name="password" placeholder="8자 이상" required>
                 </div>
 
+                <!-- 이메일 -->
                 <div class="detail-item">
                     <div class="detail-label">
                         <i class="fa-solid fa-envelope"></i> 이메일
                     </div>
-                    <input type="email" name="email" placeholder="이메일 입력" required>
+                    <div class="email-group">
+                        <input type="email" id="email" name="email" placeholder="이메일 입력" required>
+                        <button type="button" class="btn-send" onclick="callSendApi()">
+                            인증번호 전송
+                        </button>
+                    </div>
                 </div>
+
+                <!-- 인증번호 -->
+                <div class="detail-item" id="code-box" style="display:none;">
+                    <div class="detail-label">
+                        <i class="fa-solid fa-key"></i> 인증번호
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="code" placeholder="6자리 입력" maxlength="6">
+                        <button type="button" class="btn-verify" onclick="callVerifyApi()">확인</button>
+                    </div>
+                    <div id="msg"></div>
+                </div>
+
+                <!-- 인증 여부 -->
+                <input type="hidden" id="isEmailVerified" name="isEmailVerified" value="false">
 
                 <div class="login-footer">
                     <button type="submit" class="btn btn-create">
@@ -55,4 +76,149 @@
     </div>
 </div>
 
+<style>
+    /* ===== 공통 ===== */
+    .detail-item {
+        margin-bottom: 1rem;
+    }
+
+    .detail-label {
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+        color: #333;
+    }
+
+    .detail-label i {
+        margin-right: 6px;
+        color: #666;
+    }
+
+    /* ===== 이메일 인증 ===== */
+    .email-group {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .email-group input {
+        flex: 1;
+    }
+
+    .btn-send {
+        background-color: #0d6efd;
+        color: white;
+        border: none;
+        padding: 0.5rem 0.9rem;
+        border-radius: 5px;
+        cursor: pointer;
+        white-space: nowrap;
+    }
+
+    .btn-send:hover {
+        background-color: #0b5ed7;
+    }
+
+    /* ===== 인증번호 박스 ===== */
+    #code-box {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        padding: 0.75rem;
+        border-radius: 6px;
+        margin-top: 0.5rem;
+    }
+
+    #code-box .input-group {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    #code-box input {
+        flex: 1;
+    }
+
+    .btn-verify {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 0.5rem 0.9rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-verify:hover {
+        background-color: #218838;
+    }
+
+    #msg {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+</style>
+
 {{> layout/footer}}
+
+<script>
+    async function callSendApi() {
+        let email = document.querySelector('#email').value;
+
+        if (!email) {
+            alert("이메일을 입력해주세요");
+            return;
+        }
+
+        try {
+            let response = await fetch("/api/email/send", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email: email})
+            });
+
+            if (response.ok) {
+                alert("인증번호가 메일로 전송되었습니다. 메일을 확인해주세요.");
+                document.querySelector("#code-box").style.display ="block";
+            } else {
+                let error = response.json();
+                alert("이메일 전송 실패");
+            }
+
+        } catch (e) {
+            alert("서버 통신 오류 " + e.message);
+        }
+    }
+
+    async function callVerifyApi() {
+        let email = document.querySelector("#email").value;
+        let code = document.querySelector("#code").value;
+
+        if (!code) {
+            alert("인증번호를 입력해주세요");
+            return;
+        }
+
+        try {
+            let response = await fetch("/api/email/verify", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email: email, code: code})
+            });
+
+            let result = await response.json();
+            let message = document.querySelector("#msg");
+
+            if (response.ok) {
+                message.innerHTML = "<span style='color: green;'>인증되었습니다.</span>";
+                document.querySelector("#isEmailVerified").value = true;
+                document.querySelector("#email").readOnly = true;
+            } else {
+                message.innerHTML = "<span style='color: red;'>인증번호가 올바르지 않습니다.</span>";
+                document.querySelector("#isEmailVerified").value = false;
+            }
+        } catch (e) {
+            console.log(e);
+            alert("네트워크 오류 발생")
+        }
+    }
+</script>
