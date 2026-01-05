@@ -12,6 +12,7 @@ import org.example.clean4u.laundryItem.LaundryItemResponse;
 import org.example.clean4u.laundryItem.LaundryItemService;
 import org.example.clean4u.laundryOption.LaundryOptionService;
 import org.example.clean4u.orderItem.OrderItemResponse;
+import org.example.clean4u.payment.PaymentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class OrderController {
     private final LaundryOptionService laundryOptionService;
     private final CustomerService customerService;
     private final ObjectMapper objectMapper;
+    private final PaymentService paymentService;
 
     @GetMapping("/order/save")
     public String saveForm(Model model) {
