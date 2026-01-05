@@ -5,7 +5,6 @@ import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.customer.Grade;
 import org.example.clean4u.orderItem.OrderItemResponse;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
-import org.example.clean4u.payment.PaymentStatus;
 import org.example.clean4u.review.ReviewResponse;
 
 import java.time.LocalDate;
@@ -16,6 +15,7 @@ public class OrderResponse {
     @Data
     public static class ListDTO {
         private Long orderId;
+        private boolean isPending;
         private String customerName;
         private String phone;
         private Grade grade;
@@ -24,6 +24,7 @@ public class OrderResponse {
 
         public ListDTO(Order order) {
             this.orderId = order.getId();
+            this.isPending = order.isPending();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
                 this.phone = order.getCustomer().getPhone();
@@ -37,6 +38,7 @@ public class OrderResponse {
     @Data
     public static class DetailDTO {
         private Long orderId;
+        private boolean isPending;
         private String customerName;
         private Grade grade;
         private LocalDate orderDate;
@@ -49,7 +51,6 @@ public class OrderResponse {
         private String totalPrice;
         private List<OrderItemResponse.DetailDto> items;
         private List<OrderStatusHistoryResponse.DetailDTO> histories;
-        private boolean isPaid;
         private String reviewLink;
         private boolean hasReview;
         private ReviewResponse.DetailDTO review;
@@ -58,10 +59,10 @@ public class OrderResponse {
                 Order order,
                 List<OrderItemResponse.DetailDto> items,
                 List<OrderStatusHistoryResponse.DetailDTO> histories,
-                PaymentStatus paymentStatus,
                 ReviewResponse.DetailDTO review
         ) {
             this.orderId = order.getId();
+            this.isPending = order.isPending();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
                 this.grade = order.getCustomer().getGrade();
@@ -75,7 +76,6 @@ public class OrderResponse {
             this.totalPrice = PriceUtil.format(order.getTotalPrice());
             this.items = items;
             this.histories = histories;
-            this.isPaid = paymentStatus == PaymentStatus.PAID;
             if (order.getReviewToken() != null) {
                 this.reviewLink = "/review/save?token=" + order.getReviewToken();
                 this.hasReview = review != null;
@@ -87,16 +87,17 @@ public class OrderResponse {
     @Data
     public static class UpdateFormDTO {
         private Long orderId;
+        private boolean isPending;
         private String customerName;
         private Grade grade;
         private OrderStatus status;
         private String memo;
         private String laundryImage;
         private List<OrderItemResponse.UpdateFormDto> items;
-        private boolean isPaid;
 
-        public UpdateFormDTO(Order order, List<OrderItemResponse.UpdateFormDto> items, PaymentStatus paymentStatus) {
+        public UpdateFormDTO(Order order, List<OrderItemResponse.UpdateFormDto> items) {
             this.orderId = order.getId();
+            this.isPending = order.isPending();
             if(order.getCustomer() != null) {
                 this.customerName = order.getCustomer().getName();
                 this.grade = order.getCustomer().getGrade();
@@ -105,7 +106,6 @@ public class OrderResponse {
             this.memo = order.getMemo();
             this.laundryImage = order.getLaundryImage();
             this.items = items;
-            this.isPaid = paymentStatus == PaymentStatus.PAID;
         }
     }
 }

@@ -25,7 +25,7 @@ public class OrderRequest {
 
         private MultipartFile laundryImage;
 
-        public Order toEntity(Customer customer, Integer totalPrice, Employee editor, String laundryImageName) {
+        public Order toEntity(Customer customer, Integer totalPrice, Employee editor, String laundryImageName, Boolean isPending) {
             return Order.builder()
                     .customer(customer)
                     .status(OrderStatus.RECEIVED)
@@ -34,6 +34,7 @@ public class OrderRequest {
                     .memo(memo)
                     .editor(editor)
                     .laundryImage(laundryImageName)
+                    .isPending(isPending)
                     .build();
         }
     }

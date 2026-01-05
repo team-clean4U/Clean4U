@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.employee.Employee;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -59,6 +60,10 @@ public class Order{
     @Column(name = "laundry_image")
     private String laundryImage;
 
+    @Column(name = "is_pending", nullable = false)
+    @ColumnDefault("true")
+    private boolean isPending; // true: 결제 대기, false: 결제됨
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
@@ -68,7 +73,7 @@ public class Order{
     private Timestamp updatedAt;
 
     @Builder
-    public Order(Customer customer, OrderStatus status, Integer totalPrice, LocalDate orderDate, String memo, Employee editor, String laundryImage) {
+    public Order(Customer customer, OrderStatus status, Integer totalPrice, LocalDate orderDate, String memo, Employee editor, String laundryImage, boolean isPending) {
         this.customer = customer;
         this.status = status == null ? OrderStatus.RECEIVED : status;
         this.totalPrice = totalPrice ;
@@ -76,6 +81,7 @@ public class Order{
         this.memo = memo;
         this.editor = editor;
         this.laundryImage = laundryImage;
+        this.isPending = isPending;
     }
 
     public void updateOrder(OrderRequest.UpdateDTO updateDto) {
@@ -103,5 +109,9 @@ public class Order{
             throw new Exception400("주문 상태 입력은 필수입니다.");
         }
         this.status = newStatus;
+    }
+
+    public void updatePendingStatus(boolean isPending) {
+       this.isPending = isPending;
     }
 }

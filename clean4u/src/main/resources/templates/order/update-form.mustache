@@ -78,11 +78,11 @@
                             <i class="fa-solid fa-shirt"></i>
                             세탁 물품
                         </span>
-                        {{^order.isPaid}}
+                        {{#order.isPending}}
                         <button type="button" class="btn laundry-add" onclick="addItem()">
                             + <span>세탁 물품</span> 추가
                         </button>
-                        {{/order.isPaid}}
+                        {{/order.isPending}}
                     </div>
 
                     {{#items}}
@@ -91,7 +91,7 @@
                             <input type="hidden" id="itemsSize" value="{{itemsSize}}">
                             <div class="laundry-info-header">
                                 <span>{{laundryItemName}}</span>
-                                {{^order.isPaid}}
+                                {{#order.isPending}}
                                 <span>
                                     <button class="btn btn-delete"
                                             type="button"
@@ -99,7 +99,7 @@
                                     ><i class="fa-solid fa-trash"></i>삭제
                                     </button>
                                  </span>
-                                {{/order.isPaid}}
+                                {{/order.isPending}}
                             </div>
                             <div class="laundry-info-detail">
                                 <div class="laundry-item-row">
@@ -109,7 +109,7 @@
                                             type="number"
                                             name="items[{{index}}].quantity"
                                             min="1"
-                                            value="{{quantity}}" {{#order.isPaid}}readonly{{/order.isPaid}}>
+                                            value="{{quantity}}" {{^order.isPending}}readonly{{/order.isPending}}>
                                 </div>
                                 <div class="laundry-item-row">
                                     <span class="laundry-item-label">옵션</span>
@@ -121,13 +121,13 @@
                                                         name="items[{{index}}].optionIds"
                                                         value="{{id}}"
                                                         {{#checked}}checked{{/checked}}
-                                                        {{#order.isPaid}}disabled{{/order.isPaid}}
+                                                    {{^order.isPending}}disabled{{/order.isPending}}
                                                 >
-                                                {{#order.isPaid}}
+                                                {{^order.isPending}}
                                                     {{#checked}}
                                                          <input type="hidden" name="items[{{index}}].optionIds" value="{{id}}">
                                                     {{/checked}}
-                                                {{/order.isPaid}}
+                                                {{/order.isPending}}
                                                 {{name}} (+{{extraPrice}})
                                             </label>
                                         {{/options}}

@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const amount = Number(document.getElementById("amount").textContent.replace(/[^0-9]/g, ""));
     const orderId = Number(document.getElementById("orderId").value);
 
+    if(!paymentBtn) return;
+
     paymentBtn.addEventListener('click', () => {
-        console.log(orderId);
-        console.log(amount);
        fetch("/api/payment/prepare", {
            method: "POST",
            headers: {
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
                const payAmount = data.amount;
                const IMP = window.IMP;
 
-               IMP.init("imp47240471");
+               IMP.init(impKey);
 
                IMP.request_pay(
                    {
@@ -42,7 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
                    },
                    function (response) {
                        if(response.success) {
-                           alert("포트원 결제 성공, 우리 서버 검증 필요");
+                           console.log("포트원 요청 성공");
+                           verifyPayment(response.imp_uid, response.merchant_uid, orderId)
                        } else {
                            alert("결제 실패");
                        }
@@ -50,4 +51,28 @@ document.addEventListener("DOMContentLoaded", () => {
                );
            })
     });
+
+    function verifyPayment(imp_uid, merchant_uid, order_id) {
+        fetch("/api/payment/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                orderId: order_id,
+                impUid: imp_uid,
+                merchantUid: merchant_uid
+            })
+        }).then(res => {
+            if(!res.ok) {
+                return res.json().then(e => {
+                    throw new Error(e.message);
+                })
+            }
+            return res.json;
+        }).then(data => {
+            alert("결제가 완료되었습니다.");
+            location.href = `/order/${order_id}`;
+        }).catch(err => {
+            alert("결제 검증에 실패했습니다.");
+        })
+    }
 });
