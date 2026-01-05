@@ -81,12 +81,6 @@
                 </div>
                 <div class="detail-bodies">
                     <table class="table-container">
-                        <colgroup>
-                            <col>
-                            <col>
-                            <col>
-                            <col>
-                        </colgroup>
                         <thead>
                         <tr>
                             <th>주문번호</th>
@@ -98,7 +92,7 @@
                         <tbody>
                         {{#customer.orders}}
                             <tr onclick="location.href='/order/{{orderId}}'">
-                                <td class="order-no">주문#{{orderNo}}</td>
+                                <td class="order-no">NO.{{orderId}}</td>
                                 <td>
                                         <span class="status-badge {{status.cssClass}}">
                                             {{status.displayName}}
