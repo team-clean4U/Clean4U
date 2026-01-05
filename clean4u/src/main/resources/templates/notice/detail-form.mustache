@@ -49,11 +49,12 @@
                 <div class="notice-detail-item">
                     <i class="fa-solid fa-message"></i>
                     <p class="detail-value content">{{notice.content}}</p>
-                </div>
-                <div>
-                    {{#noticeImagePaths}}
-                    <img src="{{noticeImagePaths}}" alt="예시사진" class="">
-                    {{/noticeImagePaths}}
+                    {{#notice.uploadImages}}
+                    <img src="{{uploadImages}}" alt="예시사진" class="">
+                    {{/notice.uploadImages}}
+                    {{^notice.uploadImages}}
+                        <p>이미지 경로 없음</p>
+                    {{/notice.uploadImages}}
                 </div>
             </div>
 
@@ -83,3 +84,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/notice-file.js"></script>
