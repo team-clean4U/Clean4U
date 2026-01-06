@@ -51,7 +51,9 @@ public class Notice {
         this.title = title;
         this.content = content;
         this.employee = employee;
-        this.noticeImages = noticeImages;
+        if (noticeImages == null || noticeImages.isEmpty()) {
+            this.noticeImages = new ArrayList<>();
+        }
     }
 
     public void update(NoticeRequest.UpdateDTO updateDTO) {
@@ -64,7 +66,7 @@ public class Notice {
     }
 
     public void addImages(List<String> images) {
-        if (images == null || images.isEmpty()) {
+        if (images != null && !images.isEmpty()) {
             this.noticeImages.addAll(images);
         }
     }
