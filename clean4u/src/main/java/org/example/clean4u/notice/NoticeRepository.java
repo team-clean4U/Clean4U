@@ -35,5 +35,8 @@ public interface NoticeRepository extends JpaRepository<Notice,Long> {
             @Param("currentId") Long currentId
     );
 
-    
+    @Query("SELECT DISTINCT n FROM Notice n " +
+            "LEFT JOIN FETCH n.noticeImages " +
+            "WHERE n.id = :noticeId")
+    Optional<Notice> findByIdWithImages(@Param("noticeId") Long noticeId);
 }
