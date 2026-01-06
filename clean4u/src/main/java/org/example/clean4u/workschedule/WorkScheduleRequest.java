@@ -27,7 +27,7 @@ public class WorkScheduleRequest {
         private LocalTime overrideEndTime;
 
         public boolean isSick() {
-            return reason == ScheduleReason.병결;
+            return reason == ScheduleReason.SICK;
         }
 
         public WorkSchedule toNormalEntity(Employee employee) {

@@ -36,7 +36,7 @@ public class EmployeeService {
             throw new Exception404("회원가입 되지않은 사용자입니다.");
         }
 
-        if (!employeeEntity.getUserStatus().equals(UserStatus.승인)) {
+        if (!employeeEntity.getUserStatus().equals(UserStatus.APPROVED)) {
             throw new Exception403("회원가입 승인되지 않는 사용자입니다.");
         }
 
@@ -75,6 +75,6 @@ public class EmployeeService {
     }
 
     public long pendingCount() {
-        return employeeRepository.countByUserStatus(UserStatus.승인대기);
+        return employeeRepository.countByUserStatus(UserStatus.PENDING);
     }
 }

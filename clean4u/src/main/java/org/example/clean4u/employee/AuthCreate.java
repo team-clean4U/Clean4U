@@ -21,8 +21,8 @@ public class AuthCreate {
         String username = "admin";
         String password = "00000000";
         String email = "admin@naver.com";
-        UserRole userRole = UserRole.관리자;
-        UserStatus userStatus = UserStatus.승인;
+        UserRole userRole = UserRole.ADMIN;
+        UserStatus userStatus = UserStatus.APPROVED;
 
         String hashPwd = passwordEncoder.encode(password);
 
@@ -48,8 +48,8 @@ public class AuthCreate {
         String username = "employee";
         String password = "00000000";
         String email = "employee@naver.com";
-        UserRole userRole = UserRole.일반직원;
-        UserStatus userStatus = UserStatus.승인;
+        UserRole userRole = UserRole.EMPLOYEE;
+        UserStatus userStatus = UserStatus.APPROVED;
 
         String hashPwd = passwordEncoder.encode(password);
 

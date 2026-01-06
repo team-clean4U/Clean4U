@@ -15,7 +15,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     Optional<Employee>findByUsername(String username);
 
-    @Query("SELECT e FROM Employee e WHERE e.userStatus = '승인대기' ORDER BY e.createdAt")
+    @Query("SELECT e FROM Employee e WHERE e.userStatus = 'PENDING' ORDER BY e.createdAt")
     List<Employee> findAllByOrderByCreatedAtDesc();
 
     Long countByUserStatus(UserStatus status);
