@@ -1,7 +1,6 @@
 package org.example.clean4u.laundryItem;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
@@ -26,7 +25,6 @@ public class LaundryItemController {
             @RequestParam(defaultValue = "9") int size,
             @RequestParam(required = false) LaundryCategory category,
             @RequestParam(required = false) String name,
-            HttpSession session,
             HttpServletRequest request
     ) {
         int pageIndex = Math.max(0, page - 1);

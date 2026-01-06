@@ -3,7 +3,6 @@ package org.example.clean4u.supplyItemHistory;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
-import org.example.clean4u.supplyItem.SupplyItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class SupplyItemHistoryService {
     private final SupplyItemHistoryRepository historyRepository;
-    private final SupplyItemRepository supplyItemRepository;
 
     public SupplyItemHistoryResponse.GroupDetailDTO getDetail(Long historyId) {
         SupplyItemHistory firstItemHistory = historyRepository.findById(historyId)
