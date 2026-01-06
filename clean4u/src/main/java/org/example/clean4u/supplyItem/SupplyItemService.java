@@ -222,4 +222,10 @@ public class SupplyItemService {
         }
         return new PageResponse<>(supplyItemPage, SupplyItemResponse.ListDTO::new);
     }
+
+    public List<SupplyItemResponse.ListDTO> getLowStockItems() {
+        return repository.findAllLowStockItems().stream()
+                .map(SupplyItemResponse.ListDTO::new)
+                .collect(Collectors.toList());
+    }
 }

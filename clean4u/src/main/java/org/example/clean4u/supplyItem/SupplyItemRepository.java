@@ -19,6 +19,9 @@ public interface SupplyItemRepository extends JpaRepository<SupplyItem, Long> {
     @Query("SELECT si FROM SupplyItem si WHERE si.stockQuantity <= si.safetyStock ORDER BY si.createdAt DESC")
     Page<SupplyItem> findLowStockItems(Pageable pageable);
 
+    @Query("SELECT si FROM SupplyItem si WHERE si.stockQuantity <= si.safetyStock ORDER BY si.createdAt DESC")
+    List<SupplyItem> findAllLowStockItems();
+
     @Query("SELECT si FROM SupplyItem si WHERE si.stockQuantity > si.safetyStock ORDER BY si.createdAt DESC")
     Page<SupplyItem> findSafetyStockItems(Pageable pageable);
 

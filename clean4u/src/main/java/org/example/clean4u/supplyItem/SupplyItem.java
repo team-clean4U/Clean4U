@@ -15,7 +15,8 @@ import java.sql.Timestamp;
 @Table(
         name = "supply_item_tb",
         indexes = {
-                @Index(name = "idx_supply_item_created_at", columnList = "created_at")
+                @Index(name = "idx_supply_item_created_at", columnList = "created_at"),
+                @Index(name = "idx_supply_item_stock", columnList = "stock_quantity, safety_stock")
         }
 )
 public class SupplyItem {

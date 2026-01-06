@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="supply-item-select-wrapper">
                         <label>활성 여부</label>
-                        <input type="hidden" name="items[${itemIndex}].isActive" value="false">
+                        <input type="hidden" value="false" id="hidden-isActive-${itemIndex}">
                         <label class="toggle-switch">
-                            <input type="checkbox" name="items[${itemIndex}].isActive" value="true" checked>
+                            <input type="checkbox" name="items[${itemIndex}].isActive" value="true" checked id="checkbox-isActive-${itemIndex}" onchange="updateIsActive(${itemIndex}, this.checked)">
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -45,12 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
 
         const bottomButtons = container.querySelector(".bottom-buttons");
-        if (bottomButtons) {
-            bottomButtons.insertAdjacentHTML("beforebegin", html);
-        } else {
-            container.insertAdjacentHTML("beforeend", html);
-        }
-
+        bottomButtons ? bottomButtons.insertAdjacentHTML("beforebegin", html) : container.insertAdjacentHTML("beforeend", html);
         itemIndex++;
     };
 
@@ -63,16 +58,35 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     function reIndexItems() {
-        const items = document.querySelectorAll(".supply-item-card");
-        items.forEach((item, newIndex) => {
+        document.querySelectorAll(".supply-item-card").forEach((item, newIndex) => {
             item.dataset.index = newIndex;
             item.querySelectorAll("input, select").forEach(el => {
-                if (el.name) {
-                    el.name = el.name.replace(/items\[\d+]/, `items[${newIndex}]`);
-                }
+                if (el.name) el.name = el.name.replace(/items\[\d+]/, `items[${newIndex}]`);
             });
+            const hiddenInput = item.querySelector(`input[type="hidden"][id^="hidden-isActive-"]`);
+            const checkbox = item.querySelector(`input[type="checkbox"][id^="checkbox-isActive-"]`);
+            if (hiddenInput) hiddenInput.id = `hidden-isActive-${newIndex}`;
+            if (checkbox) {
+                checkbox.id = `checkbox-isActive-${newIndex}`;
+                checkbox.setAttribute('onchange', `updateIsActive(${newIndex}, this.checked)`);
+                updateIsActive(newIndex, checkbox.checked);
+            }
         });
     }
+
+    window.updateIsActive = function(index, isChecked) {
+        const hiddenInput = document.getElementById(`hidden-isActive-${index}`);
+        const checkbox = document.getElementById(`checkbox-isActive-${index}`);
+        if (hiddenInput && checkbox) {
+            if (isChecked) {
+                checkbox.setAttribute('name', `items[${index}].isActive`);
+                hiddenInput.removeAttribute('name');
+            } else {
+                checkbox.removeAttribute('name');
+                hiddenInput.setAttribute('name', `items[${index}].isActive`);
+            }
+        }
+    };
 
     addSupplyItem();
 });
