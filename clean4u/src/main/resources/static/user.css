@@ -314,6 +314,7 @@
 .email-group {
     display: flex;
     gap: 0.5rem;
+    flex: 1;
 }
 
 .email-group input {
@@ -396,4 +397,26 @@
 
 .btn-verify {
     flex-shrink: 0;
+}
+
+.schedule-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 0;
+    gap: 1rem;
+}
+
+.schedule-buttons .btn {
+    text-align: center;
+    width: 50%;
+}
+
+.submit-footer {
+    margin: 1rem 0 0.5rem;
+    text-align: center;
+}
+
+.bottom-form {
+    padding: 0 2.5rem;
+    border-top: 2px dashed var(--color-light-blue);
 }

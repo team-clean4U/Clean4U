@@ -8,7 +8,7 @@
             <!-- 헤더 -->
             <div class="update-header">
                 <i class="fa-solid fa-calendar-check"></i>
-                <span>근무 스케줄 등록</span>
+                <b>근무 스케줄 등록</b>
             </div>
 
             <div class="update-body">
@@ -26,20 +26,33 @@
                             <i class="fa-solid fa-list"></i>
                             사유
                         </label>
-                        <select name="reason" id="reason" class="update-select" style="flex: 1;">
-                            <option value="" {{^reason}}selected{{/reason}}>선택</option>
-                            <option value="일반근무" {{^isSick}}{{#reason}}selected{{/reason}}{{/isSick}}>일반근무</option>
-                            <option value="병결" {{#isSick}}selected{{/isSick}}>병가</option>
-                        </select>
+                        <div class="update-value category" style="flex: 1;">
+                            <input type="hidden" name="reason" id="reason" {{#reason}}value="{{reason}}"{{/reason}}>
+                            <div class="category-select" {{#reason}}data-selected="{{reason}}"{{/reason}}>
+                                <span class="category-selected">
+                                    {{#isSick}}병가{{/isSick}}
+                                    {{#reason}}일반근무{{/reason}}
+                                    {{^isSick}}{{^reason}}선택{{/reason}}{{/isSick}}
+                                </span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <ul class="category-dropdown">
+                                <li data-type="">선택</li>
+                                <li data-type="일반근무">일반근무</li>
+                                <li data-type="병결">병가</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div style="display: flex; justify-content: center; margin: 10px 0; padding: 10px 0;">
-                        <button type="submit" class="btn btn-submit" style="padding: 10px 20px;">선택</button>
+
+                    <div class="submit-footer">
+                        <button type="submit" class="btn btn-create">선택</button>
                     </div>
                 </form>
-
-                {{^isSick}}
-                    {{#reason}}
-                        <form method="POST" action="/schedule">
+            </div>
+            <div class="{{#reason}}bottom-form{{/reason}} {{#isSick}}bottom-form{{/isSick}}">
+                <form method="POST" action="/schedule">
+                    {{^isSick}}
+                        {{#reason}}
                             <input type="hidden" name="employeeId" value="{{employee.id}}">
                             <input type="hidden" name="name" value="{{employee.name}}">
                             <input type="hidden" name="reason" value="{{reason}}">
@@ -59,16 +72,14 @@
                                 <input type="time" id="endTime" name="endTime" class="update-value">
                             </div>
 
-                            <div class="bottom-buttons">
+                            <div class="schedule-buttons">
                                 <a href="/schedule/list" class="btn btn-back">취소</a>
-                                <button type="submit" class="btn btn-submit">제출</button>
+                                <button type="submit" class="btn btn-create">제출</button>
                             </div>
-                        </form>
-                    {{/reason}}
-                {{/isSick}}
+                        {{/reason}}
+                    {{/isSick}}
 
-                {{#isSick}}
-                    <form method="POST" action="/schedule">
+                    {{#isSick}}
                         <input type="hidden" name="employeeId" value="{{employee.id}}">
                         <input type="hidden" name="name" value="{{employee.name}}">
                         <input type="hidden" name="reason" value="{{reason}}">
@@ -78,19 +89,27 @@
                                 <i class="fa-solid fa-calendar"></i>
                                 병결 날짜
                             </label>
-                            <input type="date" id="date" name="date" class="update-value" min="1900-01-01" max="9999-12-31">
+                            <input type="date" id="date" name="date" class="update-value" min="1900-01-01"
+                                   max="9999-12-31">
                         </div>
                         <div class="update-item">
                             <label class="update-label" for="overrideId">
                                 <i class="fa-solid fa-user-group"></i>
                                 대체 인원
                             </label>
-                            <select name="overrideId" id="overrideId" class="update-value" required>
-                                <option value="">선택</option>
-                                {{#overrideList}}
-                                    <option value="{{id}}">{{name}}</option>
-                                {{/overrideList}}
-                            </select>
+                            <div class="update-value category">
+                                <input type="hidden" name="overrideId" id="overrideId" required>
+                                <div class="category-select">
+                                    <span class="category-selected">선택</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <ul class="category-dropdown">
+                                    <li data-id="">선택</li>
+                                    {{#overrideList}}
+                                        <li data-id="{{id}}">{{name}}</li>
+                                    {{/overrideList}}
+                                </ul>
+                            </div>
                         </div>
                         <div class="update-item">
                             <label class="update-label" for="overrideStartTime">
@@ -107,13 +126,12 @@
                             <input type="time" id="overrideEndTime" name="overrideEndTime" class="update-value">
                         </div>
 
-                        <div class="bottom-buttons">
+                        <div class="schedule-buttons">
                             <a href="/schedule/list" class="btn btn-back">취소</a>
-                            <button type="submit" class="btn btn-submit">제출</button>
+                            <button type="submit" class="btn btn-create">제출</button>
                         </div>
-                    </form>
-                {{/isSick}}
-
+                    {{/isSick}}
+                </form>
             </div>
         </div>
     </div>

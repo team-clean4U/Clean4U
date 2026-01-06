@@ -9,6 +9,8 @@ function bindDropdown(wrapper) {
         wrapper.querySelector("input[name='category']") ||
         wrapper.querySelector("input[name='isActive']") ||
         wrapper.querySelector("input[name='rating']") ||
+        wrapper.querySelector("input[name='reason']") ||
+        wrapper.querySelector("input[name='overrideId']") ||
         document.getElementById("category");
 
     if (!categorySelect || !categoryDropdown || !categorySelected) return;

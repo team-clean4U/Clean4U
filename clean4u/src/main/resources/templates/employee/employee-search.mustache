@@ -1,50 +1,56 @@
 <!-- http://localhost:8080/schedule -->
 
 {{> layout/header}}
+{{> layout/background}}
 
-<div class="update-container">
-    <div class="update-container-content">
+<div class="content-section employee-search-section">
+    <div class="container employee-search-container">
+        <div class="header-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fa-solid fa-user-check"></i>
+                    직원 검색
+                </h2>
+            </div>
 
-        <!-- 검색 폼 -->
-        <form action="/schedule" method="get" class="search-wrapper" style="margin-bottom: 1rem;">
-            <input type="text" name="keyword" value="{{keyword}}" placeholder="직원 이름 입력" class="search-input" autocomplete="off" />
-            <button type="submit" class="btn-submit">검색</button>
-        </form>
+            <!-- 검색 폼 -->
+            <form action="/schedule" method="get" class="search-wrapper">
+                <div class="search-input-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text"
+                           name="keyword"
+                           value="{{keyword}}"
+                           placeholder="직원 이름 입력"
+                           class="search-input"
+                           autocomplete="off"/>
+                </div>
+                <button type="submit" class="btn btn-submit">검색</button>
+            </form>
+        </div>
 
         <!-- 검색 결과 -->
-        {{#employeeList}}
-            <div class="update-card" style="margin-top: 1rem; padding: 1.5rem 2rem;">
-                <div class="update-item" style="gap: 2rem; justify-content: space-between; align-items: center;">
-
-                    <!-- 이름 & 아이디 -->
-                    <div style="display: flex; gap: 2rem;">
-                        <div style="display: flex; min-width: 140px; gap: 0.5rem; align-items: center;">
-                            <span class="update-label">이름:</span>
-                            <span class="update-value">{{name}}</span>
+        <div class="employee-search-list">
+            {{#employeeList}}
+                <div class="employee-search-content">
+                    <div class="employee-search-info">
+                        <div class="employee-search-icon">
+                            <i class="fa-solid fa-user"></i>
                         </div>
-                        <div style="display: flex; min-width: 140px; gap: 0.5rem; align-items: center;">
-                            <span class="update-label">아이디:</span>
-                            <span class="update-value">{{username}}</span>
+                        <div class="employee-search-name">
+                            {{name}}
+                            <span class="employee-search-username">아이디: {{username}}</span>
                         </div>
                     </div>
-
-                    <!-- 선택 버튼 -->
-                    <div>
-                        <a href="/schedule/{{id}}" class="btn" style="padding: 0.5rem 1rem; background: var(--color-blue); color: white; border-radius: 15px; font-weight: 600; text-decoration: none;">
-                            선택
-                        </a>
-                    </div>
-
+                    <a href="/schedule/{{id}}" class="btn employee-btn">
+                        선택
+                    </a>
                 </div>
-            </div>
-        {{/employeeList}}
+            {{/employeeList}}
 
-        {{^employeeList}}
-            <div style="text-align: center; color: var(--color-gray); margin-top: 2rem; font-weight: 600;">
-                검색 결과가 없습니다.
-            </div>
-        {{/employeeList}}
-
+            {{^employeeList}}
+                <p>검색 결과가 없습니다.</p>
+            {{/employeeList}}
+        </div>
     </div>
 </div>
 

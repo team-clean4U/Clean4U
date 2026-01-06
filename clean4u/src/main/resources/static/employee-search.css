@@ -1,0 +1,144 @@
+.employee-search-section .container {
+    max-width: 900px;
+    padding: 2rem 3rem;
+}
+
+.employee-search-list {
+    margin-top: 1rem;
+}
+
+.employee-search-list:not(:has(p)) {
+    background: var(--color-white);
+    border-radius: 25px;
+    box-shadow: 0 8px 30px var(--shadow);
+    border: 2px solid var(--color-light-blue);
+    overflow: hidden;
+}
+
+.employee-search-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px dashed var(--color-light-gray);
+    transition: background-color 0.2s ease;
+}
+
+.employee-search-content:last-of-type {
+    border-bottom: none;
+}
+
+.employee-search-content:hover {
+    background-color: var(--background-blue);
+}
+
+.employee-search-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.employee-search-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.employee-search-icon i {
+    color: var(--color-white);
+    font-size: 1rem;
+}
+
+.employee-search-name {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-dark-blue);
+}
+
+.employee-search-username {
+    font-size: 0.85rem;
+    color: var(--color-gray);
+    font-weight: 500;
+}
+
+.employee-btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+    background: var(--color-cyan);
+}
+
+.employee-btn:hover {
+    background: var(--color-light-blue);
+}
+
+.employee-search-list p {
+    text-align: center;
+    margin: 2rem 0;
+    color: var(--color-gray);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .employee-search-section .container {
+        padding: 1.5rem 2rem;
+    }
+
+    .employee-search-content {
+        padding: 1.15rem 1.5rem;
+    }
+
+    .employee-search-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .employee-search-icon i {
+        font-size: 0.9rem;
+    }
+
+    .employee-search-name {
+        font-size: 1rem;
+    }
+
+    .employee-search-username {
+        font-size: 0.8rem;
+    }
+
+    .employee-search-btn {
+        padding: 0.45rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .employee-search-section .container {
+        padding: 1rem;
+    }
+
+    .employee-search-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.15rem 1rem;
+    }
+
+    .employee-search-info {
+        width: 100%;
+    }
+
+    .employee-search-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
