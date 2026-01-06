@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     const impKey = 'imp47240471';
     const paymentBtn = document.getElementById("paymentBtn");
@@ -7,49 +8,48 @@ document.addEventListener("DOMContentLoaded", () => {
     if(!paymentBtn) return;
 
     paymentBtn.addEventListener('click', () => {
-       fetch("/api/payment/prepare", {
-           method: "POST",
-           headers: {
-               'Content-Type': 'application/json'
-           },
-           body: JSON.stringify({
-               orderId: orderId,
-               amount: amount
-           })
-       })
-           .then(res => {
-               if(!res.ok) {
-                   throw Error("주문번호 생성 실패");
-               }
-               return res.json();
-           })
-           .then(data => {
-               console.log("data object 확인: " + data.amount);
-               const merchantUid = data.merchantUid;
-               const payAmount = data.amount;
-               const IMP = window.IMP;
+        fetch("/api/payment/prepare", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                orderId: orderId,
+                amount: amount
+            })
+        })
+            .then(res => {
+                if(!res.ok) {
+                    throw Error("주문번호 생성 실패");
+                }
+                return res.json();
+            })
+            .then(data => {
+                const merchantUid = data.merchantUid;
+                const payAmount = data.amount;
+                const IMP = window.IMP;
 
-               IMP.init(impKey);
+                IMP.init(impKey);
 
-               IMP.request_pay(
-                   {
-                       channelKey: "channel-key-596c9a9f-b4b4-419d-bade-37948cee1ccf",
-                       pay_method: "card",
-                       merchant_uid: merchantUid,
-                       name: "세탁 주문 결제",
-                       amount: payAmount,
-                       buyer_name: "{{order.customerName}}",
-                   },
-                   function (response) {
-                       if(response.success) {
-                           console.log("포트원 요청 성공");
-                           verifyPayment(response.imp_uid, response.merchant_uid, orderId)
-                       } else {
-                           alert("결제 실패");
-                       }
-                   },
-               );
-           })
+                IMP.request_pay(
+                    {
+                        channelKey: "channel-key-596c9a9f-b4b4-419d-bade-37948cee1ccf",
+                        pay_method: "card",
+                        merchant_uid: merchantUid,
+                        name: "세탁 주문 결제",
+                        amount: payAmount,
+                        buyer_name: "{{order.customerName}}",
+                    },
+                    function (response) {
+                        if(response.success) {
+                            console.log("포트원 요청 성공");
+                            verifyPayment(response.imp_uid, response.merchant_uid, orderId)
+                        } else {
+                            alert("결제 실패");
+                        }
+                    },
+                );
+            })
     });
 
     function verifyPayment(imp_uid, merchant_uid, order_id) {

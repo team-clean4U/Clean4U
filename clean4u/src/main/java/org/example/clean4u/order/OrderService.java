@@ -31,6 +31,7 @@ import org.example.clean4u.payment.PaymentStatus;
 import org.example.clean4u.review.ReviewRepository;
 import org.example.clean4u.review.ReviewResponse;
 import org.example.clean4u.review.ReviewService;
+import org.example.clean4u.sms.SmsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,6 +63,7 @@ public class OrderService {
     private final EntityManager entityManager;
     private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
+    private final SmsService smsService;
 
     // 주문 생성
     @Transactional
@@ -268,7 +270,7 @@ public class OrderService {
                 .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
 
         // 1. 주문 조회
-        Order order = orderRepository.findById(orderId)
+        Order order = orderRepository.findByIdWithCustomer(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
         OrderStatus previousStatus = order.getStatus();
@@ -348,6 +350,11 @@ public class OrderService {
                     .editor(editor)
                     .build();
             orderStatusHistoryRepository.save(history);
+
+            String from = order.getCustomer().getPhone();
+            String message = order.getCustomer().getName() + "님의 세탁물 상태가 " + newStatus.getDisplayName() + "(으)로 변경되었습니다.";
+            smsService.sendOne(from, message);
+            System.out.println("문자 성공 완료------");
         }
 
         Customer customer = customerRepository.findById(order.getCustomer().getId())

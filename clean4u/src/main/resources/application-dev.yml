@@ -64,3 +64,8 @@ spring:
 portone:
     imp-key: ${IMP_REST_API_KEY}
     imp-secret: ${IMP_SECRET_KEY}
+
+solapi:
+    api-key: ${SOLAPI_API_KEY}
+    api-secret: ${SOLAPI_API_SECRET}
+    from: ${FROM}

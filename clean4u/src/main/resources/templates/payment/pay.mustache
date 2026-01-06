@@ -1,0 +1,54 @@
+<button onclick="requestPay()">결제하기</button>
+
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script>
+    const impKey = 'imp47240471';
+    const IMP = window.IMP;
+    IMP.init(impKey);
+
+    function requestPay() {
+        IMP.request_pay(
+            {
+                channelKey: "channel-key-596c9a9f-b4b4-419d-bade-37948cee1ccf",
+                pay_method: "card",
+                merchant_uid: merchantUid,
+                name: "세탁 주문 결제",
+                amount: payAmount,
+                buyer_name: "{{customer.name}}",
+            },
+                function (response) {
+                    if(response.success) {
+                        console.log("포트원 요청 성공");
+                        verifyPayment(response.imp_uid, response.merchant_uid, orderId)
+                    } else {
+                        alert("결제 실패");
+                    }
+                }
+        );
+    }
+
+    function verifyPayment(imp_uid, merchant_uid, order_id) {
+        fetch("/api/payment/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                orderId: order_id,
+                impUid: imp_uid,
+                merchantUid: merchant_uid
+            })
+        }).then(res => {
+            if(!res.ok) {
+                return res.json().then(e => {
+                    throw new Error(e.message);
+                })
+            }
+            return res.json;
+        }).then(data => {
+            alert("결제가 완료되었습니다.");
+            location.href = `/order/${order_id}`;
+        }).catch(err => {
+            alert("결제 검증에 실패했습니다.");
+        })
+    }
+</script>
+
