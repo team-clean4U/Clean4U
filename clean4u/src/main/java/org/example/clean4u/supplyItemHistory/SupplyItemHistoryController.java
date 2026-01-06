@@ -51,7 +51,7 @@ public class SupplyItemHistoryController {
         model.addAttribute("fromDate", fromDate);
         model.addAttribute("toDate", toDate);
         model.addAttribute("itemName", itemName != null ? itemName : "");
-        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/supply-item-history.css", "/css/order.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/supply-item-history.css"));
         return "supplyItemHistory/list-form";
     }
 
