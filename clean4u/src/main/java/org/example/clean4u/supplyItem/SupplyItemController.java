@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
+import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,8 +70,11 @@ public class SupplyItemController {
 
     // http://localhost:8080/supply-item/save
     @PostMapping("/supply-item/save")
-    public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO) {
-        service.save(saveDTO);
+    public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+
+        service.save(saveDTO, sessionUser);
+
         return "redirect:/supply-item/list";
     }
 
@@ -84,8 +88,11 @@ public class SupplyItemController {
 
     // http://localhost:8080/supply-item/{supplyItemId}/update
     @PostMapping("/supply-item/{supplyItemId}/update")
-    public String updateProc(@PathVariable Long supplyItemId, @Valid SupplyItemRequest.UpdateDTO updateDTO) {
-        service.update(supplyItemId, updateDTO);
+    public String updateProc(@PathVariable Long supplyItemId, @Valid SupplyItemRequest.UpdateDTO updateDTO, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+
+        service.update(supplyItemId, updateDTO, sessionUser);
+
         return "redirect:/supply-item/" + supplyItemId;
     }
 
