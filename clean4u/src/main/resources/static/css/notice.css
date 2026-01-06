@@ -452,4 +452,35 @@
     }
 }
 
+.file-right {
+    display: flex;
+    flex: 1;
+    gap: 1rem;
+}
 
+.image-add {
+    padding: 0.6rem 1.3rem;
+    background: var(--color-blue);
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.image-add:hover {
+    background: var(--color-light-blue);
+}
+
+.image-add i {
+    color: var(--color-white);
+}
+
+.image-label {
+    background-color: var(--color-cream);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid var(--color-light-gray);
+    border-radius: 10px;
+    color: var(--color-gray);
+    width: 100%;
+    white-space: nowrap;
+    padding: 0.5rem 0.7rem;
+}

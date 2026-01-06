@@ -68,7 +68,7 @@ public class SupplyItemController {
     // http://localhost:8080/supply-item/save
     @GetMapping("/supply-item/save")
     public String saveForm(Model model) {
-        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/supply-item.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/supply-item.css", "/css/supply-item-history.css", "/css/order.css"));
         return "supplyItem/save-form";
     }
 
@@ -87,7 +87,7 @@ public class SupplyItemController {
     public String updateForm(@PathVariable Long supplyItemId, Model model) {
         SupplyItemResponse.UpdateFormDTO supplyItem = service.getFormForUpdate(supplyItemId);
         model.addAttribute("supplyItem", supplyItem);
-        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/supply-item.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/supply-item.css", "/css/supply-item-history.css", "/css/order.css"));
         return "supplyItem/update-form";
     }
 

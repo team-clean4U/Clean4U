@@ -314,11 +314,6 @@
     gap: 0.5rem;
 }
 
-.supply-item-select-wrapper label {
-    padding-left: 0.7rem;
-}
-
-
 .supply-item-quantity-wrapper {
     display: flex;
     align-items: center;

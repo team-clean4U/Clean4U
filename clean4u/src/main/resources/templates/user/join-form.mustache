@@ -2,6 +2,8 @@
 
 {{> layout/header}}
 
+{{> layout/background}}
+
 <div class="login-container">
     <div class="login-card">
         <div class="detail-header">
@@ -45,20 +47,24 @@
                     </div>
                     <div class="email-group">
                         <input type="email" id="email" name="email" placeholder="이메일 입력" required>
-                        <button type="button" class="btn-send" onclick="callSendApi()">
-                            인증번호 전송
+                        <button type="button" class="btn btn-send" onclick="callSendApi()">
+                            <i class="fa-solid fa-envelope"></i> 인증번호 전송
                         </button>
                     </div>
                 </div>
 
                 <!-- 인증번호 -->
-                <div class="detail-item" id="code-box" style="display:none;">
+                <div class="detail-item" id="code-box" style="display: none;">
                     <div class="detail-label">
                         <i class="fa-solid fa-key"></i> 인증번호
                     </div>
                     <div class="input-group">
                         <input type="text" id="code" placeholder="6자리 입력" maxlength="6">
-                        <button type="button" class="btn-verify" onclick="callVerifyApi()">확인</button>
+                        <div class="verify-div">
+                            <button type="button" class="btn btn-verify" onclick="callVerifyApi()">
+                                확인
+                            </button>
+                        </div>
                     </div>
                     <div id="msg"></div>
                 </div>
@@ -102,7 +108,7 @@
 
             if (response.ok) {
                 alert("인증번호가 메일로 전송되었습니다. 메일을 확인해주세요.");
-                document.querySelector("#code-box").style.display ="block";
+                document.querySelector("#code-box").style.display = "flex";
             } else {
                 let error = response.json();
                 alert("이메일 전송 실패");

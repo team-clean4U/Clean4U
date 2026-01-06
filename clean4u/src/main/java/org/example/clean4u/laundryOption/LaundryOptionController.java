@@ -59,7 +59,7 @@ public class LaundryOptionController {
     public String detail(@PathVariable Long laundryOptionId, Model model) {
         LaundryOptionResponse.DetailDTO laundryOption = service.getDetail(laundryOptionId);
         model.addAttribute("laundryOption", laundryOption);
-        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/laundry-option.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/update.css"));
 
         return "laundryOption/detail-form";
     }
@@ -67,7 +67,7 @@ public class LaundryOptionController {
     // http://localhost:8080/laundry-option/save
     @GetMapping("/laundry-option/save")
     public String saveForm(Model model) {
-        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/laundry-option.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/update.css"));
         return "laundryOption/save-form";
     }
 
@@ -83,7 +83,7 @@ public class LaundryOptionController {
     public String updateForm(@PathVariable Long laundryOptionId, Model model) {
         LaundryOptionResponse.UpdateFormDTO laundryOption = service.getFormForUpdate(laundryOptionId);
         model.addAttribute("laundryOption", laundryOption);
-        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/laundry-option.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/update.css"));
         return "laundryOption/update-form";
     }
 
