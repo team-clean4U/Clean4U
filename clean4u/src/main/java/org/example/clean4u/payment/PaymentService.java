@@ -10,6 +10,7 @@ import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.order.OrderStatus;
 
+import org.example.clean4u.sms.SmsService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final EmployeeRepository employeeRepository;
     private final OrderRepository orderRepository;
+    private final SmsService smsService;
 
     @Value("${portone.imp-key}")
     private String impKey;
@@ -42,7 +44,7 @@ public class PaymentService {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
 
-        Order order = orderRepository.findById(prepareDTO.getOrderId())
+        Order order = orderRepository.findByIdWithCustomer(prepareDTO.getOrderId())
                 .orElseThrow(() -> new Exception404("결제 시도하려는 주문을 찾을 수 없습니다."));
 
         if (order.getStatus() == OrderStatus.CANCELLED) {
@@ -53,6 +55,11 @@ public class PaymentService {
         while (paymentRepository.existsByMerchantUid(merchantUid)) {
             merchantUid = generateMerchantUid(prepareDTO.getOrderId());
         }
+
+//        String payUrl = "http://localhost:8080/payment/" + order.getId() + "/" + merchantUid;
+//        String to = order.getCustomer().getPhone();
+//
+//        smsService.sendOne(to, "[Clean4U]\n결제요청이 도착했습니다.\n아래링크를 눌러 결제해주세요.\n" + payUrl);
 
         return new PaymentResponse.PrepareDTO(
                 merchantUid,

@@ -149,12 +149,12 @@
                     <input type="hidden" id="orderId" value="{{order.orderId}}">
                         <div class="btn-payment-wrapper">
                          {{#order.isPending}}{{^order.isCancelled}}
-                            <button type="button" id="paymentBtn" class="btn btn-payment">
-                                <span>
-                                    <i class="fa-solid fa-credit-card"></i>
-                                </span>
-                                <span>결제 QR 요청하기</span>
-                            </button>
+                                <button type="button" id="paymentBtn" class="btn btn-payment">
+                                    <span>
+                                        <i class="fa-solid fa-credit-card"></i>
+                                    </span>
+                                    <span>결제 링크 전송하기</span>
+                                </button>
                          {{/order.isCancelled}}{{/order.isPending}}
                         {{^order.isPending}}
                             <span class="payment-card">결제 완료</span>
