@@ -46,7 +46,7 @@ public class SupplyItemHistory {
     @Column(name = "stock_after", nullable = false)
     private Integer stockAfter;
 
-    @Column(name = "memo")
+    @Column(name = "memo", nullable = false)
     private String memo;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

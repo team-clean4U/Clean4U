@@ -51,6 +51,33 @@
                             <span class="slider"></span>
                         </label>
                     </div>
+
+                    <div class="update-item">
+                        <label class="update-label">
+                            <i class="fa-solid fa-list"></i>
+                            거래 유형
+                        </label>
+                        <div class="update-value category">
+                            <input type="hidden" name="historyType" id="historyType">
+                            <div class="category-select">
+                                <span class="category-selected">거래 유형 선택</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <ul class="category-dropdown">
+                                <li data-type="IN">입고</li>
+                                <li data-type="OUT">출고</li>
+                                <li data-type="ADJUSTMENT">조정</li>
+                                <li data-type="UPDATE">수정</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="update-item">
+                        <label class="update-label">
+                            <i class="fa-solid fa-note-sticky"></i>
+                            메모
+                        </label>
+                        <textarea cols="3" name="memo" placeholder="메모를 입력해주세요." class="update-value" required></textarea>
+                    </div>
                 </div>
                 <div class="bottom-buttons">
                     <a href="/supply-item/{{supplyItem.id}}" class="btn btn-back">취소</a>
@@ -60,5 +87,6 @@
         </div>
     </div>
 </div>
+
 
 {{> layout/footer}}

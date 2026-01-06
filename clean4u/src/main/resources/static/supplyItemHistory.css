@@ -104,6 +104,12 @@
     border: 1px solid rgba(230, 81, 0, 0.2);
 }
 
+.type-badge.type-UPDATE {
+    background: var(--type-update);
+    color: var(--type-update-text);
+    border: 1px solid rgba(106, 27, 154, 0.2);
+}
+
 .history-table .empty-message {
     text-align: center;
     font-weight: 500;

@@ -1,14 +1,13 @@
 package org.example.clean4u.supplyItemHistory;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
-import org.example.clean4u.employee.Employee;
-import org.example.clean4u.supplyItem.SupplyItem;
 import org.example.clean4u.supplyItem.SupplyItemRepository;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,49 +32,6 @@ public class SupplyItemHistoryService {
         return new SupplyItemHistoryResponse.GroupDetailDTO(firstItemHistory, groupedHistories);
     }
 
-
-    @Transactional
-    public void save(@Valid SupplyItemHistoryRequest.SaveDTO saveDTO, Employee employee) {
-        for (SupplyItemHistoryRequest.ItemDTO item : saveDTO.getItems()) {
-            SupplyItem supplyItem = supplyItemRepository.findById(item.getSupplyItemId())
-                    .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
-
-            Integer stockBefore = supplyItem.getStockQuantity();
-            Integer stockAfter;
-
-            switch (saveDTO.getType()) {
-                case IN:
-                    stockAfter = stockBefore + item.getQuantity();
-                    break;
-                case OUT:
-                    if (stockBefore < item.getQuantity()) {
-                        throw new Exception400("출고 수량이 현재 재고보다 많습니다.");
-                    }
-                    stockAfter = stockBefore - item.getQuantity();
-                    break;
-                case ADJUSTMENT:
-                    stockAfter = item.getQuantity();
-                    break;
-                default:
-                    throw new Exception400("잘못된 거래 유형입니다.");
-            }
-
-            SupplyItemHistory history = SupplyItemHistory.builder()
-                    .supplyItem(supplyItem)
-                    .type(saveDTO.getType())
-                    .quantity(item.getQuantity())
-                    .stockBefore(stockBefore)
-                    .stockAfter(stockAfter)
-                    .memo(saveDTO.getMemo())
-                    .employee(employee)
-                    .build();
-
-            historyRepository.save(history);
-            supplyItem.updateStockQuantity(stockAfter);
-        }
-    }
-
-
     public PageResponse<SupplyItemHistoryResponse.ListDTO> supplyItemHistoryList(
             int page,
             int size,
@@ -85,7 +41,7 @@ public class SupplyItemHistoryService {
     ) {
         int validPage = Math.max(0, page);
         int validSize = Math.max(1, Math.min(50, size));
-        Pageable pageable =PageRequest.of(validPage, validSize);
+        Pageable pageable = PageRequest.of(validPage, validSize);
 
         String typeStr = type != null ? type.name() : null;
         Page<Object[]> groupedPage = historyRepository.findAllWithFilters(typeStr, fromDate, toDate, pageable);
