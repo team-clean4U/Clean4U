@@ -41,6 +41,9 @@ public class Customer {
     @Column(name = "memo", length = 1000)
     private String memo;
 
+    @Column(name = "isActive", nullable = false)
+    private Boolean isActive = true;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
@@ -66,5 +69,9 @@ public class Customer {
 
     public void updateMemo(String newMemo) {
         this.memo = newMemo;
+    }
+
+    public void deactivate() {
+        this.isActive = false;
     }
 }
