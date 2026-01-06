@@ -1,7 +1,7 @@
 
 .update-value.category {
     position: relative;
-    width: 100%;
+    flex: 1;
 }
 
 .update-value.category .category-select {

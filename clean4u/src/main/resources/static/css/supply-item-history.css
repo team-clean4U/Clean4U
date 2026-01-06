@@ -388,14 +388,6 @@
         padding: 1.5rem;
     }
 
-    .history-input .update-value.category {
-        min-width: 150px;
-        flex: 0 0 auto;
-        border-bottom: 2px dashed var(--color-light-blue);
-        padding-bottom: 1rem;
-        margin-bottom: 0.5rem;
-    }
-
     .history-input .search-input-box {
         min-width: 150px;
     }
