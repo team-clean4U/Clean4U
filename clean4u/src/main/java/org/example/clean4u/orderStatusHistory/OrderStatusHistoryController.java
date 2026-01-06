@@ -47,7 +47,7 @@ public class OrderStatusHistoryController {
         model.addAttribute("statusHistoryListPage", statusHistoryListPage);
         model.addAttribute("searchView", searchDTO);
         model.addAttribute("queryString", queryString);
-        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/order.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/order.css", "/css/supply-item-history.css"));
 
         return "orderStatusHistory/list-form";
     }
