@@ -50,3 +50,27 @@
         width: 95%;
     }
 }
+
+.supply-item-history-items .supply-item-card {
+    display: inline-flex;
+    width: 100%;
+}
+
+.supply-item-inner {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.supply-item-inner .supply-item-select-wrapper {
+    min-width: 0;
+}
+
+.supply-item-history-items .bottom-buttons {
+    padding: 2rem 0;
+}
+
+#historyTypeContainer {
+    display: none;
+}
