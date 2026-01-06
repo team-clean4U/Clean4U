@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class CustomerController {
     // http://localhost:8080/customer/list
     @GetMapping("/customer/save")
     public String saveForm(Model model) {
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/detail.css", "/css/customer.css"));
         CustomerResponse.SaveDTO dto = new CustomerResponse.SaveDTO();
         model.addAttribute("grade", Grade.NEW);
         return "customer/save-form";
@@ -56,6 +58,7 @@ public class CustomerController {
         model.addAttribute("customerPage", customerListPage);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("category", category == null ? "all" :category);
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/customer.css"));
 
         return "customer/list-form";
     }
@@ -66,6 +69,7 @@ public class CustomerController {
         CustomerResponse.DetailDTO customer = customerService.getDetail(customerId);
 
         model.addAttribute("customer", customer);
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/customer.css"));
 
         return "customer/detail-form";
     }
@@ -75,6 +79,7 @@ public class CustomerController {
     public String updateForm(@PathVariable Long customerId, Model model) {
         CustomerResponse.UpdateDTO dto = customerService.getFormForUpdate(customerId);
         model.addAttribute("customer", dto);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/customer.css"));
 
         return "customer/update-form";
     }

@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -49,6 +50,7 @@ public class OrderController {
             model.addAttribute("laundryItemJson", "[]");
             model.addAttribute("laundryOptionsJson", "[]");
         }
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/order.css"));
 
         return "order/save-form";
     }
@@ -87,6 +89,7 @@ public class OrderController {
         model.addAttribute("orderPage", orderListPage);
         model.addAttribute("searchView", searchDTO);
         model.addAttribute("queryString", queryString);
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/order.css", "/css/customer.css"));
 
         return "order/list-form";
     }
@@ -99,6 +102,7 @@ public class OrderController {
         model.addAttribute("order", order);
         model.addAttribute("items", order.getItems());
         model.addAttribute("history", order.getHistories());
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/order.css", "/css/payment.css", "/css/customer.css"));
         return "order/detail-form";
     }
 
@@ -123,6 +127,7 @@ public class OrderController {
             model.addAttribute("laundryItemJson", "[]");
             model.addAttribute("laundryOptionsJson", "[]");
         }
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/detail.css", "/css/order.css", "/css/customer.css"));
 
         return "order/update-form";
     }
@@ -140,7 +145,7 @@ public class OrderController {
     @PostMapping("/order/{orderId}/laundry-image/delete")
     public String deleteLaundryImage(@PathVariable Long orderId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-         orderService.deleteLaundryImage(orderId, sessionUser.getId());
+        orderService.deleteLaundryImage(orderId, sessionUser.getId());
         return "redirect:/order/" + orderId;
     }
 

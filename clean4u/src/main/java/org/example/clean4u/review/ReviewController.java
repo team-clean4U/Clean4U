@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+
 @Controller
 @RequiredArgsConstructor
 public class ReviewController {
@@ -17,12 +19,14 @@ public class ReviewController {
     public String saveForm(@RequestParam String token, Model model) {
         service.validateToken(token);
         model.addAttribute("token", token);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/review.css"));
         return "review/save-form";
     }
 
     @PostMapping("/review/save")
-    public String saveProc(@RequestParam String token, @Valid ReviewRequest.SaveDTO dto) {
+    public String saveProc(@RequestParam String token, @Valid ReviewRequest.SaveDTO dto, Model model) {
         service.save(dto, token);
+        model.addAttribute("additionalCss", Arrays.asList("/css/review.css"));
         return "review/complete-form";
     }
 }

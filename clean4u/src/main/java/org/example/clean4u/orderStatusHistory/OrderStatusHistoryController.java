@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+
 @Controller
 @RequiredArgsConstructor
 public class OrderStatusHistoryController {
@@ -45,6 +47,7 @@ public class OrderStatusHistoryController {
         model.addAttribute("statusHistoryListPage", statusHistoryListPage);
         model.addAttribute("searchView", searchDTO);
         model.addAttribute("queryString", queryString);
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/order.css"));
 
         return "orderStatusHistory/list-form";
     }

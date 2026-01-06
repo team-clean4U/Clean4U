@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,6 +51,7 @@ public class SupplyItemHistoryController {
         model.addAttribute("fromDate", fromDate);
         model.addAttribute("toDate", toDate);
         model.addAttribute("itemName", itemName != null ? itemName : "");
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/supply-item-history.css", "/css/order.css"));
         return "supplyItemHistory/list-form";
     }
 
@@ -58,6 +60,7 @@ public class SupplyItemHistoryController {
     public String detail(@PathVariable Long historyId, Model model) {
         SupplyItemHistoryResponse.GroupDetailDTO supplyItemHistory = service.getDetail(historyId);
         model.addAttribute("supplyItemHistory", supplyItemHistory);
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/supply-item-history.css"));
         return "supplyItemHistory/detail-form";
     }
 }

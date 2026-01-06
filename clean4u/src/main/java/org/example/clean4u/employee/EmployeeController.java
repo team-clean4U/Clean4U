@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Arrays;
 import java.util.Map;
 
 @Controller
@@ -22,8 +23,8 @@ public class EmployeeController {
     private final DashboardService dashboardService;
 
     @GetMapping("/join")
-    public String join() {
-
+    public String join(Model model) {
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/user.css"));
         return "user/join-form";
     }
 
@@ -35,7 +36,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/user.css"));
         return "user/login-form";
     }
 
@@ -68,6 +70,7 @@ public class EmployeeController {
 
         Map<String, Object> statistics = dashboardService.getStatistics();
         model.addAllAttributes(statistics);
+        model.addAttribute("additionalCss", Arrays.asList("/css/user.css"));
 
         if (sessionUser.getUserRole() == UserRole.ADMIN) {
             long pendingCount = employeeService.pendingCount();
@@ -84,6 +87,7 @@ public class EmployeeController {
 
         Employee employee = employeeService.update(sessionUser.getId());
         model.addAttribute("employee", employee);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/user.css"));
 
         return "user/update-form";
     }

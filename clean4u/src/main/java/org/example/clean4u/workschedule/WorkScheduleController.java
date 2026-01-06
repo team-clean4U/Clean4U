@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -34,6 +35,7 @@ public class WorkScheduleController {
         List<EmployeeResponse.SimpleDTO> employeeList = workScheduleService.searchByName(keyword);
         model.addAttribute("employeeList", employeeList);
         model.addAttribute("keyword", keyword != null ? keyword : "");
+        model.addAttribute("additionalCss", Arrays.asList("/css/employee-search.css"));
 
         return "employee/employee-search";
     }
@@ -53,6 +55,7 @@ public class WorkScheduleController {
         boolean isSick = reason == ScheduleReason.SICK;
         model.addAttribute("isSick", isSick);
         model.addAttribute("reason", reason);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/schedule.css", "/css/employee-search.css"));
 
         return "workschedule/save-form";
     }
@@ -94,6 +97,7 @@ public class WorkScheduleController {
         model.addAttribute("searchEndTime", searchEndTime != null ? searchEndTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
         model.addAttribute("isName", "name".equalsIgnoreCase(category));
         model.addAttribute("isUserName", "username".equalsIgnoreCase(category));
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/schedule.css", "/css/order.css"));
 
         return "workschedule/schedule-list-form";
     }
@@ -106,6 +110,7 @@ public class WorkScheduleController {
         WorkScheduleResponse.DetailDTO schedule = workScheduleService.detail(scheduleId);
 
         model.addAttribute("schedule", schedule);
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/schedule.css"));
 
         return "workschedule/schedule-detail";
     }
@@ -118,6 +123,7 @@ public class WorkScheduleController {
         WorkScheduleResponse.UpdateDTO schedule = workScheduleService.scheduleUpdate(scheduleId);
 
         model.addAttribute("schedule", schedule);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/schedule.css"));
 
         return "workschedule/schedule-update-form";
     }
