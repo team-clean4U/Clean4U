@@ -401,6 +401,24 @@ input.has-value {
     gap: 0.3rem;
 }
 
+.payment-fail{
+    color: var(--type-out-text);
+    font-weight: 600;
+}
+
+.fa-times-circle.fail {
+    color: var(--type-out-text);
+}
+
+.payment-success {
+    color: var(--icon-success);
+    font-weight: 600;
+}
+
+.fa-circle-check.success {
+    color: var(--icon-success);
+}
+
 @media (max-width: 768px) {
     .status-label {
         flex-direction: column;

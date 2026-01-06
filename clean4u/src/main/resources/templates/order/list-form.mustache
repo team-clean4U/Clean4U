@@ -107,15 +107,15 @@
                         <div class="card-info">
                             <span class="info-label">결제상태:</span>
                             {{#isPending}}
-                                <span style="color: var(--type-out-text); font-weight: 600;">
-                                <i class="fa-solid fa-times-circle" style="color: var(--type-out-text)"></i>
+                                <span class="payment-fail">
+                                <i class="fa-solid fa-times-circle fail"></i>
                                     미결제
                                 </span>
                             {{/isPending}}
 
                             {{^isPending}}
-                                <span style="color: var(--icon-success); font-weight: 600;">
-                                <i class="fa-solid fa-circle-check" style="color: var(--icon-success)"></i>
+                                <span class="payment-success">
+                                <i class="fa-solid fa-circle-check success"></i>
                                     결제완료
                                 </span>
                             {{/isPending}}
