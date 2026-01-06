@@ -60,8 +60,10 @@ public class NoticeService {
     }
 
     public NoticeResponse.DetailDTO getNoticeById(Long noticeId) {
-        Notice notice = noticeRepository.findById(noticeId)
+        Notice notice = noticeRepository.findByIdWithImages(noticeId)
                 .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
+
+        System.out.println("uploadImages: " + notice.getNoticeImagePath());
 
         return new NoticeResponse.DetailDTO(notice);
     }
