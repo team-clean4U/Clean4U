@@ -1,6 +1,5 @@
 package org.example.clean4u.supplyItemHistory;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -14,9 +13,9 @@ public class SupplyItemHistoryRequest {
         private Type type;
 
         @NotEmpty(message = "비품을 선택하세요.")
-        @Valid
         private List<ItemDTO> items;
 
+        @NotNull(message = "메모는 필수입니다.")
         private String memo;
     }
 

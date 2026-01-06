@@ -3,17 +3,14 @@ package org.example.clean4u.supplyItemHistory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
-import org.example.clean4u.employee.Employee;
 import org.example.clean4u.supplyItem.SupplyItemService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -69,26 +66,4 @@ public class SupplyItemHistoryController {
         model.addAttribute("supplyItemHistory", supplyItemHistory);
         return "supplyItemHistory/detail-form";
     }
-
-    // http://localhost:8080/supply-item-history/save
-    @GetMapping("/supply-item-history/save")
-    public String saveForm(Model model) {
-        model.addAttribute("supplyItems", supplyItemService.getAllSupplyItems());
-        try {
-            String supplyItemsJson = objectMapper.writeValueAsString(supplyItemService.getAllSupplyItems());
-            model.addAttribute("supplyItemsJson", supplyItemsJson);
-        } catch (Exception e) {
-            model.addAttribute("supplyItemsJson", "[]");
-        }
-        return "supplyItemHistory/save-form";
-    }
-
-    // http://localhost:8080/supply-item-history/save
-    @PostMapping("/supply-item-history/save")
-    public String saveProc(@Valid SupplyItemHistoryRequest.SaveDTO saveDTO, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        service.save(saveDTO, sessionUser);
-        return "redirect:/supply-item-history/list";
-    }
-
 }
