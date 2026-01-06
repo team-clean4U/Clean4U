@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+
 @Controller
 @RequiredArgsConstructor
 public class SupplyItemController {
@@ -49,6 +51,7 @@ public class SupplyItemController {
         model.addAttribute("lowStockTrue", Boolean.TRUE.equals(lowStock));
         model.addAttribute("lowStockFalse", Boolean.FALSE.equals(lowStock));
         model.addAttribute("queryString", queryString);
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/supply-item.css"));
         return "supplyItem/list-form";
     }
 
@@ -57,13 +60,15 @@ public class SupplyItemController {
     public String detail(@PathVariable Long supplyItemId, Model model) {
         SupplyItemResponse.DetailDTO supplyItem = service.getDetail(supplyItemId);
         model.addAttribute("supplyItem", supplyItem);
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/supply-item.css"));
 
         return "supplyItem/detail-form";
     }
 
     // http://localhost:8080/supply-item/save
     @GetMapping("/supply-item/save")
-    public String saveForm() {
+    public String saveForm(Model model) {
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/supply-item.css"));
         return "supplyItem/save-form";
     }
 
@@ -82,6 +87,7 @@ public class SupplyItemController {
     public String updateForm(@PathVariable Long supplyItemId, Model model) {
         SupplyItemResponse.UpdateFormDTO supplyItem = service.getFormForUpdate(supplyItemId);
         model.addAttribute("supplyItem", supplyItem);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/supply-item.css"));
         return "supplyItem/update-form";
     }
 

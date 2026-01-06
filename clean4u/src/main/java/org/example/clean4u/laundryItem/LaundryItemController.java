@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+
 @RequiredArgsConstructor
 @Controller
 public class LaundryItemController {
@@ -45,6 +47,7 @@ public class LaundryItemController {
         model.addAttribute("name", name == null ? "" : name);
         model.addAttribute("category", category);
         model.addAttribute("queryString", queryString);
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css"));
 
         return "laundryItem/list-form";
     }
@@ -54,13 +57,15 @@ public class LaundryItemController {
     public String detail(@PathVariable Long laundryItemId, Model model) {
         LaundryItemResponse.DetailDTO laundryItem = service.getDetail(laundryItemId);
         model.addAttribute("laundryItem", laundryItem);
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css"));
 
         return "laundryItem/detail-form";
     }
 
     // http://localhost:8080/laundry-item/save
     @GetMapping("/laundry-item/save")
-    public String saveForm() {
+    public String saveForm(Model model) {
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css"));
         return "laundryItem/save-form";
     }
 
@@ -85,6 +90,7 @@ public class LaundryItemController {
         model.addAttribute("isAccessory", category == LaundryCategory.ACCESSORY);
         model.addAttribute("isSpecial", category == LaundryCategory.SPECIAL);
         model.addAttribute("isEtc", category == LaundryCategory.ETC);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css"));
 
         return "laundryItem/update-form";
     }

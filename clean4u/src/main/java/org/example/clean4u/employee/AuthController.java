@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -21,6 +22,7 @@ public class AuthController {
 
         List<EmployeeResponse.JoinListDTO> joinList = authService.joinList();
         model.addAttribute("joinList", joinList);
+        model.addAttribute("additionalCss", Arrays.asList("/css/employee-search.css", "/css/user.css"));
 
         return "employee/join-list";
     }
@@ -43,6 +45,7 @@ public class AuthController {
         model.addAttribute("employeePage", employeePage);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("category", category == null ? "all" : category);
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/employee-search.css"));
 
 //        List<EmployeeResponse.ListDTO> employeeList = authService.list();
 //        model.addAttribute("employeeList", employeeList);
@@ -57,6 +60,7 @@ public class AuthController {
     ) {
         EmployeeResponse.DetailDTO detail = authService.detail(employeeId);
         model.addAttribute("detail", detail);
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/employee-search.css"));
 
         return "employee/employee-detail";
     }

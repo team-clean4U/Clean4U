@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+
 @Controller
 @RequiredArgsConstructor
 public class NoticeController {
@@ -33,6 +35,7 @@ public class NoticeController {
         }
 
         model.addAttribute("writer", sessionUser.getName());
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/notice.css"));
 
         return "/notice/save-form";
     }
@@ -64,6 +67,7 @@ public class NoticeController {
 
         PageResponse<NoticeResponse.ListDTO> noticeListPage = noticeService.getAllNoticeList(pageIndex, size);
         model.addAttribute("noticePage", noticeListPage);
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/notice.css"));
 
         return "/notice/list-form";
     }
@@ -85,6 +89,7 @@ public class NoticeController {
 
         boolean isAdmin = employee.isAdmin();
         model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/notice.css"));
 
         return "/notice/detail-form";
     }
@@ -104,6 +109,7 @@ public class NoticeController {
 
         NoticeResponse.DetailDTO notice = noticeService.getFormForUpdate(noticeId, sessionUser);
         model.addAttribute("notice", notice);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/notice.css"));
 
         return "/notice/update-form";
     }

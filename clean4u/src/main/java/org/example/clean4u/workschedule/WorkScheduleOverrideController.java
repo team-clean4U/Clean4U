@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,6 +52,7 @@ public class WorkScheduleOverrideController {
         model.addAttribute("isOverrideName", "overrideName".equalsIgnoreCase(category));
         model.addAttribute("isDate", "date".equalsIgnoreCase(category));
         model.addAttribute("isTime", "time".equalsIgnoreCase(category));
+        model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/schedule.css", "/css/order.css"));
 
         return "workschedule/override-list-form";
     }
@@ -63,6 +65,7 @@ public class WorkScheduleOverrideController {
         WorkScheduleOverrideResponse.DetailDTO override = workScheduleOverrideService.overrideDetail(scheduleId);
 
         model.addAttribute("override", override);
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/schedule.css"));
 
         return "workschedule/override-detail";
     }
@@ -75,6 +78,7 @@ public class WorkScheduleOverrideController {
         WorkScheduleOverrideResponse.UpdateDTO schedule = workScheduleOverrideService.overrideUpdateForm(scheduleId);
 
         model.addAttribute("schedule", schedule);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/schedule.css"));
 
         return "workschedule/override-update-form";
     }
