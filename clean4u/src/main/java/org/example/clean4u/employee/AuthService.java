@@ -23,7 +23,7 @@ public class AuthService {
         List<Employee> employeeList = employeeRepository.findAllByOrderByCreatedAtDesc();
 
         return employeeList.stream()
-                .filter(e -> e.getUserStatus().equals(UserStatus.승인대기))
+                .filter(e -> e.getUserStatus().equals(UserStatus.PENDING))
                 .map(EmployeeResponse.JoinListDTO::new)
                 .collect(Collectors.toList());
     }
@@ -62,11 +62,11 @@ public class AuthService {
         Employee employeeEntity = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
 
-        if (!employeeEntity.getUserStatus().equals(UserStatus.승인대기)) {
+        if (!employeeEntity.getUserStatus().equals(UserStatus.PENDING)) {
             return employeeEntity;
         }
 
-        employeeEntity.setUserStatus(UserStatus.승인);
+        employeeEntity.setUserStatus(UserStatus.APPROVED);
         employeeRepository.save(employeeEntity);
 
         return employeeEntity;
@@ -77,11 +77,11 @@ public class AuthService {
         Employee employeeEntity = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
 
-        if (!employeeEntity.getUserStatus().equals(UserStatus.승인대기)) {
+        if (!employeeEntity.getUserStatus().equals(UserStatus.PENDING)) {
             return employeeEntity;
         }
 
-        employeeEntity.setUserStatus(UserStatus.거부);
+        employeeEntity.setUserStatus(UserStatus.REJECTED);
         employeeRepository.save(employeeEntity);
 
         return employeeEntity;
@@ -92,7 +92,7 @@ public class AuthService {
         Employee employeeEntity = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
 
-        employeeRepository.delete(employeeEntity);
+        employeeEntity.setActive(false);
     }
 
     public PageResponse<EmployeeResponse.ListDTO> getAllEmployeeWithSearch(int pageIndex, int size, String keyword, String category) {

@@ -50,7 +50,7 @@ public class WorkScheduleController {
         List<Employee> overrideList = authService.getOverrideEmployee(employee);
         model.addAttribute("overrideList", overrideList);
 
-        boolean isSick = reason == ScheduleReason.병결;
+        boolean isSick = reason == ScheduleReason.SICK;
         model.addAttribute("isSick", isSick);
         model.addAttribute("reason", reason);
 
