@@ -27,7 +27,6 @@ public class SupplyItemController {
             @RequestParam(defaultValue = "9") int size,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Boolean lowStock,
-            HttpSession session,
             HttpServletRequest request
     ) {
         int pageIndex = Math.max(0, page - 1);
@@ -96,14 +95,14 @@ public class SupplyItemController {
         return "redirect:/supply-item/" + supplyItemId;
     }
 
-    // http://localhost:8080/supply-item/{supplyItemId}/delete
+    // http://localhost:8080/supply-item/{supplyItemId}/deactivate
     @PostMapping("/supply-item/{supplyItemId}/deactivate")
     public String deactivate(@PathVariable Long supplyItemId) {
         service.deactivate(supplyItemId);
         return "redirect:/supply-item/" + supplyItemId;
     }
 
-    // http://localhost:8080/supply-item/{supplyItemId}/delete
+    // http://localhost:8080/supply-item/{supplyItemId}/activate
     @PostMapping("/supply-item/{supplyItemId}/activate")
     public String activate(@PathVariable Long supplyItemId) {
         service.activate(supplyItemId);

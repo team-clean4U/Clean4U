@@ -60,24 +60,6 @@ public class LaundryOption {
         this.isActive = updateDTO.getIsActive();
     }
 
-    public void updateName(String newName) {
-        if (newName == null || newName.trim().isEmpty()) {
-            throw new IllegalArgumentException("옵션 이름은 필수입니다.");
-        }
-        this.name = newName;
-    }
-
-    public void updateExtraPrice(Integer newExtraPrice) {
-        if (newExtraPrice == null || newExtraPrice < 0) {
-            throw new IllegalArgumentException("추가 요금은 0 이상이어야 합니다.");
-        }
-        this.extraPrice = newExtraPrice;
-    }
-
-    public void updateDescription(String newDescription) {
-        this.description = newDescription;
-    }
-
     public void updateIsActive(Boolean newIsActive) {
         this.isActive = newIsActive;
     }
