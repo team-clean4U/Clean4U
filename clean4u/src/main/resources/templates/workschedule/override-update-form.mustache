@@ -10,26 +10,28 @@
             </div>
 
             <!-- 폼 -->
-            <form action="/schedule/{{schedule.id}}/update" method="post" class="update-body">
-                <!-- 직원 ID 숨김 -->
-                <input type="hidden" name="employeeId" value="{{schedule.id}}">
+            <form action="/schedule/{{schedule.id}}/update" method="post">
+                <div class="update-body">
+                    <!-- 직원 ID 숨김 -->
+                    <input type="hidden" name="employeeId" value="{{schedule.id}}">
 
-                <!-- 이름 (readonly) -->
-                <div class="update-item">
-                    <span class="update-label">이름:</span>
-                    <span class="update-value">{{schedule.name}}</span>
-                </div>
+                    <!-- 이름 (readonly) -->
+                    <div class="update-item">
+                        <span class="update-label">이름:</span>
+                        <span class="update-value">{{schedule.name}}</span>
+                    </div>
 
-                <!-- 시작 시간 -->
-                <div class="update-item">
-                    <label class="update-label" for="startTime">시작 시간:</label>
-                    <input type="time" id="startTime" name="startTime" required>
-                </div>
+                    <!-- 시작 시간 -->
+                    <div class="update-item">
+                        <label class="update-label" for="startTime">시작 시간:</label>
+                        <input type="time" id="startTime" name="startTime" required>
+                    </div>
 
-                <!-- 종료 시간 -->
-                <div class="update-item">
-                    <label class="update-label" for="endTime">종료 시간:</label>
-                    <input type="time" id="endTime" name="endTime" required>
+                    <!-- 종료 시간 -->
+                    <div class="update-item">
+                        <label class="update-label" for="endTime">종료 시간:</label>
+                        <input type="time" id="endTime" name="endTime" required>
+                    </div>
                 </div>
 
                 <div class="bottom-buttons">
