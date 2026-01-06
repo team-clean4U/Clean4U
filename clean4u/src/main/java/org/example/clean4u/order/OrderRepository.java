@@ -13,6 +13,9 @@ public interface OrderRepository extends OrderRepositoryCustom, JpaRepository<Or
 
     List<Order> findByCustomerIdOrderByIdDesc(Long customer);
 
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer WHERE o.id = :orderId")
+    Optional<Order> findByIdWithCustomer(@Param("orderId") Long orderId);
+
     @Query(value =
             "SELECT COUNT(*) FROM order_tb o " +
             "WHERE o.status = :status"
