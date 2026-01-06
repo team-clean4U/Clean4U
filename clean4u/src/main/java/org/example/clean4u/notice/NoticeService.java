@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -29,14 +31,14 @@ public class NoticeService {
 
     @Transactional
     public Notice saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
-        List<String> noticeImageFileNames = List.of();
+        List<String> noticeImageFileNames = new ArrayList<>();
 
         if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
             try {
                 if (!FileUtil.isImageFiles(dto.getUploadImages())) {
                     throw new Exception400("이미지 파일만 업로드 가능합니다");
                 }
-                noticeImageFileNames = FileUtil.saveFiles(dto.getUploadImages(), NOTICE_IMAGES_DIR);
+                noticeImageFileNames.addAll(FileUtil.saveFiles(dto.getUploadImages(), NOTICE_IMAGES_DIR));
             } catch (IOException e) {
                 throw new Exception500("파일 저장 중 오류가 발생했습니다");
             }
@@ -81,28 +83,33 @@ public class NoticeService {
 
     @Transactional
     public NoticeResponse.DetailDTO updateNotice(Long noticeId, NoticeRequest.@Valid UpdateDTO dto, Employee sessionUser) {
-        Notice notice = noticeRepository.findById(noticeId)
+        Notice notice = noticeRepository.findByIdWithImages(noticeId)
                 .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
 
         if (!sessionUser.isAdmin()) {
             throw new Exception403("공지사항 수정 권한이 없습니댜다.");
         }
-
         notice.update(dto); // 제목, 내용만
 
         if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
             if (!FileUtil.isImageFiles(dto.getUploadImages())) {
                 throw new Exception400("이미지 파일만 업로드 가능합니다");
             }
-            notice.clearImages(); // 전체 교체
 
-            List<String> savedNames;
+            List<String> oldNoticeImages = new ArrayList<>(notice.getNoticeImages());
+
             try {
-                savedNames = FileUtil.saveFiles(dto.getUploadImages(), NOTICE_IMAGES_DIR);
+                List<String> newImageFilename = FileUtil.saveFiles(dto.getUploadImages(), NOTICE_IMAGES_DIR);
+                notice.clearImages();
+                notice.addImages(newImageFilename);
+
+                if (!oldNoticeImages.isEmpty()) {
+                    FileUtil.deleteFiles(oldNoticeImages, NOTICE_IMAGES_DIR);
+                }
+
             } catch (IOException e) {
-                throw new Exception500("파일 저장 중 오류가 발생했습니다");
+                throw new Exception500("파일 저장에 실패했습니다");
             }
-            notice.addImages(savedNames);
         }
         return new NoticeResponse.DetailDTO(notice);
     }

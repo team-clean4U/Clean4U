@@ -35,10 +35,10 @@ spring:
       max-request-size: 10MB
 
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/clean4u?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
-    username: root
-    password: root
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MySQL
+    username: sa
+    password:
 
   h2:
     console:
@@ -46,13 +46,13 @@ spring:
 
   sql:
     init:
-      mode: never
+      mode: always
       data-locations:
         - classpath:db/data.sql
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:

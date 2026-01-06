@@ -50,11 +50,7 @@
                     <i class="fa-solid fa-message"></i>
                     <p class="detail-value content">{{notice.content}}</p>
                     {{#notice.uploadImages}}
-                        <p>{{.}}</p>
-                    <img src="{{.}}" alt="예시사진" class="notice-Images">
-                    {{/notice.uploadImages}}
-                    {{^notice.uploadImages}}
-                        <p>이미지 경로 없음</p>
+                    <img src="{{.}}" alt="사진" class="notice-Images">
                     {{/notice.uploadImages}}
                 </div>
             </div>
