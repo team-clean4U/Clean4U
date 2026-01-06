@@ -94,4 +94,10 @@ public class CustomerController {
         customerService.delete(customerId);
         return "redirect:/customer/list";
     }
+
+    @PostMapping("/customer/{customerId}/deactivation")
+    public String deactivateById(@PathVariable Long customerId) {
+        customerService.deactivateCustomer(customerId);
+        return "redirect:/customer/list";
+    }
 }

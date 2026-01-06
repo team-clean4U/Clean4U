@@ -41,7 +41,7 @@ public class CustomerService {
 
     public CustomerResponse.DetailDTO getDetail(Long customerId) {
         Customer customer = repository.findById(customerId)
-                .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 고객이 없습니다."));
 
         List<Order> orders = orderRepository.findByCustomerIdOrderByIdDesc(customerId);
 
@@ -54,7 +54,7 @@ public class CustomerService {
 
     public CustomerResponse.UpdateDTO getFormForUpdate(Long customerId) {
         Customer customer = repository.findById(customerId)
-                .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 고객이 없습니다."));
 
         List<Order> orders = orderRepository.findByCustomerIdOrderByIdDesc(customerId);
 
@@ -64,7 +64,7 @@ public class CustomerService {
     @Transactional
     public CustomerResponse.UpdateDTO update(Long customerId, @Valid CustomerRequest.UpdateDTO updateDTO) {
         Customer customer = repository.findById(customerId)
-                .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 고객이 없습니다."));
 
         customer.update(updateDTO);
 
@@ -74,9 +74,17 @@ public class CustomerService {
     @Transactional
     public void delete(Long customerId) {
         Customer customer = repository.findById(customerId)
-                .orElseThrow(() -> new Exception400("해당 고객이 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 고객이 없습니다."));
 
         repository.deleteById(customerId);
+    }
+
+    @Transactional
+    public void deactivateCustomer(Long customerId) {
+        Customer customer = repository.findById(customerId)
+                .orElseThrow(() -> new Exception404("해당 고객이 없습니다"));
+
+        customer.deactivate();
     }
 
     public PageResponse<CustomerResponse.ListDTO> getAllCustomersWithSearch(int page, int size, String keyword, String category) {
