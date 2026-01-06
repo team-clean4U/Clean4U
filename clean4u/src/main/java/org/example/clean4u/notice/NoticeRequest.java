@@ -42,7 +42,7 @@ public class NoticeRequest {
         @Size(max = 2000, message = "내용은 2000자 이내여야 합니다.")
         private String content;
         private List<MultipartFile> uploadImages;
-        private List<String> noticeImageNames;
+        private List<String> uploadImageNames;
     }
 
 }

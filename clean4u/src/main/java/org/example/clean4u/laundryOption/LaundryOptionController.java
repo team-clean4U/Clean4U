@@ -1,7 +1,6 @@
 package org.example.clean4u.laundryOption;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @RequiredArgsConstructor
@@ -27,7 +25,6 @@ public class LaundryOptionController {
             @RequestParam(defaultValue = "9") int size,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Boolean isActive,
-            HttpSession session,
             HttpServletRequest request
     ) {
 
@@ -91,14 +88,14 @@ public class LaundryOptionController {
         return "redirect:/laundry-option/" + laundryOptionId;
     }
 
-    // http://localhost:8080/laundry-option/{laundryOptionId}/delete
+    // http://localhost:8080/laundry-option/{laundryOptionId}/deactivate
     @PostMapping("/laundry-option/{laundryOptionId}/deactivate")
     public String deactivate(@PathVariable Long laundryOptionId) {
         service.deactivate(laundryOptionId);
         return "redirect:/laundry-option/" + laundryOptionId;
     }
 
-    // http://localhost:8080/laundry-option/{laundryOptionId}/delete
+    // http://localhost:8080/laundry-option/{laundryOptionId}/activate
     @PostMapping("/laundry-option/{laundryOptionId}/activate")
     public String activate(@PathVariable Long laundryOptionId) {
         service.activate(laundryOptionId);

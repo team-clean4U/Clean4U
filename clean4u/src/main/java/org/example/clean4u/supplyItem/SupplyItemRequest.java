@@ -40,16 +40,6 @@ public class SupplyItemRequest {
 
         @NotNull(message = "재고 활성 여부는 필수입니다.")
         private Boolean isActive;
-
-        public SupplyItem toEntity() {
-            return SupplyItem.builder()
-                    .name(name)
-                    .unit(unit)
-                    .stockQuantity(stockQuantity)
-                    .safetyStock(safetyStock)
-                    .isActive(isActive)
-                    .build();
-        }
     }
 
     @Data
@@ -72,7 +62,7 @@ public class SupplyItemRequest {
         private Boolean isActive;
 
         private Type historyType;
-        
+
         @NotBlank(message = "메모는 필수입니다.")
         private String memo;
     }

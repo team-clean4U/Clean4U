@@ -4,7 +4,7 @@
 
 <div class="notice-container">
     <div class="notice-container-content">
-        <form action="/notice/{{notice.id}}/update" method="post">
+        <form action="/notice/{{notice.id}}/update" method="post" enctype="multipart/form-data">
             <div class="notice-header">
                 <label class="notice-label">
                     <i class="fa-solid fa-bullhorn"></i>제목:
@@ -31,7 +31,7 @@
                                     파일 선택</span>
                         </label>
                     </div>
-                    <input type="file" id="uploadImages" name="noticeImages" accept="image/*" hidden multiple>
+                    <input type="file" id="uploadImages" name="uploadImages" accept="image/*" hidden multiple>
                     <span id="fileName" class="image-label"> 선택된 파일 없음</span>
                 </div>
                 <div id="preview" class="image-preview"></div>

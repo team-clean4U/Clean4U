@@ -311,23 +311,6 @@
     padding: 0 0 2rem;
 }
 
-
-.detail-item {
-    margin-bottom: 1rem;
-}
-
-.detail-label {
-    font-weight: 600;
-    margin-bottom: 0.4rem;
-    color: #333;
-}
-
-.detail-label i {
-    margin-right: 6px;
-    color: #666;
-}
-
-
 .email-group {
     display: flex;
     gap: 0.5rem;

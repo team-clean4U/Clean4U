@@ -64,32 +64,11 @@ public class SupplyItem {
         this.isActive = updateDTO.getIsActive();
     }
 
-    public void updateName(String newName) {
-        if (newName == null || newName.trim().isEmpty()) {
-            throw new IllegalArgumentException("비품 이름은 필수입니다.");
-        }
-        this.name = newName;
-    }
-
-    public void updateUnit(String newUnit) {
-        if (newUnit == null || newUnit.trim().isEmpty()) {
-            throw new IllegalArgumentException("단위는 필수입니다.");
-        }
-        this.unit = newUnit;
-    }
-
     public void updateStockQuantity(Integer newStockQuantity) {
         if (newStockQuantity == null || newStockQuantity < 0) {
             throw new IllegalArgumentException("재고 수량은 0 이상 이어야 합니다.");
         }
         this.stockQuantity = newStockQuantity;
-    }
-
-    public void updateSafetyStock(Integer newSafetyStock) {
-        if (newSafetyStock == null || newSafetyStock < 0) {
-            throw new IllegalArgumentException("안전 재고는 0 이상 이어야 합니다.");
-        }
-        this.safetyStock = newSafetyStock;
     }
 
     public void updateIsActive(Boolean newIsActive) {

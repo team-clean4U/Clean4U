@@ -1,11 +1,8 @@
 package org.example.clean4u.supplyItemHistory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
-import org.example.clean4u.supplyItem.SupplyItemService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +16,6 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class SupplyItemHistoryController {
     private final SupplyItemHistoryService service;
-    private final SupplyItemService supplyItemService;
-    private final ObjectMapper objectMapper;
 
     // http://localhost:8080/supply-item-history/list
     @GetMapping("/supply-item-history/list")
@@ -32,7 +27,6 @@ public class SupplyItemHistoryController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
             @RequestParam(required = false) String itemName,
-            HttpSession session,
             HttpServletRequest request
     ) {
         int pageIndex = Math.max(0, page - 1);

@@ -96,4 +96,22 @@ public class FileUtil {
             Files.delete(filePath);
         }
     }
+
+    public static void deleteFiles(List<String> filenames, String uploadDir) throws IOException {
+        if (filenames == null || filenames.isEmpty()) {
+            return;
+        }
+
+        for (String filename: filenames) {
+            if (filename == null || filename.isEmpty()) {
+                continue;
+            }
+
+            Path filePath = Paths.get(uploadDir, filename);
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+            }
+        }
+    }
+
 }
