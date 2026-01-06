@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @Controller
 @RequiredArgsConstructor
 public class NoticeController {
@@ -30,7 +28,7 @@ public class NoticeController {
             return "redirect:/login";
         }
 
-        if (sessionUser.getUserRole() != UserRole.관리자) {
+        if (sessionUser.getUserRole() != UserRole.ADMIN) {
             throw new Exception403("공지사항 작성 권한이 없습니다.");
         }
 

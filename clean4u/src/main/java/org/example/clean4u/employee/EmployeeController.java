@@ -69,7 +69,7 @@ public class EmployeeController {
         Map<String, Object> statistics = dashboardService.getStatistics();
         model.addAllAttributes(statistics);
 
-        if (sessionUser.getUserRole() == UserRole.관리자) {
+        if (sessionUser.getUserRole() == UserRole.ADMIN) {
             long pendingCount = employeeService.pendingCount();
             model.addAttribute("pendingCount", pendingCount);
             return "user/dashboard-admin";

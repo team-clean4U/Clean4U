@@ -6,10 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import java.sql.Timestamp;
 
 @Entity
+@Where(clause = "is_active = true")
 @Data
 @NoArgsConstructor
 @Table(name = "employee_tb")
@@ -37,10 +39,13 @@ public class Employee {
     private Timestamp updatedAt;
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole = UserRole.일반직원;
+    private UserRole userRole = UserRole.EMPLOYEE;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus = UserStatus.승인대기;
+    private UserStatus userStatus = UserStatus.PENDING;
+
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
 
     @Builder
     public Employee(String name, String username, String password, String email, UserRole userRole, UserStatus userStatus) {
@@ -48,8 +53,8 @@ public class Employee {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.userRole = userRole != null ? userRole : UserRole.일반직원;
-        this.userStatus = userStatus != null ? userStatus : UserStatus.승인대기;
+        this.userRole = userRole != null ? userRole : UserRole.EMPLOYEE;
+        this.userStatus = userStatus != null ? userStatus : UserStatus.PENDING;
     }
 
     public void update(EmployeeRequest.UpdateDTD req) {
@@ -61,5 +66,5 @@ public class Employee {
         return this.id.equals(employeeId);
     }
 
-    public boolean isAdmin() { return this.userRole == UserRole.관리자;}
+    public boolean isAdmin() { return this.userRole == UserRole.ADMIN;}
 }

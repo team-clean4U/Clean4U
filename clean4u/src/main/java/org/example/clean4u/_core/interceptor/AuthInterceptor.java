@@ -23,7 +23,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         if (!sessionUser.isAdmin()) {
-            throw new Exception403("관리자 권한이 필요합니다.");
+            throw new Exception403("ADMIN 권한이 필요합니다.");
         }
 
         return true;
