@@ -32,6 +32,7 @@ import org.example.clean4u.review.ReviewRepository;
 import org.example.clean4u.review.ReviewResponse;
 import org.example.clean4u.review.ReviewService;
 import org.example.clean4u.sms.SmsService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -64,6 +65,9 @@ public class OrderService {
     private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
     private final SmsService smsService;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     // 주문 생성
     @Transactional
@@ -488,6 +492,30 @@ public class OrderService {
     // 주문 고유 번호 생성
     private String generateMerchantUid(Long orderId) {
         return "order_" + orderId + "_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    // 리뷰 작성 링크 SMS 발송
+    @Transactional
+    public void sendReviewLinkSms(Long orderId, Long sessionUserId) {
+        if (!employeeRepository.existsById(sessionUserId)) {
+            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
+        }
+
+        Order order = orderRepository.findByIdWithCustomer(orderId)
+                .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
+
+        if (order.getStatus() != OrderStatus.COMPLETED) {
+            throw new Exception400("세탁이 완료된 주문만 리뷰 링크를 발송할 수 있습니다.");
+        }
+
+        String reviewToken = reviewService.generateReviewToken(order.getId());
+        String reviewLink = baseUrl + "/r/" + reviewToken;
+        String to = order.getCustomer().getPhone();
+        String customerName = order.getCustomer().getName();
+        String message = customerName + "님의 세탁이 완료되었습니다.\n세탁 서비스 이용 후 느낀 점을 남겨주세요.\n" + reviewLink;
+
+        smsService.sendOne(to, message);
+        System.out.println("리뷰 링크 SMS 발송 완료------");
     }
 
 }

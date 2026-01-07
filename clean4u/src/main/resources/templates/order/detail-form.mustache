@@ -215,9 +215,11 @@
                                 리뷰 작성
                             </span>
                             <div class="detail-value">
-                                <button type="button" onclick="copyReviewLink(this, '{{order.reviewLink}}')" class="btn btn-create">
-                                    <i class="fa-solid fa-copy"></i> 리뷰 작성 링크 복사
-                                </button>
+                                <form action="/order/{{order.orderId}}/review-link/send" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-create">
+                                        <i class="fa-solid fa-paper-plane"></i> 리뷰 작성 링크 전송
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     {{/order.hasReview}}
@@ -240,5 +242,3 @@
 {{#alertMessage}}
     alert("{{alertMessage}}")
 {{/alertMessage}}
-
-

@@ -158,4 +158,16 @@ public class OrderController {
         }
         return "redirect:/order/" + orderId;
     }
+
+    @PostMapping("/order/{orderId}/review-link/send")
+    public String sendReviewLink(@PathVariable Long orderId, HttpSession session, RedirectAttributes redirectAttributes) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+        try {
+            orderService.sendReviewLinkSms(orderId, sessionUser.getId());
+            redirectAttributes.addFlashAttribute("alertMessage", "리뷰 작성 링크가 고객에게 발송되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("alertMessage", "리뷰 링크 발송에 실패했습니다: " + e.getMessage());
+        }
+        return "redirect:/order/" + orderId;
+    }
 }
