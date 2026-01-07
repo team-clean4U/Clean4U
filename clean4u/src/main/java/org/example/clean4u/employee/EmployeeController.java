@@ -7,12 +7,15 @@ import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u.dashboard.DashboardService;
+import org.example.clean4u.workschedule.WorkScheduleResponse;
+import org.example.clean4u.workschedule.WorkScheduleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -21,6 +24,7 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
     private final DashboardService dashboardService;
+    private final WorkScheduleService workScheduleService;
 
     @GetMapping("/join")
     public String join(Model model) {
@@ -68,9 +72,12 @@ public class EmployeeController {
             return "redirect:/login";
         }
 
+//        WorkScheduleResponse.DataDTO dataDTO = workScheduleService.today(sessionUser.getId());
+
         Map<String, Object> statistics = dashboardService.getStatistics();
         model.addAllAttributes(statistics);
-        model.addAttribute("additionalCss", Arrays.asList("/css/user.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/user.css", "/css/order.css"));
+//        model.addAttribute("dataDTO", dataDTO);
 
         if (sessionUser.getUserRole() == UserRole.ADMIN) {
             long pendingCount = employeeService.pendingCount();
