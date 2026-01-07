@@ -10,12 +10,24 @@
                 <form action="/customer/list" method="get">
                     <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
                 </form>
-                <div class="button-right">
-                    <a href="/customer/{{customer.customerId}}/update" class="btn btn-edit">
-                        <i class="fa-solid fa-edit"></i> 수정
-                    </a>
-                    <button class="btn btn-delete" onclick="openDeleteModal()"><i class="fa-solid fa-trash"></i>삭제</button>
-                </div>
+                {{#customer}}
+                    {{#isActive}}
+                        <div class="button-right">
+                            <a href="/customer/{{customerId}}/update" class="btn btn-edit">
+                                <i class="fa-solid fa-edit"></i> 수정
+                            </a>
+                            <button class="btn btn-delete" onclick="openDeleteModal()"><i class="fa-solid fa-trash"></i>삭제
+                            </button>
+                        </div>
+                    {{/isActive}}
+                    {{^isActive}}
+                        <div class="button-right">
+                            <form action="/customer/{{customerId}}/activate" method="POST">
+                                <button class="btn btn-delete">활성화</button>
+                            </form>
+                        </div>
+                    {{/isActive}}
+                {{/customer}}
             </div>
             <!--고객상세내역-->
             <div class="detail-card">
@@ -104,7 +116,7 @@
                         {{^customer.orders}}
                             <tr>
                                 <td colspan="4" class="empty-message">
-                                <i class="fa-solid fa-cart-arrow-down"></i>주문 내역이 없습니다.
+                                    <i class="fa-solid fa-cart-arrow-down"></i>주문 내역이 없습니다.
                                 </td>
                             </tr>
                         {{/customer.orders}}
@@ -123,11 +135,11 @@
         </button>
         <h4>삭제하시겠습니까?</h4>
         <div class="btn-group">
-            <form action="/customer/{{customer.customerId}}/deactivate" method="POST">
-                <button type="button" class="btns btn-deactivate">비활성화</button>
+            <form action="/customer/{{customerId}}/deactivate" method="POST">
+                <button type="submit" class="btns btn-deactivate">비활성화</button>
             </form>
-            <form action="/customer/{{customer.customerId}}/delete" method="POST">
-                <button type="button" class="btns btn-customer-delete">삭 제</button>
+            <form action="/customer/{{customerId}}/delete" method="POST">
+                <button type="submit" class="btns btn-customer-delete">삭 제</button>
             </form>
         </div>
     </div>

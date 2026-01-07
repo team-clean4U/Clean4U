@@ -26,7 +26,7 @@ public class CustomerRequest {
         private String memo;
 
         public Customer toEntity() {
-            return new Customer(name, birth, phone, memo);
+            return new Customer(name, birth, phone, memo, true);
         }
     }
 

@@ -53,11 +53,12 @@ public class Customer {
     private Timestamp updatedAt;
 
     @Builder
-    public Customer(String name, LocalDate birth, String phone, String memo) {
+    public Customer(String name, LocalDate birth, String phone, String memo, Boolean isActive) {
         this.name = name;
         this.birth = birth;
         this.phone = phone;
         this.memo = memo;
+        this.isActive = true;
     }
 
     public void update(CustomerRequest.UpdateDTO dto) {
@@ -69,6 +70,10 @@ public class Customer {
 
     public void updateMemo(String newMemo) {
         this.memo = newMemo;
+    }
+
+    public void activate() {
+        this.isActive = true;
     }
 
     public void deactivate() {
