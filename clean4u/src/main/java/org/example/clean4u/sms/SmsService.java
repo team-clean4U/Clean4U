@@ -30,13 +30,15 @@ public class SmsService {
     // SMS 전송
     public void sendOne(String to, String sendMessage) {
         Message message = new Message();
-        message.setFrom("01072383157");
-        message.setTo(to);
+        message.setFrom(from);
+        message.setTo(to.replaceAll("[^0-9]", ""));
         message.setText(sendMessage);
 
         try {
-            messageService.send(message);
+            var response = messageService.send(message);
+            System.out.println(response);
         } catch (SolapiMessageNotReceivedException | SolapiEmptyResponseException | SolapiUnknownException e) {
+            System.out.println(e.getMessage());
             throw new Exception500("문자 전송에 실패했습니다.");
         }
     }

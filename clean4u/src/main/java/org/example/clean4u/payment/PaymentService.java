@@ -56,11 +56,6 @@ public class PaymentService {
             merchantUid = generateMerchantUid(prepareDTO.getOrderId());
         }
 
-//        String payUrl = "http://localhost:8080/payment/" + order.getId() + "/" + merchantUid;
-//        String to = order.getCustomer().getPhone();
-//
-//        smsService.sendOne(to, "[Clean4U]\n결제요청이 도착했습니다.\n아래링크를 눌러 결제해주세요.\n" + payUrl);
-
         return new PaymentResponse.PrepareDTO(
                 merchantUid,
                 prepareDTO.getAmount()
