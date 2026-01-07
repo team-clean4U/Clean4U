@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,5 +127,23 @@ public class WorkScheduleService {
         }
 
         return new PageResponse<>(schedulePage, WorkScheduleResponse.ListDTO::new);
+    }
+
+    public WorkScheduleResponse.DataDTO today (Long employeeId) {
+        Employee employeeEntity = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
+
+        Optional<WorkSchedule> workScheduleOpt = workScheduleRepository.findByEmployeeId(employeeEntity.getId());
+        boolean working = false;
+
+        if (workScheduleOpt.isPresent()) {
+            WorkSchedule workSchedule = workScheduleOpt.get();
+            working = true;
+
+            return new WorkScheduleResponse.DataDTO(workSchedule, working);
+        } else {
+            working = false;
+            return new WorkScheduleResponse.DataDTO(null, working);
+        }
     }
 }

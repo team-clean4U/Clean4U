@@ -72,4 +72,19 @@ public class WorkScheduleResponse {
             this.endTime = workSchedule.getEndTime();
         }
     }
+
+    @Data
+    public static class DataDTO {
+        private Long id;
+        private LocalTime startTime;
+        private LocalTime endTime;
+        private Boolean working;
+
+        public DataDTO(WorkSchedule workSchedule, Boolean working) {
+            this.id = workSchedule.getId();
+            this.startTime = workSchedule.getStartTime();
+            this.endTime = workSchedule.getEndTime();
+            this.working = working != null ? working : false;
+        }
+    }
 }
