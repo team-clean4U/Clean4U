@@ -351,10 +351,9 @@ public class OrderService {
                     .build();
             orderStatusHistoryRepository.save(history);
 
-            String from = order.getCustomer().getPhone();
+            String to = order.getCustomer().getPhone();
             String message = order.getCustomer().getName() + "님의 세탁물 상태가 " + newStatus.getDisplayName() + "(으)로 변경되었습니다.";
-            smsService.sendOne(from, message);
-            System.out.println("문자 성공 완료------");
+            smsService.sendOne(to, message);
         }
 
         Customer customer = customerRepository.findById(order.getCustomer().getId())

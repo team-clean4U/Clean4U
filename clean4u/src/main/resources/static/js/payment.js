@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", () => {
     const impKey = 'imp47240471';
     const paymentBtn = document.getElementById("paymentBtn");
@@ -42,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     function (response) {
                         if(response.success) {
-                            console.log("포트원 요청 성공");
                             verifyPayment(response.imp_uid, response.merchant_uid, orderId)
                         } else {
                             alert("결제 실패");
@@ -68,10 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
             }
             return res.json;
-        }).then(data => {
+        }).then(() => {
             alert("결제가 완료되었습니다.");
             location.href = `/order/${order_id}`;
-        }).catch(err => {
+        }).catch(() => {
             alert("결제 검증에 실패했습니다.");
         })
     }
