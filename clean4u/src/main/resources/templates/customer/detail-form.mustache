@@ -14,9 +14,7 @@
                     <a href="/customer/{{customer.customerId}}/update" class="btn btn-edit">
                         <i class="fa-solid fa-edit"></i> 수정
                     </a>
-                    <form action="/customer/{{customer.customerId}}/delete" method="post">
-                        <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
-                    </form>
+                    <button class="btn btn-delete" onclick="openDeleteModal()"><i class="fa-solid fa-trash"></i>삭제</button>
                 </div>
             </div>
             <!--고객상세내역-->
@@ -118,4 +116,21 @@
     </div>
 </div>
 
+<div class="modal-bg" id="modal-bg" style="display: none;">
+    <div class="modal-body" id="modal-body">
+        <button type="button" class="modal-close" onclick="closeDeleteModal()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h4>삭제하시겠습니까?</h4>
+        <div class="btn-group">
+            <form action="/customer/{{customer.customerId}}/deactivate" method="POST">
+                <button type="button" class="btns btn-deactivate">비활성화</button>
+            </form>
+            <form action="/customer/{{customer.customerId}}/delete" method="POST">
+                <button type="button" class="btns btn-customer-delete">삭 제</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/js/customer.js"></script>
 {{> layout/footer}}

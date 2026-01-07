@@ -101,9 +101,9 @@ public class CustomerService {
         } else if ("all".equalsIgnoreCase(category)) {
             customerPage = repository.searchByKeyword(keyword.trim(), pageable);
         } else if ("name".equalsIgnoreCase(category)) {
-            customerPage = repository.findByNameContaining(keyword.trim(), pageable);
+            customerPage = repository.searchByKeyword(keyword.trim(), pageable);
         } else if ("phone".equalsIgnoreCase(category)) {
-            customerPage = repository.findByPhoneContaining(keyword.trim(), pageable);
+            customerPage = repository.searchByKeyword(keyword.trim(), pageable);
         } else if ("grade".equalsIgnoreCase(category)) {
             try {
                 Grade grade = Grade.valueOf(keyword.trim().toUpperCase());
