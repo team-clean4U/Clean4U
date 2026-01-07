@@ -39,12 +39,14 @@ public class CustomerResponse {
         private String name;
         private Grade grade;
         private String phone;
+        private Boolean isActive;
 
         public ListDTO(Customer customer) {
             this.customerId = customer.getId();
             this.name = customer.getName();
             this.grade = customer.getGrade();
             this.phone = customer.getPhone();
+            this.isActive = customer.getIsActive();
         }
     }// end of static inner class
 
@@ -57,6 +59,7 @@ public class CustomerResponse {
         private String phone;
         private String createdAt;
         private String memo;
+        private Boolean isActive;
         private List<OrderDTO> orders;
 
         public DetailDTO(Customer customer, List<OrderDTO> orderList) {
@@ -69,6 +72,7 @@ public class CustomerResponse {
             this.phone = customer.getPhone();
             this.createdAt = DateUtil.timestampFormat(customer.getCreatedAt());
             this.memo = customer.getMemo();
+            this.isActive = customer.getIsActive();
             this.orders = orderList;
         }
         public String getMemoOrDash() {
