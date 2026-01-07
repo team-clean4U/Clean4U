@@ -10,8 +10,8 @@ import org.example.clean4u.order.OrderStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -43,12 +43,29 @@ public class ReviewService {
             }
         }
 
-        String token = UUID.randomUUID().toString();
+        String token = generateShortToken();
+
+        while (orderRepository.findByReviewToken(token).isPresent()) {
+            token = generateShortToken();
+        }
+
         order.setReviewToken(token);
         order.setReviewTokenExpiresAt(LocalDateTime.now().plusDays(14));
         orderRepository.save(order);
 
         return token;
+    }
+
+    private String generateShortToken() {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder token = new StringBuilder(8);
+
+        for (int i = 0; i < 8; i++) {
+            token.append(chars.charAt(random.nextInt(chars.length())));
+        }
+
+        return token.toString();
     }
 
     public void validateToken(String token) {
