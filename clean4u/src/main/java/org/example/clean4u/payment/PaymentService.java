@@ -29,7 +29,6 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final EmployeeRepository employeeRepository;
     private final OrderRepository orderRepository;
-    private final SmsService smsService;
 
     @Value("${portone.imp-key}")
     private String impKey;
