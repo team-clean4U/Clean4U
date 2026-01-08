@@ -4,23 +4,23 @@
 <div class="detail-container order-detail">
     <div class="detail-container-content">
         <div class="buttons">
-            <form action="/order/list" method="get">
+            <form action="/orders/list" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
                 {{^order.isCancelled}}
-                <a href="/order/{{order.orderId}}/update" class="btn btn-edit">
+                <a href="/orders/{{order.orderId}}/update" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
                     {{#order.isReceived}}
                         {{#order.isPending}}
-                            <form action="/order/{{order.orderId}}/delete" method="post" onsubmit="return confirm('주문 접수를 취소하시겠습니까?')">
+                            <form action="/orders/{{order.orderId}}/delete" method="post" onsubmit="return confirm('주문 접수를 취소하시겠습니까?')">
                                 <button class="btn btn-cancel"><i class="fa-solid fa-xmark"></i>접수 취소</button>
                             </form>
                         {{/order.isPending}}
                     {{/order.isReceived}}
                 {{/order.isCancelled}}
-                <form action="/order/{{order.orderId}}/delete" method="post" onsubmit="return confirm('주문 내역이 완전히 삭제됩니다. 삭제하시겠습니까?')">
+                <form action="/orders/{{order.orderId}}/delete" method="post" onsubmit="return confirm('주문 내역이 완전히 삭제됩니다. 삭제하시겠습니까?')">
                 {{#isAdmin}}
                     {{^order.isPaid}}
                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>
@@ -157,7 +157,10 @@
                                 </button>
                          {{/order.isCancelled}}{{/order.isPending}}
                         {{^order.isPending}}
-                            <span class="payment-card">결제 완료</span>
+                            <span class="btn btn-payment">결제 완료</span>
+                            <a href="/refund/{{order.payment.id}}">
+                                <span class="btn btn-delete">환불 요청</span>
+                            </a>
                         {{/order.isPending}}
                         </div>
                 </div>
@@ -215,7 +218,7 @@
                                 리뷰 작성
                             </span>
                             <div class="detail-value">
-                                <form action="/order/{{order.orderId}}/review-link/send" method="post" style="display: inline;">
+                                <form action="/orders/{{order.orderId}}/review-link/send" method="post" style="display: inline;">
                                     <button type="submit" class="btn btn-create">
                                         <i class="fa-solid fa-paper-plane"></i> 리뷰 작성 링크 전송
                                     </button>
