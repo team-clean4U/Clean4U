@@ -40,4 +40,3 @@ out/
 **/application-secret.yml
 
 .env
-**/data-update.sql
