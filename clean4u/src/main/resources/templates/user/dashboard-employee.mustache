@@ -124,7 +124,7 @@
                         인기 세탁 카테고리
                     </h3>
                 </div>
-                <a href="/laundry-item/list" class="card">
+                <a href="/laundry-items/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-{{mostOrderedCategoryIcon}}"></i>
                         <h4>{{mostOrderedCategory}}</h4>
@@ -148,7 +148,11 @@
                         인기 세탁 옵션
                     </h3>
                 </div>
+<<<<<<< HEAD
+                <a href="/laundry-options/list"  class="card">
+=======
                 <a href="/laundry-option/list" class="card">
+>>>>>>> develop
                     <div class="card-header">
                         <i class="fa-solid fa-tag"></i>
                         <h4>{{mostOrderedOptionName}}</h4>
@@ -192,7 +196,7 @@
                     </div>
                     <div class="low-stock-list">
                         {{#lowStockItems}}
-                            <a href="/supply-item/{{id}}" class="low-stock-card">
+                            <a href="/supply-items/{{id}}" class="low-stock-card">
                                 <i class="fa-solid fa-triangle-exclamation"></i>
                                 <p>
                                     재고 부족: <b>{{name}}</b> ({{stockQuantity}}{{unit}} 남음 / 안전재고
