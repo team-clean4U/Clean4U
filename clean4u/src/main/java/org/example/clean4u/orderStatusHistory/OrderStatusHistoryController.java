@@ -19,16 +19,14 @@ import java.util.Arrays;
 public class OrderStatusHistoryController {
     private final OrderStatusHistoryService historyService;
 
-    @GetMapping("/order-status-history/list")
-    public String statusHistoryList(
+    @GetMapping("/order-status-histories/list")
+    public String orderStatusHistoryList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "9") int size,
             @ModelAttribute OrderRequest.SearchDTO searchDTO,
-            HttpSession session,
             HttpServletRequest request
     ) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         int pageIndex = Math.max(0, page - 1);
         String queryString = request.getQueryString();
 
@@ -41,7 +39,7 @@ public class OrderStatusHistoryController {
         }
 
         PageResponse<OrderStatusHistoryResponse.DetailDTO> statusHistoryListPage =
-                historyService.statusHistoryList(pageIndex, size, searchDTO, sessionUser.getId());
+                historyService.orderStatusHistoryList(pageIndex, size, searchDTO);
 
         model.addAttribute("statusHistoryList", statusHistoryListPage.getContent());
         model.addAttribute("statusHistoryListPage", statusHistoryListPage);
