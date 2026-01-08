@@ -7,6 +7,7 @@ import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u.dashboard.DashboardService;
+import org.example.clean4u.workschedule.WorkScheduleOverrideService;
 import org.example.clean4u.workschedule.WorkScheduleResponse;
 import org.example.clean4u.workschedule.WorkScheduleService;
 import org.springframework.stereotype.Controller;
@@ -23,8 +24,10 @@ import java.util.Map;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+    private final AuthService authService;
     private final DashboardService dashboardService;
     private final WorkScheduleService workScheduleService;
+    private final WorkScheduleOverrideService workScheduleOverrideService;
 
     @GetMapping("/join")
     public String join(Model model) {
@@ -72,12 +75,22 @@ public class EmployeeController {
             return "redirect:/login";
         }
 
-//        WorkScheduleResponse.DataDTO dataDTO = workScheduleService.today(sessionUser.getId());
+        WorkScheduleResponse.DataDTO dataDTO = workScheduleService.today(sessionUser.getId());
+        long countToday = workScheduleOverrideService.countTodayOverrides(sessionUser.getId());
+        List<Object[]> optionChart = authService.optionChart();
+
+        long countAllEmployees = authService.countAllEmployees();
+        long countTodayOverrides = authService.countTodayOverrides();
 
         Map<String, Object> statistics = dashboardService.getStatistics();
         model.addAllAttributes(statistics);
         model.addAttribute("additionalCss", Arrays.asList("/css/user.css", "/css/order.css"));
-//        model.addAttribute("dataDTO", dataDTO);
+        model.addAttribute("dataDTO", dataDTO);
+        model.addAttribute("countToday", countToday);
+        model.addAttribute("countAllEmployees", countAllEmployees);
+        model.addAttribute("countTodayOverrides", countTodayOverrides);
+        model.addAttribute("optionChart", optionChart);
+
 
         if (sessionUser.getUserRole() == UserRole.ADMIN) {
             long pendingCount = employeeService.pendingCount();
