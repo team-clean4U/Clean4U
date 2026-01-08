@@ -6,7 +6,7 @@
 <div class="update-container">
     <div class="update-container-content supply-item">
         <div class="update-card">
-            <form action="/supply-item/{{supplyItem.id}}/update" method="post">
+            <form id="updateForm">
                 <div class="update-header">
                     <i class="fa-solid fa-spray-can"></i>
                     <input type="text" name="name" placeholder="비품 이름을 입력해주세요." value="{{supplyItem.name}}"
@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="bottom-buttons">
-                    <a href="/supply-item/{{supplyItem.id}}" class="btn btn-back">취소</a>
+                    <a href="/supply-items/{{supplyItem.id}}" class="btn btn-back">취소</a>
                     <button type="submit" class="btn btn-create">수정 완료</button>
                 </div>
             </form>
@@ -90,3 +90,5 @@
 
 
 {{> layout/footer}}
+
+<script src="/js/supplyItem/update.js"></script>
