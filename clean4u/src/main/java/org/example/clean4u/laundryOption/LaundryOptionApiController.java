@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/laundry-options")
+@RequestMapping("/api/v1/laundry-options")
 @RequiredArgsConstructor
 public class LaundryOptionApiController {
 
     private final LaundryOptionService service;
 
-    // GET /api/laundry-options
+    // GET /api/v1/laundry-options
     @GetMapping
     public ResponseEntity<PageResponse<LaundryOptionResponse.ListDTO>> getLaundryOptionList(
             @RequestParam(defaultValue = "1") int page,
@@ -27,14 +27,14 @@ public class LaundryOptionApiController {
         return ResponseEntity.ok().body(result);
     }
 
-    // GET /api/laundry-options/{id}
+    // GET /api/v1/laundry-options/{id}
     @GetMapping("/{id}")
     public ResponseEntity<LaundryOptionResponse.DetailDTO> getLaundryOptionById(@PathVariable Long id) {
         LaundryOptionResponse.DetailDTO result = service.getDetail(id);
         return ResponseEntity.ok().body(result);
     }
 
-    // POST /api/laundry-options
+    // POST /api/v1/laundry-options
     @PostMapping
     public ResponseEntity<?> createLaundryOption(
             @Valid @RequestBody LaundryOptionRequest.SaveDTO saveDTO
@@ -43,7 +43,7 @@ public class LaundryOptionApiController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // PUT /api/laundry-options/{id}
+    // PUT /api/v1/laundry-options/{id}
     @PutMapping("/{id}")
     public ResponseEntity<LaundryOptionResponse.DetailDTO> updateLaundryOption(
             @PathVariable Long id,
@@ -54,7 +54,7 @@ public class LaundryOptionApiController {
         return ResponseEntity.ok().body(result);
     }
 
-    // PATCH /api/laundry-options/{id}/deactivate
+    // PATCH /api/v1/laundry-options/{id}/deactivate
     @PatchMapping("/{id}/deactivate")
     public ResponseEntity<LaundryOptionResponse.DetailDTO> deactivateLaundryOption(@PathVariable Long id) {
         service.deactivate(id);
@@ -62,7 +62,7 @@ public class LaundryOptionApiController {
         return ResponseEntity.ok().body(result);
     }
 
-    // PATCH /api/laundry-options/{id}/activate
+    // PATCH /api/v1/laundry-options/{id}/activate
     @PatchMapping("/{id}/activate")
     public ResponseEntity<LaundryOptionResponse.DetailDTO> activateLaundryOption(@PathVariable Long id) {
         service.activate(id);
