@@ -49,7 +49,6 @@ spring:
       mode: always
       data-locations:
         - classpath:db/data.sql
-        - classpath:db/data-update.sql
 
   jpa:
     hibernate:
