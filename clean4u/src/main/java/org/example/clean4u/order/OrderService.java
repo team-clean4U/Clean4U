@@ -25,7 +25,9 @@ import org.example.clean4u.orderItem.*;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistory;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
+import org.example.clean4u.payment.Payment;
 import org.example.clean4u.payment.PaymentRepository;
+import org.example.clean4u.payment.PaymentResponse;
 import org.example.clean4u.payment.PaymentStatus;
 import org.example.clean4u.review.ReviewRepository;
 import org.example.clean4u.review.ReviewResponse;
@@ -125,18 +127,12 @@ public class OrderService {
     public PageResponse<OrderResponse.ListDTO> orderList(
             int page,
             int size,
-            OrderRequest.SearchDTO searchDTO,
-            Long sessionUserId) {
+            OrderRequest.SearchDTO searchDTO) {
         int validPage = Math.max(0, page);
         int validSize = Math.max(1, Math.min(50, size));
 
         Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
         Pageable pageable = PageRequest.of(validPage, validSize, sort);
-
-        boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if (!existingUser) {
-            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
-        }
 
         LocalDate fromDate = searchDTO.getFromDate();
         LocalDate toDate = searchDTO.getToDate();
@@ -156,8 +152,7 @@ public class OrderService {
 
     // 주문 상세 조회
     public OrderResponse.DetailDTO detail(Long orderId, Long sessionUserId) {
-        boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if (!existingUser) {
+        if (!employeeRepository.existsById(sessionUserId)) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
         Order order = orderRepository.findById(orderId)
@@ -216,18 +211,26 @@ public class OrderService {
                 .map(OrderStatusHistoryResponse.DetailDTO::from)
                 .toList();
 
+
         ReviewResponse.DetailDTO review = null;
         if (order.getReviewToken() != null && reviewRepository.existsByOrderId(order.getId())) {
             review = reviewService.getDetailByOrderId(order.getId());
         }
 
-        return new OrderResponse.DetailDTO(order, itemDtos, historyList, review);
+        Payment payment = paymentRepository.findByOrderId(orderId).orElse(null);
+
+        OrderResponse.DetailDTO dto = new OrderResponse.DetailDTO(order, itemDtos, historyList, review);
+        if(payment != null) {
+            PaymentResponse.DetailDTO paymentDTO = new PaymentResponse.DetailDTO(payment.getId());
+            dto.setPayment(paymentDTO);
+        }
+
+        return dto;
     }
 
     // 주문 변경 화면 요청
     public OrderResponse.UpdateFormDTO updateForm(Long orderId, Long sessionUserId) {
-        boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if (!existingUser) {
+        if (!employeeRepository.existsById(sessionUserId)) {
             throw new Exception404("해당 사용자를 찾을 수 없습니다.");
         }
 
@@ -357,6 +360,7 @@ public class OrderService {
             String to = order.getCustomer().getPhone();
             String message = order.getCustomer().getName() + "님의 세탁물 상태가 " + newStatus.getDisplayName() + "(으)로 변경되었습니다.";
             smsService.sendOne(to, message);
+            System.out.println("SMS 호출 성공");
         }
 
         Customer customer = customerRepository.findById(order.getCustomer().getId())
@@ -380,12 +384,7 @@ public class OrderService {
 
     // 세탁물 사진 이미지 삭제
     @Transactional
-    public void deleteLaundryImage(Long orderId, Long sessionUserId) {
-        boolean existingUser = employeeRepository.existsById(sessionUserId);
-        if (!existingUser) {
-            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
-        }
-
+    public void deleteLaundryImage(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
@@ -434,7 +433,7 @@ public class OrderService {
 
     // 주문 삭제 기능 요청
     @Transactional
-    public boolean deleteByOrderId(Long orderId, Long sessionUserId, boolean hardDelete) {
+    public boolean deactivate(Long orderId, Long sessionUserId, boolean hardDelete) {
         Employee employee = employeeRepository.findById(sessionUserId)
                 .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
         Order order = orderRepository.findById(orderId)
