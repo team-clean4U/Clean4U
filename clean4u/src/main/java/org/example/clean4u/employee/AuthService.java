@@ -3,6 +3,7 @@ package org.example.clean4u.employee;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
+import org.example.clean4u.workschedule.WorkScheduleOverrideRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class AuthService {
     private final EmployeeRepository employeeRepository;
+    private final WorkScheduleOverrideRepository workScheduleOverrideRepository;
 
     public List<EmployeeResponse.JoinListDTO> joinList() {
         List<Employee> employeeList = employeeRepository.findAllByOrderByCreatedAtDesc();
@@ -117,5 +120,17 @@ public class AuthService {
         }
 
         return new PageResponse<>(employeePage, EmployeeResponse.ListDTO::new);
+    }
+
+    public long countAllEmployees() {
+        return employeeRepository.countAllEmployees();
+    }
+
+    public long countTodayOverrides() {
+        return workScheduleOverrideRepository.countTodayOverrides();
+    }
+
+    public List<Object[]> optionChart() {
+        return employeeRepository.findTop5Option();
     }
 }

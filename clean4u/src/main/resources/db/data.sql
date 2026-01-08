@@ -47,7 +47,7 @@ INSERT INTO employee_tb
 (name, username, password, email, user_role, user_status, created_at, is_active)
 VALUES
     -- ('김관리', 'admin', '00000000', 'admin@clean4u.com', 'ADMIN', 'APPROVED', '2024-01-01 09:00:00', true),
---     ('나직원', 'employee', '00000000', 'employee@clean4u.com', 'EMPLOYEE', 'APPROVED', '2024-02-15 10:30:00', true),
+    -- ('나직원', 'employee', '00000000', 'employee@clean4u.com', 'EMPLOYEE', 'APPROVED', '2024-02-15 10:30:00', true),
     ('이직원', 'employee01', '00000000', 'employee01@clean4u.com', 'EMPLOYEE', 'APPROVED', '2024-02-15 10:30:00', true),
     ('박직원', 'employee02', '00000000', 'employee02@clean4u.com', 'EMPLOYEE', 'APPROVED', '2024-03-20 11:15:00', true),
     ('최직원', 'employee03', '00000000', 'employee03@clean4u.com', 'EMPLOYEE', 'APPROVED', '2024-04-10 14:20:00', true),
@@ -76,7 +76,6 @@ VALUES
     ('김신입', 'new01', '00000000', 'new01@clean4u.com', 'EMPLOYEE', 'PENDING', '2025-11-20 10:00:00', true),
     ('이신입', 'new02', '00000000', 'new02@clean4u.com', 'EMPLOYEE', 'PENDING', '2025-11-25 11:30:00', true),
     ('박신입', 'new03', '00000000', 'new03@clean4u.com', 'EMPLOYEE', 'PENDING', '2025-12-01 14:15:00', false);
-
 
 INSERT INTO work_schedule_tb (user_id, start_time, end_time, created_at)
 VALUES

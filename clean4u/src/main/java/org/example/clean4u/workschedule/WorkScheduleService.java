@@ -34,6 +34,10 @@ public class WorkScheduleService {
         Employee employeeEntity = employeeRepository.findById(saveDTO.getEmployeeId())
                 .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
 
+        if (workScheduleRepository.findByEmployeeId(saveDTO.getEmployeeId()).isPresent()) {
+            throw new Exception400("이미 스케줄이 등록된 직원입니다.");
+        }
+
         WorkSchedule workSchedule = saveDTO.toNormalEntity(employeeEntity);
         workScheduleRepository.save(workSchedule);
 
@@ -41,7 +45,6 @@ public class WorkScheduleService {
     }
 
     public List<EmployeeResponse.SimpleDTO> searchByName(String keyword) {
-
         List<Employee> employeeList;
         if (keyword != null && !keyword.trim().isEmpty()) {
             employeeList = employeeRepository.findByNameContaining(keyword);
@@ -50,14 +53,6 @@ public class WorkScheduleService {
         }
         return employeeList.stream()
                 .map(EmployeeResponse.SimpleDTO::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<WorkScheduleResponse.ListDTO> scheduleList() {
-        List<WorkSchedule> workSchedules = workScheduleRepository.findAll();
-
-        return workSchedules.stream()
-                .map(WorkScheduleResponse.ListDTO::new)
                 .collect(Collectors.toList());
     }
 
@@ -133,17 +128,8 @@ public class WorkScheduleService {
         Employee employeeEntity = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
 
-        Optional<WorkSchedule> workScheduleOpt = workScheduleRepository.findByEmployeeId(employeeEntity.getId());
-        boolean working = false;
+        Optional<WorkSchedule> workSchedule = workScheduleRepository.findByEmployeeId(employeeEntity.getId());
 
-        if (workScheduleOpt.isPresent()) {
-            WorkSchedule workSchedule = workScheduleOpt.get();
-            working = true;
-
-            return new WorkScheduleResponse.DataDTO(workSchedule, working);
-        } else {
-            working = false;
-            return new WorkScheduleResponse.DataDTO(null, working);
-        }
+        return new WorkScheduleResponse.DataDTO(workSchedule.orElse(null));
     }
 }

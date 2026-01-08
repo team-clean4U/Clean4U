@@ -34,7 +34,7 @@
                     직원 관리
                 </h3>
             </div>
-            <div class="card-list">
+            <div class="card-list-two">
                 <a href="/employee/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-users"></i>
@@ -42,21 +42,9 @@
                     </div>
                     <div class="card-info">
                         <span class="info-label">전체 직원</span>
-                        <span class="info-value">{{! employeeCount }} 명</span>
+                        <span class="info-value">{{countAllEmployees}} 명</span>
                     </div>
                 </a>
-
-                <a href="/schedule/list" class="card">
-                    <div class="card-header">
-                        <i class="fa-solid fa-calendar-check"></i>
-                        <h4>오늘 근무</h4>
-                    </div>
-                    <div class="card-info">
-                        <span class="info-label">근무 인원</span>
-                        <span class="info-value">{{! todayWorkingCount }} 명</span>
-                    </div>
-                </a>
-
                 <a href="/override/list" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-arrows-rotate"></i>
@@ -64,7 +52,7 @@
                     </div>
                     <div class="card-info">
                         <span class="info-label">오늘 교체</span>
-                        <span class="info-value">{{! overrideCount }} 건</span>
+                        <span class="info-value">{{countTodayOverrides}} 건</span>
                     </div>
                 </a>
             </div>
@@ -207,5 +195,38 @@
         </div>
     </div>
 </div>
+
+<script>
+    const optionChart = {{optionChart}}
+
+    const labels = optionChart.map(item => item[0])
+    const dataValues = optionChart.map(item => item[1])
+
+    const data = {
+        labels: labels, // 조각 이름
+        datasets: [{
+            label: 'Top5 Option', // 데이터셋 이름
+            data: dataValues,      // 각 조각 값
+            backgroundColor: [         // 각 조각 색상
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(153, 102, 255)'
+            ],
+            hoverOffset: 4             // 마우스 올렸을 때 조각 돌출
+        }]
+    };
+
+    const config = {
+        type: 'pie',  // 파이 차트
+        data: data
+    };
+
+    const myChart = new Chart(document.getElementById('myChart'), config);
+</script>
+
+
+
 
 {{> layout/footer}}

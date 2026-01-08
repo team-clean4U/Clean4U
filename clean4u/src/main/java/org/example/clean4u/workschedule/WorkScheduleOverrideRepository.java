@@ -23,5 +23,13 @@ public interface WorkScheduleOverrideRepository extends JpaRepository<WorkSchedu
             "WHERE w.startTime >= :start AND w.startTime <= :end")
     Page<WorkScheduleOverride> searchByTimeRange(@Param("start") LocalTime start, @Param("end") LocalTime end, Pageable pageable);
 
+    @Query("SELECT COUNT(w) FROM WorkScheduleOverride w " +
+            "WHERE w.overrideEmployee.id = :employeeId AND w.date = CURRENT_DATE ")
+    long countTodayOverridesByEmployeeId (@Param("employeeId") Long employeeId);
+
+    @Query("SELECT COUNT(w) FROM WorkScheduleOverride w " +
+            "WHERE w.date = CURRENT_DATE ")
+    long countTodayOverrides ();
+
     Page<WorkScheduleOverride> findByDate(LocalDate date, Pageable pageable);
 }

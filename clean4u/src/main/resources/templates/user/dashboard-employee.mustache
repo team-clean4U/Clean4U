@@ -32,7 +32,17 @@
                     </div>
                     <div class="card-info">
                         <span class="info-label">근무 여부</span>
-                        <span class="info-value">{{! myShift }} </span>
+                        {{#dataDTO.working}}
+                            <span class="info-value text-success">
+                                 근무중 ({{dataDTO.startTime}} ~ {{dataDTO.endTime}})
+                            </span>
+                        {{/dataDTO.working}}
+
+                        {{^dataDTO.working}}
+                            <span class="info-value text-muted">
+                                스케줄이 등록되어 있지 않습니다
+                            </span>
+                        {{/dataDTO.working}}
                     </div>
                 </div>
 
@@ -43,7 +53,7 @@
                     </div>
                     <div class="card-info">
                         <span class="info-label">담당 건수</span>
-                        <span class="info-value">{{! myOverrideCount }} 건</span>
+                        <span class="info-value">{{countToday}} 건</span>
                     </div>
                 </div>
             </div>
@@ -125,7 +135,8 @@
                     </div>
                     <div class="card-info">
                         <span class="info-label">가격 범위</span>
-                        <span class="info-value">{{mostOrderedCategoryMinPrice}}원 ~ {{mostOrderedCategoryMaxPrice}}원</span>
+                        <span class="info-value">{{mostOrderedCategoryMinPrice}}원 ~ {{mostOrderedCategoryMaxPrice}}
+                            원</span>
                     </div>
                 </a>
             </div>
@@ -137,7 +148,11 @@
                         인기 세탁 옵션
                     </h3>
                 </div>
+<<<<<<< HEAD
                 <a href="/laundry-options/list"  class="card">
+=======
+                <a href="/laundry-option/list" class="card">
+>>>>>>> develop
                     <div class="card-header">
                         <i class="fa-solid fa-tag"></i>
                         <h4>{{mostOrderedOptionName}}</h4>
@@ -167,10 +182,10 @@
                         <h4>등급별 평균 소비금액</h4>
                     </div>
                     {{#avgTotalPriceByGrade}}
-                    <div class="card-info">
-                        <span class="info-label">{{grade}}</span>
-                        <span class="info-value">{{avg}} 원</span>
-                    </div>
+                        <div class="card-info">
+                            <span class="info-label">{{grade}}</span>
+                            <span class="info-value">{{avg}} 원</span>
+                        </div>
                     {{/avgTotalPriceByGrade}}
                 </div>
 
@@ -184,7 +199,8 @@
                             <a href="/supply-items/{{id}}" class="low-stock-card">
                                 <i class="fa-solid fa-triangle-exclamation"></i>
                                 <p>
-                                    재고 부족: <b>{{name}}</b> ({{stockQuantity}}{{unit}} 남음 / 안전재고 : {{safetyStock}}{{unit}})
+                                    재고 부족: <b>{{name}}</b> ({{stockQuantity}}{{unit}} 남음 / 안전재고
+                                    : {{safetyStock}}{{unit}})
                                 </p>
                             </a>
                         {{/lowStockItems}}
