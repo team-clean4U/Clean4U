@@ -57,9 +57,9 @@ public class CustomerController {
         PageResponse<CustomerResponse.ListDTO> customerListPage;
 
         if (sessionUser.isAdmin()) {
-            customerListPage = customerService.getAllCustomersWithSearch(page, size, keyword, category);
+            customerListPage = customerService.getAllCustomersWithSearch(pageIndex, size, keyword, category);
         } else {
-            customerListPage = customerService.getAllCustomersForEmployee(page, size, keyword, category);
+            customerListPage = customerService.getAllCustomersForEmployee(pageIndex, size, keyword, category);
         }
 
         boolean hasCategory = category != null && !category.isBlank();
