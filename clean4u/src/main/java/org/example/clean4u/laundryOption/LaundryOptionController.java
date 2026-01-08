@@ -6,9 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
@@ -19,8 +22,8 @@ public class LaundryOptionController {
 
     private final LaundryOptionService service;
 
-    // http://localhost:8080/laundry-option/list
-    @GetMapping("/laundry-option/list")
+    // http://localhost:8080/laundry-options/list
+    @GetMapping("/laundry-options/list")
     public String laundryOptionList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
@@ -54,8 +57,8 @@ public class LaundryOptionController {
         return "laundryOption/list-form";
     }
 
-    // http://localhost:8080/laundry-option/{laundryOptionId}
-    @GetMapping("/laundry-option/{laundryOptionId}")
+    // http://localhost:8080/laundry-options/{laundryOptionId}
+    @GetMapping("/laundry-options/{laundryOptionId}")
     public String detail(@PathVariable Long laundryOptionId, Model model) {
         LaundryOptionResponse.DetailDTO laundryOption = service.getDetail(laundryOptionId);
         model.addAttribute("laundryOption", laundryOption);
@@ -64,22 +67,22 @@ public class LaundryOptionController {
         return "laundryOption/detail-form";
     }
 
-    // http://localhost:8080/laundry-option/save
-    @GetMapping("/laundry-option/save")
+    // http://localhost:8080/laundry-options/save
+    @GetMapping("/laundry-options/save")
     public String saveForm(Model model) {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/update.css"));
         return "laundryOption/save-form";
     }
 
-    // http://localhost:8080/laundry-option/save
-    @PostMapping("/laundry-option/save")
+    // http://localhost:8080/laundry-options/save
+    @PostMapping("/laundry-options/save")
     public String saveProc(@Valid LaundryOptionRequest.SaveDTO saveDTO) {
         service.save(saveDTO);
-        return "redirect:/laundry-option/list";
+        return "redirect:/laundry-options/list";
     }
 
-    // http://localhost:8080/laundry-option/{laundryOptionId}/update
-    @GetMapping("/laundry-option/{laundryOptionId}/update")
+    // http://localhost:8080/laundry-options/{laundryOptionId}/update
+    @GetMapping("/laundry-options/{laundryOptionId}/update")
     public String updateForm(@PathVariable Long laundryOptionId, Model model) {
         LaundryOptionResponse.UpdateFormDTO laundryOption = service.getFormForUpdate(laundryOptionId);
         model.addAttribute("laundryOption", laundryOption);
@@ -87,24 +90,24 @@ public class LaundryOptionController {
         return "laundryOption/update-form";
     }
 
-    // http://localhost:8080/laundry-option/{laundryOptionId}/update
-    @PostMapping("/laundry-option/{laundryOptionId}/update")
+    // http://localhost:8080/laundry-options/{laundryOptionId}/update
+    @PutMapping("/laundry-options/{laundryOptionId}/update")
     public String updateProc(@PathVariable Long laundryOptionId, @Valid LaundryOptionRequest.UpdateDTO updateDTO) {
         service.update(laundryOptionId, updateDTO);
-        return "redirect:/laundry-option/" + laundryOptionId;
+        return "redirect:/laundry-options/" + laundryOptionId;
     }
 
-    // http://localhost:8080/laundry-option/{laundryOptionId}/deactivate
-    @PostMapping("/laundry-option/{laundryOptionId}/deactivate")
+    // http://localhost:8080/laundry-options/{laundryOptionId}/deactivate
+    @PatchMapping("/laundry-options/{laundryOptionId}/deactivate")
     public String deactivate(@PathVariable Long laundryOptionId) {
         service.deactivate(laundryOptionId);
-        return "redirect:/laundry-option/" + laundryOptionId;
+        return "redirect:/laundry-options/" + laundryOptionId;
     }
 
-    // http://localhost:8080/laundry-option/{laundryOptionId}/activate
-    @PostMapping("/laundry-option/{laundryOptionId}/activate")
+    // http://localhost:8080/laundry-options/{laundryOptionId}/activate
+    @PatchMapping("/laundry-options/{laundryOptionId}/activate")
     public String activate(@PathVariable Long laundryOptionId) {
         service.activate(laundryOptionId);
-        return "redirect:/laundry-option/" + laundryOptionId;
+        return "redirect:/laundry-options/" + laundryOptionId;
     }
 }

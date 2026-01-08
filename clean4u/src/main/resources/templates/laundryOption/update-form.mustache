@@ -6,7 +6,7 @@
 <div class="update-container">
     <div class="update-container-content">
         <div class="update-card">
-            <form action="/laundry-option/{{laundryOption.id}}/update" method="post">
+            <form id="updateForm">
                 <div class="update-header">
                     <i class="fa-solid fa-tag"></i>
                     <input type="text" name="name" placeholder="세탁물 옵션을 입력해주세요." value="{{laundryOption.name}}"
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="bottom-buttons">
-                    <a href="/laundry-option/{{laundryOption.id}}" class="btn btn-back">취소</a>
+                    <a href="/laundry-options/{{laundryOption.id}}" class="btn btn-back">취소</a>
                     <button type="submit" class="btn btn-create">수정 완료</button>
                 </div>
             </form>
@@ -51,3 +51,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/laundryOption/update.js"></script>

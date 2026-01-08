@@ -5,7 +5,7 @@
 <!-- http://localhost:8080/supply-item/save -->
 <div class="update-container">
     <div class="history-update-card">
-        <form action="/supply-item/save" method="post">
+        <form action="/supply-items/save" method="post">
             <div class="update-header">
                 <i class="fa-solid fa-box"></i>
                 <b>비품 등록</b>
@@ -48,7 +48,7 @@
                     </button>
                 </div>
                 <div class="bottom-buttons">
-                    <a href="/supply-item/list" class="btn btn-back">취소</a>
+                    <a href="/supply-items/list" class="btn btn-back">취소</a>
                     <button type="submit" class="btn btn-create">완료</button>
                 </div>
             </div>
@@ -58,4 +58,4 @@
 
 {{> layout/footer}}
 
-<script src="/js/supplyItem-save.js"></script>
+<script src="/js/supplyItem/save.js"></script>

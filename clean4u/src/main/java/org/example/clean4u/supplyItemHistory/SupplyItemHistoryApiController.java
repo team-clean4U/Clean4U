@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/api/supply-item-histories")
+@RequestMapping("/api/v1/supply-item-histories")
 @RequiredArgsConstructor
 public class SupplyItemHistoryApiController {
 
     private final SupplyItemHistoryService service;
 
-    // GET /api/supply-item-histories
+    // GET /api/v1/supply-item-histories
     @GetMapping
     public ResponseEntity<PageResponse<SupplyItemHistoryResponse.ListDTO>> getSupplyItemHistoryList(
             @RequestParam(defaultValue = "1") int page,

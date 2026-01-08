@@ -6,9 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
@@ -19,8 +21,8 @@ public class LaundryItemController {
 
     private final LaundryItemService service;
 
-    // http://localhost:8080/laundry-item/list
-    @GetMapping("/laundry-item/list")
+    // http://localhost:8080/laundry-items/list
+    @GetMapping("/laundry-items/list")
     public String laundryItemList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
@@ -52,8 +54,8 @@ public class LaundryItemController {
         return "laundryItem/list-form";
     }
 
-    // http://localhost:8080/laundry-item/{laundryItemId}
-    @GetMapping("/laundry-item/{laundryItemId}")
+    // http://localhost:8080/laundry-items/{laundryItemId}
+    @GetMapping("/laundry-items/{laundryItemId}")
     public String detail(@PathVariable Long laundryItemId, Model model) {
         LaundryItemResponse.DetailDTO laundryItem = service.getDetail(laundryItemId);
         model.addAttribute("laundryItem", laundryItem);
@@ -62,22 +64,22 @@ public class LaundryItemController {
         return "laundryItem/detail-form";
     }
 
-    // http://localhost:8080/laundry-item/save
-    @GetMapping("/laundry-item/save")
+    // http://localhost:8080/laundry-items/save
+    @GetMapping("/laundry-items/save")
     public String saveForm(Model model) {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css"));
         return "laundryItem/save-form";
     }
 
-    // http://localhost:8080/laundry-item/save
-    @PostMapping("/laundry-item/save")
+    // http://localhost:8080/laundry-items/save
+    @PostMapping("/laundry-items/save")
     public String saveProc(@Valid LaundryItemRequest.SaveDTO saveDTO) {
         service.save(saveDTO);
-        return "redirect:/laundry-item/list";
+        return "redirect:/laundry-items/list";
     }
 
-    // http://localhost:8080/laundry-item/{laundryItemId}/update
-    @GetMapping("/laundry-item/{laundryItemId}/update")
+    // http://localhost:8080/laundry-items/{laundryItemId}/update
+    @GetMapping("/laundry-items/{laundryItemId}/update")
     public String updateForm(@PathVariable Long laundryItemId, Model model) {
         LaundryItemResponse.UpdateFormDTO laundryItem = service.getFormForUpdate(laundryItemId);
         model.addAttribute("laundryItem", laundryItem);
@@ -95,17 +97,17 @@ public class LaundryItemController {
         return "laundryItem/update-form";
     }
 
-    // http://localhost:8080/laundry-item/{laundryItemId}/update
-    @PostMapping("/laundry-item/{laundryItemId}/update")
+    // http://localhost:8080/laundry-items/{laundryItemId}/update
+    @PutMapping("/laundry-items/{laundryItemId}/update")
     public String updateProc(@PathVariable Long laundryItemId, @Valid LaundryItemRequest.UpdateDTO updateDTO) {
         service.update(laundryItemId, updateDTO);
-        return "redirect:/laundry-item/" + laundryItemId;
+        return "redirect:/laundry-items/" + laundryItemId;
     }
 
-    // http://localhost:8080/laundry-item/{laundryItemId}/delete
-    @PostMapping("/laundry-item/{laundryItemId}/delete")
-    public String delete(@PathVariable Long laundryItemId) {
+    // http://localhost:8080/laundry-items/{laundryItemId}/delete
+    @DeleteMapping("/laundry-items/{laundryItemId}/delete")
+    public String deleteLaundryItem(@PathVariable Long laundryItemId) {
         service.delete(laundryItemId);
-        return "redirect:/laundry-item/list";
+        return "redirect:/laundry-items/list";
     }
 }

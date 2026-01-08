@@ -6,22 +6,18 @@
 <div class="detail-container">
     <div class="detail-container-content supply-item">
         <div class="buttons">
-            <form action="/supply-item/list" method="get">
+            <form action="/supply-items/list" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
-                <a href="/supply-item/{{supplyItem.id}}/update" class="btn btn-edit">
+                <a href="/supply-items/{{supplyItem.id}}/update" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
                 {{#supplyItem.isActive}}
-                    <form action="/supply-item/{{supplyItem.id}}/deactivate" method="post">
-                        <button class="btn btn-delete"><i class="fa-solid fa-ban"></i>비활성화</button>
-                    </form>
+                    <button class="btn btn-delete" onclick="deactivateSupplyItem({{supplyItem.id}})"><i class="fa-solid fa-ban"></i>비활성화</button>
                 {{/supplyItem.isActive}}
                 {{^supplyItem.isActive}}
-                    <form action="/supply-item/{{supplyItem.id}}/activate" method="post">
-                        <button class="btn btn-activate"><i class="fa-solid fa-check"></i>활성화</button>
-                    </form>
+                    <button class="btn btn-activate" onclick="activateSupplyItem({{supplyItem.id}})"><i class="fa-solid fa-check"></i>활성화</button>
                 {{/supplyItem.isActive}}
             </div>
         </div>
@@ -95,3 +91,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/supplyItem/activate.js"></script>

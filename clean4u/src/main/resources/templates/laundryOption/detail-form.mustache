@@ -6,22 +6,18 @@
 <div class="detail-container">
     <div class="detail-container-content">
         <div class="buttons">
-            <form action="/laundry-option/list" method="get">
+            <form action="/laundry-options/list" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
-                <a href="/laundry-option/{{laundryOption.id}}/update" class="btn btn-edit">
+                <a href="/laundry-options/{{laundryOption.id}}/update" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
                 {{#laundryOption.isActive}}
-                <form action="/laundry-option/{{laundryOption.id}}/deactivate" method="post">
-                    <button class="btn btn-delete"><i class="fa-solid fa-ban"></i>비활성화</button>
-                </form>
+                <button class="btn btn-delete" onclick="deactivateLaundryOption({{laundryOption.id}})"><i class="fa-solid fa-ban"></i>비활성화</button>
                 {{/laundryOption.isActive}}
                 {{^laundryOption.isActive}}
-                <form action="/laundry-option/{{laundryOption.id}}/activate" method="post">
-                    <button class="btn btn-activate"><i class="fa-solid fa-check"></i>활성화</button>
-                </form>
+                <button class="btn btn-activate" onclick="activateLaundryOption({{laundryOption.id}})"><i class="fa-solid fa-check"></i>활성화</button>
                 {{/laundryOption.isActive}}
             </div>
         </div>
@@ -72,3 +68,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/laundryOption/activate.js"></script>

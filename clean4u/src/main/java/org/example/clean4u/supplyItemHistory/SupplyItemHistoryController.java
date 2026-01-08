@@ -18,8 +18,8 @@ import java.util.Arrays;
 public class SupplyItemHistoryController {
     private final SupplyItemHistoryService service;
 
-    // http://localhost:8080/supply-item-history/list
-    @GetMapping("/supply-item-history/list")
+    // http://localhost:8080/supply-item-histories/list
+    @GetMapping("/supply-item-histories/list")
     public String supplyItemHistoryList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
@@ -55,8 +55,8 @@ public class SupplyItemHistoryController {
         return "supplyItemHistory/list-form";
     }
 
-    // http://localhost:8080/supply-item-history/{historyId}
-    @GetMapping("/supply-item-history/{historyId}")
+    // http://localhost:8080/supply-item-histories/{historyId}
+    @GetMapping("/supply-item-histories/{historyId}")
     public String detail(@PathVariable Long historyId, Model model) {
         SupplyItemHistoryResponse.GroupDetailDTO supplyItemHistory = service.getDetail(historyId);
         model.addAttribute("supplyItemHistory", supplyItemHistory);

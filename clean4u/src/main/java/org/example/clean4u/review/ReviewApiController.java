@@ -7,13 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/review")
+@RequestMapping("/api/v1/review")
 @RequiredArgsConstructor
 public class ReviewApiController {
 
     private final ReviewService service;
 
-    // POST /api/review
+    // POST /api/v1/review
     @PostMapping
     public ResponseEntity<?> createReview(
             @RequestParam String token,
