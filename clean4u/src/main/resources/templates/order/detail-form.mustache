@@ -150,10 +150,10 @@
                         <div class="btn-payment-wrapper">
                          {{#order.isPending}}{{^order.isCancelled}}
                                 <button type="button" id="paymentBtn" class="btn btn-payment">
-                                    <span>
+                                    <span class="payment-emoji">
                                         <i class="fa-solid fa-credit-card"></i>
                                     </span>
-                                    <span>결제 링크 전송하기</span>
+                                    <span class="payment-request">결제 QR 요청하기</span>
                                 </button>
                          {{/order.isCancelled}}{{/order.isPending}}
                         {{^order.isPending}}

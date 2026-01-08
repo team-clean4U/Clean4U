@@ -33,4 +33,22 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             "WHERE c.grade = :grade;"
     , nativeQuery = true)
     Integer findAverageTotalPriceByGrade(@Param("grade") String grade);
+
+    @Query("SELECT c FROM Customer c " +
+            "WHERE c.isActive = true " +
+            "ORDER BY c.createdAt DESC")
+    Page<Customer> findAllAndIsActiveTrue(Pageable pageable);
+
+    @Query("SELECT c FROM Customer c " +
+            "WHERE (c.name LIKE CONCAT('%', :keyword, '%') " +
+                "OR c.phone LIKE CONCAT('%', :keyword, '%')) " +
+                "AND c.isActive = true " +
+            "ORDER BY c.createdAt DESC")
+    Page<Customer> searchByKeywordAndIsActiveTrue(@Param("keyword") String keyword, Pageable pageable);
+
+    @Query("SELECT c FROM Customer c " +
+            "WHERE c.grade = :grade " +
+                "AND c.isActive = true " +
+            "ORDER BY c.createdAt DESC ")
+    Page<Customer> findAllByGradeAndIsActiveTrue(@Param("keyword") Grade grade, Pageable pageable);
 }

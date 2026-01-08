@@ -25,7 +25,6 @@ import org.example.clean4u.orderItem.*;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistory;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
-import org.example.clean4u.payment.Payment;
 import org.example.clean4u.payment.PaymentRepository;
 import org.example.clean4u.payment.PaymentStatus;
 import org.example.clean4u.review.ReviewRepository;
@@ -355,10 +354,9 @@ public class OrderService {
                     .build();
             orderStatusHistoryRepository.save(history);
 
-            String from = order.getCustomer().getPhone();
+            String to = order.getCustomer().getPhone();
             String message = order.getCustomer().getName() + "님의 세탁물 상태가 " + newStatus.getDisplayName() + "(으)로 변경되었습니다.";
-            smsService.sendOne(from, message);
-            System.out.println("문자 성공 완료------");
+            smsService.sendOne(to, message);
         }
 
         Customer customer = customerRepository.findById(order.getCustomer().getId())
@@ -411,8 +409,12 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
-        Payment payment = paymentRepository.findByOrderId(orderId)
-                .orElseThrow(() -> new Exception404("해당 결제정보를 찾을 수 없습니다."));
+        paymentRepository.findByOrderId(orderId)
+                .ifPresent(payment -> {
+                    if(payment.getPaymentStatus() == PaymentStatus.PAID) {
+                        throw new Exception400("이미 결제된 주문은 취소할 수 없습니다.");
+                    }
+                });
 
         if(order.getStatus() == OrderStatus.CANCELLED) {
             throw new Exception400("이미 취소된 주문입니다.");
@@ -420,10 +422,6 @@ public class OrderService {
 
         if(order.getStatus() != OrderStatus.RECEIVED) {
             throw new Exception400("진행중인 주문은 취소할 수 없습니다.");
-        }
-
-        if(payment.getPaymentStatus() == PaymentStatus.PAID) {
-            throw new Exception400("이미 결제된 주문은 취소할 수 없습니다.");
         }
 
         order.setStatus(OrderStatus.CANCELLED);

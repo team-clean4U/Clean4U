@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
 
 public interface WorkScheduleRepository extends JpaRepository<WorkSchedule, Long> {
 
@@ -23,4 +25,6 @@ public interface WorkScheduleRepository extends JpaRepository<WorkSchedule, Long
     Page<WorkSchedule> searchByTimeRange(@Param("start") LocalTime start, @Param("end") LocalTime end, Pageable pageable);
 
     Page<WorkSchedule> findAll(Pageable pageable);
+
+    Optional<WorkSchedule> findByEmployeeId(Long employeeId);
 }

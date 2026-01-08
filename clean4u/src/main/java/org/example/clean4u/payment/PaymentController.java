@@ -33,6 +33,7 @@ public class PaymentController {
         model.addAttribute("merchantUid", merchantUid);
         model.addAttribute("customer", customer);
         model.addAttribute("amount", order.getTotalPrice());
+        model.addAttribute("orderId", orderId);
         return "payment/pay";
     }
 

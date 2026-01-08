@@ -87,7 +87,16 @@ public class CustomerService {
         customer.deactivate();
     }
 
-    public PageResponse<CustomerResponse.ListDTO> getAllCustomersWithSearch(int page, int size, String keyword, String category) {
+    @Transactional
+    public void activateCustomer(Long customerId) {
+        Customer customer = repository.findById(customerId)
+                .orElseThrow(() -> new Exception404("해당 고객이 없습니다"));
+
+        customer.activate();
+    }
+
+    public PageResponse<CustomerResponse.ListDTO> getAllCustomersWithSearch(
+            int page, int size, String keyword, String category) {
         int validPage = Math.max(0, page);
         int validSize = Math.max(1, Math.min(50, size));
 
@@ -101,9 +110,9 @@ public class CustomerService {
         } else if ("all".equalsIgnoreCase(category)) {
             customerPage = repository.searchByKeyword(keyword.trim(), pageable);
         } else if ("name".equalsIgnoreCase(category)) {
-            customerPage = repository.findByNameContaining(keyword.trim(), pageable);
+            customerPage = repository.searchByKeyword(keyword.trim(), pageable);
         } else if ("phone".equalsIgnoreCase(category)) {
-            customerPage = repository.findByPhoneContaining(keyword.trim(), pageable);
+            customerPage = repository.searchByKeyword(keyword.trim(), pageable);
         } else if ("grade".equalsIgnoreCase(category)) {
             try {
                 Grade grade = Grade.valueOf(keyword.trim().toUpperCase());
@@ -113,6 +122,38 @@ public class CustomerService {
             }
         } else {
             customerPage = repository.findAllCustomers(pageable);
+        }
+
+        return new PageResponse<>(customerPage, CustomerResponse.ListDTO::new);
+    }
+
+    public PageResponse<CustomerResponse.ListDTO> getAllCustomersForEmployee(
+            int page, int size, String keyword, String category) {
+        int validPage = Math.max(0, page);
+        int validSize = Math.max(1, Math.min(50, size));
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
+
+        Page<Customer> customerPage;
+
+        if (keyword == null || keyword.trim().isBlank()) {
+            customerPage = repository.findAllAndIsActiveTrue(pageable);
+        } else if ("all".equalsIgnoreCase(category)) {
+            customerPage = repository.searchByKeywordAndIsActiveTrue(keyword.trim(), pageable);
+        } else if ("name".equalsIgnoreCase(category)) {
+            customerPage = repository.searchByKeywordAndIsActiveTrue(keyword.trim(), pageable);
+        } else if ("phone".equalsIgnoreCase(category)) {
+            customerPage = repository.searchByKeywordAndIsActiveTrue(keyword.trim(), pageable);
+        } else if ("grade".equalsIgnoreCase(category)) {
+            try {
+                Grade grade = Grade.valueOf(keyword.trim().toUpperCase());
+                customerPage = repository.findAllByGradeAndIsActiveTrue(grade, pageable);
+            } catch (IllegalArgumentException e) {
+                throw new Exception404("존재하지 않는 등급입니다.");
+            }
+        } else {
+            customerPage = repository.findAllAndIsActiveTrue(pageable);
         }
 
         return new PageResponse<>(customerPage, CustomerResponse.ListDTO::new);

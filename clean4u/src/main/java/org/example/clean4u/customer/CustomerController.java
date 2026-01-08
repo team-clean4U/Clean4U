@@ -1,8 +1,10 @@
 package org.example.clean4u.customer;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
+import org.example.clean4u.employee.Employee;
 import org.example.clean4u.order.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,12 +47,20 @@ public class CustomerController {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "9") int size
+            @RequestParam(defaultValue = "9") int size,
+                               HttpSession session
    ) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         int pageIndex = Math.max(0, page -1);
 
-        PageResponse<CustomerResponse.ListDTO> customerListPage = customerService.getAllCustomersWithSearch(pageIndex, size, keyword, category);
+        PageResponse<CustomerResponse.ListDTO> customerListPage;
+
+        if (sessionUser.isAdmin()) {
+            customerListPage = customerService.getAllCustomersWithSearch(pageIndex, size, keyword, category);
+        } else {
+            customerListPage = customerService.getAllCustomersForEmployee(pageIndex, size, keyword, category);
+        }
 
         boolean hasCategory = category != null && !category.isBlank();
         model.addAttribute("hasCategory", hasCategory);
@@ -100,9 +110,15 @@ public class CustomerController {
         return "redirect:/customer/list";
     }
 
-    @PostMapping("/customer/{customerId}/deactivation")
+    @PostMapping("/customer/{customerId}/deactivate")
     public String deactivateById(@PathVariable Long customerId) {
         customerService.deactivateCustomer(customerId);
         return "redirect:/customer/list";
+    }
+
+    @PostMapping("/customer/{customerId}/activate")
+    public String activateById(@PathVariable Long customerId) {
+        customerService.activateCustomer(customerId);
+        return "redirect:/customer/" + customerId;
     }
 }
