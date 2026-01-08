@@ -30,7 +30,6 @@ public class OrderController {
     private final LaundryOptionService laundryOptionService;
     private final CustomerService customerService;
     private final ObjectMapper objectMapper;
-    private final PaymentService paymentService;
 
     @GetMapping("/order/save")
     public String saveForm(Model model) {
@@ -63,20 +62,17 @@ public class OrderController {
         return "redirect:/order/" + order.getId();
     }
 
-    @GetMapping("/order/list")
+    @GetMapping("/orders/list")
     public String orderList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "9") int size,
             @ModelAttribute OrderRequest.SearchDTO searchDTO,
-            HttpSession session,
             HttpServletRequest request
     ) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         int pageIndex = Math.max(0, page - 1);
 
         String queryString = request.getQueryString();
-
         if(queryString != null) {
             queryString = queryString.replaceAll("(page=\\d+)", "");
             queryString = queryString.replaceAll("(&size=\\d+)", "");
@@ -84,7 +80,7 @@ public class OrderController {
                 queryString = "&" + queryString;
             }
         }
-        PageResponse<OrderResponse.ListDTO> orderListPage = orderService.orderList(pageIndex, size, searchDTO, sessionUser.getId());
+        PageResponse<OrderResponse.ListDTO> orderListPage = orderService.orderList(pageIndex, size, searchDTO);
         model.addAttribute("orderList", orderListPage.getContent());
         model.addAttribute("orderPage", orderListPage);
         model.addAttribute("searchView", searchDTO);
@@ -94,7 +90,7 @@ public class OrderController {
         return "order/list-form";
     }
 
-    @GetMapping("/order/{orderId}")
+    @GetMapping("/orders/{orderId}")
     public String detail(@PathVariable Long orderId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         OrderResponse.DetailDTO order = orderService.detail(orderId, sessionUser.getId());
@@ -106,7 +102,7 @@ public class OrderController {
         return "order/detail-form";
     }
 
-    @GetMapping("/order/{orderId}/update")
+    @GetMapping("/orders/{orderId}/update")
     public String updateForm(@PathVariable Long orderId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         OrderResponse.UpdateFormDTO order = orderService.updateForm(orderId, sessionUser.getId());
@@ -132,7 +128,7 @@ public class OrderController {
         return "order/update-form";
     }
 
-    @PostMapping("/order/{orderId}/update")
+    @PostMapping("/orders/{orderId}/update")
     public String updateProc(@PathVariable Long orderId, @Valid OrderRequest.UpdateDTO updateDto, HttpSession session, RedirectAttributes redirectAttributes) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         boolean isGradeChanged = orderService.updateProc(orderId, updateDto, sessionUser.getId());
@@ -142,24 +138,23 @@ public class OrderController {
         return "redirect:/order/" + orderId;
     }
 
-    @PostMapping("/order/{orderId}/laundry-image/delete")
-    public String deleteLaundryImage(@PathVariable Long orderId, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        orderService.deleteLaundryImage(orderId, sessionUser.getId());
+    @PostMapping("/orders/{orderId}/laundry-image/delete")
+    public String deleteLaundryImage(@PathVariable Long orderId) {
+        orderService.deleteLaundryImage(orderId);
         return "redirect:/order/" + orderId;
     }
 
-    @PostMapping("/order/{orderId}/delete")
-    public String deleteByOrderId(@PathVariable Long orderId, HttpSession session, @RequestParam(defaultValue = "false") boolean hardDelete) {
+    @PostMapping("/orders/{orderId}/delete")
+    public String deactivate(@PathVariable Long orderId, HttpSession session, @RequestParam(defaultValue = "false") boolean hardDelete) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        boolean existing = orderService.deleteByOrderId(orderId, sessionUser.getId(), hardDelete);
+        boolean existing = orderService.deactivate(orderId, sessionUser.getId(), hardDelete);
         if(!existing) {
             return "redirect:/order/list";
         }
         return "redirect:/order/" + orderId;
     }
 
-    @PostMapping("/order/{orderId}/review-link/send")
+    @PostMapping("/orders/{orderId}/review-link/send")
     public String sendReviewLink(@PathVariable Long orderId, HttpSession session, RedirectAttributes redirectAttributes) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         try {
