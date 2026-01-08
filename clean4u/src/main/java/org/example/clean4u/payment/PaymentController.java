@@ -12,14 +12,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-//@Controller
+@Controller
 @RequiredArgsConstructor
 public class PaymentController {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
 
     @GetMapping("/payment/{orderId}/{merchantUid}")
-    public String payPage(@PathVariable Long orderId, @PathVariable String merchantUid, Model model) {
+    public String payForm(@PathVariable Long orderId, @PathVariable String merchantUid, Model model) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 

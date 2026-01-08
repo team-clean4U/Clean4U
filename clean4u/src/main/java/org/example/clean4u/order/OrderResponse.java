@@ -5,6 +5,7 @@ import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.customer.Grade;
 import org.example.clean4u.orderItem.OrderItemResponse;
 import org.example.clean4u.orderStatusHistory.OrderStatusHistoryResponse;
+import org.example.clean4u.payment.PaymentResponse;
 import org.example.clean4u.review.ReviewResponse;
 
 import java.time.LocalDate;
@@ -47,10 +48,11 @@ public class OrderResponse {
         private boolean isCancelled;
         private String memo;
         private String laundryImage;
-
         private String totalPrice;
         private List<OrderItemResponse.DetailDto> items;
         private List<OrderStatusHistoryResponse.DetailDTO> histories;
+        private PaymentResponse.DetailDTO payment;
+
         private String reviewLink;
         private boolean hasReview;
         private ReviewResponse.DetailDTO review;

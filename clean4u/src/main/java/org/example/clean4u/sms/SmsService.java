@@ -36,7 +36,7 @@ public class SmsService {
 
         try {
             var response = messageService.send(message);
-            System.out.println(response);
+            System.out.println("문자 응답 확인: " + response);
         } catch (SolapiMessageNotReceivedException | SolapiEmptyResponseException | SolapiUnknownException e) {
             System.out.println(e.getMessage());
             throw new Exception500("문자 전송에 실패했습니다.");
