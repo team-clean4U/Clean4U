@@ -8,13 +8,13 @@
         <div class="header-container">
             <div class="section-header">
                 <h2 class="section-title">
-                    <a href="/supply-item-history/list">
+                    <a href="/supply-item-histories/list">
                         <i class="fa-solid fa-chart-line"></i>
                         비품 입/출고 이력
                     </a>
                 </h2>
             </div>
-            <form class="search-wrapper history-input" method="get" action="/supply-item-history/list">
+            <form class="search-wrapper history-input" method="get" action="/supply-item-histories/list">
                 <div class="update-value category">
                     <input type="hidden" name="type" id="type" value="{{#type}}{{type}}{{/type}}">
                     <div class="category-select" {{#type}}data-selected="{{type}}"{{/type}}>
@@ -71,7 +71,7 @@
                 </thead>
                 <tbody>
                 {{#supplyItemHistoryList}}
-                    <tr onclick="location.href='/supply-item-history/{{id}}'">
+                    <tr onclick="location.href='/supply-item-histories/{{id}}'">
                         <td class="table-id">{{id}}</td>
                         <td><span class="type-badge type-{{type}}">{{typeDescription}}</span></td>
                         <td class="table-item">{{displayText}}</td>
@@ -92,7 +92,7 @@
 <ul class="pagination">
     {{#supplyItemHistoryPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/supply-item-history/list?page={{supplyItemHistoryPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+            <a href="/supply-item-histories/list?page={{supplyItemHistoryPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -105,13 +105,13 @@
 
     {{#supplyItemHistoryPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/supply-item-history/list?page={{displayNumber}}&size={{supplyItemHistoryPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+            <a href="/supply-item-histories/list?page={{displayNumber}}&size={{supplyItemHistoryPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
         </li>
     {{/supplyItemHistoryPage.pageLinks}}
 
     {{#supplyItemHistoryPage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/supply-item-history/list?page={{supplyItemHistoryPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+            <a href="/supply-item-histories/list?page={{supplyItemHistoryPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>
