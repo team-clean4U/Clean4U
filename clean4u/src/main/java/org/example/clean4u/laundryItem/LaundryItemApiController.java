@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/laundry-items")
+@RequestMapping("/api/v1/laundry-items")
 @RequiredArgsConstructor
 public class LaundryItemApiController {
 
     private final LaundryItemService service;
 
-    // GET /api/laundry-items
+    // GET /api/v1/laundry-items
     @GetMapping
     public ResponseEntity<PageResponse<LaundryItemResponse.ListDTO>> getLaundryItemList(
             @RequestParam(defaultValue = "1") int page,
@@ -29,14 +29,14 @@ public class LaundryItemApiController {
         return ResponseEntity.ok().body(result);
     }
 
-    // GET /api/laundry-items/{id}
+    // GET /api/v1/laundry-items/{id}
     @GetMapping("/{id}")
     public ResponseEntity<LaundryItemResponse.DetailDTO> getLaundryItemById(@PathVariable Long id) {
         LaundryItemResponse.DetailDTO result = service.getDetail(id);
         return ResponseEntity.ok().body(result);
     }
 
-    // POST /api/laundry-items
+    // POST /api/v1/laundry-items
     @PostMapping
     public ResponseEntity<?> createLaundryItem(
             @Valid @RequestBody LaundryItemRequest.SaveDTO saveDTO
@@ -45,7 +45,7 @@ public class LaundryItemApiController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // PUT /api/laundry-items/{id}
+    // PUT /api/v1/laundry-items/{id}
     @PutMapping("/{id}")
     public ResponseEntity<LaundryItemResponse.DetailDTO> updateLaundryItem(
             @PathVariable Long id,
@@ -56,7 +56,7 @@ public class LaundryItemApiController {
         return ResponseEntity.ok().body(result);
     }
 
-    // DELETE /api/laundry-items/{id}
+    // DELETE /api/v1/laundry-items/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteLaundryItem(@PathVariable Long id) {
         service.delete(id);
