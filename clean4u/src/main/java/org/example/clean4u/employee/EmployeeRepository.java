@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -39,4 +41,17 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "WHERE e.email LIKE CONCAT('%', :keyword, '%') " +
             "ORDER BY e.email DESC")
     Page<Employee> findByEmailContaining(String email, Pageable pageable);
+
+    @Query("SELECT COUNT(e) FROM Employee e ")
+    long countAllEmployees();
+
+    @Query(value = """
+    SELECT lo.name, COUNT(oo.laundry_option_id) AS count
+    FROM order_item_option_tb oo
+    JOIN laundry_option_tb lo ON oo.laundry_option_id = lo.id
+    GROUP BY lo.id, lo.name
+    ORDER BY count DESC
+    LIMIT 5
+    """, nativeQuery = true)
+    List<Object[]> findTop5Option();
 }

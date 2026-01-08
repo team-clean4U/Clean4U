@@ -79,12 +79,18 @@ public class WorkScheduleResponse {
         private LocalTime startTime;
         private LocalTime endTime;
         private Boolean working;
+        private String message;
 
-        public DataDTO(WorkSchedule workSchedule, Boolean working) {
-            this.id = workSchedule.getId();
-            this.startTime = workSchedule.getStartTime();
-            this.endTime = workSchedule.getEndTime();
-            this.working = working != null ? working : false;
+        public DataDTO(WorkSchedule workSchedule) {
+            if (workSchedule == null) {
+                this.working = false;
+                this.message = "스케줄이 등록되어 있지 않습니다.";
+            } else {
+                this.id = workSchedule.getId();
+                this.startTime = workSchedule.getStartTime();
+                this.endTime = workSchedule.getEndTime();
+                this.working = true;
+            }
         }
     }
 }

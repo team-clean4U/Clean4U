@@ -41,14 +41,6 @@ public class WorkScheduleOverrideService {
         return workScheduleOverride;
     }
 
-    public List<WorkScheduleOverrideResponse.ListDTO> overrideList() {
-        List<WorkScheduleOverride> workScheduleOverrides = workScheduleOverrideRepository.findAll();
-
-        return workScheduleOverrides.stream()
-                .map(WorkScheduleOverrideResponse.ListDTO::new)
-                .collect(Collectors.toList());
-    }
-
     public WorkScheduleOverrideResponse.DetailDTO overrideDetail(Long scheduleId) {
         WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(scheduleId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다."));
@@ -129,5 +121,14 @@ public class WorkScheduleOverrideService {
             schedulePage = workScheduleOverrideRepository.findAll(pageable);
         }
         return new PageResponse<>(schedulePage, WorkScheduleOverrideResponse.ListDTO::new);
+    }
+
+    public long countTodayOverrides(Long employeeId) {
+        Employee originalEntity = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
+
+        long countToday = workScheduleOverrideRepository.countTodayOverridesByEmployeeId(originalEntity.getId());
+
+        return countToday;
     }
 }
