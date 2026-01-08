@@ -9,8 +9,10 @@ import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
@@ -21,8 +23,8 @@ public class SupplyItemController {
 
     private final SupplyItemService service;
 
-    // http://localhost:8080/supply-item/list
-    @GetMapping("/supply-item/list")
+    // http://localhost:8080/supply-items/list
+    @GetMapping("/supply-items/list")
     public String supplyItemList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
@@ -55,8 +57,8 @@ public class SupplyItemController {
         return "supplyItem/list-form";
     }
 
-    // http://localhost:8080/supply-item/{supplyItemId}
-    @GetMapping("/supply-item/{supplyItemId}")
+    // http://localhost:8080/supply-items/{supplyItemId}
+    @GetMapping("/supply-items/{supplyItemId}")
     public String detail(@PathVariable Long supplyItemId, Model model) {
         SupplyItemResponse.DetailDTO supplyItem = service.getDetail(supplyItemId);
         model.addAttribute("supplyItem", supplyItem);
@@ -65,25 +67,25 @@ public class SupplyItemController {
         return "supplyItem/detail-form";
     }
 
-    // http://localhost:8080/supply-item/save
-    @GetMapping("/supply-item/save")
+    // http://localhost:8080/supply-items/save
+    @GetMapping("/supply-items/save")
     public String saveForm(Model model) {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/supply-item.css", "/css/supply-item-history.css", "/css/order.css"));
         return "supplyItem/save-form";
     }
 
-    // http://localhost:8080/supply-item/save
-    @PostMapping("/supply-item/save")
+    // http://localhost:8080/supply-items/save
+    @PostMapping("/supply-items/save")
     public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         service.save(saveDTO, sessionUser);
 
-        return "redirect:/supply-item/list";
+        return "redirect:/supply-items/list";
     }
 
-    // http://localhost:8080/supply-item/{supplyItemId}/update
-    @GetMapping("/supply-item/{supplyItemId}/update")
+    // http://localhost:8080/supply-items/{supplyItemId}/update
+    @GetMapping("/supply-items/{supplyItemId}/update")
     public String updateForm(@PathVariable Long supplyItemId, Model model) {
         SupplyItemResponse.UpdateFormDTO supplyItem = service.getFormForUpdate(supplyItemId);
         model.addAttribute("supplyItem", supplyItem);
@@ -91,27 +93,27 @@ public class SupplyItemController {
         return "supplyItem/update-form";
     }
 
-    // http://localhost:8080/supply-item/{supplyItemId}/update
-    @PostMapping("/supply-item/{supplyItemId}/update")
+    // http://localhost:8080/supply-items/{supplyItemId}/update
+    @PutMapping("/supply-items/{supplyItemId}/update")
     public String updateProc(@PathVariable Long supplyItemId, @Valid SupplyItemRequest.UpdateDTO updateDTO, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         service.update(supplyItemId, updateDTO, sessionUser);
 
-        return "redirect:/supply-item/" + supplyItemId;
+        return "redirect:/supply-items/" + supplyItemId;
     }
 
-    // http://localhost:8080/supply-item/{supplyItemId}/deactivate
-    @PostMapping("/supply-item/{supplyItemId}/deactivate")
+    // http://localhost:8080/supply-items/{supplyItemId}/deactivate
+    @PatchMapping("/supply-items/{supplyItemId}/deactivate")
     public String deactivate(@PathVariable Long supplyItemId) {
         service.deactivate(supplyItemId);
-        return "redirect:/supply-item/" + supplyItemId;
+        return "redirect:/supply-items/" + supplyItemId;
     }
 
-    // http://localhost:8080/supply-item/{supplyItemId}/activate
-    @PostMapping("/supply-item/{supplyItemId}/activate")
+    // http://localhost:8080/supply-items/{supplyItemId}/activate
+    @PatchMapping("/supply-items/{supplyItemId}/activate")
     public String activate(@PathVariable Long supplyItemId) {
         service.activate(supplyItemId);
-        return "redirect:/supply-item/" + supplyItemId;
+        return "redirect:/supply-items/" + supplyItemId;
     }
 }
