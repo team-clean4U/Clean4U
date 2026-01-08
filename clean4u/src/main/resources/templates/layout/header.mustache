@@ -27,37 +27,37 @@
                 <i class="fa-solid fa-soap"></i> Clean4U
             </a>
             {{#sessionUser}}
-            <div class="stock-notice-dropdown">
-                <button class="stock-notice-bell" id="lowStockBell">
-                    <i class="fa-solid fa-bell"></i>
-                    {{#lowStockCount}}
-                        <span class="stock-notice-badge">{{lowStockCount}}</span>
-                    {{/lowStockCount}}
-                </button>
-                <div class="stock-notice-dropdown-menu" id="lowStockDropdown" style="display: none;">
-                    <div class="stock-notice-header">
-                        <h4>재고 부족 알림</h4>
-                    </div>
-                    <div class="stock-notice-list">
-                        {{#lowStockItems}}
-                            <a href="/supply-item/{{id}}" class="stock-notice-item">
-                                <div class="stock-notice-item-content">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                    <div>
-                                        <b>{{name}}</b>
-                                        <span class="stock-notice-item-detail">
+                <div class="stock-notice-dropdown">
+                    <button class="stock-notice-bell" id="lowStockBell">
+                        <i class="fa-solid fa-bell"></i>
+                        {{#lowStockCount}}
+                            <span class="stock-notice-badge">{{lowStockCount}}</span>
+                        {{/lowStockCount}}
+                    </button>
+                    <div class="stock-notice-dropdown-menu" id="lowStockDropdown" style="display: none;">
+                        <div class="stock-notice-header">
+                            <h4>재고 부족 알림</h4>
+                        </div>
+                        <div class="stock-notice-list">
+                            {{#lowStockItems}}
+                                <a href="/supply-item/{{id}}" class="stock-notice-item">
+                                    <div class="stock-notice-item-content">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        <div>
+                                            <b>{{name}}</b>
+                                            <span class="stock-notice-item-detail">
                                             현재: {{stockQuantity}}{{unit}} / 안전재고: {{safetyStock}}{{unit}}
                                         </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        {{/lowStockItems}}
-                        {{^lowStockItems}}
-                            <div class="stock-notice-empty">재고 부족 항목이 없습니다.</div>
-                        {{/lowStockItems}}
+                                </a>
+                            {{/lowStockItems}}
+                            {{^lowStockItems}}
+                                <div class="stock-notice-empty">재고 부족 항목이 없습니다.</div>
+                            {{/lowStockItems}}
+                        </div>
                     </div>
                 </div>
-            </div>
             {{/sessionUser}}
         </div>
         <input type="checkbox" id="navbar-toggle" class="navbar-toggle-checkbox">
@@ -148,25 +148,25 @@
                         </label>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="/laundry-item/list" class="dropdown-item">
+                                <a href="/laundry-items/list" class="dropdown-item">
                                     <i class="fa-solid fa-shirt"></i>
                                     세탁물 관리
                                 </a>
                             </li>
                             <li>
-                                <a href="/laundry-option/list" class="dropdown-item">
+                                <a href="/laundry-options/list" class="dropdown-item">
                                     <i class="fa-solid fa-tags"></i>
                                     세탁 옵션 관리
                                 </a>
                             </li>
                             <li>
-                                <a href="/supply-item/list" class="dropdown-item">
+                                <a href="/supply-items/list" class="dropdown-item">
                                     <i class="fa-solid fa-box"></i>
                                     비품 관리
                                 </a>
                             </li>
                             <li>
-                                <a href="/supply-item-history/list" class="dropdown-item">
+                                <a href="/supply-item-histories/list" class="dropdown-item">
                                     <i class="fa-solid fa-chart-line"></i>
                                     비품 입/출고 이력
                                 </a>
