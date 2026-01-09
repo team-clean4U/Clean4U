@@ -57,4 +57,12 @@ public class Payment {
             this.paymentStatus = paymentStatus;
         }
     }
+
+    public boolean isPaid() {
+        return this.paymentStatus == PaymentStatus.PAID;
+    }
+
+    public boolean isRefund() {
+        return this.paymentStatus == PaymentStatus.REFUND;
+    }
 }

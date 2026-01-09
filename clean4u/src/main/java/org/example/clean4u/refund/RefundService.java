@@ -8,6 +8,7 @@ import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
+import org.example.clean4u.order.OrderStatus;
 import org.example.clean4u.payment.Payment;
 import org.example.clean4u.payment.PaymentRepository;
 import org.example.clean4u.payment.PaymentService;
@@ -32,11 +33,15 @@ public class RefundService {
     private final OrderRepository orderRepository;
 
     public Payment refundRequestForm(Long paymentId) {
-        Payment payment = paymentRepository.findById(paymentId)
+        Payment payment = paymentRepository.findByIdWithOrder(paymentId)
                 .orElseThrow(() -> new Exception404("결제 내역을 조회할 수 없습니다."));
 
-        if(!(payment.getPaymentStatus() == PaymentStatus.PAID)) {
+        if(!(payment.isPaid())) {
             throw new Exception400("결제 완료된 상태만 환불 요청이 가능합니다.");
+        }
+
+        if(!payment.getOrder().isReceived()) {
+            throw new Exception400("접수 단계의 주문만 환불 요청이 가능합니다.");
         }
 
         Refund refund = refundRepository.findByPaymentId(paymentId).orElse(null);
@@ -73,6 +78,7 @@ public class RefundService {
         refund.approve();
         payment.updateStatus(PaymentStatus.REFUND);
         order.updatePendingStatus(true); // 주문의 결제 상태는 완료 -> 대기로 변경
+        order.updateStatus(OrderStatus.CANCELLED); // 접수 취소
     }
 
     private void portOnePayCancel(String impUid, Integer amount) {
