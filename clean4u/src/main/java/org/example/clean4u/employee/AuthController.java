@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,9 +47,6 @@ public class AuthController {
         model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("category", category == null ? "all" : category);
         model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/employee-search.css"));
-
-//        List<EmployeeResponse.ListDTO> employeeList = authService.list();
-//        model.addAttribute("employeeList", employeeList);
 
         return "employee/employee-list";
     }
