@@ -12,7 +12,8 @@ import org.example.clean4u.laundryItem.LaundryItemResponse;
 import org.example.clean4u.laundryItem.LaundryItemService;
 import org.example.clean4u.laundryOption.LaundryOptionService;
 import org.example.clean4u.orderItem.OrderItemResponse;
-import org.example.clean4u.payment.PaymentService;
+import org.example.clean4u.payment.Payment;
+import org.example.clean4u.payment.PaymentRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class OrderController {
     private final LaundryOptionService laundryOptionService;
     private final CustomerService customerService;
     private final ObjectMapper objectMapper;
+    private final PaymentRepository paymentRepository;
 
     @GetMapping("/order/save")
     public String saveForm(Model model) {
@@ -59,7 +61,7 @@ public class OrderController {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         Order order = orderService.saveProc(saveDTO, sessionUser.getId());
 
-        return "redirect:/order/" + order.getId();
+        return "redirect:/orders/" + order.getId();
     }
 
     @GetMapping("/orders/list")
@@ -93,9 +95,13 @@ public class OrderController {
     @GetMapping("/orders/{orderId}")
     public String detail(@PathVariable Long orderId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        OrderResponse.DetailDTO order = orderService.detail(orderId, sessionUser.getId());
+        OrderResponse.DetailDTO order = orderService.detail(orderId);
+
+        Payment payment = paymentRepository.findByOrderId(orderId).orElse(null);
+
         model.addAttribute("isAdmin", sessionUser.isAdmin());
         model.addAttribute("order", order);
+        model.addAttribute("payment", payment);
         model.addAttribute("items", order.getItems());
         model.addAttribute("history", order.getHistories());
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/order.css", "/css/payment.css", "/css/customer.css"));
@@ -103,9 +109,8 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{orderId}/update")
-    public String updateForm(@PathVariable Long orderId, Model model, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        OrderResponse.UpdateFormDTO order = orderService.updateForm(orderId, sessionUser.getId());
+    public String updateForm(@PathVariable Long orderId, Model model) {
+        OrderResponse.UpdateFormDTO order = orderService.updateForm(orderId);
         List<LaundryItemResponse.ListDTO> laundryItems = laundryItemService.getAllLaundryItems();
 
         List<OrderItemResponse.UpdateFormDto> items = order.getItems();
@@ -135,13 +140,13 @@ public class OrderController {
         if (isGradeChanged) {
             redirectAttributes.addFlashAttribute("alertMessage", "고객 등급이 변경되었습니다.");
         }
-        return "redirect:/order/" + orderId;
+        return "redirect:/orders/" + orderId;
     }
 
     @PostMapping("/orders/{orderId}/laundry-image/delete")
     public String deleteLaundryImage(@PathVariable Long orderId) {
         orderService.deleteLaundryImage(orderId);
-        return "redirect:/order/" + orderId;
+        return "redirect:/orders/" + orderId;
     }
 
     @PostMapping("/orders/{orderId}/delete")
@@ -151,7 +156,7 @@ public class OrderController {
         if(!existing) {
             return "redirect:/order/list";
         }
-        return "redirect:/order/" + orderId;
+        return "redirect:/orders/" + orderId;
     }
 
     @PostMapping("/orders/{orderId}/review-link/send")
@@ -163,6 +168,6 @@ public class OrderController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("alertMessage", "리뷰 링크 발송에 실패했습니다: " + e.getMessage());
         }
-        return "redirect:/order/" + orderId;
+        return "redirect:/orders/" + orderId;
     }
 }
