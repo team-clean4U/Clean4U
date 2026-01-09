@@ -147,7 +147,7 @@
                 </div>
                 <div style="text-align: center;">
                     <input type="hidden" id="orderId" value="{{order.orderId}}">
-                        <div class="btn-payment-wrapper">
+                        <div class="btn-payment-wrapper" id="paymentArea">
                          {{#order.isPending}}{{^order.isCancelled}}
                                 <button type="button" id="paymentBtn" class="btn btn-payment">
                                     <span class="payment-emoji">
@@ -156,12 +156,12 @@
                                     <span class="payment-request">결제 QR 요청하기</span>
                                 </button>
                          {{/order.isCancelled}}{{/order.isPending}}
-                        {{^order.isPending}}
+                        {{^order.isPending}}{{#payment}}
                             <span class="btn btn-payment">결제 완료</span>
-                            <a href="/refund/{{order.payment.id}}">
-                                <span class="btn btn-delete">환불 요청</span>
-                            </a>
-                        {{/order.isPending}}
+                                <span class="btn btn-delete">
+                                    <a href="/refund/{{payment.id}}">환불 요청</a>
+                                </span>
+                        {{/payment}}{{/order.isPending}}
                         </div>
                 </div>
             </div>

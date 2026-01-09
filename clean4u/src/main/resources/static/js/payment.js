@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then(res => {
                 if(!res.ok) {
-                    throw Error("주문번호 생성 실패");
                 }
                 return res.json();
             })
@@ -41,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     function (response) {
                         if(response.success) {
-                            verifyPayment(response.imp_uid, response.merchant_uid, orderId)
+                            verifyPayment(response.imp_uid, response.merchant_uid, orderId);
                         } else {
                             alert("결제 실패");
                         }
@@ -65,10 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     throw new Error(e.message);
                 })
             }
-            return res.json;
+            return res.json();
         }).then(() => {
             alert("결제가 완료되었습니다.");
-            location.href = `/order/${order_id}`;
+            location.href = `/orders/${order_id}`;
         }).catch(() => {
             alert("결제 검증에 실패했습니다.");
         })
