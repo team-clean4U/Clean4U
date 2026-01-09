@@ -55,7 +55,7 @@ public class Refund {
     }
 
     public void reject(String rejectReason) {
-        this.status = RefundStatus.REJECTED;
+        this.status = RefundStatus.CANCELLED;
     }
 
     public boolean isPending() {
@@ -67,6 +67,6 @@ public class Refund {
     }
 
     public boolean isRejected() {
-        return this.status == RefundStatus.REJECTED;
+        return this.status == RefundStatus.CANCELLED;
     }
 }
