@@ -130,7 +130,7 @@
     <ul class="pagination">
         {{#orderPage.previousPageNumber}}
             <li class="page-btn">
-                <a href="/order/list?page={{orderPage.previousPageNumber}}">
+                <a href="/orders/list?page={{orderPage.previousPageNumber}}">
                 <i class="fa-solid fa-chevron-left"></i>
                 </a>
             </li>
@@ -143,13 +143,13 @@
 
         {{#orderPage.pageLinks}}
             <li class="page-btn {{#active}}active{{/active}}">
-                <a href="/order/list?page={{displayNumber}}&size={{orderPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+                <a href="/orders/list?page={{displayNumber}}&size={{orderPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
             </li>
         {{/orderPage.pageLinks}}
 
         {{#orderPage.nextPageNumber}}
             <li class="page-btn">
-                <a href="/order/list?page={{orderPage.nextPageNumber}}">
+                <a href="/orders/list?page={{orderPage.nextPageNumber}}">
                 <i class="fa-solid fa-chevron-right"></i>
                 </a>
             </li>

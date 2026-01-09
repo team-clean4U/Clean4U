@@ -151,10 +151,7 @@ public class OrderService {
     }
 
     // 주문 상세 조회
-    public OrderResponse.DetailDTO detail(Long orderId, Long sessionUserId) {
-        if (!employeeRepository.existsById(sessionUserId)) {
-            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
-        }
+    public OrderResponse.DetailDTO detail(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));
 
@@ -217,22 +214,13 @@ public class OrderService {
             review = reviewService.getDetailByOrderId(order.getId());
         }
 
-        Payment payment = paymentRepository.findByOrderId(orderId).orElse(null);
-
         OrderResponse.DetailDTO dto = new OrderResponse.DetailDTO(order, itemDtos, historyList, review);
-        if(payment != null) {
-            PaymentResponse.DetailDTO paymentDTO = new PaymentResponse.DetailDTO(payment.getId());
-            dto.setPayment(paymentDTO);
-        }
 
         return dto;
     }
 
     // 주문 변경 화면 요청
-    public OrderResponse.UpdateFormDTO updateForm(Long orderId, Long sessionUserId) {
-        if (!employeeRepository.existsById(sessionUserId)) {
-            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
-        }
+    public OrderResponse.UpdateFormDTO updateForm(Long orderId) {
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new Exception404("해당 주문을 찾을 수 없습니다."));

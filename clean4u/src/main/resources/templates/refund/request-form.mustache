@@ -1,4 +1,44 @@
 {{> layout/header}}
 {{> layout/background}}
-
+<div class="detail-container">
+    <div class="detail-container-content">
+        <div class="buttons">
+            <form action="/orders/list" method="get">
+                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+            </form>
+        </div>
+    </div>
+    <div class="detail-card">
+        <div class="detail-header">
+            <h4>환불 요청 내역</h4>
+        </div>
+        {{#payment}}
+            <div class="detail-body">
+                <div class="detail-item">
+                    impUid
+                    {{impUid}}
+                </div>
+                <div class="detail-item">
+                    merchantUid
+                    {{merchantUid}}
+                </div>
+                <div class="detail-item">
+                    amount
+                    {{amount}}원
+                </div>
+                <div class="detail-item">
+                    paidAt
+                    {{paidAt}}
+                </div>
+                <div class="detail-item">
+                    결제상태
+                    {{statusDisplay}}
+                </div>
+            </div>
+            <div class="bottom-buttons">
+                <a href="" class="btn btn-delete">환불 요청</a>
+            </div>
+        {{/payment}}
+    </div>
+</div>
 {{>layout/footer}}

@@ -51,7 +51,6 @@ public class OrderResponse {
         private String totalPrice;
         private List<OrderItemResponse.DetailDto> items;
         private List<OrderStatusHistoryResponse.DetailDTO> histories;
-        private PaymentResponse.DetailDTO payment;
 
         private String reviewLink;
         private boolean hasReview;

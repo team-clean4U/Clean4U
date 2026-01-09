@@ -21,9 +21,11 @@ public class PaymentResponse {
 
     @Data
     public static class VerifyDTO {
+        private Long paymentId;
         private Integer amount;
 
-        public VerifyDTO(Integer amount) {
+        public VerifyDTO(Long paymentId, Integer amount) {
+            this.paymentId = paymentId;
             this.amount = amount;
         }
     }
@@ -63,7 +65,7 @@ public class PaymentResponse {
     }
 
     @Data
-    public static class ListDTO {
+    public static class DetailDTO {
         private Long id;
         private String impUid;
         private String merchantUid;
@@ -72,7 +74,7 @@ public class PaymentResponse {
         private String statusDisplay;
         private Boolean isRefundable;
 
-        public ListDTO(Payment payment, Boolean isRefundable) {
+        public DetailDTO(Payment payment, Boolean isRefundable) {
             this.id = payment.getId();
             this.impUid = payment.getImpUid();
             this.merchantUid = payment.getImpUid();
@@ -82,17 +84,8 @@ public class PaymentResponse {
             this.isRefundable = isRefundable != null ? isRefundable : false;
         }
 
-        public ListDTO(Payment payment) {
+        public DetailDTO(Payment payment) {
             this(payment, payment.getPaymentStatus() == PaymentStatus.PAID);
-        }
-    }
-
-    @Data
-    public static class DetailDTO {
-        private Long id;
-
-        public DetailDTO(Long id) {
-            this.id = id;
         }
     }
 }
