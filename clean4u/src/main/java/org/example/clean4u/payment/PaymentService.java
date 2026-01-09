@@ -4,13 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
-import org.example.clean4u.employee.Employee;
-import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.order.OrderStatus;
 
-import org.example.clean4u.sms.SmsService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -27,7 +24,6 @@ import java.util.UUID;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final EmployeeRepository employeeRepository;
     private final OrderRepository orderRepository;
 
     @Value("${portone.imp-key}")
@@ -38,10 +34,7 @@ public class PaymentService {
 
     // 결제 준비 요청
     @Transactional
-    public PaymentResponse.PrepareDTO preparePayment(PaymentRequest.@Valid PrepareDTO prepareDTO, Long sessionUserId) {
-        if (!employeeRepository.existsById(sessionUserId)) {
-            throw new Exception404("해당 사용자를 찾을 수 없습니다.");
-        }
+    public PaymentResponse.PrepareDTO preparePayment(PaymentRequest.@Valid PrepareDTO prepareDTO) {
 
         Order order = orderRepository.findByIdWithCustomer(prepareDTO.getOrderId())
                 .orElseThrow(() -> new Exception404("결제 시도하려는 주문을 찾을 수 없습니다."));
@@ -63,10 +56,7 @@ public class PaymentService {
 
     // 결제 검증 및 결제
     @Transactional
-    public PaymentResponse.VerifyDTO verifyPayment(PaymentRequest.@Valid VerifyDTO reqDTO, Long userId) {
-        Employee employee = employeeRepository.findById(userId)
-                .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다"));
-
+    public PaymentResponse.VerifyDTO verifyPayment(PaymentRequest.@Valid VerifyDTO reqDTO) {
         if (paymentRepository.findByImpUid(reqDTO.getImpUid()).isPresent()) {
             throw new Exception400("이미 처리된 결제 입니다");
         }
@@ -91,7 +81,7 @@ public class PaymentService {
                 .build();
 
         paymentRepository.save(payment);
-        return new PaymentResponse.VerifyDTO(paymentData.getAmount());
+        return new PaymentResponse.VerifyDTO(payment.getId(), paymentData.getAmount());
     }
 
     // 포트원 결제 조회
