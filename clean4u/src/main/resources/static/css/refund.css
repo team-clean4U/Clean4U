@@ -1,0 +1,7 @@
+.status-paid {
+    background-color: var(--status-completed);
+}
+
+.status-refund {
+    background-color: var(--status-cancelled);
+}

@@ -1,44 +1,64 @@
 {{> layout/header}}
 {{> layout/background}}
-<div class="detail-container">
-    <div class="detail-container-content">
-        <div class="buttons">
-            <form action="/orders/list" method="get">
-                <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
-            </form>
-        </div>
+<div class="detail-container" style="display: flex; flex-direction: column; padding: 4rem 25rem;">
+    <div class="buttons">
+        <form action="/orders/list" method="get">
+            <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
+        </form>
     </div>
     <div class="detail-card">
         <div class="detail-header">
             <h4>환불 요청 내역</h4>
         </div>
+        <form action="/refund/request" method="post">
         {{#payment}}
-            <div class="detail-body">
-                <div class="detail-item">
-                    impUid
-                    {{impUid}}
+                <div class="detail-body">
+                    <div class="detail-item">
+                        <label class="detail-label">
+                            <i class="fa-solid fa-key"></i>Imp Uid
+                        </label>
+                        <span class="detail-value">{{impUid}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label class="detail-label">
+                            <i class="fa-solid fa-hashtag"></i>주문번호
+                        </label>
+                        <span class="detail-value">{{merchantUid}}</span>
+
+                    </div>
+                    <div class="detail-item">
+                        <label class="detail-label">
+                            <i class="fa-solid fa-credit-card"></i>결제가격
+                        </label>
+                        <span class="detail-value">{{amount}}원</span>
+                    </div>
+                    <div class="detail-item">
+                        <label class="detail-label">
+                            <i class="fa-solid fa-calendar-check"></i>결제일시
+                        </label>
+                        <span class="detail-value">{{paidAt}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label class="detail-label">
+                            <i class="fa-solid fa-circle-info"></i>결제상태
+                        </label>
+                        <span class="status-badge {{status.cssClass}}">{{status.displayName}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label class="detail-label">
+                            <i class="fa-solid"></i>환불 사유
+                        </label>
+                        <!--  스타일 수정(-)   -->
+                        <textarea name="reason" id="" rows="5" placeholder="환불 사유를 입력하세요" required></textarea>
+                    </div>
                 </div>
-                <div class="detail-item">
-                    merchantUid
-                    {{merchantUid}}
+                <div class="bottom-buttons">
+                    <button class="btn btn-cancel" type="submit">환불 요청</button>
                 </div>
-                <div class="detail-item">
-                    amount
-                    {{amount}}원
-                </div>
-                <div class="detail-item">
-                    paidAt
-                    {{paidAt}}
-                </div>
-                <div class="detail-item">
-                    결제상태
-                    {{statusDisplay}}
-                </div>
-            </div>
-            <div class="bottom-buttons">
-                <a href="" class="btn btn-delete">환불 요청</a>
-            </div>
+            <input type="hidden" name="orderId" value="{{orderId}}">
+            <input type="hidden" name="paymentId" value="{{id}}">
         {{/payment}}
+        </form>
     </div>
 </div>
 {{>layout/footer}}
