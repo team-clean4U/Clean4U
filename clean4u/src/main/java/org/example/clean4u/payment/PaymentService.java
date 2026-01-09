@@ -70,7 +70,7 @@ public class PaymentService {
             throw new Exception400("주문 총 금액과 결제 요청 금액이 일치하지 않습니다.");
         }
 
-        order.updatePendingStatus(false);
+        order.updatePendingStatus(false); // 주문의 결제 상태를 대기 -> 완료로 변경
 
         Payment payment = Payment.builder()
                 .order(order)
@@ -118,7 +118,7 @@ public class PaymentService {
     }
 
     // 포트원 액세스 토큰 발급
-    private String generatePortOneAccessToken() {
+    public String generatePortOneAccessToken() {
         try {
             RestTemplate restTemplate = new RestTemplate();
 

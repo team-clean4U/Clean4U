@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
-
-import java.util.List;
+import org.example.clean4u._core.utils.PriceUtil;
 
 public class PaymentResponse {
     @Data
@@ -67,20 +66,22 @@ public class PaymentResponse {
     @Data
     public static class DetailDTO {
         private Long id;
+        private Long orderId;
         private String impUid;
         private String merchantUid;
-        private Integer amount;
+        private String amount;
         private String paidAt;
-        private String statusDisplay;
+        private PaymentStatus status;
         private Boolean isRefundable;
 
         public DetailDTO(Payment payment, Boolean isRefundable) {
             this.id = payment.getId();
+            this.orderId = payment.getOrder().getId();
             this.impUid = payment.getImpUid();
-            this.merchantUid = payment.getImpUid();
-            this.amount = payment.getAmount();
+            this.merchantUid = payment.getMerchantUid();
+            this.amount = PriceUtil.format(payment.getAmount());
             this.paidAt = DateUtil.timestampFormat(payment.getCreatedAt());
-            this.statusDisplay = payment.getPaymentStatus().getDisplayName();
+            this.status = payment.getPaymentStatus();
             this.isRefundable = isRefundable != null ? isRefundable : false;
         }
 
