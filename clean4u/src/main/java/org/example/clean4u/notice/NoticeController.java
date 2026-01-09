@@ -54,7 +54,7 @@ public class NoticeController {
 
         Notice notice = noticeService.saveNotice(dto, sessionUser);
 
-        return "redirect:/notice/" + notice.getId();
+        return "redirect:/notices/" + notice.getId();
     }
     // 공지 목록
     @GetMapping("/notice/list")
