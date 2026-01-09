@@ -5,7 +5,7 @@
     <div class="notice-card">
         <div class="notice-list-header">
             <h2 class="notice-header-left">
-                <a href="/notice/list">
+                <a href="/notices/list">
                     <i class="fa-solid fa-bullhorn"></i>
                     공지사항
                 </a>
@@ -16,7 +16,7 @@
         </div>
         <div class="notice-body">
             {{#noticePage.content}}
-            <a href="/notice/{{id}}" class="notice-item-link">
+            <a href="/notices/{{id}}" class="notice-item-link">
                 <div class="notice-items">
                     <div class="notice-left">
                         <i class="fa-solid fa-bullhorn"></i>
@@ -45,7 +45,7 @@
 <ul class="pagination">
     {{#noticePage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/notice/list?page={{noticePage.previousPageNumber}}">
+            <a href="/notices/list?page={{noticePage.previousPageNumber}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -58,13 +58,13 @@
 
     {{#noticePage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/notice/list?page={{displayNumber}}&size={{noticePage.size}}">{{displayNumber}}</a>
+            <a href="/notices/list?page={{displayNumber}}&size={{noticePage.size}}">{{displayNumber}}</a>
         </li>
     {{/noticePage.pageLinks}}
 
     {{#noticePage.NextPageNumber}}
         <li class="page-btn">
-            <a href="/notice/list?page={{noticePage.NextPageNumber}}">
+            <a href="/notices/list?page={{noticePage.NextPageNumber}}">
             <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>

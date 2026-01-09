@@ -4,7 +4,7 @@
 
 <div class="notice-container">
     <div class="notice-container-content">
-        <form action="/notice/{{notice.id}}/update" method="post" enctype="multipart/form-data">
+        <form action="/notices/{{notice.id}}/update" method="post" enctype="multipart/form-data">
             <div class="notice-header">
                 <label class="notice-label">
                     <i class="fa-solid fa-bullhorn"></i>제목:
@@ -37,7 +37,7 @@
                 <div id="preview" class="image-preview"></div>
             </div>
             <div class="bottom-buttons">
-                <a href="/notice/{{notice.id}}" class="btn btn-back">취소</a>
+                <a href="/notices/{{notice.id}}" class="btn btn-back">취소</a>
                 <button type="submit" class="btn btn-create">완료</button>
             </div>
         </form>

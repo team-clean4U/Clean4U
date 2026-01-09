@@ -23,9 +23,14 @@ import java.util.stream.Collectors;
 public class CustomerService {
     private final CustomerRepository repository;
     private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
 
     @Transactional
     public Customer save(@Valid CustomerRequest.SaveDTO dto) {
+        if (customerRepository.existsByPhone(dto.getPhone())) {
+            throw new Exception400("이미 등록된 연락처입니다. 다른 번호로 시도하세요");
+        }
+
         Customer customer = dto.toEntity();
         customer.setGrade(Grade.NEW);
         return repository.save(customer);

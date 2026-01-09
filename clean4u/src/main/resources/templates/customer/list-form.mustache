@@ -7,7 +7,7 @@
         <div class="header-container">
             <div class="section-header">
                 <h2 class="section-title">
-                    <a href="/customer/list">
+                    <a href="/customers/list">
                         <i class="fa-solid fa-user-group"></i>
                         고객 목록
                     </a>
@@ -16,7 +16,7 @@
                     <span>+</span>생성
                 </a>
             </div>
-            <form class="search-wrapper" method="get" action="/customer/list">
+            <form class="search-wrapper" method="get" action="/customers/list">
                 <div class="search-input-box">
                     <i class="fa-solid fa-search"></i>
                     <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{keyword}}" name="keyword">
@@ -46,7 +46,7 @@
 
         <div class="card-list">
             {{#customerPage.content}}
-                <a href="/customer/{{customerId}}" class="card">
+                <a href="/customers/{{customerId}}" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-user"></i>
                         <h4>{{name}}</h4>
@@ -76,7 +76,7 @@
 <ul class="pagination">
     {{#customerPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/customer/list?page={{customerPage.previousPageNumber}}">
+            <a href="/customers/list?page={{customerPage.previousPageNumber}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -89,13 +89,13 @@
 
     {{#customerPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/customer/list?page={{displayNumber}}&size={{customerPage.size}}">{{displayNumber}}</a>
+            <a href="/customers/list?page={{displayNumber}}&size={{customerPage.size}}">{{displayNumber}}</a>
         </li>
     {{/customerPage.pageLinks}}
 
     {{#customerPage.NextPageNumber}}
         <li class="page-btn">
-            <a href="/customer/list?page={{customerPage.NextPageNumber}}">
+            <a href="/customers/list?page={{customerPage.NextPageNumber}}">
             <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>

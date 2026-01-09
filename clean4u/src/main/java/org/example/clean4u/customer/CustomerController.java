@@ -38,11 +38,11 @@ public class CustomerController {
     public String saveProc(@Valid CustomerRequest.SaveDTO dto) {
         customerService.save(dto);
         
-        return "redirect:/customer/list";
+        return "redirect:/customers/list";
     }
 
     // 고객 전체 리스트
-    @GetMapping("/customer/list")
+    @GetMapping("/customers/list")
     public String customerList(Model model,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String category,
@@ -74,7 +74,7 @@ public class CustomerController {
     }
 
     // 고객 단건 조회
-    @GetMapping("/customer/{customerId}")
+    @GetMapping("/customers/{customerId}")
     public String detail(@PathVariable Long customerId, Model model) {
         CustomerResponse.DetailDTO customer = customerService.getDetail(customerId);
 
@@ -85,7 +85,7 @@ public class CustomerController {
     }
 
     // 고객 수정 화면
-    @GetMapping("/customer/{customerId}/update")
+    @GetMapping("/customers/{customerId}/update")
     public String updateForm(@PathVariable Long customerId, Model model) {
         CustomerResponse.UpdateDTO dto = customerService.getFormForUpdate(customerId);
         model.addAttribute("customer", dto);
@@ -94,31 +94,31 @@ public class CustomerController {
         return "customer/update-form";
     }
 
-    @PostMapping("/customer/{customerId}/update")
+    @PostMapping("/customers/{customerId}/update")
     public String updateProc(@PathVariable Long customerId,
                              @Valid CustomerRequest.UpdateDTO updateDTO) {
 
         customerService.update(customerId, updateDTO);
 
-        return "redirect:/customer/" + customerId;
+        return "redirect:/customers/" + customerId;
     }
 
     // 고객 삭제
-    @PostMapping("/customer/{customerId}/delete")
+    @PostMapping("/customers/{customerId}/delete")
     public String deleteById(@PathVariable Long customerId) {
         customerService.delete(customerId);
-        return "redirect:/customer/list";
+        return "redirect:/customers/list";
     }
 
-    @PostMapping("/customer/{customerId}/deactivate")
+    @PostMapping("/customers/{customerId}/deactivate")
     public String deactivateById(@PathVariable Long customerId) {
         customerService.deactivateCustomer(customerId);
-        return "redirect:/customer/list";
+        return "redirect:/customers/list";
     }
 
-    @PostMapping("/customer/{customerId}/activate")
+    @PostMapping("/customers/{customerId}/activate")
     public String activateById(@PathVariable Long customerId) {
         customerService.activateCustomer(customerId);
-        return "redirect:/customer/" + customerId;
+        return "redirect:/customers/" + customerId;
     }
 }

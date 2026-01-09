@@ -6,15 +6,15 @@
     <div class="notice-detail-container">
         <div class="notice-button-list">
             <div class="buttons">
-                <form action="/notice/list" method="get">
+                <form action="/notices/list" method="get">
                     <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
                 </form>
                 <div class="button-right">
                     {{#isAdmin}}
-                        <a href="/notice/{{notice.id}}/update" class="btn btn-edit">
+                        <a href="/notices/{{notice.id}}/update" class="btn btn-edit">
                             <i class="fa-solid fa-edit"></i> 수정
                         </a>
-                        <form action="/notice/{{notice.id}}/delete" method="post">
+                        <form action="/notices/{{notice.id}}/delete" method="post">
                             <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
                         </form>
                     {{/isAdmin}}
@@ -57,7 +57,7 @@
 
             <div class="bottom-button-list">
                 {{#hasPrev}}
-                    <form action="/notice/{{prevId}}" method="get">
+                    <form action="/notices/{{prevId}}" method="get">
                         <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>이전 글</button>
                     </form>
                 {{/hasPrev}}
@@ -67,7 +67,7 @@
                     </button>
                 {{/hasPrev}}
                 {{#hasNext}}
-                    <form action="/notice/{{nextId}}" method="get">
+                    <form action="/notices/{{nextId}}" method="get">
                         <button class="btn btn-back">다음 글<i class="fa-solid fa-arrow-right"></i></button>
                     </form>
                 {{/hasNext}}
