@@ -5,7 +5,7 @@
 <div class="update-container">
     <div class="update-container-content">
         <div class="update-card">
-            <form action="/customer/{{customer.customerId}}/update" method="post">
+            <form action="/customers/{{customer.customerId}}/update" method="post">
                 <div class="update-header">
                     <i class="fa-solid fa-user"></i>
                     <input type="text" name="name" placeholder="고객 이름을 입력해주세요." value="{{customer.name}}"
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="bottom-buttons">
-                    <a href="/customer/{{customer.customerId}}" class="btn btn-back">취소</a>
+                    <a href="/customers/{{customer.customerId}}" class="btn btn-back">취소</a>
                     <button type="submit" class="btn btn-create">수정 완료</button>
                 </div>
             </form>

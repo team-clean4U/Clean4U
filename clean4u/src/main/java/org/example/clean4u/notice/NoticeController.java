@@ -57,7 +57,7 @@ public class NoticeController {
         return "redirect:/notice/" + notice.getId();
     }
     // 공지 목록
-    @GetMapping("/notice/list")
+    @GetMapping("/notices/list")
     public String noticeList(Model model,
                              @RequestParam(defaultValue = "1") int page,
                              @RequestParam(defaultValue = "5") int size
@@ -73,7 +73,7 @@ public class NoticeController {
     }
 
     // 공지 디테일
-    @GetMapping("/notice/{noticeId}")
+    @GetMapping("/notices/{noticeId}")
     public String detail(@PathVariable Long noticeId, Model model, HttpSession session) {
         NoticeResponse.DetailDTO notice = noticeService.getNoticeById(noticeId);
         Long nextId = noticeService.getNextNoticeId(noticeId);
@@ -95,7 +95,7 @@ public class NoticeController {
     }
 
     // 공지 수정 화면
-    @GetMapping("/notice/{noticeId}/update")
+    @GetMapping("/notices/{noticeId}/update")
     public String updateForm(@PathVariable Long noticeId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -114,7 +114,7 @@ public class NoticeController {
         return "/notice/update-form";
     }
     // 공지 수정 post
-    @PostMapping("/notice/{noticeId}/update")
+    @PostMapping("/notices/{noticeId}/update")
     public String updateProc(@PathVariable Long noticeId, @Valid NoticeRequest.UpdateDTO dto, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -127,10 +127,10 @@ public class NoticeController {
         }
 
         noticeService.updateNotice(noticeId, dto, sessionUser);
-        return "redirect:/notice/" + noticeId;
+        return "redirect:/notices/" + noticeId;
     }
 
-    @PostMapping("/notice/{noticeId}/delete")
+    @PostMapping("/notices/{noticeId}/delete")
     public String deleteNotice(@PathVariable Long noticeId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -143,10 +143,10 @@ public class NoticeController {
         }
 
         noticeService.deleteNoticeById(noticeId, sessionUser.getId());
-        return "redirect:/notice/list";
+        return "redirect:/notices/list";
     }
 
-    @PostMapping("/notice/{noticeId}/images/delete")
+    @PostMapping("/notices/{noticeId}/images/delete")
     public String deleteNoticeImages(@PathVariable Long noticeId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -159,7 +159,7 @@ public class NoticeController {
         }
 
         noticeService.deleteNoticeImages(noticeId, sessionUser.getId());
-        return "redirect:/notice/" + noticeId;
+        return "redirect:/notices/" + noticeId;
     }
 
 }
