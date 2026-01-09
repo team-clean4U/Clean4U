@@ -33,11 +33,15 @@ public class RefundService {
     private final OrderRepository orderRepository;
 
     public Payment refundRequestForm(Long paymentId) {
-        Payment payment = paymentRepository.findById(paymentId)
+        Payment payment = paymentRepository.findByIdWithOrder(paymentId)
                 .orElseThrow(() -> new Exception404("결제 내역을 조회할 수 없습니다."));
 
-        if(!(payment.getPaymentStatus() == PaymentStatus.PAID)) {
+        if(!(payment.isPaid())) {
             throw new Exception400("결제 완료된 상태만 환불 요청이 가능합니다.");
+        }
+
+        if(!payment.getOrder().isReceived()) {
+            throw new Exception400("접수 단계의 주문만 환불 요청이 가능합니다.");
         }
 
         Refund refund = refundRepository.findByPaymentId(paymentId).orElse(null);
