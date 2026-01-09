@@ -77,8 +77,6 @@ public class EmployeeController {
 
         WorkScheduleResponse.DataDTO dataDTO = workScheduleService.today(sessionUser.getId());
         long countToday = workScheduleOverrideService.countTodayOverrides(sessionUser.getId());
-        List<Object[]> optionChart = authService.optionChart();
-
         long countAllEmployees = authService.countAllEmployees();
         long countTodayOverrides = authService.countTodayOverrides();
 
@@ -89,8 +87,6 @@ public class EmployeeController {
         model.addAttribute("countToday", countToday);
         model.addAttribute("countAllEmployees", countAllEmployees);
         model.addAttribute("countTodayOverrides", countTodayOverrides);
-        model.addAttribute("optionChart", optionChart);
-
 
         if (sessionUser.getUserRole() == UserRole.ADMIN) {
             long pendingCount = employeeService.pendingCount();
