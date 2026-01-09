@@ -23,7 +23,13 @@ public class RefundResponse {
 
             this.isPending = refund.getStatus() == RefundStatus.PENDING;
             this.isApproved = refund.getStatus() == RefundStatus.APPROVED;
-            this.isRejected = refund.getStatus() == RefundStatus.REJECTED;
+            this.isRejected = refund.getStatus() == RefundStatus.CANCELLED;
         }
+    }
+
+    @Data
+    public static class PortOneRefundApprove {
+        Integer code;
+        String message;
     }
 }

@@ -157,10 +157,16 @@
                                 </button>
                          {{/order.isCancelled}}{{/order.isPending}}
                         {{^order.isPending}}{{#payment}}
-                            <span class="btn btn-payment">결제 완료</span>
-                                <span class="btn btn-delete">
-                                    <a href="/refund/{{payment.id}}">환불 요청</a>
+                            <div class="payment-refund-card">
+                                <span style="color: var(--color-dark-blue); font-weight: 500;">
+                                    [결제 완료] 주문번호: {{merchantUid}}
                                 </span>
+                                <a href="/refund/{{id}}" class=>
+                                    <span class="btn btn-delete">
+                                        환불 요청
+                                    </span>
+                                </a>
+                            </div>
                         {{/payment}}{{/order.isPending}}
                         </div>
                 </div>

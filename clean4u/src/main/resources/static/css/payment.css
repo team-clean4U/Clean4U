@@ -8,19 +8,34 @@
     background: var(--action-active);
 }
 
-.btn-payment {
+.btn-payment-done {
     background: var(--action-active);
-    padding: 0.8rem 3.3rem;
+    padding: 0.5rem 3.3rem;
     font-size: 1rem;
     gap: 0.5rem;
-    cursor: pointer;
+    cursor: default;
+}
+
+.btn-payment {
+    background: var(--action-active);
+    padding: 0.3rem 3.3rem;
+    font-size: 1rem;
+    gap: 0.5rem;
 }
 
 .payment-emoji {
     padding: 0.5rem 0;
+    color: var(--color-white);
 }
 
 .payment-request {
     padding: 0.5rem 0;
     font-size: 1.2rem;
+    color: var(--color-white);
+}
+
+.payment-refund-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
