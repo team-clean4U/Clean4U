@@ -8,6 +8,7 @@ import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
+import org.example.clean4u.order.OrderStatus;
 import org.example.clean4u.payment.Payment;
 import org.example.clean4u.payment.PaymentRepository;
 import org.example.clean4u.payment.PaymentService;
@@ -73,6 +74,7 @@ public class RefundService {
         refund.approve();
         payment.updateStatus(PaymentStatus.REFUND);
         order.updatePendingStatus(true); // 주문의 결제 상태는 완료 -> 대기로 변경
+        order.updateStatus(OrderStatus.CANCELLED); // 접수 취소
     }
 
     private void portOnePayCancel(String impUid, Integer amount) {
