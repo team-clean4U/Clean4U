@@ -15,7 +15,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findByNameContaining(String name);
 
-    Optional<Employee>findByUsername(String username);
+    Optional<Employee> findByUsername(String username);
 
     @Query("SELECT e FROM Employee e WHERE e.userStatus = 'PENDING' ORDER BY e.createdAt")
     List<Employee> findAllByOrderByCreatedAtDesc();
@@ -46,12 +46,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     long countAllEmployees();
 
     @Query(value = """
-    SELECT lo.name, COUNT(oo.laundry_option_id) AS count
-    FROM order_item_option_tb oo
-    JOIN laundry_option_tb lo ON oo.laundry_option_id = lo.id
-    GROUP BY lo.id, lo.name
-    ORDER BY count DESC
-    LIMIT 5
-    """, nativeQuery = true)
+            SELECT lo.name, COUNT(oo.laundry_option_id) AS count
+            FROM order_item_option_tb oo
+                JOIN laundry_option_tb lo ON oo.laundry_option_id = lo.laundry_option_id
+                GROUP BY lo.laundry_option_id, lo.name
+            ORDER BY count DESC
+            LIMIT 5
+            """, nativeQuery = true)
     List<Object[]> findTop5Option();
 }
