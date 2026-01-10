@@ -3,6 +3,7 @@ package org.example.clean4u.customer;
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
 import org.example.clean4u._core.utils.PriceUtil;
+import org.example.clean4u.employee.Employee;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderStatus;
 
@@ -20,6 +21,7 @@ public class CustomerResponse {
         private String birth;
         private String phone;
         private String memo;
+        private EmployeeDTO createdBy;
 
         public SaveDTO() {}
 
@@ -27,8 +29,12 @@ public class CustomerResponse {
             this.customerId = customer.getId();
             this.grade = customer.getGrade();
             this.name = customer.getName();
-            if (customer.getBirth() != null ) {
+            if (customer.getBirth() != null) {
                 this.birth = DateUtil.birthFormat(customer.getBirth());
+            }
+
+            if (customer.getCreatedBy() != null) {
+                this.createdBy = new EmployeeDTO(customer.getCreatedBy());
             }
         }
     } // end of static inner class
@@ -61,6 +67,8 @@ public class CustomerResponse {
         private String memo;
         private Boolean isActive;
         private List<OrderDTO> orders;
+        private EmployeeDTO createdBy;
+        private EmployeeDTO updatedBy;
 
         public DetailDTO(Customer customer, List<OrderDTO> orderList) {
             this.customerId = customer.getId();
@@ -74,7 +82,15 @@ public class CustomerResponse {
             this.memo = customer.getMemo();
             this.isActive = customer.getIsActive();
             this.orders = orderList;
+
+            if (customer.getCreatedBy() != null) {
+                this.createdBy = new EmployeeDTO(customer.getCreatedBy());
+            }
+            if (customer.getUpdatedBy() != null) {
+                this.updatedBy = new EmployeeDTO(customer.getUpdatedBy());
+            }
         }
+
         public String getMemoOrDash() {
             return memo == null ? "-" : memo;
         }
@@ -119,4 +135,17 @@ public class CustomerResponse {
             this.memo = customer.getMemo();
         }
     }
+
+    @Data
+    public static class EmployeeDTO {
+        private Long employeeId;
+        private String name;
+
+
+        public EmployeeDTO(Employee employee) {
+            this.employeeId = employee.getId();
+            this.name = employee.getName();
+        }
+    }
+
 }

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.example.clean4u.employee.Employee;
 
 import java.time.LocalDate;
 
@@ -25,8 +26,8 @@ public class CustomerRequest {
         @Size(max = 1000, message = "1000자 이상 작성할 수 없습니다.")
         private String memo;
 
-        public Customer toEntity() {
-            return new Customer(name, birth, phone, memo, true);
+        public Customer toEntity(Employee createdBy) {
+            return new Customer(name, birth, phone, memo, true, createdBy);
         }
     }
 
