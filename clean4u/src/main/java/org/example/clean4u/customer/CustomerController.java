@@ -82,7 +82,7 @@ public class CustomerController {
         CustomerResponse.DetailDTO customer = customerService.getDetail(customerId, sessionUser.getId());
 
         model.addAttribute("customer", customer);
-        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/customer.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/customer.css", "/css/order.css"));
 
         return "customer/detail-form";
     }
@@ -99,9 +99,12 @@ public class CustomerController {
 
     @PostMapping("/customers/{customerId}/update")
     public String updateProc(@PathVariable Long customerId,
-                             @Valid CustomerRequest.UpdateDTO updateDTO) {
+                             @Valid CustomerRequest.UpdateDTO updateDTO,
+                             HttpSession session) {
 
-        customerService.update(customerId, updateDTO);
+        Employee employee = (Employee) session.getAttribute("sessionUser");
+
+        customerService.update(customerId, updateDTO, employee.getId());
 
         return "redirect:/customers/" + customerId;
     }
