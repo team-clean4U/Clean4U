@@ -93,13 +93,10 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{orderId}")
-    public String detail(@PathVariable Long orderId, Model model, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+    public String detail(@PathVariable Long orderId, Model model) {
         OrderResponse.DetailDTO order = orderService.detail(orderId);
-
         Payment payment = paymentRepository.findByOrderId(orderId).orElse(null);
 
-        model.addAttribute("isAdmin", sessionUser.isAdmin());
         model.addAttribute("order", order);
         model.addAttribute("payment", payment);
         model.addAttribute("items", order.getItems());
