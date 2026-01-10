@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.errors.exception.Exception500;
-import org.example.clean4u.employee.Employee;
-import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.order.OrderStatus;
@@ -28,7 +26,6 @@ import java.util.Map;
 public class RefundService {
     private final PaymentRepository paymentRepository;
     private final RefundRepository refundRepository;
-    private final EmployeeRepository employeeRepository;
     private final PaymentService paymentService;
     private final OrderRepository orderRepository;
 
@@ -36,16 +33,16 @@ public class RefundService {
         Payment payment = paymentRepository.findByIdWithOrder(paymentId)
                 .orElseThrow(() -> new Exception404("결제 내역을 조회할 수 없습니다."));
 
-        if(!(payment.isPaid())) {
+        if (!(payment.isPaid())) {
             throw new Exception400("결제 완료된 상태만 환불 요청이 가능합니다.");
         }
 
-        if(!payment.getOrder().isReceived()) {
+        if (!payment.getOrder().isReceived()) {
             throw new Exception400("접수 단계의 주문만 환불 요청이 가능합니다.");
         }
 
         Refund refund = refundRepository.findByPaymentId(paymentId).orElse(null);
-        if(refund != null && refund.isApproved()) {
+        if (refund != null && refund.isApproved()) {
             throw new Exception400("이미 환불 처리된 주문입니다.");
         }
 
@@ -54,17 +51,13 @@ public class RefundService {
 
 
     @Transactional
-    public void refundRequestProc(RefundRequest.DetailDTO detailDTO, Long userId) {
+    public void refundRequestProc(RefundRequest.DetailDTO detailDTO) {
         Payment payment = refundRequestForm(detailDTO.getPaymentId());
-
-        Employee employee = employeeRepository.findById(userId)
-                .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
 
         Order order = orderRepository.findById(detailDTO.getOrderId())
                 .orElseThrow(() -> new Exception404("주문정보를 찾을 수 없습니다."));
 
         Refund refund = Refund.builder()
-                .employee(employee)
                 .payment(payment)
                 .reason(detailDTO.getReason())
                 .status(RefundStatus.PENDING)
@@ -83,7 +76,6 @@ public class RefundService {
 
     private void portOnePayCancel(String impUid, Integer amount) {
         String accessToken = paymentService.generatePortOneAccessToken();
-        System.out.println("====== 취소용 accessToken: " + accessToken);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -110,13 +102,11 @@ public class RefundService {
                     requestEntity,
                     RefundResponse.PortOneRefundApprove.class
             );
-            System.out.println("포트원 결제 취소(환불 승인) 응답");
-
             RefundResponse.PortOneRefundApprove responseBody = response.getBody();
-            if(responseBody == null) {
+            if (responseBody == null) {
                 throw new Exception500("포트원 결제취소 응답이 비어있습니다.");
             }
-            if(responseBody.getCode() != 0) {
+            if (responseBody.getCode() != 0) {
                 refund.setStatus(RefundStatus.CANCELLED);
                 throw new Exception500("환불에 실패하였습니다.");
             }

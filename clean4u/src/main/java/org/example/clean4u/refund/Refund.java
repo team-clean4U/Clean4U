@@ -4,14 +4,12 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.clean4u.employee.Employee;
 import org.example.clean4u.payment.Payment;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
 
-// 환불 요청 테이블
 @Entity
 @Table(name = "refund_tb")
 @NoArgsConstructor
@@ -19,10 +17,6 @@ import java.sql.Timestamp;
 public class Refund {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id", nullable = false)
-    private Employee employee; // 환불 처리한 직원
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id", nullable = false, unique = true)
@@ -43,8 +37,7 @@ public class Refund {
     private Timestamp updatedAt;
 
     @Builder
-    public Refund(Employee employee, Payment payment, String reason, RefundStatus status) {
-        this.employee = employee;
+    public Refund(Payment payment, String reason, RefundStatus status) {
         this.payment = payment;
         this.reason = reason;
         this.status = status;
