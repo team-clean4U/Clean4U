@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class PaymentApiController {
-    // TODO - 인터셉터 추가
     private final PaymentService paymentService;
 
     @PostMapping("/api/payment/prepare")
