@@ -103,7 +103,6 @@ public class CustomerController {
                              HttpSession session) {
 
         Employee employee = (Employee) session.getAttribute("sessionUser");
-
         customerService.update(customerId, updateDTO, employee.getId());
 
         return "redirect:/customers/" + customerId;
