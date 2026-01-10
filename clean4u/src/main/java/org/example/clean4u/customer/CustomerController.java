@@ -27,16 +27,17 @@ public class CustomerController {
     // http://localhost:8080/customer/list
     @GetMapping("/customer/save")
     public String saveForm(Model model) {
-        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/detail.css", "/css/customer.css"));
         CustomerResponse.SaveDTO dto = new CustomerResponse.SaveDTO();
         model.addAttribute("grade", Grade.NEW);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/detail.css", "/css/customer.css"));
         return "customer/save-form";
     }
 
     // 생성 요청
     @PostMapping("/customer/save")
-    public String saveProc(@Valid CustomerRequest.SaveDTO dto) {
-        customerService.save(dto);
+    public String saveProc(@Valid CustomerRequest.SaveDTO dto, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+        customerService.save(dto, sessionUser.getId());
         
         return "redirect:/customers/list";
     }
@@ -75,8 +76,10 @@ public class CustomerController {
 
     // 고객 단건 조회
     @GetMapping("/customers/{customerId}")
-    public String detail(@PathVariable Long customerId, Model model) {
-        CustomerResponse.DetailDTO customer = customerService.getDetail(customerId);
+    public String detail(@PathVariable Long customerId, Model model, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+
+        CustomerResponse.DetailDTO customer = customerService.getDetail(customerId, sessionUser.getId());
 
         model.addAttribute("customer", customer);
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/customer.css"));

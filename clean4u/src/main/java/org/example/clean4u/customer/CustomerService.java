@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
+import org.example.clean4u.employee.Employee;
+import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
 import org.springframework.data.domain.Page;
@@ -24,14 +26,18 @@ public class CustomerService {
     private final CustomerRepository repository;
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Transactional
-    public Customer save(@Valid CustomerRequest.SaveDTO dto) {
+    public Customer save(@Valid CustomerRequest.SaveDTO dto, Long employeeId) {
         if (customerRepository.existsByPhone(dto.getPhone())) {
             throw new Exception400("이미 등록된 연락처입니다. 다른 번호로 시도하세요");
         }
 
-        Customer customer = dto.toEntity();
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new Exception404("해당 직원이 없습니다"));
+
+        Customer customer = dto.toEntity(employee);
         customer.setGrade(Grade.NEW);
         return repository.save(customer);
     }
@@ -44,9 +50,12 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public CustomerResponse.DetailDTO getDetail(Long customerId) {
+    public CustomerResponse.DetailDTO getDetail(Long customerId, Long employeeId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception404("해당 고객이 없습니다."));
+
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new Exception404("해당 직원이 없습니다"));
 
         List<Order> orders = orderRepository.findByCustomerIdOrderByIdDesc(customerId);
 
