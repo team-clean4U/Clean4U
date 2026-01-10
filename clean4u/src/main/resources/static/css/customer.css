@@ -82,9 +82,9 @@
 .detail-items {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 1rem 0;
     border-bottom: 1px dashed var(--color-light-gray);
-    align-items: center;
 }
 
 .detail-items-info {
@@ -93,6 +93,7 @@
     align-items: center;
     padding: 1rem 0;
     flex: 1;
+    border-bottom: 1px dashed var(--color-light-gray);
 }
 
 .detail-label-info {
@@ -114,10 +115,22 @@
     font-size: 1rem;
 }
 
-.detail-value.phone {
-    color: var(--color-black);
-    font-size: 1.4rem;
-    font-weight: 700;
+.detail-employee {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-employee-item {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.detail-value.staff {
+    color: var(--color-gray);
+    font-size: 1rem;
 }
 
 .memo {
@@ -302,10 +315,6 @@
         width: 100%;
     }
 
-    .detail-value.phone {
-        font-size: 1.1rem;
-    }
-
     .table-container td {
         font-size: 0.85rem;
     }
@@ -343,10 +352,6 @@
         width: 100%;
         text-align: left;
         max-width: none;
-    }
-
-    .detail-value.phone {
-        font-size: 1rem;
     }
 
     .table-container td {

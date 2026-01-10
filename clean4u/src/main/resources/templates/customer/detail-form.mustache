@@ -50,7 +50,7 @@
                                 <i class="fa-solid fa-mobile-screen"></i>
                                 연락처
                             </span>
-                        <span class="detail-value phone">
+                        <span class="detail-value">
                             {{customer.phone}}
                         </span>
                     </div>
@@ -78,6 +78,24 @@
                                 메모
                             </span>
                         <span class="detail-value memo">{{customer.memoOrDash}}</span>
+                    </div>
+                    <div class="detail-employee">
+                        <div class="detail-employee-item">
+                        <span class="detail-label-info">
+                            <i class="fa-solid fa-clipboard-user"></i>등록사원
+                        </span>
+                            {{#customer.createdBy}}
+                                <span class="detail-value staff">{{name}}</span>
+                            {{/customer.createdBy}}
+                        </div>
+                        <div class="detail-employee-item">
+                        <span class="detail-label-info">
+                            <i class="fa-solid fa-clipboard-user"></i>수정사원
+                        </span>
+                            {{#customer.updatedBy}}
+                                <span class="detail-value staff">{{name}}</span>
+                            {{/customer.updatedBy}}
+                        </div>
                     </div>
                 </div>
             </div>
