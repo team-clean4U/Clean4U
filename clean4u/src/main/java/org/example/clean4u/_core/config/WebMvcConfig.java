@@ -39,7 +39,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/order-status-history/**",
                         "/notice/**",
                         "/api/payment/**",
-                        "/payment/**",
                         "/refund/**"
                 )
                 .excludePathPatterns(
