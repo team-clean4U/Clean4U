@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.clean4u.employee.Employee;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,7 +17,8 @@ import java.time.LocalDate;
         name = "customer_tb",
         indexes = {
                 @Index(name = "idx_customer_name", columnList = "name"),
-                @Index(name = "idx_customer_phone", columnList = "phone")
+                @Index(name = "idx_customer_phone", columnList = "phone"),
+                @Index(name = "idx_customer_grade", columnList = "grade")
         }
 )
 @Entity
@@ -52,13 +54,27 @@ public class Customer {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by", nullable = false)
+    private Employee createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "updated_by")
+    private Employee updatedBy;
+
     @Builder
-    public Customer(String name, LocalDate birth, String phone, String memo, Boolean isActive) {
+    public Customer(String name,
+                    LocalDate birth,
+                    String phone,
+                    String memo,
+                    Boolean isActive,
+                    Employee createdBy) {
         this.name = name;
         this.birth = birth;
         this.phone = phone;
         this.memo = memo;
         this.isActive = true;
+        this.createdBy = createdBy;
     }
 
     public void update(CustomerRequest.UpdateDTO dto) {
