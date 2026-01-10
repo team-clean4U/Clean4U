@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 @RequiredArgsConstructor
 public class PaymentController {
-    // TODO - 인터셉터 추가
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
 

@@ -21,14 +21,14 @@
                     {{/order.isReceived}}
                 {{/order.isCancelled}}
                 <form action="/orders/{{order.orderId}}/delete" method="post" onsubmit="return confirm('주문 내역이 완전히 삭제됩니다. 삭제하시겠습니까?')">
-                {{#isAdmin}}
+                {{#sessionUser.isAdmin}}
                     {{^order.isPaid}}
                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>
                         <input type="hidden" name="hardDelete" value="true">
                         주문 삭제
                     </button>
                     {{/order.isPaid}}
-                {{/isAdmin}}
+                {{/sessionUser.isAdmin}}
                 </form>
             </div>
         </div>

@@ -114,4 +114,12 @@ public class Order{
     public void updatePendingStatus(boolean isPending) {
        this.isPending = isPending;
     }
+
+    public boolean isCancelled() {
+        return this.status == OrderStatus.CANCELLED;
+    }
+
+    public boolean isReceived() {
+        return this.status == OrderStatus.RECEIVED;
+    }
 }

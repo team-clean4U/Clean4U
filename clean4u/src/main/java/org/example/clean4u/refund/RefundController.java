@@ -1,9 +1,6 @@
 package org.example.clean4u.refund;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u.employee.Employee;
-import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.payment.Payment;
 import org.example.clean4u.payment.PaymentResponse;
 import org.springframework.stereotype.Controller;
@@ -18,7 +15,6 @@ import java.util.Arrays;
 @Controller
 @RequiredArgsConstructor
 public class RefundController {
-    // TODO - 인터셉터 추가
     private final RefundService refundService;
 
     @GetMapping("/refund/{paymentId}")
@@ -32,9 +28,8 @@ public class RefundController {
 
     @PostMapping("/refund/request")
     @ResponseBody
-    public String refundRequestProc(RefundRequest.DetailDTO detailDTO, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        refundService.refundRequestProc(detailDTO, sessionUser.getId());
+    public String refundRequestProc(RefundRequest.DetailDTO detailDTO) {
+        refundService.refundRequestProc(detailDTO);
         return "환불 처리후 리다이렉트 시킬 페이지";
     }
 }
