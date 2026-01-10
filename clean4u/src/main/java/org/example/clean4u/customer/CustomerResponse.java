@@ -64,6 +64,7 @@ public class CustomerResponse {
         private String birth;
         private String phone;
         private String createdAt;
+        private String updatedAt;
         private String memo;
         private Boolean isActive;
         private List<OrderDTO> orders;
@@ -79,7 +80,10 @@ public class CustomerResponse {
             }
             this.phone = customer.getPhone();
             this.createdAt = DateUtil.timestampFormat(customer.getCreatedAt());
-            this.memo = customer.getMemo();
+            if (customer.getUpdatedAt() != null) {
+                this.updatedAt = DateUtil.timestampFormat(customer.getUpdatedAt());
+            }
+            this.memo = (customer.getMemo() == null || customer.getMemo().isBlank()) ? "-" : customer.getMemo();
             this.isActive = customer.getIsActive();
             this.orders = orderList;
 

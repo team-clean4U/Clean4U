@@ -65,37 +65,36 @@
                     </div>
                     <div class="detail-items">
                             <span class="detail-label">
-                                <i class="fa-solid fa-hourglass"></i>
-                                생성일
+                                <i class="fa-solid fa-user-plus"></i> 등록
                             </span>
-                        <span class="detail-value">
-                            {{customer.createdAt}}
-                        </span>
+                        <div class="detail-value-item">
+                            <span class="detail-value-check">{{customer.createdAt}}</span>
+                            {{#customer.createdBy}}
+                            <span class="detail-value-staff">
+                                <i class="fa-solid fa-user"></i>{{name}}
+                            </span>
+                            {{/customer.createdBy}}
+                        </div>
                     </div>
+                    {{#customer.updatedBy}}
+                    <div class="detail-items">
+                        <span class="detail-label">
+                            <i class="fa-solid fa-user-edit"></i> 수정
+                        </span>
+                        <div class="detail-value-item">
+                            <span class="detail-value-check">{{customer.updatedAt}}</span>
+                            <span class="detail-value-staff">
+                                <i class="fa-solid fa-user"></i>{{name}}
+                            </span>
+                        </div>
+                    </div>
+                    {{/customer.updatedBy}}
                     <div class="detail-items-info">
                             <span class="detail-label-info">
                                 <i class="fa-solid fa-circle-info"></i>
                                 메모
                             </span>
                         <span class="detail-value memo">{{customer.memoOrDash}}</span>
-                    </div>
-                    <div class="detail-employee">
-                        <div class="detail-employee-item">
-                        <span class="detail-label-info">
-                            <i class="fa-solid fa-clipboard-user"></i>등록사원
-                        </span>
-                            {{#customer.createdBy}}
-                                <span class="detail-value staff">{{name}}</span>
-                            {{/customer.createdBy}}
-                        </div>
-                        <div class="detail-employee-item">
-                        <span class="detail-label-info">
-                            <i class="fa-solid fa-clipboard-user"></i>수정사원
-                        </span>
-                            {{#customer.updatedBy}}
-                                <span class="detail-value staff">{{name}}</span>
-                            {{/customer.updatedBy}}
-                        </div>
                     </div>
                 </div>
             </div>
