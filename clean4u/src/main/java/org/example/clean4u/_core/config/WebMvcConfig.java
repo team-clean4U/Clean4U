@@ -35,9 +35,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/supply-item/**",
                         "/supply-item-history/**",
                         "/customer/**",
+                        "/customers/**",
                         "/order/**",
                         "/order-status-history/**",
                         "/notice/**",
+                        "/notices/**",
                         "/api/payment/**",
                         "/refund/**"
                 )
