@@ -76,11 +76,17 @@ public class CustomerService {
     }
 
     @Transactional
-    public CustomerResponse.UpdateDTO update(Long customerId, @Valid CustomerRequest.UpdateDTO updateDTO) {
+    public CustomerResponse.UpdateDTO update(Long customerId,
+                                             @Valid CustomerRequest.UpdateDTO updateDTO,
+                                             Long employeeId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception404("해당 고객이 없습니다."));
 
+        Employee employee = employeeRepository.findById(employeeId)
+                        .orElseThrow(() -> new Exception404("해당 직원이 없습니다"));
+
         customer.update(updateDTO);
+        customer.setUpdatedBy(employee);
 
         return new CustomerResponse.UpdateDTO(customer);
     }
