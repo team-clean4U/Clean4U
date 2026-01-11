@@ -16,7 +16,7 @@
                     <label for="content" class="notice-label">
                         <i class="fa-solid fa-message"></i>내용 :
                     </label>
-                    <textarea name="content" placeholder="내용을 입력해주세요." rows="16"
+                    <textarea id="summernote" name="content" placeholder="내용을 입력해주세요." rows="16"
                               class="update-value update-notice-content">{{notice.content}}</textarea>
                 </div>
                 <div class="update-item last">
@@ -47,3 +47,4 @@
 {{> layout/footer}}
 
 <script src="/js/notice-file.js"></script>
+<script src="/js/notice-summernote.js"></script>
