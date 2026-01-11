@@ -64,7 +64,6 @@
 
 .notice-item {
     display: flex;
-    justify-content: space-between;
     padding: 1.5rem 0;
     font-size: 1.25rem;
     border-bottom: 1px dashed var(--color-light-gray);
