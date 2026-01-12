@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("laundryImage");
     const fileName = document.getElementById("fileName");
     const imageLabel = document.getElementById("imageLabel");
+    const formData = document.getElementById("updateForm");
+    const orderId = formData.dataset.orderId;
 
     if(!input || !fileName || !imageLabel) return;
 
@@ -15,9 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const deleteBtn = document.createElement("button");
             deleteBtn.id = "imageDelete";
-            deleteBtn.type = "submit";
+            deleteBtn.type = "button";
             deleteBtn.className = "btn btn-delete";
-            deleteBtn.setAttribute("form", "deleteImage");
+            // deleteBtn.setAttribute("form", "deleteImage");
             deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>삭제';
 
             fileName.after(deleteBtn);
@@ -25,4 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
             fileName.textContent = " 선택된 파일 없음";
         }
     });
+
+    document.addEventListener("click", (e) => {
+        if(e.target.closest("#imageDelete")) {
+            deleteImage(orderId);
+        }
+    })
 });
