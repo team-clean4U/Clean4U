@@ -12,17 +12,3 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
-function openDeleteModal() {
-    document.getElementById("modal-bg").style.display = 'flex';
-}
-
-function closeDeleteModal() {
-    document.getElementById("modal-bg").style.display = 'none';
-}
-
-document.getElementById("modal-bg").addEventListener("click", function (e){
-    if (e.target === this) {
-        closeDeleteModal();
-    }
-});
