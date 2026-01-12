@@ -89,7 +89,9 @@
 
     {{#customerPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/customers/list?page={{displayNumber}}&size={{customerPage.size}}">{{displayNumber}}</a>
+            <a href="/customers/list?page={{displayNumber}}&size={{customerPage.size}}{{#hasCategory}}&category={{category}}{{/hasCategory}}{{#keyword}}&keyword={{keyword}}{{/keyword}}">
+                {{displayNumber}}
+            </a>
         </li>
     {{/customerPage.pageLinks}}
 

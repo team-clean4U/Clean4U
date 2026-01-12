@@ -50,12 +50,9 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public CustomerResponse.DetailDTO getDetail(Long customerId, Long employeeId) {
+    public CustomerResponse.DetailDTO getDetail(Long customerId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception404("해당 고객이 없습니다."));
-
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new Exception404("해당 직원이 없습니다"));
 
         List<Order> orders = orderRepository.findByCustomerIdOrderByIdDesc(customerId);
 

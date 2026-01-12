@@ -24,7 +24,6 @@ public class CustomerController {
     private final OrderService orderService;
 
     // 고객 생성 화면
-    // http://localhost:8080/customer/list
     @GetMapping("/customer/save")
     public String saveForm(Model model) {
         CustomerResponse.SaveDTO dto = new CustomerResponse.SaveDTO();
@@ -79,7 +78,7 @@ public class CustomerController {
     public String detail(@PathVariable Long customerId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        CustomerResponse.DetailDTO customer = customerService.getDetail(customerId, sessionUser.getId());
+        CustomerResponse.DetailDTO customer = customerService.getDetail(customerId);
 
         model.addAttribute("customer", customer);
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/customer.css", "/css/order.css"));
@@ -95,35 +94,5 @@ public class CustomerController {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/customer.css"));
 
         return "customer/update-form";
-    }
-
-    @PostMapping("/customers/{customerId}/update")
-    public String updateProc(@PathVariable Long customerId,
-                             @Valid CustomerRequest.UpdateDTO updateDTO,
-                             HttpSession session) {
-
-        Employee employee = (Employee) session.getAttribute("sessionUser");
-        customerService.update(customerId, updateDTO, employee.getId());
-
-        return "redirect:/customers/" + customerId;
-    }
-
-    // 고객 삭제
-    @PostMapping("/customers/{customerId}/delete")
-    public String deleteById(@PathVariable Long customerId) {
-        customerService.delete(customerId);
-        return "redirect:/customers/list";
-    }
-
-    @PostMapping("/customers/{customerId}/deactivate")
-    public String deactivateById(@PathVariable Long customerId) {
-        customerService.deactivateCustomer(customerId);
-        return "redirect:/customers/list";
-    }
-
-    @PostMapping("/customers/{customerId}/activate")
-    public String activateById(@PathVariable Long customerId) {
-        customerService.activateCustomer(customerId);
-        return "redirect:/customers/" + customerId;
     }
 }
