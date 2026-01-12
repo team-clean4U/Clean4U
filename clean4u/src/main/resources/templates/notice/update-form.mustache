@@ -4,7 +4,7 @@
 
 <div class="notice-container">
     <div class="notice-container-content">
-        <form action="/notices/{{notice.id}}/update" method="post" enctype="multipart/form-data">
+        <form id="updateForm">
             <div class="notice-header">
                 <label class="notice-label">
                     <i class="fa-solid fa-bullhorn"></i>제목:
@@ -46,5 +46,6 @@
 
 {{> layout/footer}}
 
-<script src="/js/notice-file.js"></script>
-<script src="/js/notice-summernote.js"></script>
+<script src="/js/notice/update.js"></script>
+<script src="/js/notice/notice-file.js"></script>
+<script src="/js/notice/notice-summernote.js"></script>

@@ -40,7 +40,7 @@ public class CustomerApiController {
     }
 
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable Long customerId) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long customerId) {
         customerService.delete(customerId);
 
         return ResponseEntity.noContent().build();
