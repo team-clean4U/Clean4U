@@ -109,4 +109,15 @@ public class OrderResponse {
             this.items = items;
         }
     }
+
+    @Data
+    public static class UpdateDTO {
+        private boolean isGradeChanged;
+        private String message;
+
+        public UpdateDTO(boolean isGradeChanged, String message) {
+            this.isGradeChanged = isGradeChanged;
+            this.message = message;
+        }
+    }
 }
