@@ -2,7 +2,7 @@ package org.example.clean4u.review;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.example.clean4u._core.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +15,11 @@ public class ReviewApiController {
 
     // POST /api/v1/review
     @PostMapping
-    public ResponseEntity<?> createReview(
+    public ResponseEntity<ApiResponse<Void>> createReview(
             @RequestParam String token,
             @Valid @RequestBody ReviewRequest.SaveDTO saveDTO
     ) {
         service.save(saveDTO, token);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.ok(ApiResponse.ok("리뷰가 작성되었습니다."));
     }
 }
