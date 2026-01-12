@@ -5,9 +5,9 @@
     <div class="detail-container-content">
         <div class="detail-card">
             <div class="id-container">
-                <div class="detail-id-card">NO.{{orderId}}</div>
+                <div class="detail-id-card">NO.{{order.orderId}}</div>
             </div>
-            <form action="/order/{{order.orderId}}/update" method="post" enctype="multipart/form-data">
+            <form id="updateForm" data-order-id="{{order.orderId}}" enctype="multipart/form-data">
                 <div class="detail-header order-detail-header">
                     <i class="fa-solid fa-shopping-bag"></i>
                     <h4>{{order.customerName}} <span class="info-label">님 주문</span></h4>
@@ -66,7 +66,7 @@
                         {{#order.laundryImage}}{{order.laundryImage}}{{/order.laundryImage}}
                         </span>
                         {{#order.laundryImage}}
-                        <button type="submit" class="btn btn-delete" form="deleteImage">
+                        <button type="button" class="btn btn-delete" onclick="deleteImage({{order.orderId}})">
                             <i class="fa-solid fa-trash"></i>삭제
                         </button>
                         {{/order.laundryImage}}
@@ -142,18 +142,16 @@
                     </div>
                 </div>
             </form>
-            <form id="deleteImage"
-                  action="/orders/{{order.orderId}}/laundry-image/delete"
-                  method="post"
-                  onsubmit="return confirm('이미지를 삭제하시겠습니까? 상세페이지로 이동합니다.')">
-            </form>
+
         </div>
     </div>
 </div>
 
 {{>layout/footer}}
-<script src="/js/order-update.js"></script>
-<script src="/js/order-file.js"></script>
+<script src="/js/order/update.js"></script>
+<script src="/js/order/file.js"></script>
+<script src="/js/order/delete.js"></script>
+<script src="/js/order/delete.js"></script>
 
 <script id="laundry-items-data" type="application/json">
 {{& laundryItemJson}}
