@@ -6,11 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
@@ -97,17 +95,4 @@ public class LaundryItemController {
         return "laundryItem/update-form";
     }
 
-    // http://localhost:8080/laundry-items/{laundryItemId}/update
-    @PutMapping("/laundry-items/{laundryItemId}/update")
-    public String updateProc(@PathVariable Long laundryItemId, @Valid LaundryItemRequest.UpdateDTO updateDTO) {
-        service.update(laundryItemId, updateDTO);
-        return "redirect:/laundry-items/" + laundryItemId;
-    }
-
-    // http://localhost:8080/laundry-items/{laundryItemId}/delete
-    @DeleteMapping("/laundry-items/{laundryItemId}/delete")
-    public String deleteLaundryItem(@PathVariable Long laundryItemId) {
-        service.delete(laundryItemId);
-        return "redirect:/laundry-items/list";
-    }
 }

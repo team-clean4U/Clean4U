@@ -9,10 +9,8 @@ import org.example.clean4u.employee.Employee;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
@@ -93,27 +91,4 @@ public class SupplyItemController {
         return "supplyItem/update-form";
     }
 
-    // http://localhost:8080/supply-items/{supplyItemId}/update
-    @PutMapping("/supply-items/{supplyItemId}/update")
-    public String updateProc(@PathVariable Long supplyItemId, @Valid SupplyItemRequest.UpdateDTO updateDTO, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        service.update(supplyItemId, updateDTO, sessionUser);
-
-        return "redirect:/supply-items/" + supplyItemId;
-    }
-
-    // http://localhost:8080/supply-items/{supplyItemId}/deactivate
-    @PatchMapping("/supply-items/{supplyItemId}/deactivate")
-    public String deactivate(@PathVariable Long supplyItemId) {
-        service.deactivate(supplyItemId);
-        return "redirect:/supply-items/" + supplyItemId;
-    }
-
-    // http://localhost:8080/supply-items/{supplyItemId}/activate
-    @PatchMapping("/supply-items/{supplyItemId}/activate")
-    public String activate(@PathVariable Long supplyItemId) {
-        service.activate(supplyItemId);
-        return "redirect:/supply-items/" + supplyItemId;
-    }
 }

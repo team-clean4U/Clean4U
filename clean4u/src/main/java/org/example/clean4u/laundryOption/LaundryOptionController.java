@@ -6,12 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
@@ -90,24 +87,4 @@ public class LaundryOptionController {
         return "laundryOption/update-form";
     }
 
-    // http://localhost:8080/laundry-options/{laundryOptionId}/update
-    @PutMapping("/laundry-options/{laundryOptionId}/update")
-    public String updateProc(@PathVariable Long laundryOptionId, @Valid LaundryOptionRequest.UpdateDTO updateDTO) {
-        service.update(laundryOptionId, updateDTO);
-        return "redirect:/laundry-options/" + laundryOptionId;
-    }
-
-    // http://localhost:8080/laundry-options/{laundryOptionId}/deactivate
-    @PatchMapping("/laundry-options/{laundryOptionId}/deactivate")
-    public String deactivate(@PathVariable Long laundryOptionId) {
-        service.deactivate(laundryOptionId);
-        return "redirect:/laundry-options/" + laundryOptionId;
-    }
-
-    // http://localhost:8080/laundry-options/{laundryOptionId}/activate
-    @PatchMapping("/laundry-options/{laundryOptionId}/activate")
-    public String activate(@PathVariable Long laundryOptionId) {
-        service.activate(laundryOptionId);
-        return "redirect:/laundry-options/" + laundryOptionId;
-    }
 }
