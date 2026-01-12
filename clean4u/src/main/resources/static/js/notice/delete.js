@@ -1,15 +1,15 @@
-async function deleteLaundryItem(id) {
+async function deleteNotice(id) {
     if (!confirm("정말 삭제하시겠습니까?")) {
         return;
     }
     
     try {
-        const response = await fetch(`/api/v1/laundry-items/${id}`, {
+        const response = await fetch(`/api/v1/notices/${id}`, {
             method: "DELETE"
         });
         
         if (response.ok) {
-            window.location.href = "/laundry-items/list";
+            window.location.href = "/notices/list";
         } else {
             alert("삭제에 실패했습니다.");
         }

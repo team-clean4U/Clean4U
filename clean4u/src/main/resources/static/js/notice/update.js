@@ -4,26 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
-            const customerId = window.location.pathname.match(/\/(\d+)\/update/)[1];
-
-            const data = {
-                name: formData.get("name"),
-                phone: formData.get("phone"),
-                birth: formData.get("birth"),
-                memo: formData.get("memo")
-            };
+            const noticeId = window.location.pathname.match(/\/(\d+)\/update/)[1];
 
             try {
-                const response = await fetch(`/api/v1/customers/${customerId}`, {
+                const response = await fetch(`/api/v1/notices/${noticeId}`, {
                     method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
+                    body: formData
                 });
 
                 if (response.ok) {
-                    window.location.href = `/customers/${customerId}`;
+                    window.location.href = `/notices/${noticeId}`;
                 }
             } catch (error) {
                 console.error("Error:", error);
