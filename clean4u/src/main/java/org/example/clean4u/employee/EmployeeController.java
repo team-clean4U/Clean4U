@@ -14,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EmployeeController {
 
+    private final HttpSession session;
     private final EmployeeService employeeService;
     private final AuthService authService;
     private final DashboardService dashboardService;
@@ -121,5 +124,39 @@ public class EmployeeController {
         } catch (Exception404 e) {
             throw e;
         }
+    }
+
+    @GetMapping("/password")
+    public String findPasswordForm(Model model) {
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/user.css"));
+
+        return "user/password-form";
+    }
+
+    @PostMapping("/password")
+    public String findPasswordProc(@Valid EmployeeRequest.FindPassword findPassword) {
+        employeeService.findPassword(findPassword);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/password/reset")
+    public String passwordResetForm(@RequestParam String token, Model model) {
+        String email = (String) session.getAttribute("reset_token_" + token);
+        LocalDateTime expire = (LocalDateTime) session.getAttribute("reset_token_expire" + token);
+
+        if (email == null || LocalDateTime.now().isAfter(expire)) {
+            throw new Exception400("유효하지 않거나 만료된 토큰입니다.");
+        }
+
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/user.css"));
+        model.addAttribute("token", token);
+        return "user/password-reset-form";
+    }
+
+    @PostMapping("/password/reset")
+    public String passwordResetProc(@Valid EmployeeRequest.PasswordReset passwordReset) {
+
+        return "redirect:/login";
     }
 }

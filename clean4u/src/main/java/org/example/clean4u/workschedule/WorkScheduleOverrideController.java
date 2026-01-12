@@ -45,8 +45,8 @@ public class WorkScheduleOverrideController {
         model.addAttribute("scheduleListPage", scheduleListPage);
         model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("category", category == null ? "all" : category);
-        model.addAttribute("startTime", startTime != null ?  startTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "09:00");
-        model.addAttribute("endTime", endTime != null ? endTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "18:00");
+        model.addAttribute("startTime", startTime != null ?  startTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
+        model.addAttribute("endTime", endTime != null ? endTime.format(DateTimeFormatter.ofPattern("HH:mm")) : "");
         model.addAttribute("date", date != null ? date : LocalDate.now());
         model.addAttribute("isOriginalName", "originalName".equalsIgnoreCase(category));
         model.addAttribute("isOverrideName", "overrideName".equalsIgnoreCase(category));

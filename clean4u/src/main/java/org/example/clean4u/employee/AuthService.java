@@ -1,6 +1,7 @@
 package org.example.clean4u.employee;
 
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.workschedule.WorkScheduleOverrideRepository;
@@ -32,9 +33,10 @@ public class AuthService {
     }
 
     public List<EmployeeResponse.ListDTO> list() {
-        List<Employee> employeeList = employeeRepository.findAll();
+        List<Employee> employeeList = employeeRepository.findAllByOrderByCreatedAtDesc();
 
         return employeeList.stream()
+                .filter(e -> e.getUserStatus().equals(UserStatus.APPROVED))
                 .map(EmployeeResponse.ListDTO::new)
                 .collect(Collectors.toList());
     }
@@ -50,6 +52,10 @@ public class AuthService {
     public Employee findById(Long employeeId) {
         Employee employeeEntity = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
+
+        if (employeeEntity.getUserStatus() != UserStatus.PENDING) {
+            throw new Exception400("승인되지 않은 직원입니다.");
+        }
 
         return employeeEntity;
     }

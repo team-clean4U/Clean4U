@@ -56,7 +56,7 @@ public class ReviewService {
         return token;
     }
 
-    private String generateShortToken() {
+    public String generateShortToken() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom random = new SecureRandom();
         StringBuilder token = new StringBuilder(8);

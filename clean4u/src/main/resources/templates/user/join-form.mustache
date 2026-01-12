@@ -1,5 +1,3 @@
-<!-- http://localhost:8080/join -->
-
 {{> layout/header}}
 
 {{> layout/background}}
@@ -61,7 +59,7 @@
                     <div class="input-group">
                         <input type="text" id="code" placeholder="6자리 입력" maxlength="6">
                         <div class="verify-div">
-                            <button type="button" class="btn btn-verify" onclick="callVerifyApi()">
+                            <button type="button" class="btn btn-verify" onclick="callVerifyApi()" id="verifyBtn">
                                 확인
                             </button>
                         </div>
@@ -81,10 +79,6 @@
         </div>
     </div>
 </div>
-
-<style>
-
-</style>
 
 {{> layout/footer}}
 
@@ -144,6 +138,7 @@
                 message.innerHTML = "<span style='color: green;'>인증되었습니다.</span>";
                 document.querySelector("#isEmailVerified").value = true;
                 document.querySelector("#email").readOnly = true;
+                document.querySelector("#verifyBtn").disabled = true;
             } else {
                 message.innerHTML = "<span style='color: red;'>인증번호가 올바르지 않습니다.</span>";
                 document.querySelector("#isEmailVerified").value = false;

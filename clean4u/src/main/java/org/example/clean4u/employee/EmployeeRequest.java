@@ -58,4 +58,21 @@ public class EmployeeRequest {
         private String code;
     }
 
+    @Data
+    public static class FindPassword {
+        @NotBlank(message = "username은 비어있을 수 없습니다.")
+        private String username;
+
+        @NotBlank(message = "이메일은 비어있을 수 없습니다.")
+        @Email(message = "올바른 이메일 형식이 아닙니다.")
+        private String email;
+    }
+
+    @Data
+    public static class PasswordReset {
+        @NotBlank(message = "password는 비어있을 수 없습니다.")
+        @Size(min = 8, max = 20, message = "비밀번호는 8~20자 사이여야 합니다.")
+        private String password;
+    }
+
 }

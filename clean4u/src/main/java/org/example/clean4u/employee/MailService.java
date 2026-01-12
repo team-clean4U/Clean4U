@@ -2,6 +2,7 @@ package org.example.clean4u.employee;
 
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.utils.MailUtil;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +18,7 @@ public class MailService {
     public void sendEmail (String email) {
         String code = MailUtil.generateRandomCode();
 
-        MimeMessage message =javaMailSender.createMimeMessage();
+        MimeMessage message = javaMailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
@@ -38,9 +39,31 @@ public class MailService {
 
         if (savedCode != null && savedCode.equals(code)) {
             session.removeAttribute("code_" + email);
+
+            session.setAttribute("verified_email_" + email, true);
             return true;
         }
 
         return false;
+    }
+
+    public void sendEmailAndPassword (String email, String resetLink) {
+
+        MimeMessage message = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(email);
+            helper.setSubject("[Clean4U] 비밀번호 변경 이메일 발송");
+            helper.setText(
+                    "<h3>비밀번호 재설정 하려면 아래 링크를 클릭하세요.</h3>" +
+                    "<a href=\"" + resetLink + "\">링크 클릭</a>" +
+                    "<h3>링크는 15분 동안만 유효합니다.</h3>",true);
+
+            javaMailSender.send(message);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
