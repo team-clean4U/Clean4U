@@ -55,9 +55,6 @@
                         <span class="info-value">{{countTodayOverrides}} 건</span>
                     </div>
                 </a>
-                <div style="width: 400px; height: 400px;">
-                    <canvas id="myChart"></canvas>
-                </div>
             </div>
         </div>
 
@@ -169,6 +166,18 @@
         <div class="dashboard-group">
             <div class="group-title">
                 <h3>
+                    <i class="fa-solid fa-chart-pie"></i>
+                    세탁 옵션 통계
+                </h3>
+            </div>
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+
+        <div class="dashboard-group">
+            <div class="group-title">
+                <h3>
                     <i class="fa-solid fa-bell"></i>
                     매장 알림
                 </h3>
@@ -210,22 +219,82 @@
                 const data = {
                     labels: labels, // 조각 이름
                     datasets: [{
-                        label: '주문 수', // 데이터셋 이름
-                        data: dataValue,      // 각 조각 값
-                        backgroundColor: [         // 각 조각 색상
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 205, 86)',
-                            'rgb(75, 192, 192)',
-                            'rgb(153, 102, 255)'
+                        label: '주문 수',
+                        data: dataValue,
+                        backgroundColor: [
+                            'rgba(79, 195, 247, 0.85)',
+                            'rgba(129, 212, 250, 0.85)',
+                            'rgba(77, 208, 225, 0.85)',
+                            'rgba(144, 202, 249, 0.85)',
+                            'rgba(100, 181, 246, 0.85)'
                         ],
-                        hoverOffset: 4 // 마우스 올렸을 때 조각 돌출
+                        borderColor: [
+                            'rgba(79, 195, 247, 1)',
+                            'rgba(98, 189, 248, 1)',
+                            'rgba(77, 208, 225, 1)',
+                            'rgba(122, 192, 248, 1)',
+                            'rgba(100, 181, 246, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverOffset: 8,
+                        hoverBorderWidth: 3
                     }]
                 };
 
                 const config = {
                     type: 'pie',
-                    data: data
+                    data: data,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        aspectRatio: 1.5,
+                        layout: {
+                            padding: {
+                                top: 20,
+                                bottom: 20,
+                                left: 20,
+                                right: 100
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: {
+                                    padding: 18,
+                                    boxWidth: 30,
+                                    boxHeight: 15,
+                                    boxPadding: 10,
+                                    font: {
+                                        size: 13,
+                                        weight: '500'
+                                    },
+                                    color: '#1A237E'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                                padding: 12,
+                                boxPadding: 10,
+                                titleFont: {
+                                    size: 14,
+                                    weight: '600'
+                                },
+                                bodyFont: {
+                                    size: 13
+                                },
+                                titleColor: '#1A237E',
+                                bodyColor: '#1A237E',
+                                borderColor: 'rgba(79, 195, 247, 0.3)',
+                                borderWidth: 1,
+                                cornerRadius: 8,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.label + ': ' + context.parsed + '건';
+                                    }
+                                }
+                            }
+                        }
+                    }
                 };
                 new Chart(document.getElementById('myChart'), config);
             });
