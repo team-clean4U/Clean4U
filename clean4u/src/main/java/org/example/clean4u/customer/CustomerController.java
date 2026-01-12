@@ -79,7 +79,7 @@ public class CustomerController {
     public String detail(@PathVariable Long customerId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        CustomerResponse.DetailDTO customer = customerService.getDetail(customerId, sessionUser.getId());
+        CustomerResponse.DetailDTO customer = customerService.getDetail(customerId);
 
         model.addAttribute("customer", customer);
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/customer.css", "/css/order.css"));
