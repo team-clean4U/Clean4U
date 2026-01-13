@@ -1,3 +1,17 @@
+.customer-save-container {
+    width: 70%;
+    min-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.update-card {
+    width: 100%;
+}
+
 .customer {
     padding: 2rem;
 }
@@ -275,8 +289,20 @@
     text-wrap: nowrap;
 }
 
-.save-form .update-items:last-child {
+.save-form .update-items:nth-last-child(2) {
     border-bottom: none;
+}
+
+.customer-form-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    gap: 1rem;
+}
+
+.customer-form-buttons .btn {
+    text-align: center;
+    width: 50%;
 }
 
 .input-small {
@@ -303,6 +329,11 @@
 @media (max-width: 1024px) {
     .customer-container-content {
         width: 100%;
+    }
+
+    .customer-save-container {
+        padding: 1.5rem 0;
+        min-width: 0;
     }
 }
 
@@ -341,6 +372,10 @@
 
     .input-small {
         width: 100%;
+    }
+
+    .customer-save-container {
+        width: 90%;
     }
 }
 
@@ -447,7 +482,12 @@
     width: 70px;
 }
 
-.btn-customer:hover::before {
-    width: 1000px;
-    height: 1000px;
+@media (max-width: 480px) {
+    .customer-save-container .detail-container {
+        padding: 0 1.5rem;
+    }
+
+    .customer-form-buttons {
+        padding: 0 0 1.5rem;
+    }
 }

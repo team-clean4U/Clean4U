@@ -1,10 +1,12 @@
 {{> layout/header}}
 
 {{> layout/background}}
-<div class="container">
-
+<div class="container customer-save-container">
     <div class="update-card">
-        <div class="detail-header"><b>고객 등록</b></div>
+        <div class="detail-header">
+            <i class="fa-solid fa-user-plus"></i>
+            <b>고객 등록</b>
+        </div>
         <div class="detail-container">
             <form action="/customer/save" method="post" class="save-form">
                 <div class="update-items">
@@ -34,9 +36,12 @@
                     <textarea id="memo" name="memo" placeholder="설명을 입력해주세요." rows="5"
                               class="update-value memo"></textarea>
                 </div>
-                <button type="submit" class="btn btn-create btn-customer">
-                    <i class="fa-solid fa-plus btn-create-icon"></i>등록
-                </button>
+                <div class="customer-form-buttons">
+                    <a href="/customers/list" class="btn btn-back">취소</a>
+                    <button type="submit" class="btn btn-create btn-customer">
+                        <i class="fa-solid fa-plus btn-create-icon"></i>등록
+                    </button>
+                </div>
             </form>
         </div>
     </div>
