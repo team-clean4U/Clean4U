@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then(res => {
                 if(!res.ok) {
+                    return res.json().then(e => {
+                        throw new Error(e.message || "결제 준비에 실패했습니다.");
+                    });
                 }
                 return res.json();
             })
@@ -47,6 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                 );
             })
+            .catch(() => {
+                alert("결제 준비 중 오류가 발생했습니다.");
+            });
     });
 
     function verifyPayment(imp_uid, merchant_uid, order_id) {

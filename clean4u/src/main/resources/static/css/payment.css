@@ -44,8 +44,10 @@
     background: var(--color-dark-blue);
 }
 
-.status-badge.status-refund {
+.payment-row .status-badge.status-refund {
     background: var(--action-edit);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
 }
 
 .history-table.payment-list col:not(:nth-child(3)) {

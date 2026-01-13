@@ -6,6 +6,7 @@ function bindDropdown(wrapper) {
     const categoryInput = wrapper.querySelector("input[type='hidden']") ||
         wrapper.querySelector("input[name*='supplyItemId']") ||
         wrapper.querySelector("input[name='status']") ||
+        wrapper.querySelector("input[name='paymentStatus']") ||
         wrapper.querySelector("input[name='category']") ||
         wrapper.querySelector("input[name='isActive']") ||
         wrapper.querySelector("input[name='rating']") ||
