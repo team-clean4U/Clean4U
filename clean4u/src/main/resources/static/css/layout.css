@@ -299,13 +299,13 @@ nav {
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: calc(100% - 0.25rem);
     left: 0;
     background: var(--color-white);
     border-radius: 15px;
     box-shadow: 0 8px 30px var(--shadow);
     padding: 0.75rem 0;
-    margin-top: 0.25rem;
+    padding-top: calc(0.75rem + 0.25rem);
     z-index: 100;
     list-style: none;
     overflow: hidden;
