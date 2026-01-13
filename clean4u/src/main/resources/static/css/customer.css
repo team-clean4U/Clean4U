@@ -93,7 +93,6 @@
     align-items: center;
     padding: 1rem 0;
     flex: 1;
-    border-bottom: 1px dashed var(--color-light-gray);
 }
 
 .detail-label-info {
@@ -265,6 +264,10 @@
     text-wrap: nowrap;
 }
 
+.save-form .update-items:last-child {
+    border-bottom: none;
+}
+
 .input-small {
     display: flex;
     flex-direction: column;
@@ -431,4 +434,9 @@
 
 .btn-group button {
     width: 70px;
+}
+
+.btn-customer:hover::before {
+    width: 1000px;
+    height: 1000px;
 }
