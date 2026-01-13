@@ -52,7 +52,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/login")
-    public String loginProc(EmployeeRequest.LoginDTO loginDTO, HttpSession session) {
+    public String loginProc(@Valid EmployeeRequest.LoginDTO loginDTO, HttpSession session) {
         try {
             Employee sessionUser = employeeService.login(loginDTO);
             session.setAttribute("sessionUser", sessionUser);
@@ -142,10 +142,10 @@ public class EmployeeController {
 
     @GetMapping("/password/reset")
     public String passwordResetForm(@RequestParam String token, Model model) {
-        String email = (String) session.getAttribute("reset_token_" + token);
-        LocalDateTime expire = (LocalDateTime) session.getAttribute("reset_token_expire" + token);
 
-        if (email == null || LocalDateTime.now().isAfter(expire)) {
+        ResetPasswordSession reset = (ResetPasswordSession) session.getAttribute("RESET_PASSWORD");
+
+        if (reset == null || reset.isExpired() || !reset.getToken().equals(token)) {
             throw new Exception400("유효하지 않거나 만료된 토큰입니다.");
         }
 
@@ -156,6 +156,9 @@ public class EmployeeController {
 
     @PostMapping("/password/reset")
     public String passwordResetProc(@Valid EmployeeRequest.PasswordReset passwordReset) {
+        employeeService.passwordReset(passwordReset);
+
+        session.removeAttribute("RESET_PASSWORD");
 
         return "redirect:/login";
     }
