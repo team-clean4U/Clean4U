@@ -72,3 +72,10 @@ solapi:
 
 app:
     base-url: ${BASE_URL:http://localhost:8080}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
