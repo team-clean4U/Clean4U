@@ -39,3 +39,19 @@
     flex-direction: column;
     gap: 1.5rem;
 }
+
+.status-badge.status-paid {
+    background: var(--color-dark-blue);
+}
+
+.status-badge.status-refund {
+    background: var(--action-edit);
+}
+
+.history-table.payment-list col:not(:nth-child(3)) {
+   width: 15%;
+}
+
+.history-table.payment-list col:nth-child(3) {
+    width: 40%;
+}

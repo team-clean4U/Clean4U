@@ -2,25 +2,25 @@ package org.example.clean4u.payment;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/payments")
 public class PaymentApiController {
     private final PaymentService paymentService;
 
-    @PostMapping("/api/v1/payment/prepare")
-    public ResponseEntity<PaymentResponse.PrepareDTO> preparePayment(@RequestBody @Valid PaymentRequest.PrepareDTO reqDTO) {
+    @PostMapping("/prepare")
+    public ResponseEntity<ApiResponse<PaymentResponse.PrepareDTO>> preparePayment(@RequestBody @Valid PaymentRequest.PrepareDTO reqDTO) {
         PaymentResponse.PrepareDTO prepDTO = paymentService.preparePayment(reqDTO);
-        return ResponseEntity.ok(prepDTO);
+        return ResponseEntity.ok(ApiResponse.ok(prepDTO));
     }
 
-    @PostMapping("/api/v1/payment/verify")
-    public ResponseEntity<PaymentResponse.VerifyDTO> verifyPayment(@RequestBody @Valid PaymentRequest.VerifyDTO reqDTO) {
+    @PostMapping("/verify")
+    public ResponseEntity<ApiResponse<PaymentResponse.VerifyDTO>> verifyPayment(@RequestBody @Valid PaymentRequest.VerifyDTO reqDTO) {
         PaymentResponse.VerifyDTO verifyDTO = paymentService.verifyPayment(reqDTO);
-        return ResponseEntity.ok(verifyDTO);
+        return ResponseEntity.ok(ApiResponse.ok(verifyDTO));
     }
 }

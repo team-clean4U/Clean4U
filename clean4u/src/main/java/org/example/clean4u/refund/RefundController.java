@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Arrays;
 
@@ -17,19 +15,12 @@ import java.util.Arrays;
 public class RefundController {
     private final RefundService refundService;
 
-    @GetMapping("/refund/{paymentId}")
+    @GetMapping("/refunds/{paymentId}")
     public String refundRequestForm(@PathVariable Long paymentId, Model model) {
         Payment payment = refundService.refundRequestForm(paymentId);
         PaymentResponse.DetailDTO paymentDTO = new PaymentResponse.DetailDTO(payment);
         model.addAttribute("payment", paymentDTO);
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/order.css", "/css/payment.css", "/css/refund.css"));
         return "refund/request-form";
-    }
-
-    @PostMapping("/refund/request")
-    @ResponseBody
-    public String refundRequestProc(RefundRequest.DetailDTO detailDTO) {
-        refundService.refundRequestProc(detailDTO);
-        return "환불 처리후 리다이렉트 시킬 페이지";
     }
 }

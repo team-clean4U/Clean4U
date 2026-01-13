@@ -19,7 +19,7 @@ public interface OrderStatusHistoryRepository extends OrderStatusHistoryReposito
     , nativeQuery = true)
     Double findAverageProcessingMinutes();
 
-    List<OrderStatusHistory> findByOrderIdOrderByCreatedAtAsc(@Param("orderId") Long orderId);
+    List<OrderStatusHistory> findByOrderId(@Param("orderId") Long orderId);
 
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM OrderStatusHistory sh WHERE sh.order.id = :orderId")

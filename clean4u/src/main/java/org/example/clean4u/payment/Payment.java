@@ -1,9 +1,7 @@
 package org.example.clean4u.payment;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.clean4u.order.Order;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,7 +10,8 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "payment_tb")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Payment {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

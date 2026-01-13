@@ -4,12 +4,12 @@
 <div class="detail-container order-detail">
     <div class="detail-container-content">
         <div class="buttons">
-            <form action="/orders/list" method="get">
+            <form action="/orders" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
                 {{^order.isCancelled}}
-                <a href="/orders/{{order.orderId}}/update" class="btn btn-edit">
+                <a href="/orders/{{order.orderId}}/edit" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
                     {{#order.isReceived}}
@@ -20,14 +20,12 @@
                 {{/order.isCancelled}}
 
                 {{#sessionUser.isAdmin}}
-                    {{^order.isPaid}}
+                    {{#order.isCancelled}}
                     <button class="btn btn-delete" onclick="deleteOrder({{order.orderId}})"><i class="fa-solid fa-trash"></i>
-                        <input type="hidden" name="hardDelete" value="true">
                         주문 삭제
                     </button>
-                    {{/order.isPaid}}
+                    {{/order.isCancelled}}
                 {{/sessionUser.isAdmin}}
-                </form>
             </div>
         </div>
 
@@ -159,13 +157,18 @@
                                 <span style="color: var(--color-dark-blue); font-weight: 500;">
                                     [결제 완료] 주문번호: {{merchantUid}}
                                 </span>
-                                <a href="/refund/{{id}}" class=>
+                                <a href="/refunds/{{id}}">
                                     <span class="btn btn-delete">
                                         환불 요청
                                     </span>
                                 </a>
                             </div>
                         {{/payment}}{{/order.isPending}}
+                            {{#refund.isApproved}}
+                                <span class="status-badge status-refund">
+                                    환불 완료
+                                </span>
+                            {{/refund.isApproved}}
                         </div>
                 </div>
             </div>
@@ -242,8 +245,7 @@
 <script src="/js/order/detail.js"></script>
 <script src="/js/order/delete.js"></script>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<script src="/js/payment.js"></script>
-<script src="/js/refund.js"></script>
+<script src="/js/payment/payment.js"></script>
 
 {{>layout/footer}}
 

@@ -12,8 +12,10 @@ import org.example.clean4u.laundryItem.LaundryItemResponse;
 import org.example.clean4u.laundryItem.LaundryItemService;
 import org.example.clean4u.laundryOption.LaundryOptionService;
 import org.example.clean4u.orderItem.OrderItemResponse;
-import org.example.clean4u.payment.Payment;
-import org.example.clean4u.payment.PaymentRepository;
+import org.example.clean4u.payment.PaymentResponse;
+import org.example.clean4u.payment.PaymentService;
+import org.example.clean4u.refund.RefundResponse;
+import org.example.clean4u.refund.RefundService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +33,10 @@ public class OrderController {
     private final LaundryOptionService laundryOptionService;
     private final CustomerService customerService;
     private final ObjectMapper objectMapper;
-    private final PaymentRepository paymentRepository;
+    private final RefundService refundService;
+    private final PaymentService paymentService;
 
-    @GetMapping("/order/save")
+    @GetMapping("/orders/new")
     public String saveForm(Model model) {
 
         List<LaundryItemResponse.ListDTO> laundryItems = laundryItemService.getAllLaundryItems();
@@ -56,7 +59,7 @@ public class OrderController {
         return "order/save-form";
     }
 
-    @PostMapping("/order/save")
+    @PostMapping("/orders/new")
     public String saveProc(@Valid OrderRequest.SaveDTO saveDTO,  HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         Order order = orderService.saveProc(saveDTO, sessionUser.getId());
@@ -64,7 +67,7 @@ public class OrderController {
         return "redirect:/orders/" + order.getId();
     }
 
-    @GetMapping("/orders/list")
+    @GetMapping("/orders")
     public String orderList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
@@ -95,9 +98,12 @@ public class OrderController {
     @GetMapping("/orders/{orderId}")
     public String detail(@PathVariable Long orderId, Model model) {
         OrderResponse.DetailDTO order = orderService.detail(orderId);
-        Payment payment = paymentRepository.findByOrderId(orderId).orElse(null);
+
+        RefundResponse.RefundConfirmDTO refund = refundService.refundConfirm(orderId);
+        PaymentResponse.DetailDTO payment = paymentService.detail(orderId);
 
         model.addAttribute("order", order);
+        model.addAttribute("refund", refund);
         model.addAttribute("payment", payment);
         model.addAttribute("items", order.getItems());
         model.addAttribute("history", order.getHistories());
@@ -105,7 +111,7 @@ public class OrderController {
         return "order/detail-form";
     }
 
-    @GetMapping("/orders/{orderId}/update")
+    @GetMapping("/orders/{orderId}/edit")
     public String updateForm(@PathVariable Long orderId, Model model) {
         OrderResponse.UpdateFormDTO order = orderService.updateForm(orderId);
         List<LaundryItemResponse.ListDTO> laundryItems = laundryItemService.getAllLaundryItems();
@@ -128,32 +134,6 @@ public class OrderController {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/detail.css", "/css/order.css", "/css/customer.css"));
 
         return "order/update-form";
-    }
-
-    @PostMapping("/orders/{orderId}/update")
-    public String updateProc(@PathVariable Long orderId, @Valid OrderRequest.UpdateDTO updateDto, HttpSession session, RedirectAttributes redirectAttributes) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        boolean isGradeChanged = orderService.updateProc(orderId, updateDto, sessionUser.getId());
-        if (isGradeChanged) {
-            redirectAttributes.addFlashAttribute("alertMessage", "고객 등급이 변경되었습니다.");
-        }
-        return "redirect:/orders/" + orderId;
-    }
-
-    @PostMapping("/orders/{orderId}/laundry-image/delete")
-    public String deleteLaundryImage(@PathVariable Long orderId) {
-        orderService.deleteLaundryImage(orderId);
-        return "redirect:/orders/" + orderId;
-    }
-
-    @PostMapping("/orders/{orderId}/delete")
-    public String deactivate(@PathVariable Long orderId, HttpSession session, @RequestParam(defaultValue = "false") boolean hardDelete) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        boolean existing = orderService.deactivate(orderId, sessionUser.getId(), hardDelete);
-        if(!existing) {
-            return "redirect:/order/list";
-        }
-        return "redirect:/orders/" + orderId;
     }
 
     @PostMapping("/orders/{orderId}/review-link/send")
