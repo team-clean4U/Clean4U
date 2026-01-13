@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const refundData = document.getElementById("refundData");
     const reason = document.getElementById("reason");
     const paymentId = refundData.dataset.paymentId;
 
@@ -10,12 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("환불 사유를 입력하세요");
             return;
         }
-        const formData = new FormData(refundData);
 
         try {
             fetch(`/api/v1/refunds/${paymentId}`, {
                 method: "POST",
-                body: formData
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    reason: reason.value
+                })
             })
                 .then(res => {
                     if (!res.ok) {
@@ -27,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then((data) => {
                     if(data.success) {
                         alert("환불 완료되었습니다.");
-                        location.href = `/orders`;
+                        location.href = `/payments`;
                     } else {
                         alert("환불 실패");
                     }

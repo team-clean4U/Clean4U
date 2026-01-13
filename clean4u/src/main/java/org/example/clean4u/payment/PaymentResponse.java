@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
 import org.example.clean4u._core.utils.PriceUtil;
-import org.example.clean4u.refund.RefundStatus;
 
 public class PaymentResponse {
     @Data
@@ -95,6 +94,7 @@ public class PaymentResponse {
     @Data
     public static class ListDTO {
         private Long id;
+        private Long orderId;
         private String merchantUid;
         private String customerName;
         private String phone;
@@ -105,6 +105,7 @@ public class PaymentResponse {
         @Builder
         public ListDTO(Payment payment) {
             this.id = payment.getId();
+            this.orderId = payment.getOrder().getId();
             this.merchantUid = payment.getMerchantUid();
             this.customerName = payment.getOrder().getCustomer().getName();
             this.phone = payment.getOrder().getCustomer().getPhone();

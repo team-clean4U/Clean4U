@@ -8,7 +8,7 @@ async function cancelOrder(orderId) {
             method: "DELETE"
         });
         if(response.ok) {
-            location.href = "/orders/list";
+            location.href = "/orders";
         }
     } catch (error) {
         console.log("Error: ", error);
@@ -41,12 +41,14 @@ async function deleteOrder(orderId) {
     }
 
     try {
-        const response = await fetch(`/api/v1/orders/${orderId}`, {
+        const response = await fetch(`/api/v1/orders/${orderId}?hardDelete=true`, {
             method: "DELETE"
         });
         if(response.ok) {
             alert("주문이 삭제되었습니다.");
-            location.href = "/orders/list";
+            location.href = "/orders";
+        } else {
+            alert("주문 삭제 중 오류가 발생했습니다.");
         }
     } catch (error) {
         console.error("Error:", error);

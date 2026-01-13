@@ -3,13 +3,11 @@ package org.example.clean4u.payment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u.orderStatusHistory.OrderStatusHistory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,7 +34,7 @@ public class PaymentRepositoryImpl implements PaymentRepositoryCustom {
             toDateTime = searchDTO.getToDate().atTime(23, 59, 59);
         }
 
-        if(customerName != null) {
+        if(customerName != null && !customerName.isEmpty()) {
             jpql.append(hasCondition ? " AND " : " WHERE ").append("c.name LIKE CONCAT('%', :customerName, '%')");
             hasCondition = true;
         }
@@ -52,7 +50,7 @@ public class PaymentRepositoryImpl implements PaymentRepositoryCustom {
         }
 
         if(status != null) {
-            jpql.append(hasCondition ? " AND " : " WHERE ").append("p.status = :status");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("p.paymentStatus = :paymentStatus");
             hasCondition = true;
         }
 
@@ -89,8 +87,8 @@ public class PaymentRepositoryImpl implements PaymentRepositoryCustom {
         );
 
         if(status != null) {
-            query.setParameter("status", status);
-            countQuery.setParameter("status", status);
+            query.setParameter("paymentStatus", status);
+            countQuery.setParameter("paymentStatus", status);
         }
         if(customerName != null && !customerName.isEmpty()) {
             query.setParameter("customerName", customerName);
@@ -100,7 +98,7 @@ public class PaymentRepositoryImpl implements PaymentRepositoryCustom {
             query.setParameter("phone", phone);
             countQuery.setParameter("phone", phone);
         }
-        if(merchantUid != null) {
+        if(merchantUid != null && !merchantUid.isEmpty()) {
             query.setParameter("merchantUid", merchantUid);
             countQuery.setParameter("merchantUid", merchantUid);
         }

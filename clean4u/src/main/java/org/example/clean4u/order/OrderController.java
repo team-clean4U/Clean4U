@@ -12,8 +12,10 @@ import org.example.clean4u.laundryItem.LaundryItemResponse;
 import org.example.clean4u.laundryItem.LaundryItemService;
 import org.example.clean4u.laundryOption.LaundryOptionService;
 import org.example.clean4u.orderItem.OrderItemResponse;
-import org.example.clean4u.payment.Payment;
-import org.example.clean4u.payment.PaymentRepository;
+import org.example.clean4u.payment.PaymentResponse;
+import org.example.clean4u.payment.PaymentService;
+import org.example.clean4u.refund.RefundResponse;
+import org.example.clean4u.refund.RefundService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,8 @@ public class OrderController {
     private final LaundryOptionService laundryOptionService;
     private final CustomerService customerService;
     private final ObjectMapper objectMapper;
-    private final PaymentRepository paymentRepository;
+    private final RefundService refundService;
+    private final PaymentService paymentService;
 
     @GetMapping("/orders/new")
     public String saveForm(Model model) {
@@ -95,9 +98,12 @@ public class OrderController {
     @GetMapping("/orders/{orderId}")
     public String detail(@PathVariable Long orderId, Model model) {
         OrderResponse.DetailDTO order = orderService.detail(orderId);
-        Payment payment = paymentRepository.findByOrderId(orderId).orElse(null);
+
+        RefundResponse.RefundConfirmDTO refund = refundService.refundConfirm(orderId);
+        PaymentResponse.DetailDTO payment = paymentService.detail(orderId);
 
         model.addAttribute("order", order);
+        model.addAttribute("refund", refund);
         model.addAttribute("payment", payment);
         model.addAttribute("items", order.getItems());
         model.addAttribute("history", order.getHistories());
