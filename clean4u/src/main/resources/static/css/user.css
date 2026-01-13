@@ -37,7 +37,9 @@
     flex: 1;
 }
 
-.login-footer .btn-create:hover::before {
+.login-footer .btn-create:hover::before,
+.password-reset-footer .btn-create:hover::before,
+.join-footer .btn-create:hover::before{
     width: 600px;
     height: 600px;
 }
@@ -46,6 +48,10 @@
     color: var(--color-white);
     margin-right: 0.5rem;
     font-size: 1rem;
+}
+
+.password-reset-footer .btn i {
+    margin-right: 0.5rem;
 }
 
 .login-check-icon {
