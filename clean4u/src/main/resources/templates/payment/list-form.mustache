@@ -34,7 +34,7 @@
                                 placeholder="연락처">
                     </div>
                     <div class="update-value category">
-                        <input type="hidden" name="status" id="status">
+                        <input type="hidden" name="paymentStatus" id="status">
                         <div class="category-select">
                             <i class="fa-solid fa-info-circle"></i>
                             <span class="category-selected">
@@ -55,7 +55,7 @@
                         <input
                                 class="search-input"
                                 type="text"
-                                name="customerName"
+                                name="merchantUid"
                                 value="{{#merchantUid}}{{merchantUid}}{{/merchantUid}}"
                                 placeholder="결제주문번호">
                     </div>
@@ -85,10 +85,10 @@
         </div>
 
         <div class="history-container">
-            <table class="history-table no-hover">
+            <table class="history-table payment-list">
                 <colgroup>
                     <col>
-                    <col style="width: 140px;">
+                    <col>
                     <col>
                     <col>
                     <col>
@@ -104,11 +104,11 @@
                 </thead>
                 <tbody>
                 {{#paymentList}}
-                    <tr class="payment-row" data-id="{{id}}">
+                    <tr class="payment-row" data-id="{{id}}" data-order-id="{{orderId}}">
                         <td>{{customerName}}</td>
                         <td>{{phone}}</td>
                         <td>{{merchantUid}}</td>
-                        <td><span class="status-badge {{paymentStatus.cssClass}}">{{paymentStatus.displayName}}</span></td>
+                        <td><span id="paymentStatus" class="status-badge {{paymentStatus.cssClass}}">{{paymentStatus.displayName}}</span></td>
                         <td>{{paidAt}}</td>
                     </tr>
                 {{/paymentList}}
@@ -122,7 +122,6 @@
         </div>
     </div>
 </div>
-<!-- 페이지네이션 수정 필요(-)-->
 <ul class="pagination">
     {{#paymentListPage.previousPageNumber}}
         <li class="page-btn">
@@ -155,4 +154,6 @@
         </li>
     {{/paymentListPage.nextPageNumber}}
 </ul>
+
+<script src="/js/payment/list.js"></script>
 {{>layout/footer}}
