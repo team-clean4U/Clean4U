@@ -21,8 +21,8 @@ public class SupplyItemController {
 
     private final SupplyItemService service;
 
-    // http://localhost:8080/supply-items/list
-    @GetMapping("/supply-items/list")
+    // http://localhost:8080/supply-items
+    @GetMapping("/supply-items")
     public String supplyItemList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
@@ -65,25 +65,25 @@ public class SupplyItemController {
         return "supplyItem/detail-form";
     }
 
-    // http://localhost:8080/supply-items/save
-    @GetMapping("/supply-items/save")
+    // http://localhost:8080/supply-items/new
+    @GetMapping("/supply-items/new")
     public String saveForm(Model model) {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/supply-item.css", "/css/supply-item-history.css", "/css/order.css"));
         return "supplyItem/save-form";
     }
 
-    // http://localhost:8080/supply-items/save
-    @PostMapping("/supply-items/save")
+    // http://localhost:8080/supply-items/new
+    @PostMapping("/supply-items/new")
     public String saveProc(@Valid SupplyItemRequest.SaveDTO saveDTO, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         service.save(saveDTO, sessionUser);
 
-        return "redirect:/supply-items/list";
+        return "redirect:/supply-items";
     }
 
-    // http://localhost:8080/supply-items/{supplyItemId}/update
-    @GetMapping("/supply-items/{supplyItemId}/update")
+    // http://localhost:8080/supply-items/{supplyItemId}/edit
+    @GetMapping("/supply-items/{supplyItemId}/edit")
     public String updateForm(@PathVariable Long supplyItemId, Model model) {
         SupplyItemResponse.UpdateFormDTO supplyItem = service.getFormForUpdate(supplyItemId);
         model.addAttribute("supplyItem", supplyItem);
@@ -91,4 +91,14 @@ public class SupplyItemController {
         return "supplyItem/update-form";
     }
 
+    // http://localhost:8080/supply-items/{supplyItemId}/status
+    @PostMapping("/supply-items/{supplyItemId}/status")
+    public String updateStatus(@PathVariable Long supplyItemId, @RequestParam Boolean isActive) {
+        if (isActive) {
+            service.activate(supplyItemId);
+        } else {
+            service.deactivate(supplyItemId);
+        }
+        return "redirect:/supply-items/" + supplyItemId;
+    }
 }
