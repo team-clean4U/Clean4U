@@ -8,16 +8,16 @@
         <div class="header-container">
             <div class="section-header">
                 <h2 class="section-title">
-                    <a href="/supply-items/list">
+                    <a href="/supply-items">
                         <i class="fa-solid fa-box"></i>
                         비품 목록
                     </a>
                 </h2>
-                <a href="/supply-items/save" class="btn btn-create">
+                <a href="/supply-items/new" class="btn btn-create">
                     <i class="fa-solid fa-plus btn-create-icon"></i>생성
                 </a>
             </div>
-            <form class="search-wrapper" method="get" action="/supply-items/list">
+            <form class="search-wrapper" method="get" action="/supply-items">
                 <div class="search-input-box">
                     <i class="fa-solid fa-search"></i>
                     <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{name}}" name="name">
@@ -80,7 +80,7 @@
 <ul class="pagination">
     {{#supplyItemPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/supply-items/list?page={{supplyItemPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+            <a href="/supply-items?page={{supplyItemPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
                 <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -93,13 +93,13 @@
 
     {{#supplyItemPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/supply-items/list?page={{displayNumber}}&size={{supplyItemPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+            <a href="/supply-items?page={{displayNumber}}&size={{supplyItemPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
         </li>
     {{/supplyItemPage.pageLinks}}
 
     {{#supplyItemPage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/supply-items/list?page={{supplyItemPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+            <a href="/supply-items?page={{supplyItemPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>
