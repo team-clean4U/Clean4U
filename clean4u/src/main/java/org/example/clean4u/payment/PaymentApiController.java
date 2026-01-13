@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentApiController {
     private final PaymentService paymentService;
 
-    @PostMapping("/api/payment/prepare")
+    @PostMapping("/api/v1/payment/prepare")
     public ResponseEntity<PaymentResponse.PrepareDTO> preparePayment(@RequestBody @Valid PaymentRequest.PrepareDTO reqDTO) {
         PaymentResponse.PrepareDTO prepDTO = paymentService.preparePayment(reqDTO);
         return ResponseEntity.ok(prepDTO);
     }
 
-    @PostMapping("/api/payment/verify")
+    @PostMapping("/api/v1/payment/verify")
     public ResponseEntity<PaymentResponse.VerifyDTO> verifyPayment(@RequestBody @Valid PaymentRequest.VerifyDTO reqDTO) {
         PaymentResponse.VerifyDTO verifyDTO = paymentService.verifyPayment(reqDTO);
         return ResponseEntity.ok(verifyDTO);
