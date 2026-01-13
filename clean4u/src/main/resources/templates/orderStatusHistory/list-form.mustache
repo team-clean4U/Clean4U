@@ -26,7 +26,7 @@
                     <div class="search-input-box">
                         <i class="fa-solid fa-phone"></i>
                         <input
-                                class="search-input"
+                                class="search-input phone-input"
                                 type="tel"
                                 name="phone"
                                 value="{{#searchView.phone}}{{searchView.phone}}{{/searchView.phone}}"
@@ -151,4 +151,7 @@
         </li>
     {{/statusHistoryListPage.nextPageNumber}}
 </ul>
+    
+<script src="/js/phone-format.js"></script>
+
 {{>layout/footer}}

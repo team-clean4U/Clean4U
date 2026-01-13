@@ -485,3 +485,11 @@
     white-space: nowrap;
     padding: 0.5rem 0.7rem;
 }
+
+.last {
+    border-bottom: none;
+}
+
+.note-editor {
+    flex: 1;
+}
