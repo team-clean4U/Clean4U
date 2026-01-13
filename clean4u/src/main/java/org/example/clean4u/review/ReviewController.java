@@ -19,11 +19,11 @@ public class ReviewController {
     // http://localhost:8080/r/{token}
     @GetMapping("/r/{token}")
     public String redirectToReview(@PathVariable String token) {
-        return "redirect:/review/save?token=" + token;
+        return "redirect:/review/new?token=" + token;
     }
 
-    // http://localhost:8080/review/save
-    @GetMapping("/review/save")
+    // http://localhost:8080/review/new
+    @GetMapping("/review/new")
     public String saveForm(@RequestParam String token, Model model) {
         service.validateToken(token);
         model.addAttribute("token", token);
@@ -31,8 +31,8 @@ public class ReviewController {
         return "review/save-form";
     }
 
-    // http://localhost:8080/review/save
-    @PostMapping("/review/save")
+    // http://localhost:8080/review/new
+    @PostMapping("/review/new")
     public String saveProc(@RequestParam String token, @Valid ReviewRequest.SaveDTO dto, Model model) {
         service.save(dto, token);
         model.addAttribute("additionalCss", Arrays.asList("/css/review.css"));
