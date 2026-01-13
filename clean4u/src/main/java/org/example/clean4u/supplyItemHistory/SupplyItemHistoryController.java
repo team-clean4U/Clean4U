@@ -18,8 +18,8 @@ import java.util.Arrays;
 public class SupplyItemHistoryController {
     private final SupplyItemHistoryService service;
 
-    // http://localhost:8080/supply-item-histories/list
-    @GetMapping("/supply-item-histories/list")
+    // http://localhost:8080/supply-item-histories
+    @GetMapping("/supply-item-histories")
     public String supplyItemHistoryList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
