@@ -29,7 +29,12 @@ public class RefundResponse {
 
     @Data
     public static class PortOneRefundApprove {
-        Integer code;
-        String message;
+        private Integer code;
+        private String message;
+    }
+
+    @Data
+    public static class RefundConfirmDTO {
+        private Boolean isApproved;
     }
 }
