@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception401;
 import org.example.clean4u._core.errors.exception.Exception403;
+import org.example.clean4u._core.response.ApiResponse;
 import org.example.clean4u.employee.Employee;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,9 @@ public class NoticeApiController {
     }
 
     @PutMapping(value = "/{noticeId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<NoticeResponse.DetailDTO> updateNotice (@PathVariable Long noticeId,
-                                                                  @ModelAttribute NoticeRequest.UpdateDTO dto,
-                                                                  HttpSession session) {
+    public ResponseEntity<ApiResponse<NoticeResponse.DetailDTO>> updateNotice (@PathVariable Long noticeId,
+                                                                              @ModelAttribute NoticeRequest.UpdateDTO dto,
+                                                                              HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         if (sessionUser == null) {
@@ -38,15 +39,15 @@ public class NoticeApiController {
         }
 
         NoticeResponse.DetailDTO result = noticeService.updateNotice(noticeId, dto, sessionUser);
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok(ApiResponse.ok(result));
     }
 
     @DeleteMapping("/{noticeId}")
-    public ResponseEntity<Void> deleteNotice (@PathVariable Long noticeId, HttpSession session) {
+    public ResponseEntity<ApiResponse<Void>> deleteNotice (@PathVariable Long noticeId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         noticeService.deleteNoticeById(noticeId, sessionUser.getId());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.ok("삭제가 완료되었습니다"));
     }
 
 }
