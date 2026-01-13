@@ -175,4 +175,13 @@ public class PaymentService {
         Page<Payment> paymentPage = paymentRepository.searchPayments(pageable, searchDTO);
         return new PageResponse<>(paymentPage, PaymentResponse.ListDTO::new);
     }
+
+    public PaymentResponse.DetailDTO detail(Long orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElse(null);
+        if (payment == null) {
+            return null;
+        }
+        return new PaymentResponse.DetailDTO(payment);
+    }
 }
