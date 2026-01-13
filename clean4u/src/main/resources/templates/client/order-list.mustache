@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Clean4U(고객용)</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.0.0/css/all.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/components.css">
+    {{#additionalCss}}
+        <link rel="stylesheet" href="{{.}}">
+    {{/additionalCss}}
+</head>
+
+<body class="client-page">
+{{> layout/background}}
+
+<div class="client-container">
+    <div class="client-container-content">
+        <div class="client-buttons-top">
+            <a href="/client" class="btn btn-back">
+                <i class="fa-solid fa-arrow-left"></i>
+                전화번호 다시 조회
+            </a>
+        </div>
+        <div class="client-card">
+            <div class="client-header-list">
+                <h2>
+                    <i class="fa-solid fa-user"></i>
+                    <span class="client-header-name">{{customerName}}</span>
+                    <span class="client-header-suffix">님의 주문 목록</span>
+                </h2>
+                <div class="client-header-list-phone">
+                    <i class="fa-solid fa-phone"></i>
+                    <span id="formatted-phone">{{phone}}</span>
+                </div>
+
+                {{#hasOrders}}
+                    {{#stats}}
+                        <div class="client-stats">
+                            <div class="stat-item">
+                                <i class="fa-solid fa-shopping-bag"></i>
+                                <div>
+                                    <span class="stat-label">전체 주문</span>
+                                    <span class="stat-value">{{totalOrders}}건</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fa-solid fa-check-circle"></i>
+                                <div>
+                                    <span class="stat-label">완료 주문</span>
+                                    <span class="stat-value">{{completedOrders}}건</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fa-solid fa-clock"></i>
+                                <div>
+                                    <span class="stat-label">진행중</span>
+                                    <span class="stat-value">{{pendingOrders}}건</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fa-solid fa-won-sign"></i>
+                                <div>
+                                    <span class="stat-label">총 결제 금액</span>
+                                    <span class="stat-value">{{formattedTotalAmount}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {{/stats}}
+                {{/hasOrders}}
+            </div>
+        </div>
+        {{#hasOrders}}
+            <div class="client-card">
+                <div class="client-order-list">
+                    {{#orderList}}
+                        <a href="/client/{{phone}}/orders/{{orderId}}" class="client-order-card">
+                            <div class="client-order-number">NO.{{orderId}}</div>
+                            <div class="client-order-info">
+                                <div class="client-order-date">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                    <span>{{orderDate}}</span>
+                                </div>
+                                <div class="client-order-statuses">
+                                    <span class="status-badge {{status.cssClass}}">{{status.displayName}}</span>
+                                    {{#isPending}}
+                                        <span class="payment-status pending">결제 대기</span>
+                                    {{/isPending}}
+                                    {{^isPending}}
+                                        <span class="payment-status paid">결제 완료</span>
+                                    {{/isPending}}
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right client-order-arrow"></i>
+                        </a>
+                    {{/orderList}}
+                </div>
+            </div>
+        {{/hasOrders}}
+
+        {{^hasOrders}}
+            <div class="client-empty">
+                <i class="fa-solid fa-inbox"></i>
+                <p>조회된 주문이 없습니다.</p>
+                <a href="/client" class="btn btn-submit">다시 조회하기</a>
+            </div>
+        {{/hasOrders}}
+    </div>
+</div>
+<ul class="pagination">
+    {{#orderPage.previousPageNumber}}
+        <li class="page-btn">
+            <a href="/client/{{phone}}/orders?page={{orderPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+        </li>
+    {{/orderPage.previousPageNumber}}
+    {{^orderPage.previousPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-left"></i>
+        </li>
+    {{/orderPage.previousPageNumber}}
+
+    {{#orderPage.pageLinks}}
+        <li class="page-btn {{#active}}active{{/active}}">
+            <a href="/client/{{phone}}/orders?page={{displayNumber}}&size={{orderPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+        </li>
+    {{/orderPage.pageLinks}}
+
+    {{#orderPage.nextPageNumber}}
+        <li class="page-btn">
+            <a href="/client/{{phone}}/orders?page={{orderPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+                <i class="fa-solid fa-chevron-right"></i>
+            </a>
+        </li>
+    {{/orderPage.nextPageNumber}}
+    {{^orderPage.nextPageNumber}}
+        <li class="page-btn disabled">
+            <i class="fa-solid fa-chevron-right"></i>
+        </li>
+    {{/orderPage.nextPageNumber}}
+</ul>
+
+<script src="/js/phone-format.js"></script>
+
+</body>
+</html>
+

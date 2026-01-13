@@ -2,6 +2,9 @@ package org.example.clean4u.customer;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -57,4 +60,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     boolean existsByPhone(@NotBlank(message = "휴대폰 번호는 비어있을 수 없습니다.")
                           @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = "연락처 형식이 맞지 않습니다.")
                           String phone);
+
+    Optional<Customer> findByPhone(String phone);
 }

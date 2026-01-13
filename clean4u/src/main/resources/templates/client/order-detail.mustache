@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Clean4U(고객용)</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.0.0/css/all.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/components.css">
+    {{#additionalCss}}
+        <link rel="stylesheet" href="{{.}}">
+    {{/additionalCss}}
+</head>
+
+<body class="client-page">
+{{> layout/background}}
+
+<div class="client-container">
+    <div class="client-container-content">
+        <div class="client-buttons-top">
+            <a href="/client/{{phone}}/orders" class="btn btn-back">
+                <i class="fa-solid fa-arrow-left"></i>
+                목록으로
+            </a>
+        </div>
+        <div class="client-card">
+            {{#order}}
+                <div class="client-header-detail">
+                    <div class="client-header-detail-top">
+                        <div class="client-order-id-wrapper">
+                            <i class="fa-solid fa-receipt"></i>
+                            <h1 class="client-order-id-large">주문번호: {{orderId}}</h1>
+                        </div>
+                        <span class="status-badge {{status.cssClass}}">{{status.displayName}}</span>
+                    </div>
+                </div>
+
+                <div class="client-detail">
+                    <div class="client-header-detail-info">
+                        <div class="client-header-detail-row">
+                            <div class="client-header-detail-label">
+                                <i class="fa-solid fa-calendar-check"></i>
+                                <span>주문 접수일</span>
+                            </div>
+                            <div class="client-header-detail-value">{{orderDate}}</div>
+                        </div>
+                        {{#memo}}
+                            <div class="client-header-detail-row">
+                                <div class="client-header-detail-label">
+                                    <i class="fa-solid fa-note-sticky"></i>
+                                    <span>메모</span>
+                                </div>
+                                <div class="client-header-detail-value">{{memo}}</div>
+                            </div>
+                        {{/memo}}
+                        {{#laundryImage}}
+                            <div class="client-header-detail-row">
+                                <div class="client-header-detail-label">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span>세탁물 사진</span>
+                                </div>
+                                <div class="client-header-detail-value">
+                                    <button type="button" class="btn btn-image"
+                                            onclick="openImageModal('/images/{{laundryImage}}')">
+                                        사진 보기
+                                    </button>
+                                </div>
+                            </div>
+                        {{/laundryImage}}
+                    </div>
+
+                    <div class="client-detail-section">
+                        <div class="client-detail-section-title">
+                            <i class="fa-solid fa-history"></i>
+                            상태 변경 이력
+                        </div>
+                        <div class="client-history-list">
+                            {{#order.histories}}
+                                <div class="client-history-item">
+                                    <i class="fa-solid fa-circle"></i>
+                                    <div>
+                                        <span class="client-history-date">{{createdAt}}</span>
+                                        <span class="client-history-status {{status.cssClass}}">{{status.displayName}}</span>
+                                    </div>
+                                </div>
+                            {{/order.histories}}
+                            {{^order.histories}}
+                                <div class="client-empty-items">
+                                    <i class="fa-solid fa-inbox"></i>
+                                    <p>상태 변경 이력이 없습니다.</p>
+                                </div>
+                            {{/order.histories}}
+                        </div>
+                    </div>
+
+                    <div class="client-detail-section">
+                        <div class="client-detail-section-title">
+                            <i class="fa-solid fa-shirt"></i>
+                            세탁 물품
+                        </div>
+                        <div class="client-items-list">
+                            {{#order.items}}
+                                <div class="client-item-card">
+                                    <div class="client-item-header">
+                                        <span class="client-item-name">{{laundryItemName}}</span>
+                                        <span class="client-item-category">({{laundryCategory}})</span>
+                                    </div>
+                                    <div class="client-item-details">
+                                        <div class="client-item-row">
+                                            <span>수량:</span>
+                                            <span>{{quantity}}개</span>
+                                        </div>
+                                        <div class="client-item-row">
+                                            <span>기본 가격:</span>
+                                            <span>{{basePrice}}원</span>
+                                        </div>
+                                        {{#options}}
+                                            <div class="client-item-row option-row">
+                                                <span>추가 옵션:</span>
+                                                <div class="client-option">
+                                                    <span>{{optionName}}</span>
+                                                    <span class="client-option-price">+ {{extraPrice}}원</span>
+                                                </div>
+                                            </div>
+                                        {{/options}}
+                                        <div class="client-item-total">
+                                            <span>소계:</span>
+                                            <span class="client-item-total-price">{{itemTotalPrice}}원</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/order.items}}
+                            {{^order.items}}
+                                <div class="client-empty-items">
+                                    <i class="fa-solid fa-inbox"></i>
+                                    <p>등록된 세탁 물품이 없습니다.</p>
+                                </div>
+                            {{/order.items}}
+                        </div>
+                    </div>
+
+                    <div class="client-detail-section">
+                        <div class="client-total">
+                        <span class="client-total-label">
+                            <i class="fa-solid fa-won-sign"></i>
+                            {{#isPending}}총 결제 예정 금액{{/isPending}}
+                            {{^isPending}}총 결제 금액{{/isPending}}
+                        </span>
+                            <span class="client-total-value">{{totalPrice}}원</span>
+                        </div>
+                    </div>
+
+                    {{#reviewLink}}
+                        <div class="client-detail-section">
+                            <div class="client-detail-section-title">
+                                <i class="fa-solid fa-star"></i>
+                                리뷰
+                            </div>
+                            {{#hasReview}}
+                                {{#review}}
+                                    <div class="client-review">
+                                        <div class="client-review-rating">
+                                    <span class="client-review-stars">
+                                        {{#rating}}
+                                            {{#.}}★{{/.}}{{^.}}☆{{/.}}
+                                        {{/rating}}
+                                    </span>
+                                            <span>{{rating}}점</span>
+                                        </div>
+                                        {{#comment}}
+                                            <div class="client-review-comment">{{comment}}</div>
+                                        {{/comment}}
+                                        <div class="client-review-date">{{createdAt}}</div>
+                                    </div>
+                                {{/review}}
+                            {{/hasReview}}
+                            {{^hasReview}}
+                                <div class="client-review-empty">
+                                    <i class="fa-solid fa-star"></i>
+                                    <p>아직 작성된 리뷰가 없습니다.</p>
+                                </div>
+                            {{/hasReview}}
+                        </div>
+                    {{/reviewLink}}
+                </div>
+            {{/order}}
+        </div>
+    </div>
+</div>
+
+<div id="imageModal" class="imageModal" onclick="closeImageModal()">
+    <img id="modalImage" class="modalImage" alt="세탁물품 사진">
+</div>
+
+<script>
+    function openImageModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = imageSrc;
+        modal.style.display = 'flex';
+    }
+
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.style.display = 'none';
+    }
+</script>
+
+</body>
+</html>
+
