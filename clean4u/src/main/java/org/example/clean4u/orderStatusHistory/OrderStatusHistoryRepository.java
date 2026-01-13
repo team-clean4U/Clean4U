@@ -21,6 +21,9 @@ public interface OrderStatusHistoryRepository extends OrderStatusHistoryReposito
 
     List<OrderStatusHistory> findByOrderId(@Param("orderId") Long orderId);
 
+    @Query("SELECT sh FROM OrderStatusHistory sh WHERE sh.order.id = :orderId ORDER BY sh.createdAt ASC")
+    List<OrderStatusHistory> findByOrderIdOrderByCreatedAtAsc(@Param("orderId") Long orderId);
+
     @Modifying(clearAutomatically = true)
     @Query("DELETE FROM OrderStatusHistory sh WHERE sh.order.id = :orderId")
     void deleteByOrderId(@Param("orderId") Long orderId);
