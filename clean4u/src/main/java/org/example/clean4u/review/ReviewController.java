@@ -16,11 +16,13 @@ import java.util.Arrays;
 public class ReviewController {
     private final ReviewService service;
 
+    // http://localhost:8080/r/{token}
     @GetMapping("/r/{token}")
     public String redirectToReview(@PathVariable String token) {
         return "redirect:/review/save?token=" + token;
     }
 
+    // http://localhost:8080/review/save
     @GetMapping("/review/save")
     public String saveForm(@RequestParam String token, Model model) {
         service.validateToken(token);
@@ -29,6 +31,7 @@ public class ReviewController {
         return "review/save-form";
     }
 
+    // http://localhost:8080/review/save
     @PostMapping("/review/save")
     public String saveProc(@RequestParam String token, @Valid ReviewRequest.SaveDTO dto, Model model) {
         service.save(dto, token);
@@ -36,4 +39,3 @@ public class ReviewController {
         return "review/complete-form";
     }
 }
-
