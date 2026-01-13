@@ -23,20 +23,4 @@ public class LaundryOptionApiController {
         LaundryOptionResponse.DetailDTO result = service.getDetail(laundryOptionId);
         return ResponseEntity.ok(ApiResponse.ok(result));
     }
-
-    // PATCH /api/v1/laundry-options/{laundryOptionId}/deactivate
-    @PatchMapping("/{laundryOptionId}/deactivate")
-    public ResponseEntity<ApiResponse<LaundryOptionResponse.DetailDTO>> deactivateLaundryOption(@PathVariable Long laundryOptionId) {
-        service.deactivate(laundryOptionId);
-        LaundryOptionResponse.DetailDTO result = service.getDetail(laundryOptionId);
-        return ResponseEntity.ok(ApiResponse.ok(result));
-    }
-
-    // PATCH /api/v1/laundry-options/{laundryOptionId}/activate
-    @PatchMapping("/{laundryOptionId}/activate")
-    public ResponseEntity<ApiResponse<LaundryOptionResponse.DetailDTO>> activateLaundryOption(@PathVariable Long laundryOptionId) {
-        service.activate(laundryOptionId);
-        LaundryOptionResponse.DetailDTO result = service.getDetail(laundryOptionId);
-        return ResponseEntity.ok(ApiResponse.ok(result));
-    }
 }

@@ -27,20 +27,4 @@ public class SupplyItemApiController {
         SupplyItemResponse.DetailDTO result = service.getDetail(supplyItemId);
         return ResponseEntity.ok(ApiResponse.ok(result));
     }
-
-    // PATCH /api/v1/supply-items/{supplyItemId}/deactivate
-    @PatchMapping("/{supplyItemId}/deactivate")
-    public ResponseEntity<ApiResponse<SupplyItemResponse.DetailDTO>> deactivateSupplyItem(@PathVariable Long supplyItemId) {
-        service.deactivate(supplyItemId);
-        SupplyItemResponse.DetailDTO result = service.getDetail(supplyItemId);
-        return ResponseEntity.ok(ApiResponse.ok(result));
-    }
-
-    // PATCH /api/v1/supply-items/{supplyItemId}/activate
-    @PatchMapping("/{supplyItemId}/activate")
-    public ResponseEntity<ApiResponse<SupplyItemResponse.DetailDTO>> activateSupplyItem(@PathVariable Long supplyItemId) {
-        service.activate(supplyItemId);
-        SupplyItemResponse.DetailDTO result = service.getDetail(supplyItemId);
-        return ResponseEntity.ok(ApiResponse.ok(result));
-    }
 }

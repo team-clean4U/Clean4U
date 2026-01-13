@@ -19,8 +19,8 @@ public class LaundryOptionController {
 
     private final LaundryOptionService service;
 
-    // http://localhost:8080/laundry-options/list
-    @GetMapping("/laundry-options/list")
+    // http://localhost:8080/laundry-options
+    @GetMapping("/laundry-options")
     public String laundryOptionList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
@@ -64,27 +64,42 @@ public class LaundryOptionController {
         return "laundryOption/detail-form";
     }
 
-    // http://localhost:8080/laundry-options/save
-    @GetMapping("/laundry-options/save")
+    // http://localhost:8080/laundry-options/new
+    @GetMapping("/laundry-options/new")
     public String saveForm(Model model) {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/update.css"));
+
         return "laundryOption/save-form";
     }
 
-    // http://localhost:8080/laundry-options/save
-    @PostMapping("/laundry-options/save")
+    // http://localhost:8080/laundry-options/new
+    @PostMapping("/laundry-options/new")
     public String saveProc(@Valid LaundryOptionRequest.SaveDTO saveDTO) {
         service.save(saveDTO);
-        return "redirect:/laundry-options/list";
+
+        return "redirect:/laundry-options";
     }
 
-    // http://localhost:8080/laundry-options/{laundryOptionId}/update
-    @GetMapping("/laundry-options/{laundryOptionId}/update")
+    // http://localhost:8080/laundry-options/{laundryOptionId}/edit
+    @GetMapping("/laundry-options/{laundryOptionId}/edit")
     public String updateForm(@PathVariable Long laundryOptionId, Model model) {
         LaundryOptionResponse.UpdateFormDTO laundryOption = service.getFormForUpdate(laundryOptionId);
+
         model.addAttribute("laundryOption", laundryOption);
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/update.css"));
+
         return "laundryOption/update-form";
     }
 
+    // http://localhost:8080/laundry-options/{laundryOptionId}/status
+    @PostMapping("/laundry-options/{laundryOptionId}/status")
+    public String updateStatus(@PathVariable Long laundryOptionId, @RequestParam Boolean isActive) {
+        if (isActive) {
+            service.activate(laundryOptionId);
+        } else {
+            service.deactivate(laundryOptionId);
+        }
+        
+        return "redirect:/laundry-options/" + laundryOptionId;
+    }
 }
