@@ -1,10 +1,8 @@
 package org.example.clean4u.orderStatusHistory;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
-import org.example.clean4u.employee.Employee;
 import org.example.clean4u.order.OrderRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +17,7 @@ import java.util.Arrays;
 public class OrderStatusHistoryController {
     private final OrderStatusHistoryService historyService;
 
-    @GetMapping("/order-status-histories/list")
+    @GetMapping("/order-status-histories")
     public String orderStatusHistoryList(
             Model model,
             @RequestParam(defaultValue = "1") int page,

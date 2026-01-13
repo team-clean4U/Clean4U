@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(!paymentBtn) return;
 
     paymentBtn.addEventListener('click', () => {
-        fetch("/api/payment/prepare", {
+        fetch("/api/v1/payments/prepare", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -22,9 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 return res.json();
             })
-            .then(data => {
-                const merchantUid = data.merchantUid;
-                const payAmount = data.amount;
+            .then(result => {
+                const merchantUid = result.data.merchantUid;
+                const payAmount = result.data.amount;
                 const IMP = window.IMP;
 
                 IMP.init(impKey);
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function verifyPayment(imp_uid, merchant_uid, order_id) {
-        fetch("/api/payment/verify", {
+        fetch("/api/v1/payments/verify", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

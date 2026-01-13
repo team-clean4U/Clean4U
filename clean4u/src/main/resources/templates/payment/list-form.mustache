@@ -7,11 +7,12 @@
         <div class="header-container order">
             <div class="section-header">
                 <h2 class="section-title">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <a href="/order-status-histories">주문 상태 변경 이력</a>
+                    <i class="fa-solid fa-credit-card"></i>
+                    <a href="/payments">결제/환불 조회</a>
                 </h2>
             </div>
-            <form class="search-wrapper" method="get" action="/order-status-histories">
+            {{#searchView}}
+            <form class="search-wrapper" method="get" action="/payments">
                 <div class="search-box">
                     <div class="search-input-box">
                         <i class="fa-solid fa-user"></i>
@@ -19,7 +20,7 @@
                                 class="search-input"
                                 type="text"
                                 name="customerName"
-                                value="{{#searchView.customerName}}{{searchView.customerName}}{{/searchView.customerName}}"
+                                value="{{#customerName}}{{customerName}}{{/customerName}}"
                                 placeholder="고객명">
                     </div>
 
@@ -29,7 +30,7 @@
                                 class="search-input"
                                 type="tel"
                                 name="phone"
-                                value="{{#searchView.phone}}{{searchView.phone}}{{/searchView.phone}}"
+                                value="{{#phone}}{{phone}}{{/phone}}"
                                 placeholder="연락처">
                     </div>
                     <div class="update-value category">
@@ -37,27 +38,33 @@
                         <div class="category-select">
                             <i class="fa-solid fa-info-circle"></i>
                             <span class="category-selected">
-                                {{#searchView.status}}{{searchView.status.displayName}}{{/searchView.status}}
-                                {{^searchView.status}}전체 상태{{/searchView.status}}
+                                {{#paymentStatus}}{{paymentStatus.displayName}}{{/paymentStatus}}
+                                {{^paymentStatus}}결제 상태{{/paymentStatus}}
                             </span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <ul class="category-dropdown">
-                            <li data-type="RECEIVED">접수</li>
-                            <li data-type="WASHING">세탁중</li>
-                            <li data-type="DRYING">건조중</li>
-                            <li data-type="COMPLETED">세탁완료</li>
-                            <li data-type="CANCELLED">접수취소</li>
+                            <li data-type="PAID">결제완료</li>
+                            <li data-type="REFUND">환불완료</li>
                         </ul>
                     </div>
                 </div>
                 <div class="search-box">
                     <div class="search-input-box">
+                        <i class="fa-solid fa-hashtag"></i>
+                        <input
+                                class="search-input"
+                                type="text"
+                                name="customerName"
+                                value="{{#merchantUid}}{{merchantUid}}{{/merchantUid}}"
+                                placeholder="결제주문번호">
+                    </div>
+                    <div class="search-input-box">
                         <i class="fa-solid fa-calendar-alt"></i>
                         <input
                                 type="date"
                                 name="fromDate"
-                                value="{{#searchView.fromDate}}{{searchView.fromDate}}{{/searchView.fromDate}}"
+                                value="{{#fromDate}}{{fromDate}}{{/fromDate}}"
                                 class="search-input date-input" min="1900-01-01" max="9999-12-31">
                     </div>
                     <span class="date-separator">~</span>
@@ -66,7 +73,7 @@
                         <input
                                 type="date"
                                 name="toDate"
-                                value="{{#searchView.toDate}}{{searchView.toDate}}{{/searchView.toDate}}"
+                                value="{{#toDate}}{{toDate}}{{/toDate}}"
                                 class="search-input date-input"
                                 min="1900-01-01"
                                 max="9999-12-31">
@@ -74,81 +81,78 @@
                     <button type="submit" class="btn btn-submit">조회</button>
                 </div>
             </form>
+            {{/searchView}}
         </div>
 
         <div class="history-container">
             <table class="history-table no-hover">
                 <colgroup>
                     <col>
-                    <col>
-                    <col>
+                    <col style="width: 140px;">
                     <col>
                     <col>
                     <col>
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>주문 번호</th>
                     <th>고객명</th>
                     <th>휴대폰 번호</th>
-                    <th>상태</th>
+                    <th>결제주문번호</th>
+                    <th>결제 상태</th>
                     <th>일시</th>
-                    <th>수정자</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#statusHistoryList}}
-                    <tr>
-                        <td class="table-id">{{orderId}}</td>
+                {{#paymentList}}
+                    <tr class="payment-row" data-id="{{id}}">
                         <td>{{customerName}}</td>
                         <td>{{phone}}</td>
-                        <td><span class="status-badge {{status.cssClass}}">{{status.displayName}}</span></td>
-                        <td>{{createdAt}}</td>
-                        <td>{{editor}}</td>
+                        <td>{{merchantUid}}</td>
+                        <td><span class="status-badge {{paymentStatus.cssClass}}">{{paymentStatus.displayName}}</span></td>
+                        <td>{{paidAt}}</td>
                     </tr>
-                {{/statusHistoryList}}
-                {{^statusHistoryList}}
+                {{/paymentList}}
+                {{^paymentList}}
                     <tr>
-                        <td colspan="5" class="empty-message">주문 변경 이력이 없습니다.</td>
+                        <td colspan="5" class="empty-message">결제/환불 내역이 없습니다.</td>
                     </tr>
-                {{/statusHistoryList}}
+                {{/paymentList}}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
+<!-- 페이지네이션 수정 필요(-)-->
 <ul class="pagination">
-    {{#statusHistoryListPage.previousPageNumber}}
+    {{#paymentListPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/order-status-history/list?page={{statusHistoryListPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+            <a href="/payments?page={{paymentListPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
-    {{/statusHistoryListPage.previousPageNumber}}
-    {{^statusHistoryListPage.previousPageNumber}}
+    {{/paymentListPage.previousPageNumber}}
+    {{^paymentListPage.previousPageNumber}}
         <li class="page-btn disabled">
             <i class="fa-solid fa-chevron-left"></i>
         </li>
-    {{/statusHistoryListPage.previousPageNumber}}
+    {{/paymentListPage.previousPageNumber}}
 
-    {{#statusHistoryListPage.pageLinks}}
+    {{#paymentListPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/order-status-history/list?page={{displayNumber}}&size={{statusHistoryListPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+            <a href="/payments?page={{displayNumber}}&size={{paymentListPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
         </li>
-    {{/statusHistoryListPage.pageLinks}}
+    {{/paymentListPage.pageLinks}}
 
-    {{#statusHistoryListPage.nextPageNumber}}
+    {{#paymentListPage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/order-status-history/list?page={{statusHistoryListPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+            <a href="/payments?page={{paymentListPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
             <i class="fa-solid fa-chevron-right"></i>
-            </a>
         </li>
-    {{/statusHistoryListPage.nextPageNumber}}
-    {{^statusHistoryListPage.nextPageNumber}}
+    {{/paymentListPage.nextPageNumber}}
+    {{^paymentListPage.nextPageNumber}}
         <li class="page-btn disabled">
             <i class="fa-solid fa-chevron-right"></i>
         </li>
-    {{/statusHistoryListPage.nextPageNumber}}
+    {{/paymentListPage.nextPageNumber}}
 </ul>
 {{>layout/footer}}

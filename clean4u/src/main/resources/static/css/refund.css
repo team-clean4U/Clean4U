@@ -5,3 +5,7 @@
 .status-refund {
     background-color: var(--status-cancelled);
 }
+
+.refund-text {
+    width: 50%;
+}

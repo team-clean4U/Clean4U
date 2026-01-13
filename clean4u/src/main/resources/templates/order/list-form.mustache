@@ -5,17 +5,17 @@
         <div class="header-container order">
             <div class="section-header">
                 <h2 class="section-title">
-                    <a href="/order/list">
+                    <a href="/orders">
                         <i class="fa-solid fa-cart-shopping"></i>
                         주문 목록
                     </a>
                 </h2>
-                <a href="/order/save" class="btn btn-create">
+                <a href="/orders/new" class="btn btn-create">
                     <span>+</span>생성
                 </a>
             </div>
 
-            <form class="search-wrapper" method="get" action="/orders/list">
+            <form class="search-wrapper" method="get" action="/orders">
                 <div class="search-box">
                     <div class="search-input-box">
                         <i class="fa-solid fa-user"></i>
@@ -130,7 +130,7 @@
     <ul class="pagination">
         {{#orderPage.previousPageNumber}}
             <li class="page-btn">
-                <a href="/orders/list?page={{orderPage.previousPageNumber}}">
+                <a href="/orders?page={{orderPage.previousPageNumber}}">
                 <i class="fa-solid fa-chevron-left"></i>
                 </a>
             </li>
@@ -143,15 +143,14 @@
 
         {{#orderPage.pageLinks}}
             <li class="page-btn {{#active}}active{{/active}}">
-                <a href="/orders/list?page={{displayNumber}}&size={{orderPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+                <a href="/orders?page={{displayNumber}}&size={{orderPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
             </li>
         {{/orderPage.pageLinks}}
 
         {{#orderPage.nextPageNumber}}
             <li class="page-btn">
-                <a href="/orders/list?page={{orderPage.nextPageNumber}}">
+                <a href="/orders?page={{orderPage.nextPageNumber}}">
                 <i class="fa-solid fa-chevron-right"></i>
-                </a>
             </li>
         {{/orderPage.nextPageNumber}}
         {{^orderPage.NextPageNumber}}

@@ -133,14 +133,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const updateForm = document.getElementById("updateForm");
 if(updateForm) {
-    updateForm.addEventListener("submit", async (e) => {
+    updateForm.addEventListener("submit",  (e) => {
         e.preventDefault();
 
         const orderId = updateForm.dataset.orderId;
         const formData = new FormData(updateForm);
 
         try {
-            await fetch(`/api/v1/orders/${orderId}`, {
+             fetch(`/api/v1/orders/${orderId}`, {
                 method: "PUT",
                 body: formData
             })
@@ -150,8 +150,8 @@ if(updateForm) {
                     }
                     return res.json();
                 })
-                .then(data => {
-                    if(data.isGradeChanged) {
+                .then(result => {
+                    if(result.data.isGradeChanged) {
                         alert("고객 등급이 변경되었습니다.");
                     } else {
                         alert("주문 내역이 변경되었습니다.");

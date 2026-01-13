@@ -2,9 +2,11 @@ package org.example.clean4u.payment;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
 import org.example.clean4u._core.utils.PriceUtil;
+import org.example.clean4u.refund.RefundStatus;
 
 public class PaymentResponse {
     @Data
@@ -87,6 +89,28 @@ public class PaymentResponse {
 
         public DetailDTO(Payment payment) {
             this(payment, payment.getPaymentStatus() == PaymentStatus.PAID);
+        }
+    }
+
+    @Data
+    public static class ListDTO {
+        private Long id;
+        private String merchantUid;
+        private String customerName;
+        private String phone;
+        private String amount;
+        private String paidAt;
+        private PaymentStatus paymentStatus;
+
+        @Builder
+        public ListDTO(Payment payment) {
+            this.id = payment.getId();
+            this.merchantUid = payment.getMerchantUid();
+            this.customerName = payment.getOrder().getCustomer().getName();
+            this.phone = payment.getOrder().getCustomer().getPhone();
+            this.amount = PriceUtil.format(payment.getAmount());
+            this.paidAt = DateUtil.timestampFormat(payment.getCreatedAt());
+            this.paymentStatus = payment.getPaymentStatus();
         }
     }
 }

@@ -421,7 +421,7 @@ public class OrderService {
 
     // 주문 삭제 기능 요청
     @Transactional
-    public boolean deactivate(Long orderId, Long sessionUserId, boolean hardDelete) {
+    public void deactivate(Long orderId, Long sessionUserId, boolean hardDelete) {
         Employee employee = employeeRepository.findById(sessionUserId)
                 .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
         Order order = orderRepository.findById(orderId)
@@ -429,7 +429,7 @@ public class OrderService {
 
         if(!hardDelete) {
             updateStatus(orderId, sessionUserId);
-            return true;
+            return;
         }
         if(!employee.isAdmin()) {
             throw new Exception403("삭제 권한이 없습니다.");
@@ -449,7 +449,6 @@ public class OrderService {
         orderItemRepository.deleteByOrderId(orderId);
         orderRepository.deleteById(orderId);
 
-        return orderRepository.existsById(orderId);
     }
 
     // 총 합 계산

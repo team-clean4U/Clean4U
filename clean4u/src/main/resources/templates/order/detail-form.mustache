@@ -4,7 +4,7 @@
 <div class="detail-container order-detail">
     <div class="detail-container-content">
         <div class="buttons">
-            <form action="/orders/list" method="get">
+            <form action="/orders" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
@@ -159,7 +159,7 @@
                                 <span style="color: var(--color-dark-blue); font-weight: 500;">
                                     [결제 완료] 주문번호: {{merchantUid}}
                                 </span>
-                                <a href="/refund/{{id}}" class=>
+                                <a href="/refunds/{{id}}">
                                     <span class="btn btn-delete">
                                         환불 요청
                                     </span>
