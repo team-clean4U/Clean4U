@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.errors.exception.Exception500;
+import org.example.clean4u.employee.Employee;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
 import org.example.clean4u.order.OrderStatus;
+import org.example.clean4u.orderStatusHistory.OrderStatusHistory;
+import org.example.clean4u.orderStatusHistory.OrderStatusHistoryRepository;
 import org.example.clean4u.payment.Payment;
 import org.example.clean4u.payment.PaymentRepository;
 import org.example.clean4u.payment.PaymentService;
@@ -28,6 +31,7 @@ public class RefundService {
     private final RefundRepository refundRepository;
     private final PaymentService paymentService;
     private final OrderRepository orderRepository;
+    private final OrderStatusHistoryRepository orderStatusHistoryRepository;
 
     public Payment refundRequestForm(Long paymentId) {
         Payment payment = paymentRepository.findByIdWithOrder(paymentId)
@@ -51,7 +55,7 @@ public class RefundService {
 
 
     @Transactional
-    public void refundRequestProc(Long paymentId, RefundRequest.DetailDTO detailDTO) {
+    public void refundRequestProc(Long paymentId, RefundRequest.DetailDTO detailDTO, Employee employee) {
         Payment payment = refundRequestForm(paymentId);
 
         Order order = orderRepository.findById(payment.getOrder().getId())
@@ -72,6 +76,25 @@ public class RefundService {
         payment.updateStatus(PaymentStatus.REFUND);
         order.updatePendingStatus(true); // 주문의 결제 상태는 완료 -> 대기로 변경
         order.updateStatus(OrderStatus.CANCELLED); // 접수 취소
+        orderStatusHistoryRepository.save(OrderStatusHistory.builder()
+                        .order(order)
+                        .status(OrderStatus.CANCELLED)
+                        .editor(employee)
+                .build());
+    }
+
+    public RefundResponse.RefundConfirmDTO refundConfirm(Long orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId)
+                .orElse(null);
+        RefundResponse.RefundConfirmDTO dto = new RefundResponse.RefundConfirmDTO();
+        if(payment != null) {
+            refundRepository.findByPaymentId(payment.getId()).ifPresent(refund -> {
+                dto.setIsApproved(refund.isApproved());
+            });
+        } else {
+            dto.setIsApproved(false);
+        }
+        return dto;
     }
 
     private void portOnePayCancel(String impUid, Integer amount) {
