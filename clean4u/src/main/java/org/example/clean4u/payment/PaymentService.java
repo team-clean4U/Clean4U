@@ -4,16 +4,23 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
+import org.example.clean4u.order.OrderRequest;
 import org.example.clean4u.order.OrderStatus;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -147,4 +154,25 @@ public class PaymentService {
         return "order_" + orderId + "_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().substring(0, 8);
     }
 
+    public PageResponse<PaymentResponse.ListDTO> paymentList(int page, int size, PaymentRequest.SearchDTO searchDTO) {
+        int validPage = Math.max(0, page);
+        int validSize = Math.max(1, Math.min(50, size));
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Pageable pageable = PageRequest.of(validPage, validSize, sort);
+
+        LocalDate fromDate = searchDTO.getFromDate();
+        LocalDate toDate = searchDTO.getToDate();
+
+        if ((fromDate == null && toDate != null) || (fromDate != null && toDate == null)) {
+            throw new Exception400("검색 시작 날짜와 종료 날짜는 함께 입력해야 합니다.");
+        }
+
+        if (fromDate != null && fromDate.isAfter(toDate)) {
+            throw new Exception400("검색 시작 날짜는 검색 종료 날짜보다 우선이어야 합니다.");
+        }
+
+        Page<Payment> paymentPage = paymentRepository.searchPayments(pageable, searchDTO);
+        return new PageResponse<>(paymentPage, PaymentResponse.ListDTO::new);
+    }
 }

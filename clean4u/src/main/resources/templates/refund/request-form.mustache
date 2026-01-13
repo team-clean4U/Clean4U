@@ -2,7 +2,7 @@
 {{> layout/background}}
 <div class="detail-container" style="display: flex; flex-direction: column; padding: 4rem 25rem;">
     <div class="buttons">
-        <form action="/orders/list" method="get">
+        <form action="/orders" method="get">
             <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
         </form>
     </div>
@@ -10,7 +10,7 @@
         <div class="detail-header">
             <h4>환불 요청 내역</h4>
         </div>
-        <form action="/refund/request" method="post">
+        <form id="refundData" data-payment-id="{{payment.id}}">
         {{#payment}}
                 <div class="detail-body">
                     <div class="detail-item">
@@ -46,19 +46,20 @@
                     </div>
                     <div class="detail-item">
                         <label class="detail-label">
-                            <i class="fa-solid"></i>환불 사유
+                            <i class="fa-solid fa-file-lines"></i>환불 사유
                         </label>
-                        <!--  스타일 수정(-)   -->
-                        <textarea name="reason" id="" rows="5" placeholder="환불 사유를 입력하세요" required></textarea>
+                        <textarea name="reason" id="reason" rows="3" placeholder="환불 사유를 입력하세요" class="refund-text" required></textarea>
+
                     </div>
                 </div>
-                <div class="bottom-buttons">
-                    <button class="btn btn-cancel" type="submit">환불 요청</button>
+            <div>
+                <div class="bottom-buttons" style="justify-content: center; padding: 0 2.5rem 2rem;">
+                    <button class="btn btn-cancel" type="submit" style="text-align: center; cursor: pointer;" >환불 요청</button>
                 </div>
-            <input type="hidden" name="orderId" value="{{orderId}}">
-            <input type="hidden" name="paymentId" value="{{id}}">
+            </div>
         {{/payment}}
         </form>
     </div>
 </div>
+<script src="js/refund/refund.js"></script>
 {{>layout/footer}}

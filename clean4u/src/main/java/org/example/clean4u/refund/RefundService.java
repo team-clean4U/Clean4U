@@ -51,10 +51,10 @@ public class RefundService {
 
 
     @Transactional
-    public void refundRequestProc(RefundRequest.DetailDTO detailDTO) {
-        Payment payment = refundRequestForm(detailDTO.getPaymentId());
+    public void refundRequestProc(Long paymentId, RefundRequest.DetailDTO detailDTO) {
+        Payment payment = refundRequestForm(paymentId);
 
-        Order order = orderRepository.findById(detailDTO.getOrderId())
+        Order order = orderRepository.findById(payment.getOrder().getId())
                 .orElseThrow(() -> new Exception404("주문정보를 찾을 수 없습니다."));
 
         Refund refund = Refund.builder()
