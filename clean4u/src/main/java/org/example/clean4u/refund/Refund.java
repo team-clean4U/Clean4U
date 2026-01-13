@@ -1,9 +1,7 @@
 package org.example.clean4u.refund;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.clean4u.payment.Payment;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,7 +11,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "refund_tb")
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Refund {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
