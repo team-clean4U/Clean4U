@@ -1,9 +1,7 @@
 package org.example.clean4u.order;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u.customer.Customer;
 import org.example.clean4u.employee.Employee;
@@ -24,7 +22,8 @@ import java.time.LocalDateTime;
         }
 )
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Order{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
