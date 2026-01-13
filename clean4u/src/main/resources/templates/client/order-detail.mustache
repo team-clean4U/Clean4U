@@ -54,20 +54,27 @@
                                 <div class="client-header-detail-value">{{memo}}</div>
                             </div>
                         {{/memo}}
-                        {{#laundryImage}}
-                            <div class="client-header-detail-row">
-                                <div class="client-header-detail-label">
-                                    <i class="fa-solid fa-image"></i>
-                                    <span>세탁물 사진</span>
-                                </div>
-                                <div class="client-header-detail-value">
+                        <div class="client-header-detail-row">
+                            <div class="client-header-detail-label">
+                                <i class="fa-solid fa-image"></i>
+                                <span>세탁물 사진</span>
+                            </div>
+                            <div class="client-header-detail-value">
+                                {{#laundryImage}}
                                     <button type="button" class="btn btn-image"
                                             onclick="openImageModal('/images/{{laundryImage}}')">
-                                        사진 보기
+                                        <i class="fa-solid fa-image"></i>
+                                        <span>사진 보기</span>
                                     </button>
-                                </div>
+                                {{/laundryImage}}
+                                {{^laundryImage}}
+                                    <span class="client-no-image">
+                                        <i class="fa-solid fa-image"></i>
+                                        사진 없음
+                                    </span>
+                                {{/laundryImage}}
                             </div>
-                        {{/laundryImage}}
+                        </div>
                     </div>
 
                     <div class="client-detail-section">
@@ -150,39 +157,6 @@
                             <span class="client-total-value">{{totalPrice}}원</span>
                         </div>
                     </div>
-
-                    {{#reviewLink}}
-                        <div class="client-detail-section">
-                            <div class="client-detail-section-title">
-                                <i class="fa-solid fa-star"></i>
-                                리뷰
-                            </div>
-                            {{#hasReview}}
-                                {{#review}}
-                                    <div class="client-review">
-                                        <div class="client-review-rating">
-                                    <span class="client-review-stars">
-                                        {{#rating}}
-                                            {{#.}}★{{/.}}{{^.}}☆{{/.}}
-                                        {{/rating}}
-                                    </span>
-                                            <span>{{rating}}점</span>
-                                        </div>
-                                        {{#comment}}
-                                            <div class="client-review-comment">{{comment}}</div>
-                                        {{/comment}}
-                                        <div class="client-review-date">{{createdAt}}</div>
-                                    </div>
-                                {{/review}}
-                            {{/hasReview}}
-                            {{^hasReview}}
-                                <div class="client-review-empty">
-                                    <i class="fa-solid fa-star"></i>
-                                    <p>아직 작성된 리뷰가 없습니다.</p>
-                                </div>
-                            {{/hasReview}}
-                        </div>
-                    {{/reviewLink}}
                 </div>
             {{/order}}
         </div>
@@ -209,4 +183,3 @@
 
 </body>
 </html>
-

@@ -174,7 +174,7 @@
 .client-header-detail-info {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    padding: 0 1rem;
 }
 
 .client-header-detail-row {
@@ -212,6 +212,8 @@
     font-size: 0.95rem;
     text-align: right;
     flex: 1;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .client-error {
@@ -515,8 +517,25 @@
 }
 
 .btn-image {
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
+    background: var(--color-blue);
+    cursor: pointer;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-image:hover {
+    background: var(--color-light-blue);
+}
+
+.client-no-image {
+    color: #999;
     font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .client-history-list {
