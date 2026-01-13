@@ -3,6 +3,7 @@ package org.example.clean4u.customer;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.ApiResponse;
 import org.example.clean4u.employee.Employee;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,34 +16,32 @@ public class CustomerApiController {
     private final CustomerService customerService;
 
     @PutMapping("/{customerId}")
-    public ResponseEntity<CustomerResponse.UpdateDTO> updateCustomerInfo(
+    public ResponseEntity<ApiResponse<CustomerResponse.UpdateDTO>> updateCustomerInfo(
             @PathVariable Long customerId,
             @Valid @RequestBody CustomerRequest.UpdateDTO updateDTO,
             HttpSession session
     ) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         CustomerResponse.UpdateDTO result = customerService.update(customerId, updateDTO, sessionUser.getId());
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok(ApiResponse.ok(result));
     }
 
     @PatchMapping("/{customerId}/deactivate")
-    public ResponseEntity<CustomerResponse.DetailDTO> deactivateCustomer(@PathVariable Long customerId) {
-        customerService.deactivateCustomer(customerId);
-        CustomerResponse.DetailDTO result = customerService.getDetail(customerId);
-        return ResponseEntity.ok().body(result);
+    public ResponseEntity<ApiResponse<CustomerResponse.CustomerStatusDTO>> deactivateCustomer(@PathVariable Long customerId) {
+        CustomerResponse.CustomerStatusDTO result = customerService.deactivateCustomer(customerId);
+        return ResponseEntity.ok(ApiResponse.ok(result));
     }
 
     @PatchMapping("/{customerId}/activate")
-    public ResponseEntity<CustomerResponse.DetailDTO> activateCustomer(@PathVariable Long customerId) {
-        customerService.activateCustomer(customerId);
-        CustomerResponse.DetailDTO result = customerService.getDetail(customerId);
-        return ResponseEntity.ok().body(result);
+    public ResponseEntity<ApiResponse<CustomerResponse.CustomerStatusDTO>> activateCustomer(@PathVariable Long customerId) {
+        CustomerResponse.CustomerStatusDTO result = customerService.activateCustomer(customerId);
+        return ResponseEntity.ok(ApiResponse.ok(result));
     }
 
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long customerId) {
+    public ResponseEntity<ApiResponse<Void>> deleteCustomer(@PathVariable Long customerId) {
         customerService.delete(customerId);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(ApiResponse.ok("삭제가 완료되었습니다"));
     }
 }

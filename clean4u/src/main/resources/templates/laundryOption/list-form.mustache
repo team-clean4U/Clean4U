@@ -8,16 +8,16 @@
         <div class="header-container">
             <div class="section-header">
                 <h2 class="section-title">
-                    <a href="/laundry-options/list">
+                    <a href="/laundry-options">
                         <i class="fa-solid fa-tags"></i>
                         세탁 옵션
                     </a>
                 </h2>
-                <a href="/laundry-options/save" class="btn btn-create">
-                    <span>+</span>생성
+                <a href="/laundry-options/new" class="btn btn-create">
+                    <i class="fa-solid fa-plus btn-create-icon"></i>생성
                 </a>
             </div>
-            <form class="search-wrapper" method="get" action="/laundry-options/list">
+            <form class="search-wrapper" method="get" action="/laundry-options">
                 <div class="search-input-box">
                     <i class="fa-solid fa-search"></i>
                     <input class="search-input" type="text" placeholder="검색어를 입력해주세요." value="{{name}}" name="name">
@@ -69,7 +69,7 @@
 <ul class="pagination">
     {{#laundryOptionPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/laundry-options/list?page={{laundryOptionPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+            <a href="/laundry-options?page={{laundryOptionPage.previousPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
                 <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -82,13 +82,13 @@
 
     {{#laundryOptionPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/laundry-options/list?page={{displayNumber}}&size={{laundryOptionPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
+            <a href="/laundry-options?page={{displayNumber}}&size={{laundryOptionPage.size}}{{#queryString}}{{queryString}}{{/queryString}}">{{displayNumber}}</a>
         </li>
     {{/laundryOptionPage.pageLinks}}
 
     {{#laundryOptionPage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/laundry-options/list?page={{laundryOptionPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
+            <a href="/laundry-options?page={{laundryOptionPage.nextPageNumber}}{{#queryString}}{{queryString}}{{/queryString}}">
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>

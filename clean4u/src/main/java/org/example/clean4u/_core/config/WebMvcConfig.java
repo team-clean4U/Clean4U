@@ -33,27 +33,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(accessInterceptor)
                 .addPathPatterns(
-                        "/employee/**",
+                        "/main",
+                        "/employees/**",
                         "/me/**",
-                        "/laundry-item/**",
-                        "/laundry-option/**",
-                        "/supply-item/**",
-                        "/supply-item-history/**",
-                        "/customer/**",
+                        "/laundry-items/**",
+                        "/laundry-options/**",
+                        "/supply-items/**",
+                        "/supply-item-histories/**",
+                        "/review/**",
                         "/customers/**",
-                        "/order/**",
-                        "/order-status-history/**",
-                        "/notice/**",
+                        "/orders/**",
+                        "/order-status-histories/**",
                         "/notices/**",
-                        "/api/payment/**",
-                        "/refund/**"
+                        "/schedules/**",
+                        "/overrides/**",
+                        "/refunds/**",
+                        "/api/v1/**"
                 )
                 .excludePathPatterns(
                         "/login", "/login/**",
                         "/join", "/join/**",
                         "/logout",
-                        "/notice/list/**",
-                        "/notice/{id:\\d+}",
                         "/error",
                         "/**/*.css",
                         "/js/**",
@@ -66,7 +66,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 );
 
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/employee/**", "/schedule/**", "/override/**");
+                .addPathPatterns("/employees/**", "/schedules/**", "/overrides/**");
 
     }
 

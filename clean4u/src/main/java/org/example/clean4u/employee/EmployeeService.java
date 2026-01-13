@@ -103,19 +103,35 @@ public class EmployeeService {
         }
 
         String token = reviewService.generateShortToken();
-        LocalDateTime expire = LocalDateTime.now().plusMinutes(15);
 
-        session.setAttribute("reset_token_" + token, employeeEntity.getEmail());
-        session.setAttribute("reset_token_expire" + token, expire);
+        session.setAttribute("RESET_PASSWORD", new ResetPasswordSession(
+                employeeEntity.getId(),
+                token,
+                LocalDateTime.now().plusMinutes(15)
+        ));
 
         String resetLink = "http://localhost:8080/password/reset?token=" + token;
 
-        mailService.sendEmailAndPassword(findPassword.getEmail(), resetLink);
+        mailService.sendEmailAndPassword(employeeEntity.getEmail(), resetLink);
 
         return employeeEntity;
     }
 
+    @Transactional
     public Employee passwordReset(@Valid EmployeeRequest.PasswordReset passwordReset) {
-        return null;
+
+        ResetPasswordSession reset = (ResetPasswordSession) session.getAttribute("RESET_PASSWORD");
+
+        if (reset == null || reset.isExpired()) {
+            throw new Exception400("세션 만료");
+        }
+
+        Employee employeeEntity = employeeRepository.findById(reset.getEmployeeId())
+                .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
+
+        String hashPwd = passwordEncoder.encode(passwordReset.getPassword());
+        employeeEntity.setPassword(hashPwd);
+
+        return employeeEntity;
     }
 }

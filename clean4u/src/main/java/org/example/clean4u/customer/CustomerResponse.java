@@ -1,6 +1,7 @@
 package org.example.clean4u.customer;
 
 import lombok.Data;
+import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.utils.DateUtil;
 import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.employee.Employee;
@@ -149,6 +150,17 @@ public class CustomerResponse {
         public EmployeeDTO(Employee employee) {
             this.employeeId = employee.getId();
             this.name = employee.getName();
+        }
+    }
+
+    @Data
+    public static class CustomerStatusDTO {
+        private Long customerId;
+        private Boolean isActive;
+
+        public CustomerStatusDTO(Customer customer) {
+            this.customerId = customer.getId();
+            this.isActive = customer.getIsActive() == null ? true : customer.getIsActive();
         }
     }
 

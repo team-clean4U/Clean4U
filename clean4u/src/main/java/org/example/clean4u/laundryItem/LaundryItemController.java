@@ -19,8 +19,8 @@ public class LaundryItemController {
 
     private final LaundryItemService service;
 
-    // http://localhost:8080/laundry-items/list
-    @GetMapping("/laundry-items/list")
+    // http://localhost:8080/laundry-items
+    @GetMapping("/laundry-items")
     public String laundryItemList(
             Model model,
             @RequestParam(defaultValue = "1") int page,
@@ -62,22 +62,22 @@ public class LaundryItemController {
         return "laundryItem/detail-form";
     }
 
-    // http://localhost:8080/laundry-items/save
-    @GetMapping("/laundry-items/save")
+    // http://localhost:8080/laundry-items/new
+    @GetMapping("/laundry-items/new")
     public String saveForm(Model model) {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css"));
         return "laundryItem/save-form";
     }
 
-    // http://localhost:8080/laundry-items/save
-    @PostMapping("/laundry-items/save")
+    // http://localhost:8080/laundry-items/new
+    @PostMapping("/laundry-items/new")
     public String saveProc(@Valid LaundryItemRequest.SaveDTO saveDTO) {
         service.save(saveDTO);
-        return "redirect:/laundry-items/list";
+        return "redirect:/laundry-items";
     }
 
-    // http://localhost:8080/laundry-items/{laundryItemId}/update
-    @GetMapping("/laundry-items/{laundryItemId}/update")
+    // http://localhost:8080/laundry-items/{laundryItemId}/edit
+    @GetMapping("/laundry-items/{laundryItemId}/edit")
     public String updateForm(@PathVariable Long laundryItemId, Model model) {
         LaundryItemResponse.UpdateFormDTO laundryItem = service.getFormForUpdate(laundryItemId);
         model.addAttribute("laundryItem", laundryItem);

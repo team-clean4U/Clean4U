@@ -6,18 +6,28 @@
 <div class="detail-container">
     <div class="detail-container-content">
         <div class="buttons">
-            <form action="/laundry-options/list" method="get">
+            <form action="/laundry-options" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
-                <a href="/laundry-options/{{laundryOption.id}}/update" class="btn btn-edit">
+                <a href="/laundry-options/{{laundryOption.id}}/edit" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
                 {{#laundryOption.isActive}}
-                <button class="btn btn-delete" onclick="deactivateLaundryOption({{laundryOption.id}})"><i class="fa-solid fa-ban"></i>비활성화</button>
+                <form id="deactivateForm" action="/laundry-options/{{laundryOption.id}}/status" method="post" style="display: inline;">
+                    <input type="hidden" name="isActive" value="false">
+                    <button type="button" class="btn btn-delete" onclick="if(confirm('비활성화하시겠습니까?')) document.getElementById('deactivateForm').submit();">
+                        <i class="fa-solid fa-ban"></i>비활성화
+                    </button>
+                </form>
                 {{/laundryOption.isActive}}
                 {{^laundryOption.isActive}}
-                <button class="btn btn-activate" onclick="activateLaundryOption({{laundryOption.id}})"><i class="fa-solid fa-check"></i>활성화</button>
+                <form id="activateForm" action="/laundry-options/{{laundryOption.id}}/status" method="post" style="display: inline;">
+                    <input type="hidden" name="isActive" value="true">
+                    <button type="button" class="btn btn-activate" onclick="if(confirm('활성화하시겠습니까?')) document.getElementById('activateForm').submit();">
+                        <i class="fa-solid fa-check"></i>활성화
+                    </button>
+                </form>
                 {{/laundryOption.isActive}}
             </div>
         </div>
@@ -68,5 +78,3 @@
 </div>
 
 {{> layout/footer}}
-
-<script src="/js/laundryOption/activate.js"></script>

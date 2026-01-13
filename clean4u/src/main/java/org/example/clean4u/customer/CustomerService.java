@@ -97,19 +97,23 @@ public class CustomerService {
     }
 
     @Transactional
-    public void deactivateCustomer(Long customerId) {
+    public CustomerResponse.CustomerStatusDTO deactivateCustomer(Long customerId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception404("해당 고객이 없습니다"));
 
         customer.deactivate();
+
+        return new CustomerResponse.CustomerStatusDTO(customer);
     }
 
     @Transactional
-    public void activateCustomer(Long customerId) {
+    public CustomerResponse.CustomerStatusDTO activateCustomer(Long customerId) {
         Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new Exception404("해당 고객이 없습니다"));
 
         customer.activate();
+
+        return new CustomerResponse.CustomerStatusDTO(customer);
     }
 
     public PageResponse<CustomerResponse.ListDTO> getAllCustomersWithSearch(
