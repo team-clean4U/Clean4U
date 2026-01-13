@@ -38,7 +38,7 @@ public class PaymentRequest {
         @Size(max = 50, message = "전화번호 입력은 최대 50자까지입니다.")
         private String phone;
 
-        @Size(max = 50, message = "결제 주문 번호는 최대 50자까지입니다.")
+        @Size(max = 100, message = "결제 주문 번호는 최대 100자까지입니다.")
         private String merchantUid;
 
         private PaymentStatus paymentStatus;
