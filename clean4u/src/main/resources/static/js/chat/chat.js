@@ -1,0 +1,71 @@
+const chatContainer = document.getElementById("chatContainer");
+const chatForm = document.getElementById("chatForm");
+const chatBox = document.getElementById("chatBox");
+
+const eventSource = new EventSource("/api/v1/chats");
+window.addEventListener("beforeunload", () => {
+    eventSource.close();
+});
+
+eventSource.addEventListener("newMessage", (event) => {
+    const data = JSON.parse(event.data);
+    const sender = data.sender;
+    const message = data.message;
+
+    const msgWrap = document.createElement("div");
+    msgWrap.className = "msg-wrap";
+
+    const msgBox = document.createElement("div");
+    msgBox.className = "msg-box";
+
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "name";
+    nameSpan.textContent = sender;
+
+    const msgSpan = document.createElement("span");
+    msgSpan.className = "msg";
+    msgSpan.textContent = message;
+
+    msgBox.appendChild(nameSpan);
+    msgBox.appendChild(msgSpan);
+    msgWrap.appendChild(msgBox);
+    chatBox.appendChild(msgWrap);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+});
+
+chatForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const senderIdHidden = document.getElementById("senderId");
+    const messageInput = document.getElementById("message");
+
+    const senderId = senderIdHidden.value;
+    const message = messageInput.value;
+
+    if(!message.trim()) {
+        alert("메세지는 반드시 입력해주세요");
+        return;
+    }
+
+    fetch("/api/v1/chats", {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/x-www-form-urlencoded"
+        },
+
+        body: new URLSearchParams({
+            employeeId: senderId,
+            message: message
+        })
+    })
+        .then(res => {
+            if(res.ok) {
+                messageInput.value = "";
+                messageInput.focus();
+            } else {
+                console.log("전송 실패");
+            }
+        })
+        .catch(err => console.log("에러 발생: ", err));
+
+});
