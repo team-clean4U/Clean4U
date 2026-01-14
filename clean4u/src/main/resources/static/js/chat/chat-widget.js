@@ -47,10 +47,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!Array.isArray(list)) return;
                 chatWidgetMessages.innerHTML = "";
                 list.forEach(item => addMessageToWidget(item.sender, item.message));
+                scrollToBottom();
             })
             .catch((error) => {
                 console.error("채팅 기록 로드 오류:", error);
             });
+    }
+
+    function scrollToBottom() {
+        const body = document.getElementById("chatWidgetBody");
+        if (body) {
+            setTimeout(() => {
+                body.scrollTop = body.scrollHeight;
+            }, 0);
+        }
     }
 
     chatWidgetToggle.addEventListener("click", () => {
@@ -59,6 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isHidden && chatWidgetMessage) {
             loadHistoryOnce();
             chatWidgetMessage.focus();
+            setTimeout(() => {
+                scrollToBottom();
+            }, 100);
         }
     });
 
