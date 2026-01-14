@@ -78,7 +78,7 @@ public class OrderResponse {
             this.items = items;
             this.histories = histories;
             if (order.getReviewToken() != null) {
-                this.reviewLink = "/review/save?token=" + order.getReviewToken();
+                this.reviewLink = "/review/new?token=" + order.getReviewToken();
                 this.hasReview = review != null;
                 this.review = review;
             }
