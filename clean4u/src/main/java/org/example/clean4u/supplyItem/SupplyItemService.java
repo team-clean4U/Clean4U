@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +42,7 @@ public class SupplyItemService {
     }
 
     @Transactional
+    @CacheEvict(value = "lowStockItems", allEntries = true)
     public void save(@Valid SupplyItemRequest.SaveDTO saveDTO, Employee employee) {
 
         Type type = saveDTO.getHistoryType();
@@ -118,6 +121,7 @@ public class SupplyItemService {
     }
 
     @Transactional
+    @CacheEvict(value = "lowStockItems", allEntries = true)
     public SupplyItem update(Long supplyItemId, @Valid SupplyItemRequest.UpdateDTO updateDTO, Employee employee) {
         SupplyItem supplyItem = repository.findById(supplyItemId)
                 .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
@@ -179,6 +183,7 @@ public class SupplyItemService {
     }
 
     @Transactional
+    @CacheEvict(value = "lowStockItems", allEntries = true)
     public void deactivate(Long supplyItemId) {
         SupplyItem supplyItem = repository.findById(supplyItemId)
                 .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
@@ -186,6 +191,7 @@ public class SupplyItemService {
     }
 
     @Transactional
+    @CacheEvict(value = "lowStockItems", allEntries = true)
     public void activate(Long supplyItemId) {
         SupplyItem supplyItem = repository.findById(supplyItemId)
                 .orElseThrow(() -> new Exception404("해당 비품을 찾을 수 없습니다."));
@@ -223,6 +229,7 @@ public class SupplyItemService {
         return new PageResponse<>(supplyItemPage, SupplyItemResponse.ListDTO::new);
     }
 
+    @Cacheable(value = "lowStockItems")
     public List<SupplyItemResponse.ListDTO> getLowStockItems() {
         return repository.findAllLowStockItems().stream()
                 .map(SupplyItemResponse.ListDTO::new)
