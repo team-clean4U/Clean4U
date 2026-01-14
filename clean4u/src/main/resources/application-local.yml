@@ -8,6 +8,7 @@ server:
   port: 8080
   async:
     request-timeout: 600000
+  shutdown: graceful
 
 logging:
   level:
@@ -15,6 +16,8 @@ logging:
     com.example: DEBUG
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 1s
   mail:
     host: smtp.gmail.com
     port: 587

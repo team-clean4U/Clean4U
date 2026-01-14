@@ -9,6 +9,23 @@
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
+                
+                {{#laundryItem.isActive}}
+                <form id="deactivateForm" action="/laundry-items/{{laundryItem.id}}/status" method="post" style="display: inline;">
+                    <input type="hidden" name="isActive" value="false">
+                    <button type="button" class="btn btn-deactivate" onclick="if(confirm('비활성화하시겠습니까?')) document.getElementById('deactivateForm').submit();">
+                        <i class="fa-solid fa-ban"></i>비활성화
+                    </button>
+                </form>
+                {{/laundryItem.isActive}}
+                {{^laundryItem.isActive}}
+                <form id="activateForm" action="/laundry-items/{{laundryItem.id}}/status" method="post" style="display: inline;">
+                    <input type="hidden" name="isActive" value="true">
+                    <button type="button" class="btn btn-activate" onclick="if(confirm('활성화하시겠습니까?')) document.getElementById('activateForm').submit();">
+                        <i class="fa-solid fa-check"></i>활성화
+                    </button>
+                </form>
+                {{/laundryItem.isActive}}
                 <a href="/laundry-items/{{laundryItem.id}}/edit" class="btn btn-edit">
                     <i class="fa-solid fa-edit"></i> 수정
                 </a>
@@ -45,6 +62,16 @@
                         설명
                     </span>
                     <span class="detail-value text-line-break">{{laundryItem.description}}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">
+                        <i class="fa-solid fa-heart"></i>
+                        활성 여부
+                    </span>
+                    <span class="detail-value {{#laundryItem.isActive}}status-active{{/laundryItem.isActive}} {{^laundryItem.isActive}}status-inactive{{/laundryItem.isActive}}">
+                        {{#laundryItem.isActive}}활성{{/laundryItem.isActive}}
+                        {{^laundryItem.isActive}}비활성{{/laundryItem.isActive}}
+                    </span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">

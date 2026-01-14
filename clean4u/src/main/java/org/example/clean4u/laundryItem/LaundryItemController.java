@@ -27,6 +27,7 @@ public class LaundryItemController {
             @RequestParam(defaultValue = "9") int size,
             @RequestParam(required = false) LaundryCategory category,
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) Boolean isActive,
             HttpServletRequest request
     ) {
         int pageIndex = Math.max(0, page - 1);
@@ -41,11 +42,14 @@ public class LaundryItemController {
             }
         }
 
-        PageResponse<LaundryItemResponse.ListDTO> laundryItemListPage = service.laundryItemList(pageIndex, size, category, name);
+        PageResponse<LaundryItemResponse.ListDTO> laundryItemListPage = service.laundryItemList(pageIndex, size, category, name, isActive);
         model.addAttribute("laundryItemList", laundryItemListPage.getContent());
         model.addAttribute("laundryItemPage", laundryItemListPage);
         model.addAttribute("name", name == null ? "" : name);
         model.addAttribute("category", category);
+        model.addAttribute("isActive", isActive);
+        model.addAttribute("isActiveTrue", Boolean.TRUE.equals(isActive));
+        model.addAttribute("isActiveFalse", Boolean.FALSE.equals(isActive));
         model.addAttribute("queryString", queryString);
         model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css"));
 
@@ -95,4 +99,15 @@ public class LaundryItemController {
         return "laundryItem/update-form";
     }
 
+    // http://localhost:8080/laundry-items/{laundryItemId}/status
+    @PostMapping("/laundry-items/{laundryItemId}/status")
+    public String updateStatus(@PathVariable Long laundryItemId, @RequestParam Boolean isActive) {
+        if (isActive) {
+            service.activate(laundryItemId);
+        } else {
+            service.deactivate(laundryItemId);
+        }
+        
+        return "redirect:/laundry-items/" + laundryItemId;
+    }
 }

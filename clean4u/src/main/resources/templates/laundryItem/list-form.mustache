@@ -42,6 +42,23 @@
                         <li data-type="ETC">ETC</li>
                     </ul>
                 </div>
+                <div class="update-value category">
+                    <input type="hidden" name="isActive" id="isActive" {{#isActive}}value="{{isActive}}" {{/isActive}}>
+                    <div class="category-select" {{#isActive}}data-selected="{{isActive}}" {{/isActive}}>
+                        <i class="fa-solid fa-heart"></i>
+                        <span class="category-selected">
+                            {{#isActiveTrue}}활성{{/isActiveTrue}}
+                            {{#isActiveFalse}}비활성{{/isActiveFalse}}
+                            {{^isActiveTrue}}{{^isActiveFalse}}전체{{/isActiveFalse}}{{/isActiveTrue}}
+                        </span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul class="category-dropdown">
+                        <li data-type="">전체</li>
+                        <li data-type="true">활성</li>
+                        <li data-type="false">비활성</li>
+                    </ul>
+                </div>
                 <button type="submit" class="btn btn-submit">조회</button>
             </form>
         </div>

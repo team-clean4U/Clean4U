@@ -44,6 +44,8 @@
     --action-delete-hover: #E53935;
     --action-active: #66BB6A;
     --action-active-hover: #4CAF50;
+    --action-deactivate: #95A5A6;
+    --action-deactivate-hover: #777777;
 
     --badge-warning: #FF0000;
     --badge-safe: #33FF33;

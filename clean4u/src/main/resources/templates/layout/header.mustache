@@ -111,11 +111,6 @@
                             </ul>
                         </li>
                     {{/sessionUser.isAdmin}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">
-                            <i class="fa-solid fa-home"></i> 대시보드
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <input type="checkbox" id="dropdown-business" class="dropdown-checkbox">
                         <label for="dropdown-business" class="nav-link dropdown-toggle">
@@ -143,6 +138,44 @@
                                     <i class="fa-solid fa-credit-card"></i>결제/환불 조회
                                 </a>
                             </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown dropdown-management">
+                        <input type="checkbox" id="dropdown-management" class="dropdown-checkbox">
+                        <label for="dropdown-management" class="nav-link dropdown-toggle">
+                            <i class="fa-solid fa-database"></i>자료 관리
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </label>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/laundry-items" class="dropdown-item">
+                                    <i class="fa-solid fa-shirt"></i>세탁물 관리
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/laundry-options" class="dropdown-item">
+                                    <i class="fa-solid fa-tags"></i>세탁 옵션 관리
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/supply-items" class="dropdown-item">
+                                    <i class="fa-solid fa-box"></i>비품 관리
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/supply-item-histories" class="dropdown-item">
+                                    <i class="fa-solid fa-chart-line"></i>비품 입/출고 이력
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <input type="checkbox" id="dropdown-communication" class="dropdown-checkbox">
+                        <label for="dropdown-communication" class="nav-link dropdown-toggle">
+                            <i class="fa-solid fa-message"></i>소통 관리
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </label>
+                        <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" href="/notices">
                                     <i class="fa-solid fa-bullhorn"></i>공지사항
@@ -151,39 +184,6 @@
                             <li>
                                 <a class="dropdown-item" href="/chats">
                                     <i class="fa-solid fa-laptop"></i>직원채팅
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown dropdown-management">
-                        <input type="checkbox" id="dropdown-management" class="dropdown-checkbox">
-                        <label for="dropdown-management" class="nav-link dropdown-toggle">
-                            <i class="fa-solid fa-list"></i>자료 관리
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </label>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="/laundry-items" class="dropdown-item">
-                                    <i class="fa-solid fa-shirt"></i>
-                                    세탁물 관리
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/laundry-options" class="dropdown-item">
-                                    <i class="fa-solid fa-tags"></i>
-                                    세탁 옵션 관리
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/supply-items" class="dropdown-item">
-                                    <i class="fa-solid fa-box"></i>
-                                    비품 관리
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/supply-item-histories" class="dropdown-item">
-                                    <i class="fa-solid fa-chart-line"></i>
-                                    비품 입/출고 이력
                                 </a>
                             </li>
                         </ul>

@@ -21,4 +21,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     @Query("SELECT oi FROM OrderItem  oi JOIN FETCH oi.laundryItem")
     List<OrderItem> findAllWithLaundryItem();
+
+    @Query("SELECT COUNT(oi) > 0 FROM OrderItem oi WHERE oi.laundryItem.id = :laundryItemId")
+    boolean existsByLaundryItemId(@Param("laundryItemId") Long laundryItemId);
 }

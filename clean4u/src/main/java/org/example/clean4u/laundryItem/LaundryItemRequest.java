@@ -21,12 +21,15 @@ public class LaundryItemRequest {
 
         private String description;
 
+        private Boolean isActive = true;
+
         public LaundryItem toEntity() {
             return LaundryItem.builder()
                     .name(name)
                     .category(category)
                     .basePrice(basePrice)
                     .description(description)
+                    .isActive(isActive)
                     .build();
         }
     }
@@ -44,5 +47,7 @@ public class LaundryItemRequest {
         private Integer basePrice;
 
         private String description;
+
+        private Boolean isActive = true;
     }
 }

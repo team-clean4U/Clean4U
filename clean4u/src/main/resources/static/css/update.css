@@ -29,7 +29,7 @@
     padding: 2.5rem;
     background: var(--background-blue);
     color: var(--color-dark-blue);
-    font-size: 2rem;
+    font-size: 1.75rem;
     border-bottom: 2px dashed var(--color-light-blue);
     gap: 1rem;
 }

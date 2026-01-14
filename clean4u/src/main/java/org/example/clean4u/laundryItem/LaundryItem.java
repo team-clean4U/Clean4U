@@ -16,6 +16,7 @@ import java.sql.Timestamp;
         name = "laundry_item_tb",
         indexes = {
                 @Index(name = "idx_laundry_item_category", columnList = "category"),
+                @Index(name = "idx_laundry_item_is_active", columnList = "is_active"),
                 @Index(name = "idx_laundry_item_created_at", columnList = "created_at")
         }
 )
@@ -38,6 +39,9 @@ public class LaundryItem {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
@@ -47,11 +51,12 @@ public class LaundryItem {
     private Timestamp updatedAt;
 
     @Builder
-    public LaundryItem(String name, LaundryCategory category, Integer basePrice, String description) {
+    public LaundryItem(String name, LaundryCategory category, Integer basePrice, String description, Boolean isActive) {
         this.name = name;
         this.category = category;
         this.basePrice = basePrice;
         this.description = description;
+        this.isActive = isActive != null ? isActive : true;
     }
 
     public void update(LaundryItemRequest.UpdateDTO updateDTO) {
@@ -59,6 +64,11 @@ public class LaundryItem {
         this.category = updateDTO.getCategory();
         this.basePrice = updateDTO.getBasePrice();
         this.description = updateDTO.getDescription();
+        this.isActive = updateDTO.getIsActive();
+    }
+
+    public void updateIsActive(Boolean newIsActive) {
+        this.isActive = newIsActive;
     }
 
     public String getIcon() {
