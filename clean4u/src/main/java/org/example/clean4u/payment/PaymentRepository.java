@@ -12,8 +12,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long>, Payment
 
     Boolean existsByMerchantUid(String merchantUid);
 
-    Optional<Payment> findByMerchantUid(String merchantUid);
-
     Optional<Payment> findByOrderId(Long orderId);
 
     Boolean existsByOrderId(Long orderId);

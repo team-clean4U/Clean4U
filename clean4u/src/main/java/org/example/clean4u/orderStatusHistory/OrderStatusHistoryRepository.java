@@ -19,9 +19,10 @@ public interface OrderStatusHistoryRepository extends OrderStatusHistoryReposito
     , nativeQuery = true)
     Double findAverageProcessingMinutes();
 
+    @Query("SELECT h FROM OrderStatusHistory h JOIN FETCH h.order o JOIN FETCH h.editor e WHERE o.id = :orderId")
     List<OrderStatusHistory> findByOrderId(@Param("orderId") Long orderId);
 
-    @Query("SELECT sh FROM OrderStatusHistory sh WHERE sh.order.id = :orderId ORDER BY sh.createdAt ASC")
+    @Query("SELECT sh FROM OrderStatusHistory sh JOIN FETCH sh.editor e JOIN FETCH sh.order o WHERE sh.order.id = :orderId ORDER BY sh.createdAt ASC")
     List<OrderStatusHistory> findByOrderIdOrderByCreatedAtAsc(@Param("orderId") Long orderId);
 
     @Modifying(clearAutomatically = true)
