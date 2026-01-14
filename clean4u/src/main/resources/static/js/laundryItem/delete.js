@@ -10,15 +10,12 @@ async function deleteLaundryItem(id) {
 
         if (!response.ok) {
             const errorBody = await response.json();
-            const error = new Error(errorBody.message || "삭제에 실패했습니다.");
-            alert(error.message);
-            throw error;
+            alert(errorBody.message || "삭제에 실패했습니다.");
+            return;
         }
         window.location.href = "/laundry-items";
     } catch (error) {
         console.error("Error:", error);
-        if (!error.message || error.message === "삭제에 실패했습니다.") {
-            alert(error.message || "삭제 중 오류가 발생했습니다.");
-        }
+        alert("삭제 중 오류가 발생했습니다.");
     }
 }

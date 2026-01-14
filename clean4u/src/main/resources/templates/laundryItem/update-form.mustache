@@ -51,6 +51,17 @@
                         <textarea id="description" name="description" placeholder="설명을 입력해주세요." rows="5"
                                   class="update-value">{{laundryItem.description}}</textarea>
                     </div>
+                    <div class="update-item">
+                        <label class="update-label">
+                            <i class="fa-solid fa-heart"></i>
+                            활성 여부
+                        </label>
+                        <input type="hidden" name="isActive" value="false">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="isActive" name="isActive" value="true" {{#laundryItem.isActive}}checked{{/laundryItem.isActive}}>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </div>
                 <div class="bottom-buttons">
                     <a href="/laundry-items/{{laundryItem.id}}" class="btn btn-back">취소</a>
