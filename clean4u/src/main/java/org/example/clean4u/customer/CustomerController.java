@@ -24,7 +24,7 @@ public class CustomerController {
     private final OrderService orderService;
 
     // 고객 생성 화면
-    @GetMapping("/customer/save")
+    @GetMapping("/customers/new")
     public String saveForm(Model model) {
         CustomerResponse.SaveDTO dto = new CustomerResponse.SaveDTO();
         model.addAttribute("grade", Grade.NEW);
@@ -33,16 +33,16 @@ public class CustomerController {
     }
 
     // 생성 요청
-    @PostMapping("/customer/save")
+    @PostMapping("/customers/new")
     public String saveProc(@Valid CustomerRequest.SaveDTO dto, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         customerService.save(dto, sessionUser.getId());
         
-        return "redirect:/customers/list";
+        return "redirect:/customers";
     }
 
     // 고객 전체 리스트
-    @GetMapping("/customers/list")
+    @GetMapping("/customers")
     public String customerList(Model model,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String category,
@@ -87,7 +87,7 @@ public class CustomerController {
     }
 
     // 고객 수정 화면
-    @GetMapping("/customers/{customerId}/update")
+    @GetMapping("/customers/{customerId}/edit")
     public String updateForm(@PathVariable Long customerId, Model model) {
         CustomerResponse.UpdateDTO dto = customerService.getFormForUpdate(customerId);
         model.addAttribute("customer", dto);

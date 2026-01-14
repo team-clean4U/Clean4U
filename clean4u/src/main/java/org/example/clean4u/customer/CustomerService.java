@@ -82,7 +82,11 @@ public class CustomerService {
         Employee employee = employeeRepository.findById(employeeId)
                         .orElseThrow(() -> new Exception404("해당 직원이 없습니다"));
 
+        if (customerRepository.existsByPhoneAndIdNot(updateDTO.getPhone(), customerId)) {
+            throw new Exception400("이미 등록된 연락처입니다. 다른 번호로 시도하세요");
+        }
         customer.update(updateDTO);
+
         customer.setUpdatedBy(employee);
 
         return new CustomerResponse.UpdateDTO(customer);
