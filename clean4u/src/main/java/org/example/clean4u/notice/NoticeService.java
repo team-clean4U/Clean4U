@@ -34,6 +34,7 @@ public class NoticeService {
     private String noticePath;
 
     private final NoticeRepository noticeRepository;
+    private final FileUtil fileUtil;
 
     @Transactional
     public Notice saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
@@ -41,10 +42,10 @@ public class NoticeService {
 
         if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
             try {
-                if (!FileUtil.isImageFiles(dto.getUploadImages())) {
+                if (!fileUtil.isImageFiles(dto.getUploadImages())) {
                     throw new Exception400("이미지 파일만 업로드 가능합니다");
                 }
-                noticeImageFileNames.addAll(FileUtil.saveFiles(dto.getUploadImages(), noticePath));
+                noticeImageFileNames.addAll(fileUtil.saveFiles(dto.getUploadImages(), noticePath));
             } catch (IOException e) {
                 throw new Exception500("파일 저장 중 오류가 발생했습니다");
             }
@@ -96,19 +97,19 @@ public class NoticeService {
         notice.update(dto); // 제목, 내용만
 
         if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
-            if (!FileUtil.isImageFiles(dto.getUploadImages())) {
+            if (!fileUtil.isImageFiles(dto.getUploadImages())) {
                 throw new Exception400("이미지 파일만 업로드 가능합니다");
             }
 
             List<String> oldNoticeImages = new ArrayList<>(notice.getNoticeImages());
 
             try {
-                List<String> newImageFilename = FileUtil.saveFiles(dto.getUploadImages(), noticePath);
+                List<String> newImageFilename = fileUtil.saveFiles(dto.getUploadImages(), noticePath);
                 notice.clearImages();
                 notice.addImages(newImageFilename);
 
                 if (!oldNoticeImages.isEmpty()) {
-                    FileUtil.deleteFiles(oldNoticeImages, noticePath);
+                    fileUtil.deleteFiles(oldNoticeImages, noticePath);
                 }
 
             } catch (IOException e) {
@@ -173,7 +174,7 @@ public class NoticeService {
         if (noticeImages != null && !noticeImages.isEmpty()) {
             try {
                 for (String noticeImage : noticeImages) {
-                    FileUtil.deleteFile(noticeImage, noticePath);
+                    fileUtil.deleteFile(noticeImage, noticePath);
                 }
             } catch (IOException e) {
                 throw new Exception500("파일 삭제 중 오류가 발생했습니다");

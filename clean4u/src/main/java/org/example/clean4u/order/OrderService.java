@@ -67,6 +67,7 @@ public class OrderService {
     private final ReviewRepository reviewRepository;
     private final SmsService smsService;
     private final RefundRepository refundRepository;
+    private final FileUtil fileUtil;
 
     @Value("${app.base-url}")
     private String baseUrl;
@@ -87,10 +88,10 @@ public class OrderService {
 
         if(saveDto.getLaundryImage() != null && !saveDto.getLaundryImage().isEmpty()) {
             try {
-                if(!FileUtil.isImageFile(saveDto.getLaundryImage())) {
+                if(!fileUtil.isImageFile(saveDto.getLaundryImage())) {
                     throw new Exception400("이미지 파일만 업로드 가능합니다.");
                 }
-                laundryImageFileName = FileUtil.saveFile(saveDto.getLaundryImage(), basePath);
+                laundryImageFileName = fileUtil.saveFile(saveDto.getLaundryImage(), basePath);
             } catch (Exception e) {
                 throw new Exception500("파일 저장 중 오류가 발생했습니다." + e.getMessage());
             }
@@ -281,15 +282,15 @@ public class OrderService {
         String oldLaundryImage = order.getLaundryImage();
 
         if(updateDto.getLaundryImage() != null && !updateDto.getLaundryImage().isEmpty()) {
-            if(!FileUtil.isImageFile(updateDto.getLaundryImage())) {
+            if(!fileUtil.isImageFile(updateDto.getLaundryImage())) {
                 throw new Exception400("이미지 파일만 업로드 가능합니다.");
             }
             try {
-                String newLaundryImageName = FileUtil.saveFile(updateDto.getLaundryImage(), basePath);
+                String newLaundryImageName = fileUtil.saveFile(updateDto.getLaundryImage(), basePath);
                 updateDto.setLaundryImageFileName(newLaundryImageName);
 
                 if(oldLaundryImage != null && !oldLaundryImage.isEmpty()) {
-                    FileUtil.deleteFile(oldLaundryImage, basePath);
+                    fileUtil.deleteFile(oldLaundryImage, basePath);
                 }
             } catch (IOException e) {
                 throw new Exception500("파일 저장에 실패했습니다.");
@@ -383,7 +384,7 @@ public class OrderService {
         String laundryImage = order.getLaundryImage();
         if(laundryImage != null && !laundryImage.isEmpty()) {
             try {
-                FileUtil.deleteFile(laundryImage, basePath);
+                fileUtil.deleteFile(laundryImage, basePath);
             } catch (IOException e) {
                 throw new Exception500("파일 삭제에 실패했습니다.");
             }
