@@ -11,11 +11,13 @@ import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u._core.utils.FileUtil;
 import org.example.clean4u.employee.Employee;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -30,10 +32,13 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 public class NoticeService {
+    private final ApplicationEventPublisher applicationEventPublisher;
     @Value("${app.upload.notice-path}")
     private String noticePath;
 
     private final NoticeRepository noticeRepository;
+    private final FileUtil fileUtil;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public Notice saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
@@ -41,10 +46,10 @@ public class NoticeService {
 
         if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
             try {
-                if (!FileUtil.isImageFiles(dto.getUploadImages())) {
+                if (!fileUtil.isImageFiles(dto.getUploadImages())) {
                     throw new Exception400("이미지 파일만 업로드 가능합니다");
                 }
-                noticeImageFileNames.addAll(FileUtil.saveFiles(dto.getUploadImages(), noticePath));
+                noticeImageFileNames.addAll(fileUtil.saveFiles(dto.getUploadImages(), noticePath));
             } catch (IOException e) {
                 throw new Exception500("파일 저장 중 오류가 발생했습니다");
             }
@@ -96,19 +101,19 @@ public class NoticeService {
         notice.update(dto); // 제목, 내용만
 
         if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
-            if (!FileUtil.isImageFiles(dto.getUploadImages())) {
+            if (!fileUtil.isImageFiles(dto.getUploadImages())) {
                 throw new Exception400("이미지 파일만 업로드 가능합니다");
             }
 
             List<String> oldNoticeImages = new ArrayList<>(notice.getNoticeImages());
 
             try {
-                List<String> newImageFilename = FileUtil.saveFiles(dto.getUploadImages(), noticePath);
+                List<String> newImageFilename = fileUtil.saveFiles(dto.getUploadImages(), noticePath);
                 notice.clearImages();
                 notice.addImages(newImageFilename);
 
                 if (!oldNoticeImages.isEmpty()) {
-                    FileUtil.deleteFiles(oldNoticeImages, noticePath);
+                    fileUtil.deleteFiles(oldNoticeImages, noticePath);
                 }
 
             } catch (IOException e) {
@@ -129,18 +134,23 @@ public class NoticeService {
 
         List<String> noticeImages = new ArrayList<>(notice.getNoticeImages());
         noticeRepository.deleteById(noticeId);
+
+        if (noticeImages != null && !noticeImages.isEmpty()) {
+            applicationEventPublisher.publishEvent(new NoticeImagesDeletedEvent(noticeImages));
+        }
     }
 
-//    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-//    public void deleteFilesAfterTransaction(List<String> filenames) {
-//        try {
-//            for (String filename : filenames) {
-//                FileUtil.deleteFile(filename, NOTICE_IMAGES_DIR);
-//            }
-//        } catch (IOException e) {
-//            log.error("파일 삭제 실패 (이미 DB는 삭제됨): {}", e.getMessage());
-//        }
-//    }
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void deleteFilesAfterTransaction(NoticeImagesDeletedEvent event) {
+        try {
+            for (String filename : event.getFilenames()) {
+                fileUtil.deleteFile(filename, noticePath);
+            }
+        } catch (IOException e) {
+            log.error("파일 삭제 실패 (이미 DB는 삭제됨): {}", e.getMessage());
+        }
+    }
 
     public Long getNextNoticeId(Long noticeId) {
         Notice notice = noticeRepository.findById(noticeId)
@@ -173,7 +183,7 @@ public class NoticeService {
         if (noticeImages != null && !noticeImages.isEmpty()) {
             try {
                 for (String noticeImage : noticeImages) {
-                    FileUtil.deleteFile(noticeImage, noticePath);
+                    fileUtil.deleteFile(noticeImage, noticePath);
                 }
             } catch (IOException e) {
                 throw new Exception500("파일 삭제 중 오류가 발생했습니다");
