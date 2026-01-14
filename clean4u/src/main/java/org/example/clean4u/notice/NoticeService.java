@@ -11,11 +11,13 @@ import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u._core.utils.FileUtil;
 import org.example.clean4u.employee.Employee;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -30,11 +32,13 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 public class NoticeService {
+    private final ApplicationEventPublisher applicationEventPublisher;
     @Value("${app.upload.notice-path}")
     private String noticePath;
 
     private final NoticeRepository noticeRepository;
     private final FileUtil fileUtil;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public Notice saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
@@ -130,18 +134,23 @@ public class NoticeService {
 
         List<String> noticeImages = new ArrayList<>(notice.getNoticeImages());
         noticeRepository.deleteById(noticeId);
+
+        if (noticeImages != null && !noticeImages.isEmpty()) {
+            applicationEventPublisher.publishEvent(new NoticeImagesDeletedEvent(noticeImages));
+        }
     }
 
-//    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-//    public void deleteFilesAfterTransaction(List<String> filenames) {
-//        try {
-//            for (String filename : filenames) {
-//                FileUtil.deleteFile(filename, NOTICE_IMAGES_DIR);
-//            }
-//        } catch (IOException e) {
-//            log.error("파일 삭제 실패 (이미 DB는 삭제됨): {}", e.getMessage());
-//        }
-//    }
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void deleteFilesAfterTransaction(NoticeImagesDeletedEvent event) {
+        try {
+            for (String filename : event.getFilenames()) {
+                fileUtil.deleteFile(filename, noticePath);
+            }
+        } catch (IOException e) {
+            log.error("파일 삭제 실패 (이미 DB는 삭제됨): {}", e.getMessage());
+        }
+    }
 
     public Long getNextNoticeId(Long noticeId) {
         Notice notice = noticeRepository.findById(noticeId)
