@@ -2,6 +2,7 @@ package org.example.clean4u.notice;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
@@ -9,12 +10,15 @@ import org.example.clean4u._core.errors.exception.Exception500;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u._core.utils.FileUtil;
 import org.example.clean4u.employee.Employee;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,11 +27,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class NoticeService {
-    private final NoticeRepository noticeRepository;
+    @Value("${app.upload.notice-path}")
+    private String noticePath;
 
-    public static final String NOTICE_IMAGES_DIR = "C:/uploads/notice";
+    private final NoticeRepository noticeRepository;
 
     @Transactional
     public Notice saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
@@ -38,7 +44,7 @@ public class NoticeService {
                 if (!FileUtil.isImageFiles(dto.getUploadImages())) {
                     throw new Exception400("이미지 파일만 업로드 가능합니다");
                 }
-                noticeImageFileNames.addAll(FileUtil.saveFiles(dto.getUploadImages(), NOTICE_IMAGES_DIR));
+                noticeImageFileNames.addAll(FileUtil.saveFiles(dto.getUploadImages(), noticePath));
             } catch (IOException e) {
                 throw new Exception500("파일 저장 중 오류가 발생했습니다");
             }
@@ -65,8 +71,6 @@ public class NoticeService {
         Notice notice = noticeRepository.findByIdWithImages(noticeId)
                 .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
 
-        System.out.println("uploadImages: " + notice.getNoticeImagePath());
-
         return new NoticeResponse.DetailDTO(notice);
     }
 
@@ -87,7 +91,7 @@ public class NoticeService {
                 .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
 
         if (!sessionUser.isAdmin()) {
-            throw new Exception403("공지사항 수정 권한이 없습니댜다.");
+            throw new Exception403("공지사항 수정 권한이 없습니다.");
         }
         notice.update(dto); // 제목, 내용만
 
@@ -99,12 +103,12 @@ public class NoticeService {
             List<String> oldNoticeImages = new ArrayList<>(notice.getNoticeImages());
 
             try {
-                List<String> newImageFilename = FileUtil.saveFiles(dto.getUploadImages(), NOTICE_IMAGES_DIR);
+                List<String> newImageFilename = FileUtil.saveFiles(dto.getUploadImages(), noticePath);
                 notice.clearImages();
                 notice.addImages(newImageFilename);
 
                 if (!oldNoticeImages.isEmpty()) {
-                    FileUtil.deleteFiles(oldNoticeImages, NOTICE_IMAGES_DIR);
+                    FileUtil.deleteFiles(oldNoticeImages, noticePath);
                 }
 
             } catch (IOException e) {
@@ -123,19 +127,20 @@ public class NoticeService {
             throw new Exception403("삭제 권한이 없습니다.");
         }
 
-        List<String> noticeImages = notice.getNoticeImages();
-        if (noticeImages != null && !noticeImages.isEmpty()) {
-            try {
-                for (String noticeImage : noticeImages) {
-                    FileUtil.deleteFile(noticeImage, NOTICE_IMAGES_DIR);
-                }
-            } catch (IOException e) {
-                throw new Exception500("파일 삭제 중 오류가 발생했습니다");
-            }
-        }
-
+        List<String> noticeImages = new ArrayList<>(notice.getNoticeImages());
         noticeRepository.deleteById(noticeId);
     }
+
+//    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+//    public void deleteFilesAfterTransaction(List<String> filenames) {
+//        try {
+//            for (String filename : filenames) {
+//                FileUtil.deleteFile(filename, NOTICE_IMAGES_DIR);
+//            }
+//        } catch (IOException e) {
+//            log.error("파일 삭제 실패 (이미 DB는 삭제됨): {}", e.getMessage());
+//        }
+//    }
 
     public Long getNextNoticeId(Long noticeId) {
         Notice notice = noticeRepository.findById(noticeId)
@@ -168,7 +173,7 @@ public class NoticeService {
         if (noticeImages != null && !noticeImages.isEmpty()) {
             try {
                 for (String noticeImage : noticeImages) {
-                    FileUtil.deleteFile(noticeImage, NOTICE_IMAGES_DIR);
+                    FileUtil.deleteFile(noticeImage, noticePath);
                 }
             } catch (IOException e) {
                 throw new Exception500("파일 삭제 중 오류가 발생했습니다");
