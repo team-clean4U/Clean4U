@@ -1,6 +1,6 @@
 {{> layout/header}}
 {{> layout/background}}
-<div class="detail-container" style="display: flex; flex-direction: column; padding: 4rem 25rem;">
+<div class="detail-container refund-container">
     <div class="buttons">
         <form action="/orders" method="get">
             <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
@@ -8,6 +8,7 @@
     </div>
     <div class="detail-card">
         <div class="detail-header">
+            <i class="fa-solid fa-undo"></i>
             <h4>환불 요청 내역</h4>
         </div>
         <form id="refundData" data-payment-id="{{payment.id}}">
@@ -53,8 +54,8 @@
                     </div>
                 </div>
             <div>
-                <div class="bottom-buttons" style="justify-content: center; padding: 0 2.5rem 2rem;">
-                    <button class="btn btn-cancel" type="submit" style="text-align: center; cursor: pointer;" >환불 요청</button>
+                <div class="bottom-buttons">
+                    <button class="btn btn-cancel" type="submit">환불 요청</button>
                 </div>
             </div>
         {{/payment}}

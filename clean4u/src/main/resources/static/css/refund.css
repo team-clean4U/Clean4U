@@ -9,3 +9,24 @@
 .refund-text {
     width: 50%;
 }
+
+.refund-container {
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 900px;
+}
+
+.refund-container .detail-card {
+    width: 100%;
+}
+
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2rem;
+}
+
+.buttons {
+    width: 100%;
+}
