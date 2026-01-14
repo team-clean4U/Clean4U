@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
-            const noticeId = window.location.pathname.match(/\/(\d+)\/update/)[1];
+            const noticeId = window.location.pathname.match(/\/(\d+)\/edit/)[1];
 
             try {
                 const response = await fetch(`/api/v1/notices/${noticeId}`, {
@@ -12,7 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: formData
                 });
 
-                if (response.ok) {
+                if (!response.ok) {
+                    const errorBody = await response.json();
+                    throw new Error(errorBody.message);
+                } else {
                     window.location.href = `/notices/${noticeId}`;
                 }
             } catch (error) {
