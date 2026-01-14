@@ -46,8 +46,32 @@ public class NoticeApiController {
     public ResponseEntity<ApiResponse<Void>> deleteNotice (@PathVariable Long noticeId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
+        if (sessionUser == null) {
+            throw new Exception401("로그인이 필요합니다");
+        }
+
+        if (!sessionUser.isAdmin()) {
+            throw new Exception403("공지사항 삭제 권한이 없습니다");
+        }
+
         noticeService.deleteNoticeById(noticeId, sessionUser.getId());
         return ResponseEntity.ok(ApiResponse.ok("삭제가 완료되었습니다"));
+    }
+
+    @DeleteMapping("{noticeId}/image")
+    public ResponseEntity<ApiResponse<Void>> deleteNoticeImages(@PathVariable Long noticeId, HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+
+        if (sessionUser == null) {
+            throw new Exception401("로그인이 필요합니다");
+        }
+
+        if (!sessionUser.isAdmin()) {
+            throw new Exception403("공지사항 관련 권한이 없습니다.");
+        }
+
+        noticeService.deleteNoticeImages(noticeId, sessionUser.getId());
+        return ResponseEntity.ok(ApiResponse.ok("이미지 삭제가 완료되었습니다"));
     }
 
 }

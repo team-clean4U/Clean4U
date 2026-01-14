@@ -22,12 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: JSON.stringify(data)
                 });
 
-                if (response.ok) {
-                    window.location.href = `/customers/${customerId}`;
+                if (!response.ok) {
+                    const errorBody = await response.json();
+                    throw new Error(errorBody.message);
+                } else {
+                    window.location.href = "/customers";
                 }
             } catch (error) {
                 console.error("Error:", error);
-                alert("수정 중 오류가 발생했습니다.");
+                alert(error.message);
             }
         });
     }

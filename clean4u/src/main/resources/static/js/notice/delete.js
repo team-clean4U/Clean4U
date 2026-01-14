@@ -8,10 +8,14 @@ async function deleteNotice(id) {
             method: "DELETE"
         });
         
-        if (response.ok) {
-            window.location.href = "/notices/list";
+        if (!response.ok) {
+            const errorBody = await response.json();
+            throw new Error(errorBody.message);
         } else {
-            alert("삭제에 실패했습니다.");
+            alert("삭제 되었습니다");
+            setTimeout(() => {
+                window.location.href = "/notices";
+            }, 100);
         }
     } catch (error) {
         console.error("Error:", error);

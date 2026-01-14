@@ -22,7 +22,7 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     // 공지 생성 화면
-    @GetMapping("/notice/save")
+    @GetMapping("/notices/new")
     public String saveForm(Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -40,7 +40,7 @@ public class NoticeController {
         return "/notice/save-form";
     }
     // 공지 생성 post
-    @PostMapping("/notice/save")
+    @PostMapping("/notices/new")
     public String saveProc(@Valid NoticeRequest.SaveDTO dto, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -57,7 +57,7 @@ public class NoticeController {
         return "redirect:/notices/" + notice.getId();
     }
     // 공지 목록
-    @GetMapping("/notices/list")
+    @GetMapping("/notices")
     public String noticeList(Model model,
                              @RequestParam(defaultValue = "1") int page,
                              @RequestParam(defaultValue = "5") int size
@@ -95,7 +95,7 @@ public class NoticeController {
     }
 
     // 공지 수정 화면
-    @GetMapping("/notices/{noticeId}/update")
+    @GetMapping("/notices/{noticeId}/edit")
     public String updateForm(@PathVariable Long noticeId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -113,53 +113,4 @@ public class NoticeController {
 
         return "/notice/update-form";
     }
-    // 공지 수정 post
-    @PostMapping("/notices/{noticeId}/update")
-    public String updateProc(@PathVariable Long noticeId, @Valid NoticeRequest.UpdateDTO dto, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        if (sessionUser == null) {
-            return "redirect:/login";
-        }
-
-        if (!sessionUser.isAdmin()) {
-            throw new Exception403("공지사항 수정 권한이 없습니다.");
-        }
-
-        noticeService.updateNotice(noticeId, dto, sessionUser);
-        return "redirect:/notices/" + noticeId;
-    }
-
-    @PostMapping("/notices/{noticeId}/delete")
-    public String deleteNotice(@PathVariable Long noticeId, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        if (sessionUser == null) {
-            return "redirect:/login";
-        }
-
-        if (!sessionUser.isAdmin()) {
-            throw new Exception403("공지사항 삭제 권한이 없습니다.");
-        }
-
-        noticeService.deleteNoticeById(noticeId, sessionUser.getId());
-        return "redirect:/notices/list";
-    }
-
-    @PostMapping("/notices/{noticeId}/images/delete")
-    public String deleteNoticeImages(@PathVariable Long noticeId, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        if (sessionUser == null) {
-            return "redirect:/login";
-        }
-
-        if (!sessionUser.isAdmin()) {
-            throw new Exception403("공지사항 관련 권한이 없습니다.");
-        }
-
-        noticeService.deleteNoticeImages(noticeId, sessionUser.getId());
-        return "redirect:/notices/" + noticeId;
-    }
-
 }
