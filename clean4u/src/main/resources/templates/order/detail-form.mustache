@@ -83,7 +83,7 @@
                         세탁 물품
                     </span>
                 {{#order.laundryImage}}
-                    <button style="margin: 0;"
+                    <button
                             type="button" class="btn image-item" onclick="openImageModal('/images/{{order.laundryImage}}')">
                         <i class="fa-solid fa-image"></i>
                          <span>물품 사진 보기</span>
@@ -141,7 +141,7 @@
                         총 <span id="amount">{{order.totalPrice}}</span>원
                     </span>
                 </div>
-                <div style="text-align: center;">
+                <div class="payment-area">
                     <input type="hidden" id="orderId" value="{{order.orderId}}">
                         <div class="btn-payment-wrapper" id="paymentArea">
                             {{^payment}}
@@ -159,7 +159,7 @@
                         {{^order.isPending}}
                             {{#payment}}
                                 <div class="payment-refund-card">
-                                    <span style="color: var(--color-dark-blue); font-weight: 500;">
+                                    <span class="payment-card">
                                         [결제 완료] 주문번호: {{merchantUid}}
                                     </span>
                                     <a href="/refunds/{{id}}">

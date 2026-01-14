@@ -40,6 +40,15 @@
     gap: 1.5rem;
 }
 
+.payment-area {
+    text-align: center;
+}
+
+.payment-card {
+    color: var(--color-dark-blue);
+    font-weight: 500;
+}
+
 .status-badge.status-paid {
     background: var(--color-dark-blue);
 }
