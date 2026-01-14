@@ -3,6 +3,7 @@ package org.example.clean4u.order;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
@@ -52,6 +53,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class OrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
@@ -349,7 +351,7 @@ public class OrderService {
             String to = order.getCustomer().getPhone();
             String message = order.getCustomer().getName() + "님의 세탁물 상태가 " + newStatus.getDisplayName() + "(으)로 변경되었습니다.";
             smsService.sendOne(to, message);
-            System.out.println("SMS 호출 성공");
+            log.info("SMS 호출 성공: orderId={}, status={}", order.getId(), newStatus);
         }
 
         Customer customer = customerRepository.findById(order.getCustomer().getId())
@@ -504,7 +506,7 @@ public class OrderService {
         String message = customerName + "님의 세탁이 완료되었습니다.\n세탁 서비스 이용 후 느낀 점을 남겨주세요.\n" + reviewLink;
 
         smsService.sendOne(to, message);
-        System.out.println("리뷰 링크 SMS 발송 완료------");
+        log.info("리뷰 링크 SMS 발송 완료: orderId={}", order.getId());
     }
 
 }
