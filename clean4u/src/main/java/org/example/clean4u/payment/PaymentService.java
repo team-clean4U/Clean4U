@@ -46,6 +46,10 @@ public class PaymentService {
         Order order = orderRepository.findByIdWithCustomer(prepareDTO.getOrderId())
                 .orElseThrow(() -> new Exception404("결제 시도하려는 주문을 찾을 수 없습니다."));
 
+        if (!order.getTotalPrice().equals(prepareDTO.getAmount())) {
+            throw new Exception400("주문 총 금액과 결제 요청 금액이 일치하지 않습니다.");
+        }
+
         if (order.getStatus() == OrderStatus.CANCELLED) {
             throw new Exception400("취소된 주문은 결제할 수 없습니다.");
         }
@@ -57,7 +61,7 @@ public class PaymentService {
 
         return new PaymentResponse.PrepareDTO(
                 merchantUid,
-                prepareDTO.getAmount()
+                order.getTotalPrice()
         );
     }
 
@@ -158,7 +162,7 @@ public class PaymentService {
         int validPage = Math.max(0, page);
         int validSize = Math.max(1, Math.min(50, size));
 
-        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+        Sort sort = Sort.by(Sort.Direction.DESC, "updatedAt");
         Pageable pageable = PageRequest.of(validPage, validSize, sort);
 
         LocalDate fromDate = searchDTO.getFromDate();
