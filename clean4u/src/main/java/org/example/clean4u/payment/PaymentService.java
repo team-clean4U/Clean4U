@@ -92,7 +92,7 @@ public class PaymentService {
                 .build();
 
         paymentRepository.save(payment);
-        return new PaymentResponse.VerifyDTO(payment.getId(), paymentData.getAmount());
+        return new PaymentResponse.VerifyDTO(payment.getId(), order.getTotalPrice());
     }
 
     // 포트원 결제 조회
