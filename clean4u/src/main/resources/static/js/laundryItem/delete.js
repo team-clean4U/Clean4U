@@ -8,13 +8,17 @@ async function deleteLaundryItem(id) {
             method: "DELETE"
         });
 
-        if (response.ok) {
-            window.location.href = "/laundry-items";
-        } else {
-            alert("삭제에 실패했습니다.");
+        if (!response.ok) {
+            const errorBody = await response.json();
+            const error = new Error(errorBody.message || "삭제에 실패했습니다.");
+            alert(error.message);
+            throw error;
         }
+        window.location.href = "/laundry-items";
     } catch (error) {
         console.error("Error:", error);
-        alert("삭제 중 오류가 발생했습니다.");
+        if (!error.message || error.message === "삭제에 실패했습니다.") {
+            alert(error.message || "삭제 중 오류가 발생했습니다.");
+        }
     }
 }

@@ -21,14 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: JSON.stringify(data)
                 });
                 
-                if (response.ok) {
-                    window.location.href = `/laundry-items/${id}`;
-                } else {
-                    alert("수정에 실패했습니다.");
+                if (!response.ok) {
+                    const errorBody = await response.json();
+                    const error = new Error(errorBody.message || "수정에 실패했습니다.");
+                    alert(error.message);
+                    throw error;
                 }
+                window.location.href = `/laundry-items/${id}`;
             } catch (error) {
                 console.error("Error:", error);
-                alert("수정 중 오류가 발생했습니다.");
+                if (!error.message || error.message === "수정에 실패했습니다.") {
+                    alert(error.message || "수정 중 오류가 발생했습니다.");
+                }
             }
         });
     }

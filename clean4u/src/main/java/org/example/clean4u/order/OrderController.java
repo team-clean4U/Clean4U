@@ -136,7 +136,7 @@ public class OrderController {
         return "order/update-form";
     }
 
-    @PostMapping("/orders/{orderId}/review-link/send")
+    @PostMapping("/orders/{orderId}/review-link")
     public String sendReviewLink(@PathVariable Long orderId, HttpSession session, RedirectAttributes redirectAttributes) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         try {
