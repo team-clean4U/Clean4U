@@ -70,7 +70,6 @@
 .msg {
     background: var(--color-cream-blue);
     border: 1px solid transparent;
-    border-radius: 12px;
     padding: 0.3rem 0.75rem;
     color: var(--color-dark-blue);
     font-weight: 500;
@@ -80,64 +79,18 @@
     position: relative;
 }
 
-.msg-wrap.msg-other .msg::before {
-    content: '';
-    position: absolute;
-    left: -8px;
-    top: 12px;
-    width: 0;
-    height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-right: 8px solid var(--color-light-blue);
-}
-
-.msg-wrap.msg-other .msg::after {
-    content: '';
-    position: absolute;
-    left: -7px;
-    top: 13px;
-    width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-right: 7px solid var(--color-cream-blue);;
-}
-
-.msg-wrap.msg-mine .msg::before {
-    content: '';
-    position: absolute;
-    right: -8px;
-    top: 12px;
-    width: 0;
-    height: 0;
-    border-top: 6px solid transparent;
-    border-bottom: 6px solid transparent;
-    border-left: 8px solid var(--color-blue);
-}
-
-.msg-wrap.msg-mine .msg::after {
-    content: '';
-    position: absolute;
-    right: -7px;
-    top: 13px;
-    width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-left: 7px solid var(--color-blue);
-}
-
 .msg-wrap.msg-mine .msg {
     background: var(--color-blue);
     color: var(--color-white);
     border-color: var(--color-blue);
+    border-radius: 12px 0 12px 12px;
 }
 
 .msg-wrap.msg-other .msg {
     background: var(--color-cream-blue);
     color: var(--color-dark-blue);
     border-color: var(--color-light-blue);
+    border-radius: 0 12px 12px 12px;
 }
 
 .input-card {
