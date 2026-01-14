@@ -15,7 +15,11 @@ public class AccessInterceptor implements HandlerInterceptor{
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
-        Employee sessionUser = session != null ? (Employee) session.getAttribute("sessionUser") : null;
+        if (session == null) {
+            throw new Exception401("로그인을 먼저 진행해야합니다.");
+        }
+        
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         if (sessionUser == null) {
             throw new Exception401("로그인을 먼저 진행해야합니다.");
         }
