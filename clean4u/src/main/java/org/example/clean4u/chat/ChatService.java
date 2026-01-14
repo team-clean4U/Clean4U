@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ChatService {
     private final ChatRepository chatRepository;
     private final EmployeeRepository employeeRepository;
+    private final ObjectMapper objectMapper;
     private final Map<String, SseEmitter> emitterMap = new ConcurrentHashMap<>();
 
     public List<ChatResponse.DetailDTO> findAll() {
@@ -43,7 +44,7 @@ public class ChatService {
         emitter.onError((e) -> emitterMap.remove(clientId));
 
         try {
-            emitter.send(SseEmitter.event().name("connect").data("연결됨"));
+            emitter.send(SseEmitter.event().name( "connect").data("연결됨"));
         } catch (IOException e) {
             log.error("초기 전송 실패: ", e);
         }
@@ -78,7 +79,7 @@ public class ChatService {
             try {
                 emitter.send(SseEmitter.event()
                         .name("newMessage")
-                        .data(new ObjectMapper().writeValueAsString(data)));
+                        .data(objectMapper.writeValueAsString(data)));
             } catch (IOException e) {
                 emitterMap.remove(id);
             }
