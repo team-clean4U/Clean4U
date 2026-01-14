@@ -13,6 +13,7 @@ public class LaundryItemResponse {
         private String basePrice;
         private String description;
         private String icon;
+        private Boolean isActive;
 
         public ListDTO(LaundryItem laundryItem) {
             this.id = laundryItem.getId();
@@ -21,6 +22,7 @@ public class LaundryItemResponse {
             this.basePrice = laundryItem.getBasePrice() != null ? PriceUtil.format(laundryItem.getBasePrice()) : null ;
             this.description = laundryItem.getDescription();
             this.icon = laundryItem.getIcon();
+            this.isActive = laundryItem.getIsActive();
         }
     }
 
@@ -34,6 +36,8 @@ public class LaundryItemResponse {
         private String createdAt;
         private String updatedAt;
         private String icon;
+        private Boolean isActive;
+        private Boolean hasOrder;
 
         public DetailDTO(LaundryItem laundryItem) {
             this.id = laundryItem.getId();
@@ -44,6 +48,21 @@ public class LaundryItemResponse {
             this.createdAt = DateUtil.timestampFormat(laundryItem.getCreatedAt());
             this.updatedAt = DateUtil.timestampFormat(laundryItem.getUpdatedAt());
             this.icon = laundryItem.getIcon();
+            this.isActive = laundryItem.getIsActive();
+            this.hasOrder = false;
+        }
+
+        public DetailDTO(LaundryItem laundryItem, boolean hasOrder) {
+            this.id = laundryItem.getId();
+            this.name = laundryItem.getName();
+            this.category = laundryItem.getCategory();
+            this.basePrice = laundryItem.getBasePrice() != null ? PriceUtil.format(laundryItem.getBasePrice()) : null;
+            this.description = laundryItem.getDescription();
+            this.createdAt = DateUtil.timestampFormat(laundryItem.getCreatedAt());
+            this.updatedAt = DateUtil.timestampFormat(laundryItem.getUpdatedAt());
+            this.icon = laundryItem.getIcon();
+            this.isActive = laundryItem.getIsActive();
+            this.hasOrder = hasOrder;
         }
     }
 
@@ -55,6 +74,7 @@ public class LaundryItemResponse {
         private Integer basePrice;
         private String description;
         private String icon;
+        private Boolean isActive;
 
         public UpdateFormDTO(LaundryItem laundryItem) {
             this.id = laundryItem.getId();
@@ -63,6 +83,7 @@ public class LaundryItemResponse {
             this.basePrice = laundryItem.getBasePrice();
             this.description = laundryItem.getDescription();
             this.icon = laundryItem.getIcon();
+            this.isActive = laundryItem.getIsActive();
         }
     }
 }
