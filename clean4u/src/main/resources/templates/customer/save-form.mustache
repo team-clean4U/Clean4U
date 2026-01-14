@@ -8,7 +8,7 @@
             <b>고객 등록</b>
         </div>
         <div class="detail-container">
-            <form action="/customer/save" method="post" class="save-form">
+            <form action="/customers/new" method="post" class="save-form">
                 <div class="update-items">
                     <label class="create-label"><i class="fa-solid fa-award"></i> 등급 :</label>
                     <span class="info-value grade grade-NEW">{{grade}}</span>
@@ -37,7 +37,7 @@
                               class="update-value memo"></textarea>
                 </div>
                 <div class="customer-form-buttons">
-                    <a href="/customers/list" class="btn btn-back">취소</a>
+                    <a href="/customers" class="btn btn-back">취소</a>
                     <button type="submit" class="btn btn-create btn-customer">
                         <i class="fa-solid fa-plus btn-create-icon"></i>등록
                     </button>
