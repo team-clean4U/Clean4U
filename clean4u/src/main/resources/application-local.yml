@@ -72,6 +72,9 @@ solapi:
 
 app:
   base-url: ${BASE_URL:http://localhost:8080}
+  upload:
+    base-path: ${UPLOAD_BASE_PATH:C:/uploads/}
+    notice-path: ${UPLOAD_NOTICE_PATH:C:/uploads/notice}
 
 springdoc:
   api-docs:
