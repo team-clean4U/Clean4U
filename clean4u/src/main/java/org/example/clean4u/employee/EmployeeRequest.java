@@ -75,4 +75,10 @@ public class EmployeeRequest {
         private String password;
     }
 
+    @Data
+    public static class UpdateStatus {
+        @NotBlank(message = "status는 비어있을 수 없습니다.")
+        private String status;
+    }
+
 }

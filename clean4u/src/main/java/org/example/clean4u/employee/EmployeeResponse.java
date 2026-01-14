@@ -71,4 +71,17 @@ public class EmployeeResponse {
             }
         }
     }
+
+    @Data
+    public static class UpdateDTO {
+        private Long id;
+        private String name;
+        private String email;
+
+        public UpdateDTO(Employee employee) {
+            this.id = employee.getId();
+            this.name = employee.getName();
+            this.email = employee.getEmail();
+        }
+    }
 }

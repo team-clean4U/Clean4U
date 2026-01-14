@@ -33,9 +33,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(accessInterceptor)
                 .addPathPatterns(
-                        "/main",
+                        "/dashboard",
                         "/employees/**",
-                        "/me/**",
                         "/laundry-items/**",
                         "/laundry-options/**",
                         "/supply-items/**",
@@ -51,9 +50,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/v1/**"
                 )
                 .excludePathPatterns(
-                        "/login", "/login/**",
-                        "/join", "/join/**",
-                        "/logout",
+                        "/auth/**",
+                        "/employees/new",
+                        "/password/**",
+                        "/login",
+                        "/auth/logout",
                         "/error",
                         "/client",
                         "/client/**",

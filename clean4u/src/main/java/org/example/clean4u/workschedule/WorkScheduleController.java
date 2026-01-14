@@ -9,10 +9,7 @@ import org.example.clean4u.employee.EmployeeResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +24,7 @@ public class WorkScheduleController {
     private final WorkScheduleOverrideService workScheduleOverrideService;
     private final AuthService authService;
 
-    @GetMapping("/schedule")
+    @GetMapping("/schedules/employees")
     public String search(
             @RequestParam(required = false) String keyword,
             Model model
@@ -40,7 +37,7 @@ public class WorkScheduleController {
         return "employee/employee-search";
     }
 
-    @GetMapping("/schedule/{employeeId}")
+    @GetMapping("/employees/{employeeId}/new")
     public String saveForm(
             @PathVariable Long employeeId,
             @RequestParam(required = false) ScheduleReason reason,
@@ -60,7 +57,7 @@ public class WorkScheduleController {
         return "workschedule/save-form";
     }
 
-    @PostMapping("/schedule")
+    @PostMapping("/schedules")
     public String saveProc(@Valid WorkScheduleRequest.SaveDTO saveDTO) {
 
         if (saveDTO.isSick()) {
@@ -72,7 +69,7 @@ public class WorkScheduleController {
         }
     }
 
-    @GetMapping("/schedule/list")
+    @GetMapping("/schedules")
     public String scheduleList(
             Model model,
             @RequestParam(required = false) String keyword,
@@ -102,7 +99,7 @@ public class WorkScheduleController {
         return "workschedule/schedule-list-form";
     }
 
-    @GetMapping("/schedule/{scheduleId}/detail")
+    @GetMapping("/schedules/{scheduleId}")
     public String scheduleDetail(
             @PathVariable Long scheduleId,
             Model model
@@ -115,7 +112,7 @@ public class WorkScheduleController {
         return "workschedule/schedule-detail";
     }
 
-    @GetMapping("/schedule/{scheduleId}/update")
+    @GetMapping("/schedules/{scheduleId}/edit")
     public String scheduleUpdateForm(
             @PathVariable Long scheduleId,
             Model model
@@ -128,7 +125,7 @@ public class WorkScheduleController {
         return "workschedule/schedule-update-form";
     }
 
-    @PostMapping("/schedule/{scheduleId}/update")
+    @PutMapping("/schedules/{scheduleId}/edit")
     public String scheduleUpdateProc(
             @PathVariable Long scheduleId,
             @Valid WorkScheduleRequest.UpdateDTO updateDTO,
@@ -141,7 +138,7 @@ public class WorkScheduleController {
         return "redirect:/schedule/list";
     }
 
-    @PostMapping("/schedule/{scheduleId}/delete")
+    @DeleteMapping("/schedules/{scheduleId}")
     public String delete(
             @PathVariable Long scheduleId
     ) {

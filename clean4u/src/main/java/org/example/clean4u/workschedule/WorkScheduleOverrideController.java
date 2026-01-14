@@ -6,10 +6,7 @@ import org.example.clean4u._core.response.PageResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,7 +19,7 @@ public class WorkScheduleOverrideController {
 
     private final WorkScheduleOverrideService workScheduleOverrideService;
 
-    @GetMapping("/override/list")
+    @GetMapping("/schedule-overrides")
     public String overrideList(
             Model model,
             @RequestParam(required = false) String keyword,
@@ -57,7 +54,7 @@ public class WorkScheduleOverrideController {
         return "workschedule/override-list-form";
     }
 
-    @GetMapping("/override/{scheduleId}/detail")
+    @GetMapping("/schedule-overrides/{scheduleId}")
     public String overrideDetail(
             @PathVariable Long scheduleId,
             Model model
@@ -70,7 +67,7 @@ public class WorkScheduleOverrideController {
         return "workschedule/override-detail";
     }
 
-    @GetMapping("/override/{scheduleId}/update")
+    @GetMapping("/schedule-overrides/{scheduleId}/edit")
     public String overrideUpdateForm(
             @PathVariable Long scheduleId,
             Model model
@@ -83,7 +80,7 @@ public class WorkScheduleOverrideController {
         return "workschedule/override-update-form";
     }
 
-    @PostMapping("/override/{scheduleId}/update")
+    @PutMapping("/schedule-overrides/{scheduleId}/edit")
     public String overrideUpdateProc(
             @PathVariable Long scheduleId,
             @Valid WorkScheduleOverrideRequest.UpdateDTO updateDTO,
@@ -96,7 +93,7 @@ public class WorkScheduleOverrideController {
         return "redirect:/override/list";
     }
 
-    @PostMapping("/override/{scheduleId}/delete")
+    @DeleteMapping("/schedule-overrides/{scheduleId}")
     public String delete(
             @PathVariable Long scheduleId
     ) {
