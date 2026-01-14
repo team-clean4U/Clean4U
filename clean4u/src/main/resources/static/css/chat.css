@@ -37,6 +37,7 @@
 }
 
 .input-card {
+    width: 100%;
     padding: 1rem;
     background: var(--color-cream-blue);
     border-bottom-right-radius: 10px;
@@ -50,4 +51,19 @@
     padding: 1rem;
     border-radius: 5px;
     color: var(--color-white);
+}
+
+.input-area {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.input-area > div:first-child {
+    flex: 1;
+}
+
+.input-msg {
+    width: 100%;
 }

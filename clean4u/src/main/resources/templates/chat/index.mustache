@@ -2,7 +2,7 @@
 {{> layout/background}}
 <div class="content-section">
     <div class="container">
-        <div class="header-container">
+        <div class="header-container" style="display: flex; flex-direction: column; padding: 0 20rem;">
             <div class="section-header">
                 <h2 class="section-title">
                     <a href="/chats">
@@ -11,8 +11,8 @@
                     </a>
                 </h2>
             </div>
-            <div style="width: 500px;">
-                <div class="chat-body-container">
+            <div>
+                <div class="chat-body-container" id="chatContainer">
                     <div class="chat-box" id="chatBox">
                         {{#chatList}}
                             <div class="msg-wrap">
@@ -26,9 +26,13 @@
                 </div>
                 <div class="input-card">
                     <form id="chatForm" class="input-area">
-                        <input type="hidden" id="senderId" name="senderId" value="{{sessionUser.id}}">
-                        <input type="text" id="message" name="message" placeholder="내용 입력..." class="input-msg" autofocus>
-                        <button type="submit" class="btn-send">전송</button>
+                        <div>
+                            <input type="hidden" id="senderId" name="senderId" value="{{sessionUser.id}}">
+                            <input type="text" id="message" name="message" placeholder="내용 입력..." class="input-msg" autofocus>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn-send">전송</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -37,13 +41,11 @@
 </div>
 
 <script>
-    const chatBox = document.getElementById("chatBox");
-    chatBox.scrollTop = chatBox.scrollHeight;
+    const chatContainer = document.getElementById("chatContainer");
     const chatForm = document.getElementById("chatForm");
+    const chatBox = document.getElementById("chatBox");
 
     const eventSource = new EventSource("/api/v1/chats");
-    eventSource.onopen = () => console.log("SSE 연결 성공");
-    eventSource.onerror = () => console.log("SSE 연결 실패");
     window.addEventListener("beforeunload", () => {
         eventSource.close();
     });
@@ -71,8 +73,7 @@
         msgBox.appendChild(msgSpan);
         msgWrap.appendChild(msgBox);
         chatBox.appendChild(msgWrap);
-
-        chatBox.scrollTop = chatBox.scrollHeight;
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     });
 
     chatForm.addEventListener("submit", function (e) {
@@ -89,7 +90,7 @@
             return;
         }
 
-        fetch("/chats", {
+        fetch("/api/v1/chats", {
             method: "POST",
             headers: {
                 "Content-Type" : "application/x-www-form-urlencoded"

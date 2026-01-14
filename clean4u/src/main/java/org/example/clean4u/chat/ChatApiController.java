@@ -1,10 +1,10 @@
 package org.example.clean4u.chat;
 
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.ApiResponse;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.UUID;
@@ -19,4 +19,12 @@ public class ChatApiController {
     public SseEmitter connect() {
         return chatService.createConnection(UUID.randomUUID().toString());
     }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<Void>> sendMessage(@RequestParam(name = "message") String message,
+                                                   @RequestParam(name = "employeeId") Long employeeId) {
+        chatService.addMessage(message, employeeId);
+        return ResponseEntity.ok(ApiResponse.ok("메시지 전송에 성공했습니다."));
+    }
+
 }
