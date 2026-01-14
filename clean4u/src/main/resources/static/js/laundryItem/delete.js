@@ -7,9 +7,9 @@ async function deleteLaundryItem(id) {
         const response = await fetch(`/api/v1/laundry-items/${id}`, {
             method: "DELETE"
         });
-        
+
         if (response.ok) {
-            window.location.href = "/laundry-items/list";
+            window.location.href = "/laundry-items";
         } else {
             alert("삭제에 실패했습니다.");
         }
