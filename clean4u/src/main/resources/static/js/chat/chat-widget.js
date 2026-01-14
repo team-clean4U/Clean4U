@@ -32,14 +32,24 @@ document.addEventListener("DOMContentLoaded", () => {
         historyLoaded = true;
 
         fetch("/api/v1/chats/history?limit=50")
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    return res.json().then(e => {
+                        const error = new Error(e.message || "채팅 기록을 불러오는데 실패했습니다.");
+                        alert(error.message);
+                        throw error;
+                    });
+                }
+                return res.json();
+            })
             .then(result => {
                 const list = result?.data;
                 if (!Array.isArray(list)) return;
                 chatWidgetMessages.innerHTML = "";
                 list.forEach(item => addMessageToWidget(item.sender, item.message));
             })
-            .catch(() => {
+            .catch((error) => {
+                console.error("채팅 기록 로드 오류:", error);
             });
     }
 
@@ -159,13 +169,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     chatWidgetMessage.value = "";
                     chatWidgetMessage.focus();
                 } else {
-                    console.log("전송 실패");
-                    alert("메시지 전송에 실패했습니다.");
+                    return res.json().then(e => {
+                        const error = new Error(e.message || "메시지 전송에 실패했습니다.");
+                        alert(error.message);
+                        throw error;
+                    });
                 }
             })
             .catch(err => {
                 console.log("에러 발생: ", err);
-                alert("메시지 전송 중 오류가 발생했습니다.");
+                if (err.message && err.message !== "메시지 전송에 실패했습니다.") {
+                    // 이미 alert가 표시되었으므로 추가 처리 불필요
+                } else {
+                    alert("메시지 전송 중 오류가 발생했습니다.");
+                }
             });
     });
 });
