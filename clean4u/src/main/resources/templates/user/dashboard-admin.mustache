@@ -11,13 +11,13 @@
                 관리자 대시보드
             </h2>
 
-            <a href="/employee/join-list" class="btn btn-delete">
+            <a href="/employees?status=pending" class="btn btn-delete">
                 <i class="fa-solid fa-user-clock"></i>
                 <span>{{pendingCount}}명 <b>승인 대기</b></span>
             </a>
         </div>
 
-        <a href="/me/update" class="btn btn-edit">
+        <a href="/employees/me" class="btn btn-edit">
             <i class="fa-solid fa-user"></i>
             내 정보 수정
         </a>
@@ -33,7 +33,7 @@
                 </h3>
             </div>
             <div class="card-list-two">
-                <a href="/employee/list" class="card">
+                <a href="/employees" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-users"></i>
                         <h4>직원 수</h4>
@@ -43,7 +43,7 @@
                         <span class="info-value">{{countAllEmployees}} 명</span>
                     </div>
                 </a>
-                <a href="/override/list" class="card">
+                <a href="/overrides" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-arrows-rotate"></i>
                         <h4>대체 근무</h4>

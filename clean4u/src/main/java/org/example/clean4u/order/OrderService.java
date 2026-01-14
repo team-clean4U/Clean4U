@@ -73,6 +73,9 @@ public class OrderService {
     @Value("${app.base-url}")
     private String baseUrl;
 
+    @Value("${app.upload.base-path}")
+    private String basePath;
+
     // 주문 생성
     @Transactional
     public Order saveProc(OrderRequest.@Valid SaveDTO saveDto, Long sessionUserId) {
@@ -89,9 +92,9 @@ public class OrderService {
                 if(!FileUtil.isImageFile(saveDto.getLaundryImage())) {
                     throw new Exception400("이미지 파일만 업로드 가능합니다.");
                 }
-                laundryImageFileName = FileUtil.saveFile(saveDto.getLaundryImage());
+                laundryImageFileName = FileUtil.saveFile(saveDto.getLaundryImage(), basePath);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new Exception500("파일 저장 중 오류가 발생했습니다." + e.getMessage());
             }
         }
         int totalPrice = calculateTotalPrice(saveDto.getItems());
@@ -284,11 +287,11 @@ public class OrderService {
                 throw new Exception400("이미지 파일만 업로드 가능합니다.");
             }
             try {
-                String newLaundryImageName = FileUtil.saveFile(updateDto.getLaundryImage());
+                String newLaundryImageName = FileUtil.saveFile(updateDto.getLaundryImage(), basePath);
                 updateDto.setLaundryImageFileName(newLaundryImageName);
 
                 if(oldLaundryImage != null && !oldLaundryImage.isEmpty()) {
-                    FileUtil.deleteFile(oldLaundryImage);
+                    FileUtil.deleteFile(oldLaundryImage, basePath);
                 }
             } catch (IOException e) {
                 throw new Exception500("파일 저장에 실패했습니다.");
@@ -382,7 +385,7 @@ public class OrderService {
         String laundryImage = order.getLaundryImage();
         if(laundryImage != null && !laundryImage.isEmpty()) {
             try {
-                FileUtil.deleteFile(laundryImage);
+                FileUtil.deleteFile(laundryImage, basePath);
             } catch (IOException e) {
                 throw new Exception500("파일 삭제에 실패했습니다.");
             }

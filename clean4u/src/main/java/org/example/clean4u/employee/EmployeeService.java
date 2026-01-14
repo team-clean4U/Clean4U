@@ -7,6 +7,7 @@ import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u.review.ReviewService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +25,11 @@ public class EmployeeService {
     private final ReviewService reviewService;
     private final MailService mailService;
 
-    public Employee join(@Valid EmployeeRequest.JoinDTO joinDTO) {
+    @Value("${app.base-url}")
+    private String baseUrl;
 
-        Boolean verified = (Boolean) session.getAttribute("verified_email_" + joinDTO.getEmail());
-
-        if (verified == null || !verified) {
+    public Employee join(@Valid EmployeeRequest.JoinDTO joinDTO, boolean emailVerified) {
+        if (!emailVerified) {
             throw new Exception400("이메일 인증을 완료해 주세요");
         }
 
@@ -47,10 +48,6 @@ public class EmployeeService {
     public Employee login(@Valid EmployeeRequest.LoginDTO loginDTO) {
         Employee employeeEntity = employeeRepository.findByUsername(loginDTO.getUsername())
                 .orElseThrow(() -> new Exception400("사용자명 또는 비밀번호가 올바르지 않습니다."));
-
-        if (employeeEntity == null) {
-            throw new Exception404("회원가입 되지않은 사용자입니다.");
-        }
 
         if (!employeeEntity.getUserStatus().equals(UserStatus.APPROVED)) {
             throw new Exception403("회원가입 승인되지 않는 사용자입니다.");
@@ -75,7 +72,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public Employee updateProc(@Valid EmployeeRequest.UpdateDTD updateDTD, Long employeeId) {
+    public EmployeeResponse.UpdateDTO updateProc(@Valid EmployeeRequest.UpdateDTD updateDTD, Long employeeId) {
         Employee employeeEntity = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
 
@@ -87,7 +84,7 @@ public class EmployeeService {
         updateDTD.setPassword(hashPsw);
         employeeEntity.update(updateDTD);
 
-        return employeeEntity;
+        return new EmployeeResponse.UpdateDTO(employeeEntity);
     }
 
     public long pendingCount() {
@@ -110,8 +107,7 @@ public class EmployeeService {
                 LocalDateTime.now().plusMinutes(15)
         ));
 
-        String resetLink = "http://localhost:8080/password/reset?token=" + token;
-
+        String resetLink = baseUrl + "/password/reset?token=" + token;
         mailService.sendEmailAndPassword(employeeEntity.getEmail(), resetLink);
 
         return employeeEntity;
