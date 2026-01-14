@@ -1,5 +1,7 @@
 package org.example.clean4u._core.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,8 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Component
 public class FileUtil {
-    public static String saveFile(MultipartFile file, String uploadDir) throws IOException {
+    @Value("${app.upload.base-path}")
+    private String basePath;
+
+    public String saveFile(MultipartFile file) throws IOException {
+        return saveFile(file, basePath);
+    }
+
+    public String saveFile(MultipartFile file, String uploadDir) throws IOException {
         if(file == null || file.isEmpty()) {
             return null;
         }
@@ -36,7 +46,7 @@ public class FileUtil {
         return savedFileName;
     }
 
-    public static List<String> saveFiles(List<MultipartFile> files, String uploadDir) throws IOException {
+    public List<String> saveFiles(List<MultipartFile> files, String uploadDir) throws IOException {
         if (files == null || files.isEmpty()) {
             return List.of();
         }
@@ -51,7 +61,7 @@ public class FileUtil {
         return savedNames;
     }
 
-     public static boolean isImageFile(MultipartFile file) {
+     public boolean isImageFile(MultipartFile file) {
         if(file == null || file.isEmpty()) {
             return false;
         }
@@ -59,7 +69,7 @@ public class FileUtil {
         return contentType != null && contentType.startsWith("image/");
      }
 
-     public static boolean isImageFiles(List<MultipartFile> files) {
+     public boolean isImageFiles(List<MultipartFile> files) {
         if (files == null || files.isEmpty()) {
             return true;
         }
@@ -76,7 +86,11 @@ public class FileUtil {
         return true;
      }
 
-    public static void deleteFile(String filename, String uploadDir) throws IOException {
+    public void deleteFile(String filename) throws IOException {
+        deleteFile(filename, basePath);
+    }
+
+    public void deleteFile(String filename, String uploadDir) throws IOException {
         if(filename == null || filename.isEmpty()) {
             return;
         }
@@ -86,7 +100,7 @@ public class FileUtil {
         }
     }
 
-    public static void deleteFiles(List<String> filenames, String uploadDir) throws IOException {
+    public void deleteFiles(List<String> filenames, String uploadDir) throws IOException {
         if (filenames == null || filenames.isEmpty()) {
             return;
         }
