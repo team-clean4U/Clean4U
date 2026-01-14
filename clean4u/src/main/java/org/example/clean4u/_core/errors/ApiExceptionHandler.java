@@ -5,12 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.clean4u._core.errors.exception.*;
 import org.example.clean4u._core.response.ApiErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 @RestControllerAdvice(annotations = RestController.class)
 @Slf4j
@@ -77,9 +80,19 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiErrorResponse> handleRuntimeException(RuntimeException e) {
+    public ResponseEntity<ApiErrorResponse> handleRuntimeException(RuntimeException e, HttpServletRequest request) {
+        String accept = request.getHeader(HttpHeaders.ACCEPT);
+        boolean isSse = accept != null && accept.contains(MediaType.TEXT_EVENT_STREAM_VALUE);
+        if(isSse) {
+            return null;
+        }
+
         log.warn("== 예상하지 못한 에러 발생 ==");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiErrorResponse(500, "서버 내부 오류가 발생했습니다."));
     }
+
+    @ExceptionHandler(AsyncRequestTimeoutException.class)
+    public void handleSseTimeout() {} // SSE 타임아웃 무시
+
 }
