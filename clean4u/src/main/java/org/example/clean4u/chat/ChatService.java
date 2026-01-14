@@ -7,6 +7,7 @@ import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeRepository;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -34,9 +35,20 @@ public class ChatService {
                 .toList();
     }
 
+    public List<ChatResponse.DetailDTO> findRecent(int limit) {
+        int size = Math.max(1, Math.min(limit, 200));
+        var page = PageRequest.of(0, size, Sort.by(Sort.Direction.DESC, "id"));
+        return chatRepository.findAll(page)
+                .getContent()
+                .stream()
+                .sorted((a, b) -> Long.compare(a.getId(), b.getId()))
+                .map(ChatResponse.DetailDTO::new)
+                .toList();
+    }
+
     @Transactional
     public SseEmitter createConnection(String clientId) {
-        SseEmitter emitter = new SseEmitter(60 * 1000L);
+        SseEmitter emitter = new SseEmitter(10 * 60 * 1000L);
         emitterMap.put(clientId, emitter);
 
         emitter.onCompletion(() -> emitterMap.remove(clientId));
