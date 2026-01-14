@@ -12,13 +12,13 @@
                 <i class="fa-solid fa-user"></i>
                 내 정보 수정
             </h2>
-            <a href="/main" class="btn btn-back">
+            <a href="/dashboard" class="btn btn-back">
                 <i class="fa-solid fa-arrow-left"></i>
                 돌아가기
             </a>
         </div>
 
-        <form action="/me/update" method="post">
+        <form action="/employees/me" method="post" id="updateForm">
             <div class="update-card">
 
                 <div class="update-header">
@@ -55,7 +55,6 @@
                                 name="password"
                                 class="update-value"
                                 placeholder="8~20자 비밀번호"
-                                required
                         />
                     </div>
                 </div>
@@ -72,3 +71,4 @@
 </div>
 
 {{> layout/footer}}
+<script src="/js/employee/update.js"></script>

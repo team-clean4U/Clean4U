@@ -27,7 +27,7 @@
 <nav class="navbar">
     <div class="navbar-container">
         <div class="nav-left">
-            <a class="navbar-brand" href="/main">
+            <a class="navbar-brand" href="/dashboard">
                 <i class="fa-solid fa-soap"></i> Clean4U
             </a>
             {{#sessionUser}}
@@ -84,25 +84,25 @@
                             </label>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/employee/list" class="dropdown-item">
+                                    <a href="/employees" class="dropdown-item">
                                         <i class="fa-solid fa-users"></i>
                                         직원 관리
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/employee/join-list" class="dropdown-item">
+                                    <a href="/employees?status=pending" class="dropdown-item">
                                         <i class="fa-solid fa-user-clock"></i>
                                         승인 대기 리스트
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/schedule/list" class="dropdown-item">
+                                    <a href="/schedules" class="dropdown-item">
                                         <i class="fa-solid fa-calendar-days"></i>
                                         근무 일정 관리
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/override/list" class="dropdown-item">
+                                    <a href="/schedule-overrides" class="dropdown-item">
                                         <i class="fa-solid fa-arrows-rotate"></i>
                                         교체 근무 관리
                                     </a>
@@ -111,7 +111,7 @@
                         </li>
                     {{/sessionUser.isAdmin}}
                     <li class="nav-item">
-                        <a class="nav-link" href="/main">
+                        <a class="nav-link" href="/dashboard">
                             <i class="fa-solid fa-home"></i> 대시보드
                         </a>
                     </li>
@@ -188,12 +188,12 @@
                         </ul>
                     </li>
                     <li class="nav-item nav-item-profile">
-                        <a class="nav-link" href="/me/update">
+                        <a class="nav-link" href="/employees/me">
                             <i class="fa-solid fa-user"></i> 내 정보 수정
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">
+                        <a class="nav-link" href="/sessions">
                             <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
                         </a>
                     </li>
@@ -201,7 +201,7 @@
 
                 {{^sessionUser}}
                     <li class="nav-item">
-                        <a class="nav-link" href="/join">
+                        <a class="nav-link" href="/employees/new">
                             <i class="fa-solid fa-user"></i> 회원가입
                         </a>
                     </li>

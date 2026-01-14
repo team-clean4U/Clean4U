@@ -12,9 +12,7 @@ import org.example.clean4u.workschedule.WorkScheduleResponse;
 import org.example.clean4u.workschedule.WorkScheduleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -32,15 +30,17 @@ public class EmployeeController {
     private final WorkScheduleService workScheduleService;
     private final WorkScheduleOverrideService workScheduleOverrideService;
 
-    @GetMapping("/join")
+    @GetMapping("/employees/new")
     public String join(Model model) {
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/user.css"));
         return "user/join-form";
     }
 
-    @PostMapping("/join")
-    public String joinProc(@Valid EmployeeRequest.JoinDTO joinDTO) {
-        employeeService.join(joinDTO);
+    @PostMapping("/employees/new")
+    public String joinProc(@Valid EmployeeRequest.JoinDTO joinDTO, HttpSession session) {
+        Boolean emailVerified = (Boolean) session.getAttribute("verified_email_" + joinDTO.getEmail());
+
+        employeeService.join(joinDTO, emailVerified != null && emailVerified);
 
         return "redirect:/login";
     }
@@ -56,7 +56,7 @@ public class EmployeeController {
         try {
             Employee sessionUser = employeeService.login(loginDTO);
             session.setAttribute("sessionUser", sessionUser);
-            return "redirect:/main";
+            return "redirect:/dashboard";
         } catch (Exception400 e) {
             throw e;
         } catch (Exception404 e) {
@@ -64,13 +64,7 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/login";
-    }
-
-    @GetMapping("/main")
+    @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -100,7 +94,7 @@ public class EmployeeController {
         return "user/dashboard-employee";
     }
 
-    @GetMapping("/me/update")
+    @GetMapping("/employees/me")
     public String update(Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
@@ -109,21 +103,6 @@ public class EmployeeController {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/user.css"));
 
         return "user/update-form";
-    }
-
-    @PostMapping("/me/update")
-    public String updateProc(@Valid EmployeeRequest.UpdateDTD updateDTD, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        try {
-            Employee updateEmployee = employeeService.updateProc(updateDTD, sessionUser.getId());
-            session.setAttribute("sessionUser", updateEmployee);
-            return "redirect:/main";
-        } catch (Exception403 e) {
-            throw e;
-        } catch (Exception404 e) {
-            throw e;
-        }
     }
 
     @GetMapping("/password")

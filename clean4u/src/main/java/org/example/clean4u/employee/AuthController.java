@@ -1,13 +1,13 @@
 package org.example.clean4u.employee;
 
+import com.solapi.shadow.retrofit2.http.PATCH;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.ApiResponse;
 import org.example.clean4u._core.response.PageResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping("/employee/join-list")
+    @GetMapping("/employees?status=pending")
     public String join(Model model) {
 
         List<EmployeeResponse.JoinListDTO> joinList = authService.joinList();
@@ -28,7 +28,7 @@ public class AuthController {
         return "employee/join-list";
     }
 
-    @GetMapping("/employee/list")
+    @GetMapping("/employees")
     public String list(
             Model model,
             @RequestParam(required = false) String keyword,
@@ -51,7 +51,7 @@ public class AuthController {
         return "employee/employee-list";
     }
 
-    @GetMapping("/employee/{employeeId}/detail")
+    @GetMapping("/employees/{employeeId}")
     private String detail(
             @PathVariable Long employeeId,
             Model model
@@ -61,26 +61,5 @@ public class AuthController {
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/employee-search.css"));
 
         return "employee/employee-detail";
-    }
-
-    @PostMapping("/employee/{employeeId}/approve")
-    public String approve(@PathVariable Long employeeId) {
-
-        authService.approve(employeeId);
-        return "redirect:/employee/join-list";
-    }
-
-    @PostMapping("/employee/{employeeId}/reject")
-    public String reject(@PathVariable Long employeeId) {
-
-        authService.reject(employeeId);
-        return "redirect:/employee/join-list";
-    }
-
-    @PostMapping("/employee/{employeeId}/delete")
-    public String delete(@PathVariable Long employeeId) {
-
-        authService.delete(employeeId);
-        return "redirect:/employee/list";
     }
 }

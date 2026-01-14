@@ -1,42 +1,44 @@
 package org.example.clean4u.employee;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.errors.exception.Exception403;
+import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RequiredArgsConstructor
+@RequestMapping
 @RestController
 public class EmployeeApiController {
-    private final MailService mailService;
 
-    @PostMapping("/api/email/send")
-    public ResponseEntity<?> sendEmail(
-            @RequestBody @Valid EmployeeRequest.EmailCheck emailCheck
-    ) {
-        mailService.sendEmail(emailCheck.getEmail());
+    private final EmployeeService employeeService;
 
-        return ResponseEntity.ok().body(Map.of("message", "인증번호가 발송되었습니다."));
+    @PutMapping("/api/v1/employees/me")
+    public ResponseEntity<ApiResponse<EmployeeResponse.UpdateDTO>> updateProc(
+            @Valid EmployeeRequest.UpdateDTD updateDTD,
+            HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+
+        try {
+            EmployeeResponse.UpdateDTO updateEmployee = employeeService.updateProc(updateDTD, sessionUser.getId());
+            session.setAttribute("sessionUser", updateEmployee);
+            return ResponseEntity.ok(ApiResponse.ok(updateEmployee));
+        } catch (Exception403 e) {
+            throw e;
+        } catch (Exception404 e) {
+            throw e;
+        }
     }
 
-    @PostMapping("/api/email/verify")
-    public ResponseEntity<?> verifyEmailCode(
-            @RequestBody @Valid EmployeeRequest.EmailCheck emailCheck
-    ) {
-        if (emailCheck.getCode() == null || emailCheck.getCode().trim().isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("message", "인증번호를 입력해주세요"));
-        }
-
-        Boolean isVerified = mailService.verifyEmailCode(emailCheck.getEmail(), emailCheck.getCode());
-
-        if (isVerified) {
-            return ResponseEntity.ok().body(Map.of("message", "인증 완료되었습니다."));
-        } else {
-            return ResponseEntity.badRequest().body(Map.of("message", "인증번호가 일치하지 않습니다."));
-        }
+    @DeleteMapping("/sessions")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 }

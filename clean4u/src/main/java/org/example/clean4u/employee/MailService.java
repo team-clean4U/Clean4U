@@ -4,6 +4,9 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.example.clean4u._core.errors.exception.Exception400;
+import org.example.clean4u._core.errors.exception.Exception500;
 import org.example.clean4u._core.utils.MailUtil;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MailService {
     private final HttpSession session;
     private final JavaMailSender javaMailSender;
@@ -30,7 +34,8 @@ public class MailService {
 
             session.setAttribute("code_" + email, code);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("이메일 발송 실패: {}", e.getMessage(), e);
+            throw new Exception500("이메일 발송에 실패했습니다.");
         }
     }
 
