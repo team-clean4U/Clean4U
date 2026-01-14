@@ -2,7 +2,6 @@ package org.example.clean4u.notice;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.errors.exception.Exception401;
 import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.response.ApiResponse;
 import org.example.clean4u.employee.Employee;
@@ -30,10 +29,6 @@ public class NoticeApiController {
                                                                               HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다");
-        }
-
         if (!sessionUser.isAdmin()) {
             throw new Exception403("공지사항 수정 권한이 없습니다");
         }
@@ -46,10 +41,6 @@ public class NoticeApiController {
     public ResponseEntity<ApiResponse<Void>> deleteNotice (@PathVariable Long noticeId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다");
-        }
-
         if (!sessionUser.isAdmin()) {
             throw new Exception403("공지사항 삭제 권한이 없습니다");
         }
@@ -61,10 +52,6 @@ public class NoticeApiController {
     @DeleteMapping("{noticeId}/image")
     public ResponseEntity<ApiResponse<Void>> deleteNoticeImages(@PathVariable Long noticeId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        if (sessionUser == null) {
-            throw new Exception401("로그인이 필요합니다");
-        }
 
         if (!sessionUser.isAdmin()) {
             throw new Exception403("공지사항 관련 권한이 없습니다.");
