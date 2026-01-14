@@ -23,11 +23,4 @@ public class ChatController {
         return "chat/index";
     }
 
-    @PostMapping("/chats")
-    public String sendMessage(@RequestParam(name = "message") String message,
-                              @RequestParam(name = "employeeId") Long employeeId) {
-        chatService.addMessage(message, employeeId);
-        return "redirect:/chats";
-    }
-
 }
