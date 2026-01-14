@@ -6,6 +6,8 @@ server:
     session:
       timeout: 30m
   port: 8080
+  async:
+    request-timeout: 600000
 
 logging:
   level:

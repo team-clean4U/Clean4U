@@ -20,6 +20,14 @@ public class ChatApiController {
         return chatService.createConnection(UUID.randomUUID().toString());
     }
 
+    @GetMapping("/history")
+    public ResponseEntity<ApiResponse<java.util.List<ChatResponse.DetailDTO>>> history(
+            @RequestParam(name = "limit", defaultValue = "50") int limit
+    ) {
+        var data = chatService.findRecent(limit);
+        return ResponseEntity.ok(ApiResponse.ok(data));
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> sendMessage(@RequestParam(name = "message") String message,
                                                    @RequestParam(name = "employeeId") Long employeeId) {
