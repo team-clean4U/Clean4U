@@ -7,10 +7,12 @@ public class ChatResponse {
     public static class DetailDTO {
         private String message;
         private String sender;
+        private boolean mine;
 
         public DetailDTO(Chat chat) {
             this.message = chat.getMessage();
             this.sender = chat.getEmployee().getName();
+            this.mine = false;
         }
     }
 }
