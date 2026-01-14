@@ -144,26 +144,32 @@
                 <div style="text-align: center;">
                     <input type="hidden" id="orderId" value="{{order.orderId}}">
                         <div class="btn-payment-wrapper" id="paymentArea">
-                         {{#order.isPending}}{{^order.isCancelled}}
-                                <button type="button" id="paymentBtn" class="btn btn-payment">
-                                    <span class="payment-emoji">
-                                        <i class="fa-solid fa-credit-card"></i>
+                            {{^payment}}
+                                 {{#order.isPending}}
+                                     {{^order.isCancelled}}
+                                        <button type="button" id="paymentBtn" class="btn btn-payment">
+                                            <span class="payment-emoji">
+                                                <i class="fa-solid fa-credit-card"></i>
+                                            </span>
+                                            <span class="payment-request">결제 QR 요청하기</span>
+                                        </button>
+                                     {{/order.isCancelled}}
+                                 {{/order.isPending}}
+                            {{/payment}}
+                        {{^order.isPending}}
+                            {{#payment}}
+                                <div class="payment-refund-card">
+                                    <span style="color: var(--color-dark-blue); font-weight: 500;">
+                                        [결제 완료] 주문번호: {{merchantUid}}
                                     </span>
-                                    <span class="payment-request">결제 QR 요청하기</span>
-                                </button>
-                         {{/order.isCancelled}}{{/order.isPending}}
-                        {{^order.isPending}}{{#payment}}
-                            <div class="payment-refund-card">
-                                <span style="color: var(--color-dark-blue); font-weight: 500;">
-                                    [결제 완료] 주문번호: {{merchantUid}}
-                                </span>
-                                <a href="/refunds/{{id}}">
-                                    <span class="btn btn-delete">
-                                        환불 요청
-                                    </span>
-                                </a>
-                            </div>
-                        {{/payment}}{{/order.isPending}}
+                                    <a href="/refunds/{{id}}">
+                                        <span class="btn btn-delete">
+                                            환불 요청
+                                        </span>
+                                    </a>
+                                </div>
+                            {{/payment}}
+                        {{/order.isPending}}
                             {{#refund.isApproved}}
                                 <span class="status-badge status-refund">
                                     환불 완료
