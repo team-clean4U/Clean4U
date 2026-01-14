@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(res => {
                     if (!res.ok) {
                         alert("환불에 실패하였습니다.");
-                        throw new Error("환불 실패");
+                        throw new Error("환불 중 오류가 발생했습니다.");
                     }
                     return res.json();
                 })
@@ -32,12 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert("환불 완료되었습니다.");
                         location.href = `/payments`;
                     } else {
-                        alert("환불 실패");
+                        alert("환불에 실패하였습니다.");
                     }
                 })
         } catch (error) {
             console.error("Error: ", error);
-            alert("환불 중 오류가 발생했습니다.");
+            alert(error.message);
         }
     });
 });
