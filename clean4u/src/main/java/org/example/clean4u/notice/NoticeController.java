@@ -26,14 +26,6 @@ public class NoticeController {
     public String saveForm(Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        if (sessionUser == null) {
-            return "redirect:/login";
-        }
-
-        if (sessionUser.getUserRole() != UserRole.ADMIN) {
-            throw new Exception403("공지사항 작성 권한이 없습니다.");
-        }
-
         model.addAttribute("writer", sessionUser.getName());
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/notice.css"));
 
@@ -43,14 +35,6 @@ public class NoticeController {
     @PostMapping("/notices/new")
     public String saveProc(@Valid NoticeRequest.SaveDTO dto, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        if (sessionUser == null) {
-            return "redirect:/login";
-        }
-
-        if (!sessionUser.isAdmin()) {
-            throw new Exception403("공지사항 작성 권한이 없습니다.");
-        }
 
         Notice notice = noticeService.saveNotice(dto, sessionUser);
 
@@ -98,14 +82,6 @@ public class NoticeController {
     @GetMapping("/notices/{noticeId}/edit")
     public String updateForm(@PathVariable Long noticeId, Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        if (sessionUser == null) {
-            return "redirect:/login";
-        }
-
-        if (!sessionUser.isAdmin()) {
-            throw new Exception403("공지사항 수정 권한이 없습니다.");
-        }
 
         NoticeResponse.DetailDTO notice = noticeService.getFormForUpdate(noticeId, sessionUser);
         model.addAttribute("notice", notice);
