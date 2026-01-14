@@ -1,0 +1,116 @@
+{{> layout/header}}
+{{> layout/background}}
+<div class="content-section">
+    <div class="container">
+        <div class="header-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <a href="/chats">
+                        <i class="fa-solid fa-laptop"></i>
+                        직원 채팅
+                    </a>
+                </h2>
+            </div>
+            <div style="width: 500px;">
+                <div class="chat-body-container">
+                    <div class="chat-box" id="chatBox">
+                        {{#chatList}}
+                            <div class="msg-wrap">
+                                <div class="msg-box">
+                                    <span class="name">{{sender}}</span>
+                                    <span class="msg">{{message}}</span>
+                                </div>
+                            </div>
+                        {{/chatList}}
+                    </div>
+                </div>
+                <div class="input-card">
+                    <form id="chatForm" class="input-area">
+                        <input type="hidden" id="senderId" name="senderId" value="{{sessionUser.id}}">
+                        <input type="text" id="message" name="message" placeholder="내용 입력..." class="input-msg" autofocus>
+                        <button type="submit" class="btn-send">전송</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chatBox = document.getElementById("chatBox");
+    chatBox.scrollTop = chatBox.scrollHeight;
+    const chatForm = document.getElementById("chatForm");
+
+    const eventSource = new EventSource("/api/v1/chats");
+    eventSource.onopen = () => console.log("SSE 연결 성공");
+    eventSource.onerror = () => console.log("SSE 연결 실패");
+    window.addEventListener("beforeunload", () => {
+        eventSource.close();
+    });
+
+    eventSource.addEventListener("newMessage", (event) => {
+        const data = JSON.parse(event.data);
+        const sender = data.sender;
+        const message = data.message;
+
+        const msgWrap = document.createElement("div");
+        msgWrap.className = "msg-wrap";
+
+        const msgBox = document.createElement("div");
+        msgBox.className = "msg-box";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "name";
+        nameSpan.textContent = sender;
+
+        const msgSpan = document.createElement("span");
+        msgSpan.className = "msg";
+        msgSpan.textContent = message;
+
+        msgBox.appendChild(nameSpan);
+        msgBox.appendChild(msgSpan);
+        msgWrap.appendChild(msgBox);
+        chatBox.appendChild(msgWrap);
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    chatForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const senderIdHidden = document.getElementById("senderId");
+        const messageInput = document.getElementById("message");
+
+        const senderId = senderIdHidden.value;
+        const message = messageInput.value;
+
+        if(!message.trim()) {
+            alert("메세지는 반드시 입력해주세요");
+            return;
+        }
+
+        fetch("/chats", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/x-www-form-urlencoded"
+            },
+
+            body: new URLSearchParams({
+                employeeId: senderId,
+                message: message
+            })
+        })
+                .then(res => {
+                    if(res.ok) {
+                        messageInput.value = "";
+                        messageInput.focus();
+                    } else {
+                        console.log("전송 실패");
+                    }
+                })
+                .catch(err => console.log("에러 발생: ", err));
+
+    });
+</script>
+
+{{>layout/footer}}
