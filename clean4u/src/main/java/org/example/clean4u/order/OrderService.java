@@ -92,7 +92,7 @@ public class OrderService {
                 }
                 laundryImageFileName = FileUtil.saveFile(saveDto.getLaundryImage(), basePath);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new Exception500("파일 저장 중 오류가 발생했습니다." + e.getMessage());
             }
         }
         int totalPrice = calculateTotalPrice(saveDto.getItems());
