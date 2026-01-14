@@ -1,40 +1,39 @@
 {{> layout/header}}
 {{> layout/background}}
-<div class="content-section">
+<div class="content-section chat">
     <div class="container">
-        <div class="header-container" style="display: flex; flex-direction: column; padding: 0 20rem;">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <a href="/chats">
-                        <i class="fa-solid fa-laptop"></i>
-                        직원 채팅
-                    </a>
-                </h2>
-            </div>
-            <div>
-                <div class="chat-body-container" id="chatContainer">
-                    <div class="chat-box" id="chatBox">
-                        {{#chatList}}
-                            <div class="msg-wrap">
-                                <div class="msg-box">
-                                    <span class="name">{{sender}}</span>
-                                    <span class="msg">{{message}}</span>
-                                </div>
+        <div class="section-header">
+            <h2 class="section-title">
+                <a href="/chats">
+                    <i class="fa-solid fa-laptop"></i>
+                    직원 채팅
+                </a>
+            </h2>
+        </div>
+        <div>
+            <div class="chat-body-container" id="chatContainer" data-current-user="{{sessionUser.name}}">
+                <div id="chatBox">
+                    {{#chatList}}
+                        <div class="msg-wrap {{#mine}}msg-mine{{/mine}}{{^mine}}msg-other{{/mine}}">
+                            <div class="msg-box">
+                                <span class="name"><i class="fa-solid fa-user"></i>{{sender}}</span>
+                                <span class="msg">{{message}}</span>
                             </div>
-                        {{/chatList}}
+                        </div>
+                    {{/chatList}}
+                </div>
+            </div>
+            <div class="input-card">
+                <form id="chatForm" class="input-area">
+                    <div>
+                        <input type="hidden" id="senderId" name="senderId" value="{{sessionUser.id}}">
+                        <input type="text" id="message" name="message" placeholder="내용 입력..." class="input-msg"
+                               autofocus>
                     </div>
-                </div>
-                <div class="input-card">
-                    <form id="chatForm" class="input-area">
-                        <div>
-                            <input type="hidden" id="senderId" name="senderId" value="{{sessionUser.id}}">
-                            <input type="text" id="message" name="message" placeholder="내용 입력..." class="input-msg" autofocus>
-                        </div>
-                        <div>
-                            <button type="submit" class="btn-send">전송</button>
-                        </div>
-                    </form>
-                </div>
+                    <div>
+                        <button type="submit" class="chat-send">전송</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -45,6 +44,10 @@
     const chatForm = document.getElementById("chatForm");
     const chatBox = document.getElementById("chatBox");
 
+    window.addEventListener("load", () => {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+
     const eventSource = new EventSource("/api/v1/chats");
     window.addEventListener("beforeunload", () => {
         eventSource.close();
@@ -54,16 +57,21 @@
         const data = JSON.parse(event.data);
         const sender = data.sender;
         const message = data.message;
+        const currentUserName = chatContainer.getAttribute("data-current-user");
+        const isMine = sender === currentUserName;
 
         const msgWrap = document.createElement("div");
-        msgWrap.className = "msg-wrap";
+        msgWrap.className = isMine ? "msg-wrap msg-mine" : "msg-wrap msg-other";
 
         const msgBox = document.createElement("div");
         msgBox.className = "msg-box";
 
         const nameSpan = document.createElement("span");
         nameSpan.className = "name";
-        nameSpan.textContent = sender;
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-user";
+        nameSpan.appendChild(icon);
+        nameSpan.appendChild(document.createTextNode(sender));
 
         const msgSpan = document.createElement("span");
         msgSpan.className = "msg";
@@ -85,7 +93,7 @@
         const senderId = senderIdHidden.value;
         const message = messageInput.value;
 
-        if(!message.trim()) {
+        if (!message.trim()) {
             alert("메세지는 반드시 입력해주세요");
             return;
         }
@@ -93,7 +101,7 @@
         fetch("/api/v1/chats", {
             method: "POST",
             headers: {
-                "Content-Type" : "application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded"
             },
 
             body: new URLSearchParams({
@@ -102,7 +110,7 @@
             })
         })
                 .then(res => {
-                    if(res.ok) {
+                    if (res.ok) {
                         messageInput.value = "";
                         messageInput.focus();
                     } else {
