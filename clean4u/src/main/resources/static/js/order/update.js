@@ -133,34 +133,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const updateForm = document.getElementById("updateForm");
 if(updateForm) {
-    updateForm.addEventListener("submit",  (e) => {
+    updateForm.addEventListener("submit",  async (e) => {
         e.preventDefault();
 
         const orderId = updateForm.dataset.orderId;
         const formData = new FormData(updateForm);
 
         try {
-             fetch(`/api/v1/orders/${orderId}`, {
+            const res =  await fetch(`/api/v1/orders/${orderId}`, {
                 method: "PUT",
                 body: formData
-            })
-                .then(res => {
-                    if(!res.ok) {
-                        throw new Error("수정 실패");
-                    }
-                    return res.json();
-                })
-                .then(result => {
-                    if(result.data.isGradeChanged) {
-                        alert("고객 등급이 변경되었습니다.");
-                    } else {
-                        alert("주문 내역이 변경되었습니다.");
-                    }
-                    location.href = `/orders/${orderId}`;
-                })
+            });
+
+            const data = await res.json();
+
+            if(!res.ok) {
+                throw new Error(data.message);
+            }
+            if(data.data.isGradeChanged) {
+                alert("고객 등급이 변경되었습니다.");
+            } else {
+                alert("주문 내역이 변경되었습니다.");
+            }
         } catch (error) {
             console.error("Error:", error);
-            alert("수정 중 오류가 발생했습니다.");
+            alert(error.message);
         }
+
     });
 }

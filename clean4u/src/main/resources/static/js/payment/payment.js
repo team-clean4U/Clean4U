@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }).then(() => {
             alert("결제가 완료되었습니다.");
             location.href = `/orders/${order_id}`;
-        }).catch(() => {
+        }).catch((error) => {
             alert("결제 검증에 실패했습니다.");
         })
     }

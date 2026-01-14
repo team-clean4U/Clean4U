@@ -162,11 +162,13 @@
                                     <span class="payment-card">
                                         [결제 완료] 주문번호: {{merchantUid}}
                                     </span>
+                                    {{#order.isReceived}}
                                     <a href="/refunds/{{id}}">
                                         <span class="btn btn-delete">
                                             환불 요청
                                         </span>
                                     </a>
+                                    {{/order.isReceived}}
                                 </div>
                             {{/payment}}
                         {{/order.isPending}}
