@@ -1,6 +1,7 @@
 package org.example.clean4u._core.utils;
 
-import org.example.clean4u._core.errors.exception.Exception400;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,12 +13,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class FileUtil {
-    public static final String IMAGES_DIR = "C:/uploads/";
-
-    public static String saveFile(MultipartFile file) throws IOException {
-        return saveFile(file, IMAGES_DIR);
-    }
-
     public static String saveFile(MultipartFile file, String uploadDir) throws IOException {
         if(file == null || file.isEmpty()) {
             return null;
@@ -82,10 +77,6 @@ public class FileUtil {
         }
         return true;
      }
-
-    public static void deleteFile(String filename) throws IOException {
-        deleteFile(filename, IMAGES_DIR);
-    }
 
     public static void deleteFile(String filename, String uploadDir) throws IOException {
         if(filename == null || filename.isEmpty()) {
