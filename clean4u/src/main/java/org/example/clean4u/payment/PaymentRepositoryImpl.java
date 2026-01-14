@@ -60,7 +60,7 @@ public class PaymentRepositoryImpl implements PaymentRepositoryCustom {
         }
 
         if(toDateTime != null) {
-            jpql.append(hasCondition ? " AND " : " WHERE ").append("o.createdAt <= :toDateTime");
+            jpql.append(hasCondition ? " AND " : " WHERE ").append("p.createdAt <= :toDateTime");
             hasCondition = true;
         }
 
