@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteBtn.id = "imageDelete";
             deleteBtn.type = "button";
             deleteBtn.className = "btn btn-delete";
-            // deleteBtn.setAttribute("form", "deleteImage");
             deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>삭제';
 
             fileName.after(deleteBtn);
