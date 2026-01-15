@@ -7,18 +7,18 @@
             <!-- 섹션 헤더 -->
             <div class="section-header">
                 <h2 class="section-title">
-                    <a href="/override/list">
+                    <a href="/schedule-overrides">
                         <i class="fa-solid fa-arrows-rotate"></i>
                         병결/대체 근무 목록
                     </a>
                 </h2>
-                <a href="/schedule" class="btn btn-create">
+                <a href="/schedules/employees" class="btn btn-create">
                     <i class="fa-solid fa-plus btn-create-icon"></i> 새 일정 등록
                 </a>
             </div>
 
             <!-- 검색폼 -->
-            <form method="get" action="/override/list" class="search-wrapper">
+            <form method="get" action="/schedule-overrides" class="search-wrapper">
                 <div class="search-box">
 
                     <!-- 카테고리 + 키워드 -->
@@ -79,7 +79,7 @@
         <!-- 카드 리스트 -->
         <div class="card-list">
             {{#scheduleListPage.content}}
-                <a href="/override/{{id}}/detail" class="card">
+                <a href="/schedule-overrides/{{id}}" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-user"></i>
                         <h4>{{originalName}}</h4>
@@ -103,39 +103,46 @@
     </div>
 </div>
 
-<!-- 페이지네이션 -->
 <ul class="pagination">
-    {{#scheduleListPage.previousPageNumber}}
+
+    {{#scheduleListPage.hasPrevious}}
         <li class="page-btn">
-            <a href="/override/list?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}">
+            <a href="/schedule-overrides?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
-    {{/scheduleListPage.previousPageNumber}}
-    {{^scheduleListPage.previousPageNumber}}
+    {{/scheduleListPage.hasPrevious}}
+
+    {{^scheduleListPage.hasPrevious}}
         <li class="page-btn disabled">
             <i class="fa-solid fa-chevron-left"></i>
         </li>
-    {{/scheduleListPage.previousPageNumber}}
+    {{/scheduleListPage.hasPrevious}}
+
 
     {{#scheduleListPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/override/list?page={{displayNumber}}&size={{scheduleListPage.size}}">{{displayNumber}}</a>
+            <a href="/schedule-overrides?page={{displayNumber}}&size={{scheduleListPage.size}}">
+            {{displayNumber}}
+            </a>
         </li>
     {{/scheduleListPage.pageLinks}}
 
-    {{#scheduleListPage.nextPageNumber}}
+
+    {{#scheduleListPage.hasNext}}
         <li class="page-btn">
-            <a href="/override/list?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}">
+            <a href="/schedule-overrides?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}">
             <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>
-    {{/scheduleListPage.nextPageNumber}}
-    {{^scheduleListPage.nextPageNumber}}
+    {{/scheduleListPage.hasNext}}
+
+    {{^scheduleListPage.hasNext}}
         <li class="page-btn disabled">
             <i class="fa-solid fa-chevron-right"></i>
         </li>
-    {{/scheduleListPage.nextPageNumber}}
+    {{/scheduleListPage.hasNext}}
+
 </ul>
 
 {{> layout/footer}}

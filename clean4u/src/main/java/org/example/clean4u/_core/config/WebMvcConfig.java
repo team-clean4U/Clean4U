@@ -59,7 +59,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/employees/new",
                         "/password/**",
                         "/login",
-                        "/auth/logout",
+                        "/sessions",
                         "/error",
                         "/client",
                         "/client/**",
@@ -74,8 +74,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 );
 
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/employees/**", "/schedules/**", "/overrides/**");
-
+                .addPathPatterns("/employees/**", "/schedules/**", "/schedule-overrides/**");
     }
 
     @Bean

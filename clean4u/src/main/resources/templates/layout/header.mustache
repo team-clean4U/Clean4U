@@ -85,13 +85,13 @@
                             </label>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/employees" class="dropdown-item">
+                                    <a href="/admin/employees" class="dropdown-item">
                                         <i class="fa-solid fa-users"></i>
                                         직원 관리
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/employees?status=pending" class="dropdown-item">
+                                    <a href="/admin/employees/pending" class="dropdown-item">
                                         <i class="fa-solid fa-user-clock"></i>
                                         승인 대기 리스트
                                     </a>
@@ -194,7 +194,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/sessions">
+                        <a class="nav-link" href="#" id="logoutBtn">
                             <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
                         </a>
                     </li>
@@ -244,3 +244,5 @@
         </form>
     </div>
 {{/sessionUser}}
+
+<script src="/js/employee/logout.js"></script>

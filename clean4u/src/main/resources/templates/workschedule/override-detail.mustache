@@ -5,11 +5,11 @@
 <div class="detail-container">
     <div class="detail-container-content">
         <div class="buttons">
-            <form action="/override/list" method="get">
+            <form action="/schedule-overrides" method="get">
                 <button class="btn btn-back"><i class="fa-solid fa-arrow-left"></i>목록으로</button>
             </form>
             <div class="button-right">
-                <form action="/override/{{override.id}}/delete" method="post">
+                <form action="/schedule-overrides/{{id}}" method="delete">
                     <button class="btn btn-delete"><i class="fa-solid fa-trash"></i>삭제</button>
                 </form>
             </div>

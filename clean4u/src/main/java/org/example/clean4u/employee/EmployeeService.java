@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Transactional(readOnly = true)
 public class EmployeeService {
 
-    private final HttpSession session;
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
     private final ReviewService reviewService;
@@ -91,7 +90,7 @@ public class EmployeeService {
         return employeeRepository.countByUserStatus(UserStatus.PENDING);
     }
 
-    public Employee findPassword(@Valid EmployeeRequest.FindPassword findPassword) {
+    public ResetPasswordSession findPassword(@Valid EmployeeRequest.FindPassword findPassword) {
         Employee employeeEntity = employeeRepository.findByUsername(findPassword.getUsername())
                 .orElseThrow(() -> new Exception400("해당 사용자를 찾을 수 없습니다."));
 
@@ -100,23 +99,14 @@ public class EmployeeService {
         }
 
         String token = reviewService.generateShortToken();
-
-        session.setAttribute("RESET_PASSWORD", new ResetPasswordSession(
-                employeeEntity.getId(),
-                token,
-                LocalDateTime.now().plusMinutes(15)
-        ));
-
         String resetLink = baseUrl + "/password/reset?token=" + token;
         mailService.sendEmailAndPassword(employeeEntity.getEmail(), resetLink);
 
-        return employeeEntity;
+        return new ResetPasswordSession(employeeEntity.getId(), token, LocalDateTime.now().plusMinutes(15));
     }
 
     @Transactional
-    public Employee passwordReset(@Valid EmployeeRequest.PasswordReset passwordReset) {
-
-        ResetPasswordSession reset = (ResetPasswordSession) session.getAttribute("RESET_PASSWORD");
+    public void passwordReset(@Valid EmployeeRequest.PasswordReset passwordReset, ResetPasswordSession reset) {
 
         if (reset == null || reset.isExpired()) {
             throw new Exception400("세션 만료");
@@ -127,7 +117,5 @@ public class EmployeeService {
 
         String hashPwd = passwordEncoder.encode(passwordReset.getPassword());
         employeeEntity.setPassword(hashPwd);
-
-        return employeeEntity;
     }
 }
