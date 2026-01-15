@@ -20,9 +20,12 @@
                         </div>
                     {{/isActive}}
                     {{^isActive}}
-                        <div class="button-right">
-                                <button class="btn btn-delete" onclick="activateCustomer({{customer.customerId}})">활성화</button>
-                        </div>
+                        <form id="activateForm" action="/customers/{{customerId}}/status" method="post" style="display: inline;">
+                            <input type="hidden" name="isActive" value="true">
+                            <button type="button" class="btn btn-activate" onclick="if(confirm('활성화하시겠습니까?')) document.getElementById('activateForm').submit();">
+                                <i class="fa-solid fa-check"></i>활성화
+                            </button>
+                        </form>
                     {{/isActive}}
                 {{/customer}}
             </div>
@@ -149,8 +152,13 @@
         </button>
         <h4>삭제하시겠습니까?</h4>
         <div class="btn-group">
-                <button type="submit" class="btns btn-deactivate" onclick="deactivateCustomer({{customer.customerId}})">비활성화</button>
-                <button type="submit" class="btns btn-customer-delete" onclick="deleteCustomer({{customer.customerId}})">삭 제</button>
+            <form id="deactivateForm" action="/customers/{{customer.customerId}}/status" method="post" style="display: inline;">
+                <input type="hidden" name="isActive" value="false">
+                <button type="button" class="btn btn-deactivate" onclick="if(confirm('비활성화하시겠습니까?')) document.getElementById('deactivateForm').submit();">
+                    비활성화
+                </button>
+            </form>
+            <button type="submit" class="btns btn-customer-delete" onclick="deleteCustomer({{customer.customerId}})">삭 제</button>
         </div>
     </div>
 </div>

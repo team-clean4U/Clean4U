@@ -95,4 +95,15 @@ public class CustomerController {
 
         return "customer/update-form";
     }
+
+    @PostMapping("/customers/{customerId}/status")
+    public String updateStatus(@PathVariable Long customerId, @RequestParam(defaultValue = "true") boolean isActive) {
+        if (isActive) {
+            customerService.activateCustomer(customerId);
+        } else {
+            customerService.deactivateCustomer(customerId);
+        }
+
+        return "redirect:/customers/" + customerId;
+    }
 }

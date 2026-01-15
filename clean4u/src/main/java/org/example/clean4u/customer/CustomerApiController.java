@@ -26,18 +26,6 @@ public class CustomerApiController {
         return ResponseEntity.ok(ApiResponse.ok(result));
     }
 
-    @PatchMapping("/{customerId}/deactivate")
-    public ResponseEntity<ApiResponse<CustomerResponse.CustomerStatusDTO>> deactivateCustomer(@PathVariable Long customerId) {
-        CustomerResponse.CustomerStatusDTO result = customerService.deactivateCustomer(customerId);
-        return ResponseEntity.ok(ApiResponse.ok(result));
-    }
-
-    @PatchMapping("/{customerId}/activate")
-    public ResponseEntity<ApiResponse<CustomerResponse.CustomerStatusDTO>> activateCustomer(@PathVariable Long customerId) {
-        CustomerResponse.CustomerStatusDTO result = customerService.activateCustomer(customerId);
-        return ResponseEntity.ok(ApiResponse.ok(result));
-    }
-
     @DeleteMapping("/{customerId}")
     public ResponseEntity<ApiResponse<Void>> deleteCustomer(@PathVariable Long customerId) {
         customerService.delete(customerId);
