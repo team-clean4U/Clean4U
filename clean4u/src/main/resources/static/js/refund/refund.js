@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const reason = document.getElementById("reason");
+    const refundData = document.getElementById("refundData");
     const paymentId = refundData.dataset.paymentId;
 
     refundData.addEventListener("submit", (e) => {

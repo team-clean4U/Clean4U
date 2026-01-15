@@ -20,9 +20,6 @@ public class RefundApiController {
                                                                @RequestBody @Valid RefundRequest.DetailDTO detailDTO,
                                                                HttpSession session) {
         Employee employee = (Employee) session.getAttribute("sessionUser");
-        if(employee == null) {
-            throw new Exception404("로그인한 사용자를 찾을 수 없습니다.");
-        }
         refundService.refundRequestProc(paymentId, detailDTO, employee);
         return ResponseEntity.ok().body(ApiResponse.ok("환불이 완료되었습니다."));
     }
