@@ -16,10 +16,15 @@ public class OrderApiController {
     private final OrderService orderService;
 
     @PutMapping(value = "/{orderId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<OrderResponse.UpdateDTO>> updateProc(@PathVariable Long orderId, @ModelAttribute @Valid OrderRequest.UpdateDTO updateDto, HttpSession session) {
+    public ResponseEntity<ApiResponse<OrderResponse.UpdateDTO>> updateProc(@PathVariable Long orderId,
+                                                                           @ModelAttribute @Valid OrderRequest.UpdateDTO updateDto,
+                                                                           HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         boolean isGradeChanged = orderService.updateProc(orderId, updateDto, sessionUser.getId());
-        OrderResponse.UpdateDTO result = new OrderResponse.UpdateDTO(isGradeChanged, isGradeChanged ? "고객 등급이 변경되었습니다." : "주문 수정이 완료되었습니다.");
+        OrderResponse.UpdateDTO result
+                = new OrderResponse.UpdateDTO(isGradeChanged, isGradeChanged
+                ? "고객 등급이 변경되었습니다."
+                : "주문 수정이 완료되었습니다.");
         return ResponseEntity.ok(ApiResponse.ok(result));
     }
 
@@ -30,7 +35,9 @@ public class OrderApiController {
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<ApiResponse<Void>> deactivate(@PathVariable Long orderId, @RequestParam(defaultValue = "false") boolean hardDelete, HttpSession session) {
+    public ResponseEntity<ApiResponse<Void>> deactivate(@PathVariable Long orderId,
+                                                        @RequestParam(defaultValue = "false") boolean hardDelete,
+                                                        HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
         orderService.deactivate(orderId, sessionUser.getId(), hardDelete);
         return ResponseEntity.ok().body(ApiResponse.ok(hardDelete ? "주문이 완전히 삭제되었습니다." : "주문이 취소 처리(비활성화)되었습니다."));
