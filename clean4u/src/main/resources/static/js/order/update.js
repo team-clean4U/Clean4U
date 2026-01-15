@@ -155,6 +155,7 @@ if(updateForm) {
             } else {
                 alert("주문 내역이 변경되었습니다.");
             }
+                location.href = `/orders/${orderId}`;
         } catch (error) {
             alert(error.message);
         }
