@@ -5,11 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const files = form.uploadImages?.files;
-        if (!files || files.length === 0) {
-            return;
-
-        }
-
+        const hasFiles = files && files.length > 0;
         const noticeId = window.location.pathname.match(/\/(\d+)\/edit/)[1];
 
         try {
@@ -26,23 +22,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 const errorBody = await textRes.json();
                 throw new Error(errorBody.message);
             }
-            if(textRes.ok){
+            if (textRes.ok) {
                 console.log(textRes);
             }
 
-            const imageFormData = new FormData();
-            Array.from(files).forEach(file => {
-                imageFormData.append("uploadImages", file);
-            });
+            if (hasFiles) {
+                const imageFormData = new FormData();
+                Array.from(files).forEach(file => {
+                    imageFormData.append("uploadImages", file);
+                });
 
-            const imgRes = await fetch(`/notices/${noticeId}/image`, {
-                method: "POST",
-                body: imageFormData,
-            });
+                const imgRes = await fetch(`/notices/${noticeId}/image`, {
+                    method: "POST",
+                    body: imageFormData,
+                });
 
-            if (!imgRes.ok) {
-                const errorBody = await imgRes.json();
-                throw new Error(errorBody.message);
+                if (!imgRes.ok) {
+                    const errorBody = await imgRes.json();
+                    throw new Error(errorBody.message);
+                }
             }
 
             window.location.href = `/notices/${noticeId}`;
