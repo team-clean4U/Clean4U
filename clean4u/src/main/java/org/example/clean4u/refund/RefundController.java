@@ -20,7 +20,7 @@ public class RefundController {
         Payment payment = refundService.refundRequestForm(paymentId);
         PaymentResponse.DetailDTO paymentDTO = new PaymentResponse.DetailDTO(payment);
         model.addAttribute("payment", paymentDTO);
-        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/order.css", "/css/payment.css", "/css/refund.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/order.css", "/css/payment.css", "/css/refund.css", "/css/component.css"));
         return "refund/request-form";
     }
 }
