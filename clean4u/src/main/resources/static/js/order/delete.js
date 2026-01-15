@@ -16,8 +16,7 @@ async function cancelOrder(orderId) {
         location.href = "/orders";
 
     } catch (error) {
-        console.log("Error: ", error);
-        alert("접수 취소(삭제) 중 오류가 발생했습니다.");
+        alert(error.message);
     }
 }
 
@@ -36,7 +35,6 @@ async function deleteImage(orderId) {
         location.reload();
 
     }  catch (error) {
-        console.error("Error:", error);
         alert(error.message);
     }
 }
@@ -56,7 +54,6 @@ async function deleteOrder(orderId) {
         alert("주문이 삭제되었습니다.");
         location.href = "/orders";
     } catch (error) {
-        console.error("Error:", error);
         alert(error.message);
     }
 }

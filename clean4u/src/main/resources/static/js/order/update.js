@@ -156,7 +156,6 @@ if(updateForm) {
                 alert("주문 내역이 변경되었습니다.");
             }
         } catch (error) {
-            console.error("Error:", error);
             alert(error.message);
         }
 
