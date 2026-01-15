@@ -1,7 +1,6 @@
 package org.example.clean4u.customer;
 
 import lombok.Data;
-import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.utils.DateUtil;
 import org.example.clean4u._core.utils.PriceUtil;
 import org.example.clean4u.employee.Employee;
@@ -9,7 +8,6 @@ import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderStatus;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerResponse {
