@@ -3,8 +3,10 @@ package org.example.clean4u.notice;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.clean4u._core.response.ApiResponse;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.Employee;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,17 +37,6 @@ public class NoticeController {
 
         return "redirect:/notices/" + notice.getId();
     }
-
-//    @PostMapping("/notices/{noticeId}/image")
-//    public String uploadImage(@PathVariable Long noticeId,
-//                              @ModelAttribute @Valid NoticeRequest.ImageUploadDTO dto,
-//                              HttpSession session) throws IOException {
-//
-//        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-//        NoticeResponse.DetailDTO notice = noticeService.saveNoticeImages(noticeId, dto, sessionUser);
-//
-//        return "redirect:/notices/" + notice.getId();
-//    }
 
     // 공지 목록
     @GetMapping("/notices")
@@ -95,5 +86,15 @@ public class NoticeController {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/notice.css"));
 
         return "/notice/update-form";
+    }
+
+    @PostMapping("/notices/{noticeId}/image")
+    public String updateNoticeImages(@PathVariable Long noticeId,
+                                     @ModelAttribute @Valid NoticeRequest.ImageUploadDTO dto,
+                                     HttpSession session) {
+        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+        noticeService.updateNoticeImages(noticeId, dto, sessionUser);
+
+        return "redirect:/notices/" + noticeId;
     }
 }
