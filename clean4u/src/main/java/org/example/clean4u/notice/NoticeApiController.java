@@ -18,15 +18,6 @@ import java.util.List;
 public class NoticeApiController {
     private final NoticeService noticeService;
 
-    @PostMapping("{noticeId}/image")
-    public String uploadImage(@PathVariable Long noticeId,
-                              @RequestParam List<MultipartFile> files,
-                              HttpSession session) {
-
-
-        return "/uploads/notice/";
-    }
-
     @PutMapping(value = "/{noticeId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<NoticeResponse.DetailDTO>> updateNotice (@PathVariable Long noticeId,
                                                                               @ModelAttribute NoticeRequest.UpdateDTO dto,
@@ -41,7 +32,7 @@ public class NoticeApiController {
     public ResponseEntity<ApiResponse<Void>> deleteNotice (@PathVariable Long noticeId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        noticeService.deleteNoticeById(noticeId, sessionUser.getId());
+        noticeService.deleteNoticeById(noticeId, sessionUser);
         return ResponseEntity.ok(ApiResponse.ok("삭제가 완료되었습니다"));
     }
 
@@ -49,7 +40,7 @@ public class NoticeApiController {
     public ResponseEntity<ApiResponse<Void>> deleteNoticeImages(@PathVariable Long noticeId, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
-        noticeService.deleteNoticeImages(noticeId, sessionUser.getId());
+        noticeService.deleteNoticeImages(noticeId, sessionUser);
         return ResponseEntity.ok(ApiResponse.ok("이미지 삭제가 완료되었습니다"));
     }
 

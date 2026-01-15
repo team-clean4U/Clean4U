@@ -3,16 +3,11 @@ package org.example.clean4u.notice;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.Employee;
-import org.example.clean4u.employee.UserRole;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
@@ -40,6 +35,18 @@ public class NoticeController {
 
         return "redirect:/notices/" + notice.getId();
     }
+
+//    @PostMapping("/notices/{noticeId}/image")
+//    public String uploadImage(@PathVariable Long noticeId,
+//                              @ModelAttribute @Valid NoticeRequest.ImageUploadDTO dto,
+//                              HttpSession session) throws IOException {
+//
+//        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+//        NoticeResponse.DetailDTO notice = noticeService.saveNoticeImages(noticeId, dto, sessionUser);
+//
+//        return "redirect:/notices/" + notice.getId();
+//    }
+
     // 공지 목록
     @GetMapping("/notices")
     public String noticeList(Model model,
