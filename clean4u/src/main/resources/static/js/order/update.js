@@ -151,9 +151,9 @@ if(updateForm) {
                 throw new Error(data.message);
             }
             if(data.data.isGradeChanged) {
-                alert("고객 등급이 변경되었습니다.");
+                alert(data.data.message);
             } else {
-                alert("주문 내역이 변경되었습니다.");
+                alert(data.data.message);
             }
                 location.href = `/orders/${orderId}`;
         } catch (error) {
