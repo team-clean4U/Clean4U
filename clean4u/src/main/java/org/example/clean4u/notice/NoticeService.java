@@ -24,7 +24,6 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -32,13 +31,12 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 public class NoticeService {
-    private final ApplicationEventPublisher applicationEventPublisher;
     @Value("${app.upload.notice-path}")
     private String noticePath;
 
     private final NoticeRepository noticeRepository;
     private final FileUtil fileUtil;
-    private final ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional
     public Notice saveNotice(NoticeRequest.@Valid SaveDTO dto, Employee sessionUser) {
@@ -135,7 +133,7 @@ public class NoticeService {
         List<String> noticeImages = new ArrayList<>(notice.getNoticeImages());
         noticeRepository.deleteById(noticeId);
 
-        if (noticeImages != null && !noticeImages.isEmpty()) {
+        if (!noticeImages.isEmpty()) {
             applicationEventPublisher.publishEvent(new NoticeImagesDeletedEvent(noticeImages));
         }
     }
