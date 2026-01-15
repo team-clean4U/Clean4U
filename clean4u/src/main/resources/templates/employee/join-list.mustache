@@ -32,11 +32,15 @@
                     <span class="info-value">{{createdAt}}</span>
                 </div>
                 <div class="card-info button-right">
-                    <form action="/employee/{{id}}/approve" method="post">
-                        <button class="btn btn-edit" type="submit"><i class="fa-solid fa-check"></i>승인</button>
+                    <form action="/admin/employees/{{id}}" method="post">
+                        <input type="hidden" name="status" value="APPROVED">
+                        <button class="btn btn-edit" type="submit" data-employee-id="{{id}}">
+                            <i class="fa-solid fa-check"></i>승인</button>
                     </form>
-                    <form action="/employee/{{id}}/reject" method="post">
-                        <button class="btn btn-delete" type="submit"><i class="fa-solid fa-times"></i>거절</button>
+                    <form action="/admin/employees/{{id}}" method="post" data-employee-id="{{id}}">
+                        <input type="hidden" name="status" value="REJECTED">
+                        <button class="btn btn-delete" type="submit">
+                            <i class="fa-solid fa-times"></i>거절</button>
                     </form>
                 </div>
             </div>

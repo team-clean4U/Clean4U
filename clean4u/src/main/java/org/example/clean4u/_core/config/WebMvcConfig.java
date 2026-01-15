@@ -59,7 +59,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/employees/new",
                         "/password/**",
                         "/login",
-                        "/auth/logout",
+                        "/sessions",
                         "/error",
                         "/client",
                         "/client/**",
@@ -81,7 +81,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/notices/new",
                         "/notices/*/edit"
                 );
-
     }
 
     @Bean

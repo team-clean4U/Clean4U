@@ -20,7 +20,8 @@
                     <span class="update-value">{{employee.name}}</span>
                 </div>
 
-                <form method="GET" action="/schedule/{{employee.id}}">
+                <form method="GET" action="/schedules/{{employee.id}}/new">
+
                     <div class="update-item">
                         <label class="update-label" for="reason">
                             <i class="fa-solid fa-list"></i>
@@ -38,8 +39,8 @@
                             </div>
                             <ul class="category-dropdown">
                                 <li data-type="">선택</li>
-                                <li data-type="일반근무">일반근무</li>
-                                <li data-type="병결">병가</li>
+                                <li data-type="NORMAL">일반근무</li>
+                                <li data-type="SICK">병가</li>
                             </ul>
                         </div>
                     </div>
@@ -50,7 +51,7 @@
                 </form>
             </div>
             <div class="{{#reason}}bottom-form{{/reason}} {{#isSick}}bottom-form{{/isSick}}">
-                <form method="POST" action="/schedule">
+                <form method="POST" action="/schedules">
                     {{^isSick}}
                         {{#reason}}
                             <input type="hidden" name="employeeId" value="{{employee.id}}">
@@ -73,7 +74,7 @@
                             </div>
 
                             <div class="schedule-buttons">
-                                <a href="/schedule/list" class="btn btn-back">취소</a>
+                                <a href="/schedules" class="btn btn-back">취소</a>
                                 <button type="submit" class="btn btn-create">제출</button>
                             </div>
                         {{/reason}}
@@ -127,7 +128,7 @@
                         </div>
 
                         <div class="schedule-buttons">
-                            <a href="/schedule/list" class="btn btn-back">취소</a>
+                            <a href="/schedules" class="btn btn-back">취소</a>
                             <button type="submit" class="btn btn-create">제출</button>
                         </div>
                     {{/isSick}}

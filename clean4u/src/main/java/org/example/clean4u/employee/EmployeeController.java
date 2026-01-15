@@ -23,7 +23,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class EmployeeController {
 
-    private final HttpSession session;
     private final EmployeeService employeeService;
     private final AuthService authService;
     private final DashboardService dashboardService;
@@ -94,6 +93,19 @@ public class EmployeeController {
         return "user/dashboard-employee";
     }
 
+    @GetMapping("/schedules/employees")
+    public String search(
+            @RequestParam(required = false) String keyword,
+            Model model
+    ) {
+        List<EmployeeResponse.SimpleDTO> employeeList = workScheduleService.searchByName(keyword);
+        model.addAttribute("employeeList", employeeList);
+        model.addAttribute("keyword", keyword != null ? keyword : "");
+        model.addAttribute("additionalCss", Arrays.asList("/css/employee-search.css"));
+
+        return "employee/employee-search";
+    }
+
     @GetMapping("/employees/me")
     public String update(Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
@@ -113,8 +125,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/password")
-    public String findPasswordProc(@Valid EmployeeRequest.FindPassword findPassword) {
-        employeeService.findPassword(findPassword);
+    public String findPasswordProc(@Valid EmployeeRequest.FindPassword findPassword, HttpSession session) {
+
+        ResetPasswordSession reset = employeeService.findPassword(findPassword);
+        session.setAttribute("RESET_PASSWORD", reset);
 
         return "redirect:/login";
     }
@@ -122,21 +136,18 @@ public class EmployeeController {
     @GetMapping("/password/reset")
     public String passwordResetForm(@RequestParam String token, Model model) {
 
-        ResetPasswordSession reset = (ResetPasswordSession) session.getAttribute("RESET_PASSWORD");
-
-        if (reset == null || reset.isExpired() || !reset.getToken().equals(token)) {
-            throw new Exception400("유효하지 않거나 만료된 토큰입니다.");
-        }
-
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/user.css"));
         model.addAttribute("token", token);
+
         return "user/password-reset-form";
     }
 
     @PostMapping("/password/reset")
-    public String passwordResetProc(@Valid EmployeeRequest.PasswordReset passwordReset) {
-        employeeService.passwordReset(passwordReset);
+    public String passwordResetProc(@Valid EmployeeRequest.PasswordReset passwordReset, HttpSession session) {
 
+        ResetPasswordSession reset = (ResetPasswordSession) session.getAttribute("RESET_PASSWORD");
+
+        employeeService.passwordReset(passwordReset, reset);
         session.removeAttribute("RESET_PASSWORD");
 
         return "redirect:/login";

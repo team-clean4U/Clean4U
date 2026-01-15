@@ -20,17 +20,8 @@ public class AuthApiController {
         return authService.optionChart();
     }
 
-    @PATCH("/employees/{employeeId}")
-    public ResponseEntity<ApiResponse<Void>> updateStatus(
-            @PathVariable Long employeeId,
-            @RequestBody EmployeeRequest.UpdateStatus status
-    ) {
-        UserStatus userStatus = UserStatus.valueOf(status.getStatus().toUpperCase());
-        authService.updateStatus(employeeId, userStatus);
-        return ResponseEntity.ok(ApiResponse.ok("직원 상태 변경 완료"));
-    }
 
-    @DeleteMapping("/employees/{employeeId}")
+    @DeleteMapping("/admin/employees/{employeeId}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long employeeId) {
 
         authService.delete(employeeId);

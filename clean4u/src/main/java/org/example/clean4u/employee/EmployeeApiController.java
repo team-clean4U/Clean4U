@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/api/v1")
 @RestController
 public class EmployeeApiController {
 
     private final EmployeeService employeeService;
 
-    @PutMapping("/api/v1/employees/me")
+    @PutMapping("/employees/me")
     public ResponseEntity<ApiResponse<EmployeeResponse.UpdateDTO>> updateProc(
             @Valid EmployeeRequest.UpdateDTD updateDTD,
             HttpSession session) {
@@ -37,8 +37,8 @@ public class EmployeeApiController {
     }
 
     @DeleteMapping("/sessions")
-    public String logout(HttpSession session) {
+    public ResponseEntity<ApiResponse<Void>> logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return ResponseEntity.ok().body(ApiResponse.ok("로그아웃 완료"));
     }
 }

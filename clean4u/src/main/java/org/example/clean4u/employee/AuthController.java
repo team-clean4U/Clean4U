@@ -18,9 +18,8 @@ import java.util.Map;
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping("/employees?status=pending")
+    @GetMapping("/admin/employees/pending")
     public String join(Model model) {
-
         List<EmployeeResponse.JoinListDTO> joinList = authService.joinList();
         model.addAttribute("joinList", joinList);
         model.addAttribute("additionalCss", Arrays.asList("/css/employee-search.css", "/css/user.css"));
@@ -28,7 +27,7 @@ public class AuthController {
         return "employee/join-list";
     }
 
-    @GetMapping("/employees")
+    @GetMapping("/admin/employees")
     public String list(
             Model model,
             @RequestParam(required = false) String keyword,
@@ -51,7 +50,7 @@ public class AuthController {
         return "employee/employee-list";
     }
 
-    @GetMapping("/employees/{employeeId}")
+    @GetMapping("/admin/employees/{employeeId}")
     private String detail(
             @PathVariable Long employeeId,
             Model model
@@ -61,5 +60,15 @@ public class AuthController {
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/employee-search.css"));
 
         return "employee/employee-detail";
+    }
+
+    @PostMapping("/admin/employees/{employeeId}")
+    public String updateStatus(
+            @PathVariable Long employeeId,
+            @RequestParam String status
+    ) {
+        UserStatus userStatus = UserStatus.valueOf(status.toUpperCase());
+        authService.updateStatus(employeeId, userStatus);
+        return "redirect:/admin/employees/pending";
     }
 }

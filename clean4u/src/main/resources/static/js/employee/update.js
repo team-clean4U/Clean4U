@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
               body: JSON.stringify(data)
           });
 
-          if (response.os) {
+          if (response.ok) {
               alert("회원 정보가 수정되었습니다.");
               window.location.href = "/dashboard";
           }

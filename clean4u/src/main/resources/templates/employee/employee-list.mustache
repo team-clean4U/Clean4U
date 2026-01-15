@@ -6,14 +6,14 @@
         <div class="header-container">
             <div class="section-header">
                 <h2 class="section-title">
-                    <a href="/employees">
+                    <a href="/admin/employees">
                         <i class="fa-solid fa-users"></i>
                         직원 목록
                     </a>
                 </h2>
             </div>
 
-            <form class="search-wrapper" method="get" action="/employees">
+            <form class="search-wrapper" method="get" action="/admin/employees">
                 <div class="search-input-box">
                     <i class="fa-solid fa-search"></i>
                     <input class="search-input"
@@ -54,7 +54,7 @@
 
         <div class="card-list">
             {{#employeePage.content}}
-                <a href="/employee/{{id}}/detail" class="card">
+                <a href="/admin/employees/{{id}}" class="card">
                     <div class="card-header">
                         <i class="fa-solid fa-user"></i>
                         <h4>{{name}}</h4>
@@ -83,7 +83,7 @@
 <ul class="pagination">
     {{#employeePage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/employee/list?page={{employeePage.previousPageNumber}}&size={{employeePage.size}}">
+            <a href="/admin/employees?page={{employeePage.previousPageNumber}}&size={{employeePage.size}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -96,7 +96,7 @@
 
     {{#employeePage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/employee/list?page={{displayNumber}}&size={{employeePage.size}}">
+            <a href="/admin/employees?page={{displayNumber}}&size={{employeePage.size}}">
             {{displayNumber}}
             </a>
         </li>
@@ -104,7 +104,7 @@
 
     {{#employeePage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/employee/list?page={{employeePage.nextPageNumber}}&size={{employeePage.size}}">
+            <a href="/admin/employees?page={{employeePage.nextPageNumber}}&size={{employeePage.size}}">
             <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>

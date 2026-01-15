@@ -6,18 +6,18 @@
         <div class="header-container schedule">
             <div class="section-header">
                 <h2 class="section-title">
-                    <a href="/schedule/list">
+                    <a href="/schedules">
                         <i class="fa-solid fa-calendar-days"></i>
                         근무 일정 목록
                     </a>
                 </h2>
-                <a href="/schedule" class="btn btn-create">
+                <a href="/schedules/employees" class="btn btn-create">
                     <i class="fa-solid fa-plus btn-create-icon"></i> 새 일정 등록
                 </a>
             </div>
 
             <!-- 일반 검색 (이름, 유저이름) -->
-            <form class="search-wrapper" method="get" action="/schedule/list">
+            <form class="search-wrapper" method="get" action="/schedules">
                 <div class="search-box">
                     <div class="update-value category">
                         <input type="hidden" name="category" id="category" {{#category}}value="{{category}}"{{/category}}>
@@ -72,7 +72,7 @@
 
         <div class="card-list">
             {{#scheduleListPage.content}}
-                <a href="/schedule/{{id}}/detail" class="card">
+                <a href="/schedules/{{id}}" class="card">
                     <div class="card-header">
                         <h4>{{name}}</h4>
                     </div>
@@ -98,7 +98,7 @@
 <ul class="pagination">
     {{#scheduleListPage.previousPageNumber}}
         <li class="page-btn">
-            <a href="/schedule/list?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#searchStartTime}}&startTime={{.}}{{/searchStartTime}}{{#searchEndTime}}&endTime={{.}}{{/searchEndTime}}">
+            <a href="/schedules?page={{scheduleListPage.previousPageNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#searchStartTime}}&startTime={{.}}{{/searchStartTime}}{{#searchEndTime}}&endTime={{.}}{{/searchEndTime}}">
             <i class="fa-solid fa-chevron-left"></i>
             </a>
         </li>
@@ -111,13 +111,13 @@
 
     {{#scheduleListPage.pageLinks}}
         <li class="page-btn {{#active}}active{{/active}}">
-            <a href="/schedule/list?page={{displayNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#searchStartTime}}&startTime={{.}}{{/searchStartTime}}{{#searchEndTime}}&endTime={{.}}{{/searchEndTime}}">{{displayNumber}}</a>
+            <a href="/schedules?page={{displayNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#searchStartTime}}&startTime={{.}}{{/searchStartTime}}{{#searchEndTime}}&endTime={{.}}{{/searchEndTime}}">{{displayNumber}}</a>
         </li>
     {{/scheduleListPage.pageLinks}}
 
     {{#scheduleListPage.nextPageNumber}}
         <li class="page-btn">
-            <a href="/schedule/list?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#searchStartTime}}&startTime={{.}}{{/searchStartTime}}{{#searchEndTime}}&endTime={{.}}{{/searchEndTime}}">
+            <a href="/schedules?page={{scheduleListPage.nextPageNumber}}&size={{scheduleListPage.size}}{{#keyword}}&keyword={{keyword}}{{/keyword}}{{#category}}&category={{category}}{{/category}}{{#searchStartTime}}&startTime={{.}}{{/searchStartTime}}{{#searchEndTime}}&endTime={{.}}{{/searchEndTime}}">
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
         </li>

@@ -12,7 +12,7 @@
             </div>
 
             <!-- 검색 폼 -->
-            <form action="/schedule" method="get" class="search-wrapper">
+            <form action="/schedules/employees" method="get" class="search-wrapper">
                 <div class="search-input-box">
                     <i class="fa-solid fa-search"></i>
                     <input type="text"
@@ -39,7 +39,7 @@
                             <span class="employee-search-username">아이디: {{username}}</span>
                         </div>
                     </div>
-                    <a href="/schedule/{{id}}" class="btn employee-btn">
+                    <a href="/schedules/{{id}}/new" class="btn employee-btn">
                         선택
                     </a>
                 </div>

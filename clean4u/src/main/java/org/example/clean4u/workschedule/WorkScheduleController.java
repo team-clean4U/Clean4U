@@ -24,39 +24,6 @@ public class WorkScheduleController {
     private final WorkScheduleOverrideService workScheduleOverrideService;
     private final AuthService authService;
 
-    @GetMapping("/schedules/employees")
-    public String search(
-            @RequestParam(required = false) String keyword,
-            Model model
-    ) {
-        List<EmployeeResponse.SimpleDTO> employeeList = workScheduleService.searchByName(keyword);
-        model.addAttribute("employeeList", employeeList);
-        model.addAttribute("keyword", keyword != null ? keyword : "");
-        model.addAttribute("additionalCss", Arrays.asList("/css/employee-search.css"));
-
-        return "employee/employee-search";
-    }
-
-    @GetMapping("/employees/{employeeId}/new")
-    public String saveForm(
-            @PathVariable Long employeeId,
-            @RequestParam(required = false) ScheduleReason reason,
-            Model model
-    ) {
-        Employee employee = authService.findById(employeeId);
-        model.addAttribute("employee", employee);
-
-        List<Employee> overrideList = authService.getOverrideEmployee(employee);
-        model.addAttribute("overrideList", overrideList);
-
-        boolean isSick = reason == ScheduleReason.SICK;
-        model.addAttribute("isSick", isSick);
-        model.addAttribute("reason", reason);
-        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/schedule.css", "/css/employee-search.css"));
-
-        return "workschedule/save-form";
-    }
-
     @PostMapping("/schedules")
     public String saveProc(@Valid WorkScheduleRequest.SaveDTO saveDTO) {
 
@@ -97,6 +64,26 @@ public class WorkScheduleController {
         model.addAttribute("additionalCss", Arrays.asList("/css/pageLink.css", "/css/schedule.css", "/css/order.css"));
 
         return "workschedule/schedule-list-form";
+    }
+
+    @GetMapping("/schedules/{employeeId:\\d+}/new")
+    public String saveForm(
+            @PathVariable Long employeeId,
+            @RequestParam(required = false) ScheduleReason reason,
+            Model model
+    ) {
+        Employee employee = authService.findById(employeeId);
+        model.addAttribute("employee", employee);
+
+        List<Employee> overrideList = authService.getOverrideEmployee(employee);
+        model.addAttribute("overrideList", overrideList);
+
+        boolean isSick = reason == ScheduleReason.SICK;
+        model.addAttribute("isSick", isSick);
+        model.addAttribute("reason", reason);
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/schedule.css", "/css/employee-search.css"));
+
+        return "workschedule/save-form";
     }
 
     @GetMapping("/schedules/{scheduleId}")

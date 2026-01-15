@@ -68,7 +68,8 @@ public class MailService {
             javaMailSender.send(message);
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("이메일 발송 실패: {}", e.getMessage(), e);
+            throw new Exception500("이메일 발송에 실패했습니다.");
         }
     }
 }
