@@ -2,10 +2,8 @@ package org.example.clean4u.employee;
 
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception500;
 import org.example.clean4u._core.utils.MailUtil;
 import org.springframework.mail.javamail.JavaMailSender;

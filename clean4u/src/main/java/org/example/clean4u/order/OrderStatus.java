@@ -1,8 +1,6 @@
 package org.example.clean4u.order;
 
 import lombok.Getter;
-import org.example.clean4u._core.errors.exception.Exception400;
-import org.example.clean4u.payment.PaymentStatus;
 
 @Getter
 public enum OrderStatus {
