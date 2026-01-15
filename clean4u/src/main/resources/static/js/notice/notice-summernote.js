@@ -8,12 +8,9 @@ $(function () {
         minHeight: 200,
         maxHeight: 630,
         width: 750,
-        focus: true,
         lang: 'ko-KR',
         toolbar: [
             ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['fontsize', ['fontsize']],
-            ['fontName', ['fontName']],
             ['color', ['forecolor', 'backcolor']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['insert', ['link', 'picture']],
@@ -22,6 +19,4 @@ $(function () {
         disableDragAndDrop: true,
         disableGrammar: false,
     });
-
-    $('#summernote').summernote('fontSize', '14');
 });
