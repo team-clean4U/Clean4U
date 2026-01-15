@@ -2,7 +2,6 @@ package org.example.clean4u.notice;
 
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
