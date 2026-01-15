@@ -122,12 +122,12 @@ public class NoticeService {
     }
 
     @Transactional
-    public void deleteNoticeById(Long noticeId, Long sessionUserId) {
+    public void deleteNoticeById(Long noticeId, Employee sessionUser) {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
 
-        if (!notice.getEmployee().getId().equals(sessionUserId)) {
-            throw new Exception403("삭제 권한이 없습니다.");
+        if (!sessionUser.isAdmin()) {
+            throw new Exception403("공지사항 수정 권한이 없습니다.");
         }
 
         List<String> noticeImages = new ArrayList<>(notice.getNoticeImages());
@@ -169,16 +169,16 @@ public class NoticeService {
     }
 
     @Transactional
-    public void deleteNoticeImages(Long noticeId, Long sessionUserId) {
+    public void deleteNoticeImages(Long noticeId, Employee sessionUser) {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(() -> new Exception404("공지사항이 없습니다"));
 
-        if (!notice.getEmployee().getId().equals(sessionUserId)) {
-            throw new Exception403("삭제 권한이 없습니다.");
+        if (!sessionUser.isAdmin()) {
+            throw new Exception403("공지사항 수정 권한이 없습니다.");
         }
 
-        List<String> noticeImages = notice.getNoticeImages();
-        if (noticeImages != null && !noticeImages.isEmpty()) {
+        List<String> noticeImages = new ArrayList<>(notice.getNoticeImages());
+        if (!noticeImages.isEmpty()) {
             try {
                 for (String noticeImage : noticeImages) {
                     fileUtil.deleteFile(noticeImage, noticePath);
