@@ -18,7 +18,6 @@ async function deleteNotice(id) {
             }, 100);
         }
     } catch (error) {
-        console.error("Error:", error);
         alert("삭제 중 오류가 발생했습니다.");
     }
 }

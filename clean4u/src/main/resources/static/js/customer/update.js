@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.location.href = "/customers";
                 }
             } catch (error) {
-                console.error("Error:", error);
                 alert(error.message);
             }
         });
