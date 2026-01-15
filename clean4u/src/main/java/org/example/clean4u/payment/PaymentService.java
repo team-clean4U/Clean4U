@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
+import org.example.clean4u._core.errors.exception.Exception500;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.order.Order;
 import org.example.clean4u.order.OrderRepository;
@@ -124,7 +125,7 @@ public class PaymentService {
             }
             return data;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new Exception500("결제 조회 중 오류가 발생했습니다.");
         }
     }
 
