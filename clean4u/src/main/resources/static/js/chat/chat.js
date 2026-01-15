@@ -72,18 +72,10 @@ chatForm.addEventListener("submit", function (e) {
                 messageInput.value = "";
                 messageInput.focus();
             } else {
-                return res.json().then(e => {
-                    const error = new Error(e.message || "메시지 전송에 실패했습니다.");
-                    alert(error.message);
-                    throw error;
-                });
-            }
-        })
-        .catch(err => {
-            console.log("에러 발생: ", err);
-            if (!err.message) {
                 alert("메시지 전송 중 오류가 발생했습니다.");
             }
+        })
+        .catch(error => {
+            alert(error.message);
         });
-
 });
