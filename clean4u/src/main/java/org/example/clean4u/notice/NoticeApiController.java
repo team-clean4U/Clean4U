@@ -1,16 +1,13 @@
 package org.example.clean4u.notice;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.response.ApiResponse;
 import org.example.clean4u.employee.Employee;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/notices")
@@ -20,7 +17,7 @@ public class NoticeApiController {
 
     @PutMapping(value = "/{noticeId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResponse<NoticeResponse.DetailDTO>> updateNotice (@PathVariable Long noticeId,
-                                                                              @ModelAttribute NoticeRequest.UpdateDTO dto,
+                                                                              @Valid NoticeRequest.UpdateDTO dto,
                                                                               HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 

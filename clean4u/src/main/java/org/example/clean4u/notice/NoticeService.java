@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,17 +73,17 @@ public class NoticeService {
 
     public NoticeResponse.DetailDTO getNoticeById(Long noticeId) {
         Notice notice = noticeRepository.findByIdWithImages(noticeId)
-                .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 공지사항이 없습니다."));
 
         return new NoticeResponse.DetailDTO(notice);
     }
 
     public NoticeResponse.DetailDTO getFormForUpdate(Long noticeId, Employee sessionUser) {
         Notice notice = noticeRepository.findById(noticeId)
-                .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 공지사항이 없습니다."));
 
-        if (sessionUser.isAdmin()) {
-            return new NoticeResponse.DetailDTO(notice);
+        if (!sessionUser.isAdmin()) {
+            throw new Exception403("공지사항 수정 권한이 없습니다.");
         }
 
         return new NoticeResponse.DetailDTO(notice);
@@ -91,32 +92,48 @@ public class NoticeService {
     @Transactional
     public NoticeResponse.DetailDTO updateNotice(Long noticeId, NoticeRequest.@Valid UpdateDTO dto, Employee sessionUser) {
         Notice notice = noticeRepository.findByIdWithImages(noticeId)
-                .orElseThrow(() -> new Exception400("해당 공지사항이 없습니다."));
+                .orElseThrow(() -> new Exception404("해당 공지사항이 없습니다."));
 
         if (!sessionUser.isAdmin()) {
             throw new Exception403("공지사항 수정 권한이 없습니다.");
         }
         notice.update(dto); // 제목, 내용만
+        return new NoticeResponse.DetailDTO(notice);
+    }
 
-        if (dto.getUploadImages() != null && !dto.getUploadImages().isEmpty()) {
-            if (!fileUtil.isImageFiles(dto.getUploadImages())) {
-                throw new Exception400("이미지 파일만 업로드 가능합니다");
+    @Transactional
+    public NoticeResponse.DetailDTO updateNoticeImages(Long noticeId,
+                                                       @Valid NoticeRequest.ImageUploadDTO dto,
+                                                       Employee sessionUser) {
+
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new Exception404("해당 공지사항이 없습니다"));
+
+        if (!sessionUser.isAdmin()) {
+            throw new Exception403("공지사항 수정 권한이 없습니다.");
+        }
+
+        if (dto.getUploadImages() == null && dto.getUploadImages().isEmpty()) {
+            return new NoticeResponse.DetailDTO(notice);
+        }
+
+        if (!fileUtil.isImageFiles(dto.getUploadImages())) {
+            throw new Exception400("이미지 파일만 업로드 가능합니다");
+        }
+
+        List<String> oldNoticeImages = new ArrayList<>(notice.getNoticeImages());
+
+        try {
+            List<String> newImageFilename = fileUtil.saveFiles(dto.getUploadImages(), noticePath);
+            notice.clearImages();
+            notice.addImages(newImageFilename);
+
+            if (!oldNoticeImages.isEmpty()) {
+                fileUtil.deleteFiles(oldNoticeImages, noticePath);
             }
 
-            List<String> oldNoticeImages = new ArrayList<>(notice.getNoticeImages());
-
-            try {
-                List<String> newImageFilename = fileUtil.saveFiles(dto.getUploadImages(), noticePath);
-                notice.clearImages();
-                notice.addImages(newImageFilename);
-
-                if (!oldNoticeImages.isEmpty()) {
-                    fileUtil.deleteFiles(oldNoticeImages, noticePath);
-                }
-
-            } catch (IOException e) {
-                throw new Exception500("파일 저장에 실패했습니다");
-            }
+        } catch (IOException e) {
+            throw new Exception500("파일 저장에 실패했습니다");
         }
         return new NoticeResponse.DetailDTO(notice);
     }
