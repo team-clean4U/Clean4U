@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const reason = document.getElementById("reason");
+    const refundData = document.getElementById("refundData");
     const paymentId = refundData.dataset.paymentId;
 
     refundData.addEventListener("submit", (e) => {
@@ -36,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 })
         } catch (error) {
-            console.error("Error: ", error);
             alert(error.message);
         }
     });

@@ -45,4 +45,8 @@ public class NoticeRequest {
         private List<String> uploadImageNames;
     }
 
+    @Data
+    public static class ImageUploadDTO {
+        List<MultipartFile> uploadImages;
+    }
 }

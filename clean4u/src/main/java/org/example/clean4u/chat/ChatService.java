@@ -46,7 +46,6 @@ public class ChatService {
                 .toList();
     }
 
-    @Transactional
     public SseEmitter createConnection(String clientId) {
         SseEmitter emitter = new SseEmitter(10 * 60 * 1000L);
         emitterMap.put(clientId, emitter);
@@ -58,7 +57,7 @@ public class ChatService {
         try {
             emitter.send(SseEmitter.event().name( "connect").data("연결됨"));
         } catch (IOException e) {
-            log.error("초기 전송 실패: ", e);
+            log.error("초기 전송 실패: {}", e.getMessage());
         }
         return emitter;
     }
@@ -75,15 +74,12 @@ public class ChatService {
 
         chatRepository.save(chat);
 
-        broadcast(message, employee.getId());
+        broadcast(message, employee.getName());
     }
 
-    public void broadcast(String message, Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new Exception404("해당 직원을 찾을 수 없습니다."));
-
+    public void broadcast(String message, String sender) {
         Map<String, String> data = Map.of(
-                "sender", employee.getName(),
+                "sender", sender,
                 "message", message
         );
 

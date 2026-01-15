@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.Employee;
-import org.example.clean4u.order.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final OrderService orderService;
 
     // 고객 생성 화면
     @GetMapping("/customers/new")
@@ -94,5 +91,16 @@ public class CustomerController {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/customer.css"));
 
         return "customer/update-form";
+    }
+
+    @PostMapping("/customers/{customerId}/status")
+    public String updateStatus(@PathVariable Long customerId, @RequestParam(defaultValue = "true") boolean isActive) {
+        if (isActive) {
+            customerService.activateCustomer(customerId);
+        } else {
+            customerService.deactivateCustomer(customerId);
+        }
+
+        return "redirect:/customers/" + customerId;
     }
 }

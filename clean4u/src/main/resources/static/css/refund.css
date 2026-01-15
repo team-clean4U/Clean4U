@@ -30,3 +30,9 @@
 .buttons {
     width: 100%;
 }
+
+.btn-refund {
+    padding: 0.7rem 2rem;
+    font-size: 1.2rem;
+    background: var(--status-inactive);
+}
