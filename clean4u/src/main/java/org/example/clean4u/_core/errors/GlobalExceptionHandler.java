@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.example.clean4u._core.errors.exception.*;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 @ControllerAdvice
 @Slf4j
@@ -126,6 +128,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleRuntimeException(RuntimeException e, HttpServletRequest request) {
+        String accept = request.getHeader(HttpHeaders.ACCEPT);
+        boolean isSse = accept != null && accept.contains(MediaType.TEXT_EVENT_STREAM_VALUE);
+        if(isSse) {
+            return jsonError(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
         log.warn("== 예상하지 못한 에러 발생 ==");
         log.warn("예외 클래스: {}", e.getClass().getSimpleName());
         if (isApiRequest(request)) {
@@ -134,6 +141,9 @@ public class GlobalExceptionHandler {
         }
         return alertBack(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
+
+    @ExceptionHandler(AsyncRequestTimeoutException.class)
+    public void handleSseTimeout() {} // SSE 타임아웃 무시
 
     private boolean isApiRequest(HttpServletRequest request) {
         String uri = request.getRequestURI();
