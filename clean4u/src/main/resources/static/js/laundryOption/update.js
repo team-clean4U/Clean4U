@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
-            const id = window.location.pathname.match(/\/(\d+)\/update/)[1];
+            const id = window.location.pathname.match(/\/(\d+)\/edit/)[1];
             const data = {
                 name: formData.get("name"),
                 extraPrice: parseInt(formData.get("extraPrice")) || 0,
