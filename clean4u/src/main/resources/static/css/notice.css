@@ -1,4 +1,8 @@
 /* save-form */
+.note-editable {
+    font-size: 14px;
+}
+
 .notice-container {
     margin: 0 auto;
     padding: 2rem 4rem;
