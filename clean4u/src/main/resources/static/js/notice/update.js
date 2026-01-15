@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.location.href = `/notices/${noticeId}`;
                 }
             } catch (error) {
-                console.error("Error:", error);
                 alert("수정 중 오류가 발생했습니다.");
             }
         });
