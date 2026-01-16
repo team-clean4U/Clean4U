@@ -70,7 +70,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public EmployeeResponse.UpdateDTO updateProc(@Valid EmployeeRequest.UpdateDTD updateDTD, Long employeeId) {
+    public Employee updateProc(@Valid EmployeeRequest.UpdateDTD updateDTD, Long employeeId) {
         Employee employeeEntity = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new Exception404("해당 사용자를 찾을 수 없습니다."));
 
@@ -82,7 +82,7 @@ public class EmployeeService {
         updateDTD.setPassword(hashPsw);
         employeeEntity.update(updateDTD);
 
-        return new EmployeeResponse.UpdateDTO(employeeEntity);
+        return employeeEntity;
     }
 
     public long pendingCount() {

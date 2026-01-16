@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.clean4u._core.utils.DateUtil;
 import org.example.clean4u.employee.Employee;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,7 +16,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @Table(name = "work_schedule_tb")
-public class WorkSchedule {
+public class WorkSchedule extends DateUtil {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,8 +45,8 @@ public class WorkSchedule {
     }
 
     public void update(WorkScheduleRequest.UpdateDTO req, Employee employee) {
-        this.startTime = req.getStartTime();
-        this.endTime = req.getEndTime();
+        this.startTime = LocalTime.parse(req.getStartTime());
+        this.endTime = LocalTime.parse(req.getEndTime());
         this.employee = employee;
     }
 }

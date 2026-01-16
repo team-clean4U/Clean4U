@@ -18,12 +18,4 @@ public class AuthApiController {
     public List<Object[]> optionChart() {
         return authService.optionChart();
     }
-
-
-    @DeleteMapping("/admin/employees/{employeeId}")
-    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long employeeId) {
-
-        authService.delete(employeeId);
-        return ResponseEntity.ok(ApiResponse.ok("직원 삭제 완료"));
-    }
 }

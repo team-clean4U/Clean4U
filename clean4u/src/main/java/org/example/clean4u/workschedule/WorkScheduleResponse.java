@@ -55,6 +55,7 @@ public class WorkScheduleResponse {
             this.id = workSchedule.getId();
             this.employeeId = workSchedule.getEmployee().getId();
             this.startTime = workSchedule.getStartTime();
+            this.endTime = workSchedule.getEndTime();
         }
     }
 
@@ -62,14 +63,14 @@ public class WorkScheduleResponse {
     public static class UpdateDTO {
         private Long id;
         private String name;
-        private LocalTime startTime;
-        private LocalTime endTime;
+        private String startTime;
+        private String endTime;
 
         public UpdateDTO(WorkSchedule workSchedule) {
             this.id = workSchedule.getId();
             this.name = workSchedule.getEmployee().getName();
-            this.startTime = workSchedule.getStartTime();
-            this.endTime = workSchedule.getEndTime();
+            this.startTime = workSchedule.getStartTime().toString();
+            this.endTime = workSchedule.getEndTime().toString();
         }
     }
 
