@@ -7,10 +7,7 @@ import org.example.clean4u._core.errors.exception.Exception403;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
@@ -21,14 +18,16 @@ public class EmployeeApiController {
 
     @PutMapping("/employees/me")
     public ResponseEntity<ApiResponse<EmployeeResponse.UpdateDTO>> updateProc(
-            @Valid EmployeeRequest.UpdateDTD updateDTD,
+            @RequestBody @Valid EmployeeRequest.UpdateDTD updateDTD,
             HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         try {
-            EmployeeResponse.UpdateDTO updateEmployee = employeeService.updateProc(updateDTD, sessionUser.getId());
+            Employee updateEmployee = employeeService.updateProc(updateDTD, sessionUser.getId());
             session.setAttribute("sessionUser", updateEmployee);
-            return ResponseEntity.ok(ApiResponse.ok(updateEmployee));
+
+            EmployeeResponse.UpdateDTO responseDTO = new EmployeeResponse.UpdateDTO(updateEmployee);
+            return ResponseEntity.ok(ApiResponse.ok(responseDTO));
         } catch (Exception403 e) {
             throw e;
         } catch (Exception404 e) {

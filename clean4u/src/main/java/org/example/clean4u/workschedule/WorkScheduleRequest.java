@@ -1,5 +1,6 @@
 package org.example.clean4u.workschedule;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -46,8 +47,8 @@ public class WorkScheduleRequest {
         @NotBlank(message = "근무자의 이름은 비워둘 수 없습니다.")
         private String name;
         @NotNull(message = "시작 시간은 비워둘 수 없습니다.")
-        private LocalTime startTime;
+        private String startTime;
         @NotNull(message = "종료 시간은 비워둘 수 없습니다.")
-        private LocalTime endTime;
+        private String endTime;
     }
 }

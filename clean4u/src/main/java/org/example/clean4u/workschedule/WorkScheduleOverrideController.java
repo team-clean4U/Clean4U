@@ -79,26 +79,4 @@ public class WorkScheduleOverrideController {
 
         return "workschedule/override-update-form";
     }
-
-    @PutMapping("/schedule-overrides/{scheduleId}/edit")
-    public String overrideUpdateProc(
-            @PathVariable Long scheduleId,
-            @Valid WorkScheduleOverrideRequest.UpdateDTO updateDTO,
-            Model model
-    ) {
-        WorkScheduleOverride override = workScheduleOverrideService.overrideUpdateProc(scheduleId, updateDTO);
-
-        model.addAttribute("override", override);
-
-        return "redirect:/schedule-overrides";
-    }
-
-    @DeleteMapping("/schedule-overrides/{scheduleId}")
-    public String delete(
-            @PathVariable Long scheduleId
-    ) {
-        workScheduleOverrideService.delete(scheduleId);
-
-        return "redirect:/schedule-overrides";
-    }
 }

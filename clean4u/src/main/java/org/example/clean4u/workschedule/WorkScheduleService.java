@@ -72,7 +72,7 @@ public class WorkScheduleService {
 
     @Transactional
     public WorkSchedule scheduleUpdateProc(Long scheduleId, @Valid WorkScheduleRequest.UpdateDTO updateDTO) {
-        WorkSchedule workScheduleEntity = workScheduleRepository.findById(scheduleId)
+        WorkSchedule workScheduleEntity = workScheduleRepository.findByIdWithEmployee(scheduleId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다."));
 
         workScheduleEntity.update(updateDTO, workScheduleEntity.getEmployee());

@@ -11,16 +11,14 @@
                 <h4>근무 스케줄 수정</h4>
             </div>
 
-            <!-- 폼 -->
-            <form action="/schedules/{{schedule.id}}/edit" method="put">
+            <form id="updateScheduleForm">
                 <div class="update-body">
-                    <!-- 직원 ID 숨김 -->
-                    <input type="hidden" name="employeeId" value="{{schedule.id}}">
+                    <input type="hidden" id="scheduleId" name="scheduleId" value="{{schedule.id}}">
 
-                    <!-- 이름 (readonly) -->
                     <div class="update-item">
                         <span class="update-label">이름:</span>
                         <span class="update-value">{{schedule.name}}</span>
+                        <input type="hidden" name="name" value="{{schedule.name}}">
                     </div>
 
                     <!-- 시작 시간 -->
@@ -46,3 +44,5 @@
 </div>
 
 {{> layout/footer}}
+
+<script src="/js/workschedule/update.js"></script>

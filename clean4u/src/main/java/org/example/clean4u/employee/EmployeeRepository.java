@@ -27,18 +27,18 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Page<Employee> findAllEmployee(Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.name LIKE concat('%', :keyword, '%') " +
+            "WHERE e.name LIKE concat('%', :keyword, '%') AND e.userStatus = 'APPROVED' " +
             "ORDER BY e.name DESC")
     Page<Employee> findByNameContaining(@Param("keyword") String name, Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.name LIKE CONCAT('%', :keyword, '%') " +
+            "WHERE e.name LIKE CONCAT('%', :keyword, '%') AND e.userStatus = 'APPROVED' " +
             "OR e.email LIKE CONCAT('%', :keyword, '%') " +
             "ORDER BY e.createdAt DESC")
     Page<Employee> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.email LIKE CONCAT('%', :keyword, '%') " +
+            "WHERE e.email LIKE CONCAT('%', :keyword, '%') AND e.userStatus = 'APPROVED' " +
             "ORDER BY e.email DESC")
     Page<Employee> findByEmailContaining(@Param("keyword") String keyword, Pageable pageable);
 

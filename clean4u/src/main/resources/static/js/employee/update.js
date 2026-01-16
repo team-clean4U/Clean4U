@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-   const form = document.getElementById("updateForm");
+   const form = document.getElementById("updateEmployeeForm");
    if (!form) return;
 
    form.addEventListener("submit", async (e) => {

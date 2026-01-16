@@ -26,4 +26,8 @@ public interface WorkScheduleRepository extends JpaRepository<WorkSchedule, Long
     Page<WorkSchedule> findAll(Pageable pageable);
 
     Optional<WorkSchedule> findByEmployeeId(Long employeeId);
+
+    @Query("SELECT w FROM WorkSchedule w " +
+            "JOIN FETCH w.employee WHERE w.id = :id")
+    Optional<WorkSchedule> findByIdWithEmployee(@Param("id") Long id);
 }
