@@ -15,7 +15,7 @@ $(function () {
             ['fontsize', ['fontsize']],
             ['color', ['forecolor', 'backcolor']],
             ['para', ['ul', 'ol', 'paragraph']],
-            ['insert', ['link', 'picture']],
+            ['insert', ['picture']],
             ['view', ['help']]
         ],
         fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
@@ -25,6 +25,11 @@ $(function () {
                 for (let i = 0; i < files.length; i++) {
                     uploadImage(files[i], this);
                 }
+            },
+
+            onDialogShown: function (e) {
+                $('.note-modal-title').text("이미지 삽입");
+                $('.note-group-image-url').remove();
             }
         }
     });
