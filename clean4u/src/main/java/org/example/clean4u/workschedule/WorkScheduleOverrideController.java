@@ -90,7 +90,7 @@ public class WorkScheduleOverrideController {
 
         model.addAttribute("override", override);
 
-        return "redirect:/override/list";
+        return "redirect:/schedule-overrides";
     }
 
     @DeleteMapping("/schedule-overrides/{scheduleId}")
@@ -99,6 +99,6 @@ public class WorkScheduleOverrideController {
     ) {
         workScheduleOverrideService.delete(scheduleId);
 
-        return "redirect:/override/list";
+        return "redirect:/schedule-overrides";
     }
 }
