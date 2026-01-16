@@ -1,0 +1,20 @@
+.note-editable {
+    font-size: 18px;
+}
+
+.note-modal-body {
+    background: var(--background-blue);
+    padding: 1.5rem 2rem;
+}
+
+.note-input {
+    padding: 0.5rem;
+}
+
+.note-modal-footer {
+    height: 50px;
+}
+
+.note-btn-primary {
+    background: var(--color-cyan);
+}
