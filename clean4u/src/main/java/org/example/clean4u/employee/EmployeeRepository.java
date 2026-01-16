@@ -40,7 +40,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee e " +
             "WHERE e.email LIKE CONCAT('%', :keyword, '%') " +
             "ORDER BY e.email DESC")
-    Page<Employee> findByEmailContaining(String email, Pageable pageable);
+    Page<Employee> findByEmailContaining(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT COUNT(e) FROM Employee e ")
     long countAllEmployees();

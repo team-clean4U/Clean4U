@@ -28,10 +28,10 @@ public class WorkScheduleController {
 
         if (saveDTO.isSick()) {
             workScheduleOverrideService.saveOverride(saveDTO);
-            return "redirect:/override/list";
+            return "redirect:/schedule-overrides";
         } else {
             workScheduleService.saveNormal(saveDTO);
-            return "redirect:/schedule/list";
+            return "redirect:/schedules";
         }
     }
 
@@ -109,27 +109,5 @@ public class WorkScheduleController {
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/schedule.css"));
 
         return "workschedule/schedule-update-form";
-    }
-
-    @PutMapping("/schedules/{scheduleId}/edit")
-    public String scheduleUpdateProc(
-            @PathVariable Long scheduleId,
-            @Valid WorkScheduleRequest.UpdateDTO updateDTO,
-            Model model
-    ) {
-        WorkSchedule schedule = workScheduleService.scheduleUpdateProc(scheduleId, updateDTO);
-
-        model.addAttribute("schedule", schedule);
-
-        return "redirect:/schedule/list";
-    }
-
-    @DeleteMapping("/schedules/{scheduleId}")
-    public String delete(
-            @PathVariable Long scheduleId
-    ) {
-        workScheduleService.delete(scheduleId);
-
-        return "redirect:/schedule/list";
     }
 }
