@@ -22,7 +22,8 @@ public class NoticeController {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");
 
         model.addAttribute("writer", sessionUser.getName());
-        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/notice.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css",
+                "/css/notice.css", "/css/notice-summernote.css"));
 
         return "/notice/save-form";
     }
@@ -81,7 +82,8 @@ public class NoticeController {
 
         NoticeResponse.DetailDTO notice = noticeService.getFormForUpdate(noticeId, sessionUser);
         model.addAttribute("notice", notice);
-        model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/notice.css"));
+        model.addAttribute("additionalCss", Arrays.asList("/css/update.css",
+                "/css/notice.css", "/css/notice-summernote.css"));
 
         return "/notice/update-form";
     }
