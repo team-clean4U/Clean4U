@@ -12,7 +12,7 @@
             </div>
 
             <!-- 폼 -->
-            <form action="/schedule/{{schedule.id}}/update" method="post">
+            <form action="/schedules/{{schedule.id}}/edit" method="put">
                 <div class="update-body">
                     <!-- 직원 ID 숨김 -->
                     <input type="hidden" name="employeeId" value="{{schedule.id}}">
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="bottom-buttons">
-                    <a href="/schedule/list" class="btn btn-back">취소</a>
+                    <a href="/schedules" class="btn btn-back">취소</a>
                     <button type="submit" class="btn btn-create">수정 완료</button>
                 </div>
             </form>

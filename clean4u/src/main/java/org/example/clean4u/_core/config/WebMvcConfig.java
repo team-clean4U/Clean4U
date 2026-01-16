@@ -3,6 +3,7 @@ package org.example.clean4u._core.config;
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.interceptor.AccessInterceptor;
 import org.example.clean4u._core.interceptor.AuthInterceptor;
+import org.example.clean4u._core.interceptor.SessionFixationInterceptor;
 import org.example.clean4u._core.interceptor.SessionInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,12 +21,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final AccessInterceptor accessInterceptor;
     private final SessionInterceptor sessionInterceptor;
     private final AuthInterceptor authInterceptor;
+    private final SessionFixationInterceptor sessionFixationInterceptor;
 
     @Value("${app.upload.base-path}")
     private String basePath;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
+        registry.addInterceptor(sessionFixationInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/login",
+                        "/sessions",
+                        "/auth/**",
+                        "/**/*.css",
+                        "/js/**",
+                        "/images/**",
+                        "/favicon.ico",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**"
+                );
 
         registry.addInterceptor(sessionInterceptor)
                 .addPathPatterns("/**")
@@ -56,6 +72,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 )
                 .excludePathPatterns(
                         "/auth/**",
+                        "/api/v1/email/**",
                         "/employees/new",
                         "/password/**",
                         "/login",
@@ -75,11 +92,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns(
-                        "/employees/**",
+                        "/admin/employees/**",
                         "/schedules/**",
+                        "/schedule-overrides/**",
                         "/overrides/**",
                         "/notices/new",
-                        "/notices/*/edit"
+                        "/notices/*/edit",
+                        "/api/v1/admin/option-chart"
                 );
     }
 
