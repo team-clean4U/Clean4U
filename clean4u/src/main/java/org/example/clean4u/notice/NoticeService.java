@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -204,5 +205,24 @@ public class NoticeService {
             }
         }
         notice.clearImages();
+    }
+
+    @Transactional
+    public String uploadSummernoteImage(MultipartFile image) {
+
+        if (image == null || image.isEmpty()) {
+            throw new Exception400("업로드 할 이미지가 없습니다");
+        }
+
+        if (!fileUtil.isImageFile(image)) {
+            throw new Exception400("이미지 파일만 업로드 가능합니다");
+        }
+
+        try {
+            String filename = fileUtil.saveFile(image, noticePath);
+            return "/images/notice/" + filename;
+        } catch (IOException e) {
+            throw new Exception500("파일 업로드에 실패했습니다");
+        }
     }
 }
