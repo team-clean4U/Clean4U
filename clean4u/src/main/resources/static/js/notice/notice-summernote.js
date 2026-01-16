@@ -43,7 +43,7 @@ async function uploadImage(file, editor) {
         if (!res.ok) throw new Error("업로드 실패");
 
         const data = await res.json();
-        $(editor).summernote("insertImage", data.imageUrl);
+        $(editor).summernote("insertImage", data.data.imageUrl);
     } catch (e) {
         alert(e.message);
     }
