@@ -128,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
         eventSource = new EventSource("/api/v1/chats");
 
         eventSource.addEventListener("connect", (event) => {
-            console.log("SSE 연결됨:", event.data);
         });
 
         eventSource.addEventListener("newMessage", (event) => {
@@ -137,7 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         eventSource.onerror = (error) => {
-            console.log("SSE 연결 오류, 재연결 중", error);
             eventSource.close();
             setTimeout(connectEventSource, 3000);
         };
@@ -190,7 +188,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             })
             .catch(err => {
-                console.log("에러 발생: ", err);
                 if (err.message && err.message !== "메시지 전송에 실패했습니다.") {
                     // 이미 alert가 표시되었으므로 추가 처리 불필요
                 } else {
