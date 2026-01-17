@@ -5,17 +5,18 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const formData = new FormData(form);
             const id = window.location.pathname.match(/\/(\d+)\/edit/)[1];
-            
+
+            const historyTypeValue = formData.get("historyType");
             const data = {
                 name: formData.get("name"),
                 stockQuantity: parseInt(formData.get("stockQuantity")) || 0,
                 unit: formData.get("unit"),
                 safetyStock: parseInt(formData.get("safetyStock")) || 0,
                 isActive: formData.get("isActive") === "true",
-                historyType: formData.get("historyType"),
+                historyType: historyTypeValue && historyTypeValue.trim() !== "" ? historyTypeValue : null,
                 memo: formData.get("memo")
             };
-            
+
             try {
                 const response = await fetch(`/api/v1/supply-items/${id}`, {
                     method: "PUT",
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     body: JSON.stringify(data)
                 });
-                
+
                 if (!response.ok) {
                     const errorBody = await response.json();
                     const error = new Error(errorBody.message || "수정에 실패했습니다.");
