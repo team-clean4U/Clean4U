@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.clean4u.employee.Employee;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -30,13 +31,8 @@ public class Notice {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(
-            name = "notice_image_tb",
-            joinColumns = @JoinColumn(name = "notice_id")
-    )
-    @Column(name = "image_name")
-    private List<String> noticeImages = new ArrayList<>();
+    @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<NoticeFile> noticeFiles = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -47,13 +43,10 @@ public class Notice {
     private Timestamp updatedAt;
 
     @Builder
-    public Notice(String title, String content, Employee employee, List<String> noticeImages) {
+    public Notice(String title, String content, Employee employee) {
         this.title = title;
         this.content = content;
         this.employee = employee;
-        if (noticeImages == null || noticeImages.isEmpty()) {
-            this.noticeImages = new ArrayList<>();
-        }
     }
 
     public void update(NoticeRequest.UpdateDTO updateDTO) {
@@ -61,35 +54,21 @@ public class Notice {
         this.content = updateDTO.getContent();
     }
 
-    public void clearImages() {
-        this.noticeImages.clear();
+    public void addNoticeFile(NoticeFile noticeFile) {
+        this.noticeFiles.add(noticeFile);
+        noticeFile.setNotice(this);
     }
 
-    public void addImages(List<String> images) {
-        if (images != null && !images.isEmpty()) {
-            this.noticeImages.addAll(images);
+    public void addNoticeFiles(List<NoticeFile> files) {
+        if (files != null && !files.isEmpty()) { return; }
+
+        for (NoticeFile file : files) {
+            this.noticeFiles.addAll(files);
         }
     }
 
-    public List<String> getNoticeImagePath() {
-        if (this.noticeImages == null || this.noticeImages.isEmpty()) {
-            return List.of();
-        }
-
-        List<String> noticeImagePaths = new ArrayList<>();
-
-        for (String image: this.noticeImages) {
-            if (image == null) {
-                continue;
-            }
-
-            if (image.startsWith("http")) {
-                noticeImagePaths.add(image);
-            } else {
-                noticeImagePaths.add("/images/notice/" + image);
-            }
-        }
-
-        return noticeImagePaths;
+    public void clearFiles() {
+        this.noticeFiles.clear();
     }
+
 }
