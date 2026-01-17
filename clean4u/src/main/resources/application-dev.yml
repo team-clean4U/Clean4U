@@ -75,6 +75,7 @@ app:
   upload:
     base-path: ${UPLOAD_BASE_PATH:C:/uploads/}
     notice-path: ${UPLOAD_NOTICE_PATH:C:/uploads/notice}
+    notice-file-path: ${UPLOAD_NOTICE_FILE_PATH:C:/uploads/files}
 
 springdoc:
   api-docs:
