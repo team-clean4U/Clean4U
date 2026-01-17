@@ -2,14 +2,14 @@ package org.example.clean4u.notice;
 
 import java.util.List;
 
-public class NoticeImagesDeletedEvent {
-    private final List<String> filenames;
+public class NoticeFilesDeletedEvent {
+    private final List<NoticeFile> files;
 
-    public NoticeImagesDeletedEvent(List<String> filenames) {
-        this.filenames = filenames;
+    public NoticeFilesDeletedEvent(List<NoticeFile> files) {
+        this.files = files;
     }
 
-    public List<String> getFilenames() {
-        return filenames;
+    public List<NoticeFile> getFiles() {
+        return files;
     }
 }
