@@ -298,11 +298,13 @@ java -jar build/libs/clean4u-0.0.1-SNAPSHOT.jar
 | GET | `/admin/employees/pending` | 가입 대기 목록 | 관리자 | - |
 | GET | `/admin/employees` | 직원 목록 조회 | 관리자 | - |
 | GET | `/admin/employees/{employeeId}` | 직원 상세 조회 | 관리자 | - |
-| POST | `/admin/employee/{employeeId}` | 직원 승인,거부 | 관리자 | - |
+| POST | `/admin/employees/{employeeId}` | 직원 승인,거부 | 관리자 | - |
+| POST | `/admin/employees/{employeeId}/deactivate` | 직원 비활성화 | 관리자 | - |
 | POST | `/api/v1/email/send` | 이메일 인증번호 발송 (API) | 비로그인 | - |
 | POST | `/api/v1/email/verify` | 이메일 인증번호 확인 (API) | 비로그인 | - | ** 확인필요
 | GET | `/api/v1/admin/option-chart` | 옵션 차트 데이터 (API) | 관리자 | - |
-| DELETE | `/api/v1/admin/employees/{employeeId}` | 직원 삭제 (API) | 관리자 | - |
+| GET | `/api/v1/admin/category-revenue-chart` | 카테고리 매출 차트 데이터 (API) | 관리자 | - |
+| GET | `/api/v1/admin/monthly-trend-chart` | 월별 매출 추이 차트 데이터 (API) | 관리자 | - |
 
 ### 주문 관리
 
@@ -395,19 +397,19 @@ java -jar build/libs/clean4u-0.0.1-SNAPSHOT.jar
 
 | HTTP Method | URL | 설명 | 권한 | 비고 |
 |------------|-----|------|------|------|
-| GET | `/schedules` | 직원 조회 (스케줄 등록용) | 관리자 | - |
-| GET | `/schedules/{employeeId}` | 스케줄 등록 화면 | 관리자 | - |
+| GET | `/schedules/employees` | 직원 조회 (스케줄 등록용) | 관리자 | - |
+| GET | `/schedules/{employeeId}/new` | 스케줄 등록 화면 | 관리자 | - |
 | POST | `/schedules` | 스케줄 등록 처리 | 관리자 | - |
-| GET | `/schedule/list` | 스케줄 목록 조회 | 관리자 | - |
+| GET | `/schedules` | 스케줄 목록 조회 | 관리자 | - |
 | GET | `/schedules/{scheduleId}` | 스케줄 상세 조회 | 관리자 | - |
 | GET | `/schedules/{scheduleId}/edit` | 스케줄 수정 화면 | 관리자 | - |
 | PUT | `/api/v1/schedules/{scheduleId}/edit` | 스케줄 수정 처리 | 관리자 | - |
 | DELETE | `/api/v1/schedules/{scheduleId}` | 스케줄 삭제 | 관리자 | - |
 | GET | `/schedule-overrides` | 대체 스케줄 목록 조회 | 관리자 | - |
-| GET | `schedule-overrides/{scheduleId}` | 대체 스케줄 상세 조회 | 관리자 | - |
-| GET | `/schedule-overrides/{scheduleId}/edit` | 대체 스케줄 수정 화면 | 관리자 | - |
-| PUT | `/schedule-overrides/{scheduleId}/edit` | 대체 스케줄 수정 처리 | 관리자 | - |
-| DELETE | `/schedule-overrides/{scheduleId}` | 대체 스케줄 삭제 | 관리자 | - |
+| GET | `/schedule-overrides/{overrideId}` | 대체 스케줄 상세 조회 | 관리자 | - |
+| GET | `/schedule-overrides/{overrideId}/edit` | 대체 스케줄 수정 화면 | 관리자 | - |
+| PUT | `/api/v1/schedule-overrides/{overrideId}/edit` | 대체 스케줄 수정 처리 | 관리자 | - |
+| DELETE | `/api/v1/schedule-overrides/{overrideId}` | 대체 스케줄 삭제 | 관리자 | - |
 
 ### 클라이언트 페이지
 
@@ -416,6 +418,15 @@ java -jar build/libs/clean4u-0.0.1-SNAPSHOT.jar
 | GET | `/client` | 클라이언트 메인 페이지 | 비로그인 | - |
 | GET | `/client/{phone}/orders` | 고객 주문 목록 조회 | 비로그인 | - |
 | GET | `/client/{phone}/orders/{orderId}` | 고객 주문 상세 조회 | 비로그인 | - |
+
+### 채팅
+
+| HTTP Method | URL | 설명 | 권한 | 비고 |
+|------------|-----|------|------|------|
+| GET | `/chats` | 채팅 페이지 | 로그인 필요 | - |
+| GET | `/api/v1/chats` | 채팅 스트림 (SSE) | 로그인 필요 | - |
+| GET | `/api/v1/chats/history` | 채팅 이력 조회 (API) | 로그인 필요 | - |
+| POST | `/api/v1/chats` | 채팅 메시지 전송 (API) | 로그인 필요 | - |
 
 ## 주요 기술 특징
 
