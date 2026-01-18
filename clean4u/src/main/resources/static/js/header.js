@@ -47,19 +47,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function setActive(link, href) {
+        if (link.classList.contains('dropdown-item')) {
+            if (currentPath === href || currentPath === href + '/') {
+                link.classList.add('active');
+                activateDropdown(link);
+                return true;
+            }
+            return false;
+        }
+        
         if (isPathMatch(currentPath, href)) {
             link.classList.add('active');
-            if (link.classList.contains('dropdown-item')) {
-                activateDropdown(link);
-            }
-
             return true;
         }
 
         return false;
     }
 
-    document.querySelectorAll('.dropdown-item').forEach(i => {
+    const dropdownItems = Array.from(document.querySelectorAll('.dropdown-item'));
+    dropdownItems.sort((a, b) => {
+        const hrefA = a.getAttribute('href') || '';
+        const hrefB = b.getAttribute('href') || '';
+        return hrefB.length - hrefA.length;
+    });
+
+    dropdownItems.forEach(i => {
         const href = i.getAttribute('href');
 
         if (!setActive(i, href)) {
