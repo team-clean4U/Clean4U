@@ -320,6 +320,13 @@
     gap: 1rem;
 }
 
+.detail-value-file {
+    color: var(--color-dark-blue);
+    font-weight: 600;
+    font-size: 1.1rem;
+    flex: 1;
+}
+
 .body-upper-side {
     display: flex;
     justify-content: flex-end;
@@ -463,6 +470,7 @@
     display: flex;
     flex: 1;
     gap: 1rem;
+    align-items: center;
 }
 
 .image-add {
@@ -498,4 +506,12 @@
 
 .note-editor {
     flex: 1;
+}
+
+/* 파일 */
+.file-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
