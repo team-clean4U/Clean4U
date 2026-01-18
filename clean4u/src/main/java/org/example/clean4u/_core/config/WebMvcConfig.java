@@ -26,6 +26,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${app.upload.base-path}")
     private String basePath;
 
+    @Value("${app.upload.notice-file-path}")
+    private String noticeFilePath;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -68,6 +71,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/overrides/**",
                         "/refunds/**",
                         "/chats/**",
+                        "/files/**",
                         "/api/v1/**"
                 )
                 .excludePathPatterns(
@@ -109,5 +113,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:" + basePath + "/");
+
+        registry.addResourceHandler("/files/**")
+                .addResourceLocations("file:" + noticeFilePath + "/");
     }
 }

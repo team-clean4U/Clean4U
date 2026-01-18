@@ -36,14 +36,6 @@ public class NoticeApiController {
         return ResponseEntity.ok(ApiResponse.ok("삭제가 완료되었습니다"));
     }
 
-    @DeleteMapping("{noticeId}/image")
-    public ResponseEntity<ApiResponse<Void>> deleteNoticeImages(@PathVariable Long noticeId, HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-
-        noticeService.deleteNoticeImages(noticeId, sessionUser);
-        return ResponseEntity.ok(ApiResponse.ok("이미지 삭제가 완료되었습니다"));
-    }
-
     @PostMapping("/image")
     public ResponseEntity<ApiResponse<Map<String, String>>> uploadSummernoteImage(@RequestParam MultipartFile image) {
         String imageUrl = noticeService.uploadSummernoteImage(image);

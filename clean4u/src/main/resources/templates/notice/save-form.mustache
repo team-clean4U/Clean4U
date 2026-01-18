@@ -19,24 +19,23 @@
                     <textarea id="summernote" name="content" placeholder="내용을 입력해주세요." rows="16"
                               class="update-value update-notice-content"></textarea>
                 </div>
-<!--                <div class="update-item last">-->
-<!--                    <label class="notice-label">-->
-<!--                        <i class="fa-solid fa-image"></i>-->
-<!--                        사진 추가-->
-<!--                    </label>-->
-<!--                    <div class="file-right">-->
-<!--                        <div class="file-button">-->
-<!--                            <label for="uploadImages" class="btn image-add">-->
-<!--                                <span id="image-label">-->
-<!--                                    <i class="fa-solid fa-upload"></i>-->
-<!--                                    파일 선택</span>-->
-<!--                            </label>-->
-<!--                        </div>-->
-<!--                        <input type="file" id="uploadImages" name="uploadImages" accept="image/*" hidden multiple>-->
-<!--                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div id="preview" class="image-preview"></div>-->
+                <div class="update-item last">
+                    <label class="notice-label">
+                        <i class="fa-solid fa-file"></i>
+                        첨부 파일
+                    </label>
+                    <div class="file-right">
+                        <div class="file-button">
+                            <label for="attachments" class="btn image-add">
+                                <span id="image-label">
+                                    <i class="fa-solid fa-upload"></i>
+                                    파일 선택</span>
+                            </label>
+                        </div>
+                        <input type="file" id="attachments" name="attachments" hidden multiple>
+                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>
+                    </div>
+                </div>
             </div>
             <div class="bottom-buttons">
                 <a href="/notices" class="btn btn-back">취소</a>
@@ -49,3 +48,4 @@
 {{> layout/footer}}
 
 <script src="/js/notice/notice-summernote.js"></script>
+<script src="/js/notice/notice-file.js"></script>
