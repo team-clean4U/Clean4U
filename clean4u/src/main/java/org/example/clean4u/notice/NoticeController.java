@@ -88,13 +88,13 @@ public class NoticeController {
         return "/notice/update-form";
     }
 
-    @PostMapping("/notices/{noticeId}/image")
-    public String updateNoticeImages(@PathVariable Long noticeId,
-                                     @ModelAttribute @Valid NoticeRequest.ImageUploadDTO dto,
-                                     HttpSession session) {
-        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
-        noticeService.updateNoticeImages(noticeId, dto, sessionUser);
-
-        return "redirect:/notices/" + noticeId;
-    }
+//    @PostMapping("/notices/{noticeId}/image")
+//    public String updateNoticeImages(@PathVariable Long noticeId,
+//                                     @ModelAttribute @Valid NoticeRequest.ImageUploadDTO dto,
+//                                     HttpSession session) {
+//        Employee sessionUser = (Employee) session.getAttribute("sessionUser");
+//        noticeService.updateNoticeImages(noticeId, dto, sessionUser);
+//
+//        return "redirect:/notices/" + noticeId;
+//    }
 }
