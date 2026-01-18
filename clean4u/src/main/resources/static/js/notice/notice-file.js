@@ -1,30 +1,19 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("uploadImages");
-    const fileName = document.getElementById("fileName");
-    const imageLabel = document.getElementById("image-label");
-    const preview = document.getElementById("preview");
+const fileInput = document.getElementById("attachments");
+const fileNameSpan = document.getElementById("fileName");
 
-    console.log("preview: ", preview);
+fileInput.addEventListener("change", function () {
+    const files = fileInput.files;
 
-    input.addEventListener("change", () => {
-        preview.innerHTML = "";
+    if (!files || files.length === 0) {
+        fileNameSpan.textContent = "선택된 파일 없음";
+        return;
+    }
 
-        const files = input.files;
-        if (!files || files.length === 0) {
-            fileName.textContent = "선택된 파일이 없습니다";
-            return;
-        }
-        fileName.textContent = `${files.length}개 파일이 선택되었습니다`;
-        imageLabel.innerHTML = '<i class="fa-solid fa-edit"></i> 파일 수정';
+    fileNameSpan.innerHTML = "";
 
-        Array.from(files).forEach(file => {
-            const render = new FileReader();
-            render.onload = (e) => {
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                preview.appendChild(img);
-            };
-            render.readAsDataURL(file);
-        });
-    });
-});
+    Array.from(files).forEach(file => {
+        const div = document.createElement("div");
+        div.textContent = file.name;
+        fileNameSpan.appendChild(div);
+    })
+})
