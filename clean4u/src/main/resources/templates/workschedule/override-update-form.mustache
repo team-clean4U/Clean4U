@@ -1,48 +1,63 @@
 {{> layout/header}}
-
 {{> layout/background}}
 
 <div class="update-container">
     <div class="update-container-content">
         <div class="update-card">
-            <!-- 헤더 -->
             <div class="update-header">
                 <i class="fa-solid fa-calendar-check"></i>
-                <span>근무 스케줄 수정</span>
+                <b>근무 스케줄 수정</b>
             </div>
 
-            <!-- 폼 -->
-            <form action="/schedule/{{schedule.id}}/update" method="post">
+            <form id="updateOverrideForm">
                 <div class="update-body">
-                    <!-- 직원 ID 숨김 -->
-                    <input type="hidden" name="employeeId" value="{{schedule.id}}">
+                    <input type="hidden" name="id" id="id" value="{{override.id}}">
+                    <input type="hidden" name="date" id="date" value="{{override.date}}">
+                    <input type="hidden" name="originalId" id="originalId" value="{{override.originalEmployeeId}}">
+                    <input type="hidden" name="overrideId" id="overrideId" value="{{override.overrideEmployeeId}}">
 
-                    <!-- 이름 (readonly) -->
                     <div class="update-item">
-                        <span class="update-label">이름:</span>
-                        <span class="update-value">{{schedule.name}}</span>
+                        <span class="update-label">
+                            <i class="fa-solid fa-user"></i>
+                            기존 근무자
+                        </span>
+                        <span class="update-value">{{override.originalEmployeeName}}</span>
                     </div>
 
-                    <!-- 시작 시간 -->
                     <div class="update-item">
-                        <label class="update-label" for="startTime">시작 시간:</label>
-                        <input type="time" id="startTime" name="startTime" required>
+                        <span class="update-label">
+                            <i class="fa-solid fa-user"></i>
+                            교체 근무자
+                        </span>
+                        <span class="update-value">{{override.overrideEmployeeName}}</span>
                     </div>
 
-                    <!-- 종료 시간 -->
                     <div class="update-item">
-                        <label class="update-label" for="endTime">종료 시간:</label>
-                        <input type="time" id="endTime" name="endTime" required>
+                        <label class="update-label" for="startTime">
+                            <i class="fa-solid fa-clock"></i>
+                            시작 시간
+                        </label>
+                        <input type="time" id="startTime" name="startTime" class="update-value" value="{{override.startTime}}" required>
+                    </div>
+
+                    <div class="update-item">
+                        <label class="update-label" for="endTime">
+                            <i class="fa-solid fa-clock"></i>
+                            종료 시간
+                        </label>
+                        <input type="time" id="endTime" name="endTime" class="update-value" value="{{override.endTime}}" required>
                     </div>
                 </div>
 
                 <div class="bottom-buttons">
-                    <button type="submit" class="btn btn-add">수정</button>
-                    <a href="/schedule/list" class="btn stock-badge badge-warn">취소</a>
+                    <button type="submit" class="btn btn-create">수정 완료</button>
+                    <a href="javascript:history.back()" class="btn btn-back">취소</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+
+<script src="/js/workschedule/update-override.js"></script>
 {{> layout/footer}}

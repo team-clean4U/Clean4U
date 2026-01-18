@@ -2,7 +2,6 @@ package org.example.clean4u.workschedule;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.example.clean4u.employee.Employee;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,13 +19,5 @@ public class WorkScheduleOverrideRequest {
         private LocalTime startTime;
         @NotNull(message = "종료 시간은 비워둘 수 없습니다.")
         private LocalTime endTime;
-
-        public UpdateDTO(LocalDate date, Employee originalEmployee, Employee overrideEmployee, LocalTime startTime, LocalTime endTime) {
-            this.date = date;
-            this.originalId = originalEmployee.getId();
-            this.overrideId = overrideEmployee.getId();
-            this.startTime = startTime;
-            this.endTime = endTime;
-        }
     }
 }

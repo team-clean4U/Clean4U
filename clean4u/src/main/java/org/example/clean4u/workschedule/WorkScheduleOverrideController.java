@@ -2,6 +2,7 @@ package org.example.clean4u.workschedule;
 
 import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
+import org.example.clean4u.employee.AuthService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,12 +56,12 @@ public class WorkScheduleOverrideController {
         return "workschedule/override-list-form";
     }
 
-    @GetMapping("/schedule-overrides/{scheduleId}")
+    @GetMapping("/schedule-overrides/{overrideId}")
     public String overrideDetail(
-            @PathVariable Long scheduleId,
+            @PathVariable Long overrideId,
             Model model
     ) {
-        WorkScheduleOverrideResponse.DetailDTO override = workScheduleOverrideService.overrideDetail(scheduleId);
+        WorkScheduleOverrideResponse.DetailDTO override = workScheduleOverrideService.overrideDetail(overrideId);
 
         model.addAttribute("override", override);
         model.addAttribute("additionalCss", Arrays.asList("/css/detail.css", "/css/schedule.css"));
@@ -68,14 +69,14 @@ public class WorkScheduleOverrideController {
         return "workschedule/override-detail";
     }
 
-    @GetMapping("/schedule-overrides/{scheduleId}/edit")
+    @GetMapping("/schedule-overrides/{overrideId}/edit")
     public String overrideUpdateForm(
-            @PathVariable Long scheduleId,
+            @PathVariable Long overrideId,
             Model model
     ) {
-        WorkScheduleOverrideResponse.UpdateDTO schedule = workScheduleOverrideService.overrideUpdateForm(scheduleId);
+        WorkScheduleOverrideResponse.UpdateDTO override = workScheduleOverrideService.overrideUpdateForm(overrideId);
 
-        model.addAttribute("schedule", schedule);
+        model.addAttribute("override", override);
         model.addAttribute("additionalCss", Arrays.asList("/css/update.css", "/css/schedule.css"));
 
         return "workschedule/override-update-form";

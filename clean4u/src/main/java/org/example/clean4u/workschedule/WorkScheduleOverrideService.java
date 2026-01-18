@@ -39,23 +39,23 @@ public class WorkScheduleOverrideService {
         return workScheduleOverride;
     }
 
-    public WorkScheduleOverrideResponse.DetailDTO overrideDetail(Long scheduleId) {
-        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(scheduleId)
+    public WorkScheduleOverrideResponse.DetailDTO overrideDetail(Long overrideId) {
+        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(overrideId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다."));
 
         return new WorkScheduleOverrideResponse.DetailDTO(workScheduleOverrideEntity);
     }
 
-    public WorkScheduleOverrideResponse.UpdateDTO overrideUpdateForm(Long scheduleId) {
-        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(scheduleId)
+    public WorkScheduleOverrideResponse.UpdateDTO overrideUpdateForm(Long overrideId) {
+        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(overrideId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다."));
 
         return new WorkScheduleOverrideResponse.UpdateDTO(workScheduleOverrideEntity);
     }
 
     @Transactional
-    public WorkScheduleOverride overrideUpdateProc(Long scheduleId, @Valid WorkScheduleOverrideRequest.UpdateDTO updateDTO) {
-        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(scheduleId)
+    public WorkScheduleOverride overrideUpdateProc(Long overrideId, @Valid WorkScheduleOverrideRequest.UpdateDTO updateDTO) {
+        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(overrideId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다"));
 
         Employee originalEntity = employeeRepository.findById(updateDTO.getOriginalId())
@@ -70,8 +70,8 @@ public class WorkScheduleOverrideService {
     }
 
     @Transactional
-    public void delete(Long scheduleId) {
-        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(scheduleId)
+    public void delete(Long overrideId) {
+        WorkScheduleOverride workScheduleOverrideEntity = workScheduleOverrideRepository.findById(overrideId)
                 .orElseThrow(() -> new Exception404("해당 스케줄이 존재하지 않습니다"));
 
         workScheduleOverrideRepository.delete(workScheduleOverrideEntity);
