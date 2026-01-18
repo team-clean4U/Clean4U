@@ -18,4 +18,10 @@ public class AuthApiController {
     public List<Object[]> optionChart() {
         return authService.optionChart();
     }
+
+    @GetMapping("/admin/category-revenue-chart")
+    public List<Object[]> categoryChart() { return authService.categoryChart(); }
+
+    @GetMapping("/admin/monthly-trend-chart")
+    public List<Object[]> salesChart() { return authService.salesChart(); }
 }

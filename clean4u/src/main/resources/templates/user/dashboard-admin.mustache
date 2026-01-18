@@ -161,15 +161,42 @@
             </div>
         </div>
 
+        <div class="card-list-two">
+            <div class="dashboard-group">
+                <div class="group-title">
+                    <h3>
+                        <i class="fa-solid fa-chart-pie"></i>
+                        인기 세탁 옵션 TOP 5
+                    </h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="optionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="dashboard-group">
+                <div class="group-title">
+                    <h3>
+                        <i class="fa-solid fa-chart-pie"></i>
+                        카테고리별 매출 비중
+                    </h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
         <div class="dashboard-group">
             <div class="group-title">
                 <h3>
-                    <i class="fa-solid fa-chart-pie"></i>
-                    세탁 옵션 통계
+                    <i class="fa-solid fa-chart-line"></i>
+                    월간 실적 추이
                 </h3>
             </div>
             <div class="chart-container">
-                <canvas id="myChart"></canvas>
+                <canvas id="trendChart"></canvas>
             </div>
         </div>
 
@@ -207,95 +234,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    fetch("/api/v1/admin/option-chart")
-            .then(res => res.json())
-            .then(optionChart => {
-                const labels = optionChart.map(o => o[0]);
-                const dataValue = optionChart.map(o => o[1]);
-
-                const data = {
-                    labels: labels, // 조각 이름
-                    datasets: [{
-                        label: '주문 수',
-                        data: dataValue,
-                        backgroundColor: [
-                            'rgba(79, 195, 247, 0.85)',
-                            'rgba(129, 212, 250, 0.85)',
-                            'rgba(77, 208, 225, 0.85)',
-                            'rgba(144, 202, 249, 0.85)',
-                            'rgba(100, 181, 246, 0.85)'
-                        ],
-                        borderColor: [
-                            'rgba(79, 195, 247, 1)',
-                            'rgba(98, 189, 248, 1)',
-                            'rgba(77, 208, 225, 1)',
-                            'rgba(122, 192, 248, 1)',
-                            'rgba(100, 181, 246, 1)'
-                        ],
-                        borderWidth: 2,
-                        hoverOffset: 8,
-                        hoverBorderWidth: 3
-                    }]
-                };
-
-                const config = {
-                    type: 'pie',
-                    data: data,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        aspectRatio: 1.5,
-                        layout: {
-                            padding: {
-                                top: 20,
-                                bottom: 20,
-                                left: 20,
-                                right: 100
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                position: 'right',
-                                labels: {
-                                    padding: 18,
-                                    boxWidth: 30,
-                                    boxHeight: 15,
-                                    boxPadding: 10,
-                                    font: {
-                                        size: 13,
-                                        weight: '500'
-                                    },
-                                    color: '#1A237E'
-                                }
-                            },
-                            tooltip: {
-                                backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                                padding: 12,
-                                boxPadding: 10,
-                                titleFont: {
-                                    size: 14,
-                                    weight: '600'
-                                },
-                                bodyFont: {
-                                    size: 13
-                                },
-                                titleColor: '#1A237E',
-                                bodyColor: '#1A237E',
-                                borderColor: 'rgba(79, 195, 247, 0.3)',
-                                borderWidth: 1,
-                                cornerRadius: 8,
-                                callbacks: {
-                                    label: function(context) {
-                                        return context.label + ': ' + context.parsed + '건';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-                new Chart(document.getElementById('myChart'), config);
-            });
-</script>
+<script src="/js/employee/chart.js"></script>
 
 {{> layout/footer}}

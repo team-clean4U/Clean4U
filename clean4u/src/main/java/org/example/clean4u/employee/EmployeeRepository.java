@@ -53,4 +53,22 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ORDER BY count DESC " +
             "LIMIT 5", nativeQuery = true)
     List<Object[]> findTop5Option();
+
+    @Query(value =
+            "SELECT li.category, SUM(li.base_price * oi.quantity) AS total_revenue " +
+            "FROM order_item_tb oi " +
+            "JOIN laundry_item_tb li ON oi.laundry_item_id = li.laundry_item_id " +
+            "GROUP BY li.category " +
+            "ORDER BY total_revenue DESC", nativeQuery = true)
+    List<Object[]> findRevenueByCategory();
+
+    @Query(value =
+            "SELECT FORMATDATETIME(order_date, 'yyyy-MM') AS order_month, " +
+            "COUNT(id) AS order_count, " +
+            "SUM(total_price) AS monthly_revenue " +
+            "FROM order_tb " +
+            "WHERE status != 'CANCELLED' " +
+            "GROUP BY FORMATDATETIME(order_date, 'yyyy-MM') " +
+            "ORDER BY order_month ASC", nativeQuery = true)
+    List<Object[]> findMonthSalesTrend();
 }
