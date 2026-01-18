@@ -6,6 +6,7 @@ import lombok.Data;
 import org.example.clean4u.employee.Employee;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NoticeRequest {
@@ -17,18 +18,15 @@ public class NoticeRequest {
         @NotBlank(message = "내용은 필수입니다.")
         @Size(max = 2000, message = "내용은 2000자 이내여야 합니다.")
         private String content;
-        private List<MultipartFile> uploadImages;
+        private List<MultipartFile> attachments = new ArrayList<>();
 
-        public Notice toEntity(Employee employee, List<String> noticeImageNames) {
+        public Notice toEntity(Employee employee) {
             Notice notice = Notice.builder()
                     .title(this.title)
                     .content(this.content)
                     .employee(employee)
                     .build();
 
-            if (noticeImageNames != null && !noticeImageNames.isEmpty()) {
-                notice.addImages(noticeImageNames);
-            }
             return notice;
         }
     }
@@ -41,6 +39,9 @@ public class NoticeRequest {
         @NotBlank(message = "내용은 필수입니다.")
         @Size(max = 2000, message = "내용은 2000자 이내여야 합니다.")
         private String content;
+        private List<Long> deleteFileIds = new ArrayList<>();
+        private List<MultipartFile> newAttachments = new ArrayList<>();
+
     }
 
     @Data
