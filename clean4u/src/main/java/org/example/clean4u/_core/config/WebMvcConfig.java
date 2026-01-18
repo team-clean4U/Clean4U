@@ -71,6 +71,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/overrides/**",
                         "/refunds/**",
                         "/chats/**",
+                        "/files/**",
                         "/api/v1/**"
                 )
                 .excludePathPatterns(
