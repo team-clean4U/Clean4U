@@ -13,9 +13,7 @@ async function deleteOverride(id) {
             throw new Error(errorBody.message);
         } else {
             alert("삭제 되었습니다");
-            setTimeout(() => {
-                window.location.href = "/schedule-overrides";
-            }, 100);
+            window.location.href = "/schedule-overrides";
         }
     } catch (error) {
         alert("삭제 중 오류가 발생했습니다.");

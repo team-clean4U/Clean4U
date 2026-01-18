@@ -123,4 +123,8 @@ public class AuthService {
     public List<Object[]> optionChart() {
         return employeeRepository.findTop5Option();
     }
+
+    public List<Object[]> categoryChart() { return employeeRepository.findRevenueByCategory(); }
+
+    public List<Object[]> salesChart() { return employeeRepository.findMonthSalesTrend(); }
 }
