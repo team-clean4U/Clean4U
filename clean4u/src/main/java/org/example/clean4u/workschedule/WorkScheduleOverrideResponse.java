@@ -61,16 +61,22 @@ public class WorkScheduleOverrideResponse {
 
     @Data
     public static class UpdateDTO {
+        private Long id;
         private LocalDate date;
         private Long originalEmployeeId;
         private Long overrideEmployeeId;
+        private String originalEmployeeName;
+        private String overrideEmployeeName;
         private LocalTime startTime;
         private LocalTime endTime;
 
         public UpdateDTO(WorkScheduleOverride workScheduleOverride) {
+            this.id = workScheduleOverride.getId();
             this.date = workScheduleOverride.getDate();
             this.originalEmployeeId = workScheduleOverride.getOriginalEmployee().getId();
             this.overrideEmployeeId = workScheduleOverride.getOverrideEmployee().getId();
+            this.originalEmployeeName = workScheduleOverride.getOriginalEmployee().getName();
+            this.overrideEmployeeName = workScheduleOverride.getOverrideEmployee().getName();
             this.startTime = workScheduleOverride.getStartTime();
             this.endTime = workScheduleOverride.getEndTime();
         }
