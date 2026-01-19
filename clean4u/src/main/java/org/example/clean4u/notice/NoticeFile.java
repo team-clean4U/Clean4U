@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 
 @Entity
@@ -52,6 +55,18 @@ public class NoticeFile {
         this.fileSize = fileSize;
         this.filePath = filePath;
         this.createdAt = createdAt;
+    }
+
+    public static NoticeFile createNoticeFile(MultipartFile file, String storedName, String filePath) {
+        Path fullPath = Paths.get(filePath).resolve(storedName);
+
+        return NoticeFile.builder()
+                .originalName(file.getOriginalFilename())
+                .storedName(storedName)
+                .contentType(file.getContentType())
+                .fileSize(file.getSize())
+                .filePath(fullPath.toString())
+                .build();
     }
 }
 
