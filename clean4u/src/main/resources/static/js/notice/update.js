@@ -4,43 +4,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const files = form.uploadImages?.files;
-        const hasFiles = files && files.length > 0;
         const noticeId = window.location.pathname.match(/\/(\d+)\/edit/)[1];
+        const formData = new FormData();
+
+        formData.append("title", form.title.value);
+        formData.append("content", $('#summernote').summernote('code'));
+
+        const deleteInput = document.getElementById("deleteFileIds");
+        if (deleteInput && deleteInput.value) {
+            deleteInput.value.split(",").forEach(id => {
+                formData.append("deleteFileIds", id);
+            });
+        }
+
+        const files = document.getElementById("attachments").files;
+        if (files && files.length > 0) {
+            Array.from(files).forEach(file => {
+                formData.append("newAttachments", file);
+            });
+        }
 
         try {
-            const textFormData = new FormData();
-            textFormData.append("title", form.title.value);
-            textFormData.append("content", $('#summernote').summernote('code'));
-
-            const textRes = await fetch(`/api/v1/notices/${noticeId}`, {
+            const res = await fetch(`/api/v1/notices/${noticeId}`, {
                 method: "PUT",
-                body: textFormData
+                body: formData
             });
 
-            if (!textRes.ok) {
-                const errorBody = await textRes.json();
+            if (!res.ok) {
+                const errorBody = await res.json();
                 throw new Error(errorBody.message);
-            }
-            if (textRes.ok) {
-                console.log(textRes);
-            }
-
-            if (hasFiles) {
-                const imageFormData = new FormData();
-                Array.from(files).forEach(file => {
-                    imageFormData.append("uploadImages", file);
-                });
-
-                const imgRes = await fetch(`/notices/${noticeId}/image`, {
-                    method: "POST",
-                    body: imageFormData,
-                });
-
-                if (!imgRes.ok) {
-                    const errorBody = await imgRes.json();
-                    throw new Error(errorBody.message);
-                }
             }
 
             window.location.href = `/notices/${noticeId}`;
