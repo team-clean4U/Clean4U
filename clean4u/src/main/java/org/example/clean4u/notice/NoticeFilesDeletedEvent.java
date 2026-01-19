@@ -1,5 +1,7 @@
 package org.example.clean4u.notice;
 
+import org.example.clean4u.noticeFile.NoticeFile;
+
 import java.util.List;
 
 public class NoticeFilesDeletedEvent {

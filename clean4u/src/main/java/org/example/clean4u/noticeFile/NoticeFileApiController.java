@@ -1,4 +1,4 @@
-package org.example.clean4u.notice;
+package org.example.clean4u.noticeFile;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.PathResource;
