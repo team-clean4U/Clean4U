@@ -55,16 +55,16 @@
                         <i class="fa-solid fa-file"></i>
                         첨부 파일
                     </span>
-                    {{#notice.attachments}}
                     <div class="detail-value-file">
+                        {{#notice.attachments}}
                         <div class="file-item image-label">
                             <i class="fa-solid fa-paperclip"></i>
-                            <a href="/api/v1/files/{{fileId}}" class="file-link">
+                            <a href="/api/v1/files/{{fileId}}">
                                 {{originalName}}
                             </a>
                         </div>
+                        {{/notice.attachments}}
                     </div>
-                    {{/notice.attachments}}
                     {{^notice.attachments}}
                     <span id="fileName" class="image-label"> 첨부파일 없음</span>
                     {{/notice.attachments}}
