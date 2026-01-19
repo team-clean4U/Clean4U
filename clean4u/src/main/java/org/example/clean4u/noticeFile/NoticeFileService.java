@@ -1,6 +1,7 @@
-package org.example.clean4u.notice;
+package org.example.clean4u.noticeFile;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.errors.exception.Exception500;
@@ -21,6 +22,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class NoticeFileService {
     private final NoticeFileRepository noticeFileRepository;
 
@@ -32,29 +34,24 @@ public class NoticeFileService {
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024L;
 
     public void validateFiles (List<MultipartFile> files) {
-        if (files == null || files.isEmpty()) {
-            return;
-        }
+        if (files == null || files.isEmpty()) return;
 
         for (MultipartFile file : files) {
 
-            if (file == null || file.isEmpty()) {
-                throw new Exception400("업로드할 파일이 없습니다");
-            }
+            if (file != null && !file.isEmpty()) {
+                if (file.getSize() > MAX_FILE_SIZE) {
+                    throw new Exception400("최대 용량을 초과하였습니다, 최대 10MB까지 업로드 가능합니다");
+                }
 
-            if (file.getSize() > MAX_FILE_SIZE) {
-                throw new Exception400("최대 용량을 초과하였습니다, 최대 10MB까지 업로드 가능합니다");
-            }
+                String originalName = file.getOriginalFilename();
+                if (originalName == null || !originalName.contains(".")) {
+                    throw new Exception400("확장자가 없는 파일입니다");
+                }
 
-            String originalName = file.getOriginalFilename();
-            if (originalName == null || !originalName.contains(".")) {
-                throw new Exception400("확장자가 없는 파일입니다");
-            }
-
-            String extension = originalName.substring(originalName.lastIndexOf(".") + 1).toLowerCase();
-
-            if (!ALLOWED_EXTENSIONS.contains(extension)) {
-                throw new Exception400("허용되지 않는 파일 형식입니다" + extension);
+                String extension = originalName.substring(originalName.lastIndexOf(".") + 1).toLowerCase();
+                if (!ALLOWED_EXTENSIONS.contains(extension)) {
+                    throw new Exception400("허용되지 않는 파일 형식입니다" + extension);
+                }
             }
         }
     }

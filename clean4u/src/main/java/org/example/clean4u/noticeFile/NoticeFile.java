@@ -1,9 +1,10 @@
-package org.example.clean4u.notice;
+package org.example.clean4u.noticeFile;
 
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.clean4u.notice.Notice;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 

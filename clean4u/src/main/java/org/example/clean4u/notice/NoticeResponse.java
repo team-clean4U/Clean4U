@@ -2,8 +2,8 @@ package org.example.clean4u.notice;
 
 import lombok.Data;
 import org.example.clean4u._core.utils.DateUtil;
+import org.example.clean4u.noticeFile.NoticeFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class NoticeResponse {

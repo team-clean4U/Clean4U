@@ -10,6 +10,9 @@ import org.example.clean4u._core.errors.exception.Exception500;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u._core.utils.FileUtil;
 import org.example.clean4u.employee.Employee;
+import org.example.clean4u.noticeFile.NoticeFile;
+import org.example.clean4u.noticeFile.NoticeFileRepository;
+import org.example.clean4u.noticeFile.NoticeFileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -208,16 +211,18 @@ public class NoticeService {
     private void attachFiles(List<MultipartFile> files, Notice notice) {
         if (files == null || files.isEmpty()) return;
 
-        noticeFileService.validateFiles(files);
+        if (!files.get(0).isEmpty()) {
+            noticeFileService.validateFiles(files);
 
-        for (MultipartFile file: files) {
-            try {
-                String storedName = fileUtil.saveFile(file, noticeFilePath);
+            for (MultipartFile file: files) {
+                try {
+                    String storedName = fileUtil.saveFile(file, noticeFilePath);
 
-                NoticeFile noticeFile = NoticeFile.createNoticeFile(file, storedName, noticeFilePath);
-                notice.addNoticeFile(noticeFile);
-            } catch (IOException e) {
-                throw new Exception500("첨부파일 저장에 실패했습니다");
+                    NoticeFile noticeFile = NoticeFile.createNoticeFile(file, storedName, noticeFilePath);
+                    notice.addNoticeFile(noticeFile);
+                } catch (IOException e) {
+                    throw new Exception500("첨부파일 저장에 실패했습니다");
+                }
             }
         }
     }
