@@ -63,28 +63,28 @@ clean4u/
 │   │   │       │   ├── response/      # 응답 DTO (PageResponse, ApiResponse 등)
 │   │   │       │   └── utils/         # 유틸리티 (FileUtil, PriceUtil 등)
 │   │   │       ├── chat/              # 채팅 관리
+│   │   │       ├── client             # 사용자 페이지
 │   │   │       ├── customer/          # 고객 관리
+│   │   │       ├── dashboard/         # 대시보드
 │   │   │       ├── employee/          # 직원 관리
+│   │   │       ├── laundryItem/       # 세탁 품목
+│   │   │       ├── laundryOption/     # 세탁 옵션
+│   │   │       ├── notice/            # 공지사항
 │   │   │       ├── order/             # 주문 관리
 │   │   │       ├── orderItem/         # 주문 항목
 │   │   │       ├── orderItemOption/   # 주문 항목 옵션
 │   │   │       ├── orderStatusHistory/# 주문 상태 이력
-│   │   │       ├── laundryItem/       # 세탁 품목
-│   │   │       ├── laundryOption/     # 세탁 옵션
 │   │   │       ├── payment/           # 결제
 │   │   │       ├── refund/            # 환불
 │   │   │       ├── review/            # 리뷰
 │   │   │       ├── sms/               # SMS
 │   │   │       ├── supplyItem/        # 재고 품목
 │   │   │       ├── supplyItemHistory/ # 재고 이력
-│   │   │       ├── notice/             # 공지사항
-│   │   │       ├── workschedule/      # 근무 스케줄
-│   │   │       ├── dashboard/          # 대시보드
-│   │   │       └── client/             # 클라이언트 페이지
+│   │   │       └── workschedule/      # 근무 스케줄
 │   │   └── resources/
-│   │       ├── templates/              # Mustache 템플릿
-│   │       ├── static/                # 정적 리소스 (CSS, JS)
 │   │       ├── db/                    # 초기 데이터 (data.sql)
+│   │       ├── static/                # 정적 리소스 (CSS, JS)
+│   │       ├── templates/             # Mustache 템플릿
 │   │       └── application*.yml       # 설정 파일
 │   └── test/                          # 테스트 코드
 ├── build.gradle                       # Gradle 빌드 설정
@@ -273,6 +273,8 @@ java -jar build/libs/clean4u-0.0.1-SNAPSHOT.jar
 | GET | `/dashboard` | 대시보드 | 로그인 필요 | - |
 | GET | `/employees/me` | 내 정보 수정 화면 | 로그인 필요 | - |
 | PUT | `/api/v1/employees/me` | 내 정보 수정 처리(API) | 로그인 필요 | - |
+| POST | `/api/v1/email/send` | 이메일 인증번호 발송 (API) | 비로그인 | - |
+| POST | `/api/v1/email/verify` | 이메일 인증번호 확인 (API) | 비로그인 | - |
 | GET | `/password` | 비밀번호 찾기 화면 | 비로그인 | - |
 | POST | `/password` | 비밀번호 찾기 처리 | 비로그인 | - |
 | GET | `/password/reset` | 비밀번호 재설정 화면 | 비로그인 | - |
@@ -300,8 +302,6 @@ java -jar build/libs/clean4u-0.0.1-SNAPSHOT.jar
 | GET | `/admin/employees/{employeeId}` | 직원 상세 조회 | 관리자 | - |
 | POST | `/admin/employees/{employeeId}` | 직원 승인,거부 | 관리자 | - |
 | POST | `/admin/employees/{employeeId}/deactivate` | 직원 비활성화 | 관리자 | - |
-| POST | `/api/v1/email/send` | 이메일 인증번호 발송 (API) | 비로그인 | - |
-| POST | `/api/v1/email/verify` | 이메일 인증번호 확인 (API) | 비로그인 | - | ** 확인필요
 | GET | `/api/v1/admin/option-chart` | 옵션 차트 데이터 (API) | 관리자 | - |
 | GET | `/api/v1/admin/category-revenue-chart` | 카테고리 매출 차트 데이터 (API) | 관리자 | - |
 | GET | `/api/v1/admin/monthly-trend-chart` | 월별 매출 추이 차트 데이터 (API) | 관리자 | - |
@@ -369,11 +369,11 @@ java -jar build/libs/clean4u-0.0.1-SNAPSHOT.jar
 | GET | `/notices` | 공지사항 목록 조회 | 로그인 필요 | - |
 | GET | `/notices/{noticeId}` | 공지사항 상세 조회 | 로그인 필요 | - |
 | GET | `/notices/{noticeId}/edit` | 공지사항 수정 화면 | 관리자 | - |
-| POST | `/notices/{noticeId}/image` | 공지사항 이미지 수정 처리| 관리자 | - | 
-| POST | `/api/v1/notices/image` | 공지사항 이미지 업로드 (API) | 관리자 | - |
 | PUT | `/api/v1/notices/{noticeId}` | 공지사항 수정 (API) | 관리자 | - |
 | DELETE | `/api/v1/notices/{noticeId}` | 공지사항 삭제 (API) | 관리자 | - |
-| DELETE | `/api/v1/notices/{noticeId}/image` | 공지사항 이미지 삭제 (API) | 관리자 | - |
+| POST | `/api/v1/notices/image` | 공지사항 본문 내 이미지 삽입 | 관리자 | - |
+| GET | `/api/v1/files/{fileId}` | 첨부 파일 다운로드 | 관리자 | - |
+
 
 ### 결제 및 환불
 
@@ -399,7 +399,7 @@ java -jar build/libs/clean4u-0.0.1-SNAPSHOT.jar
 |------------|-----|------|------|------|
 | GET | `/schedules/employees` | 직원 조회 (스케줄 등록용) | 관리자 | - |
 | GET | `/schedules/{employeeId}/new` | 스케줄 등록 화면 | 관리자 | - |
-| POST | `/schedules` | 스케줄 등록 처리 | 관리자 | - |
+| POST | `/schedules/new` | 스케줄 등록 처리 | 관리자 | - |
 | GET | `/schedules` | 스케줄 목록 조회 | 관리자 | - |
 | GET | `/schedules/{scheduleId}` | 스케줄 상세 조회 | 관리자 | - |
 | GET | `/schedules/{scheduleId}/edit` | 스케줄 수정 화면 | 관리자 | - |
@@ -545,7 +545,8 @@ Swagger UI를 통해 API 문서를 확인할 수 있습니다:
     - **직원 관리 시스템**
         - 직원 등록, 조회, 수정, 승인/거부 처리
     - **대시보드 시스템**
-        - 관리자/직원 대시보드 페이지, 직원 관리 통계, 세탁 옵션 차트 통계, 근무 정보 통계
+        - 관리자/직원 대시보드 페이지, 직원 관리 통계, 근무 정보 통계,
+        인기 세탁 옵션 차트, 카테고리별 매출 비중 차트, 월간 실적 추이 차트
     - **근무 스케줄 관리 시스템**
         - 근무 스케줄 등록, 조회, 수정, 대체 근무 관리
     - **공통 기능**

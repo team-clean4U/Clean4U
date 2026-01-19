@@ -11,19 +11,20 @@ import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    List<Employee> findByNameContaining(String name);
+    @Query("SELECT e FROM Employee e " +
+            "WHERE e.name LIKE concat('%', :keyword, '%') AND e.userStatus = 'APPROVED' " +
+            "ORDER BY e.name DESC")
+    List<Employee> findByNameContaining(@Param("keyword") String name);
 
     Optional<Employee> findByUsername(String username);
 
     @Query("SELECT e FROM Employee e WHERE e.userStatus = 'PENDING' ORDER BY e.createdAt")
     List<Employee> findAllByOrderByCreatedAtDesc();
 
-    Long countByUserStatus(UserStatus status);
+    @Query("SELECT e FROM Employee e WHERE e.id = :id AND e.userStatus = 'APPROVED'")
+    Optional<Employee> findByIdAndApproved(@Param("id") Long id);
 
-    @Query("SELECT e FROM Employee e " +
-            "WHERE e.userStatus = 'APPROVED'" +
-            "ORDER BY e.createdAt DESC")
-    List<Employee> findAllEmployee();
+    Long countByUserStatus(UserStatus status);
 
     @Query("SELECT e FROM Employee e " +
             "WHERE e.userStatus = 'APPROVED'" +

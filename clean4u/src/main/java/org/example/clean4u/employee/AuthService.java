@@ -62,6 +62,7 @@ public class AuthService {
     public List<Employee> getOverrideEmployee (Employee employee) {
         return employeeRepository.findAll().stream()
                 .filter(e -> !e.getId().equals(employee.getId()))
+                .filter(e -> e.getUserStatus() == UserStatus.APPROVED)
                 .collect(Collectors.toList());
     }
 
