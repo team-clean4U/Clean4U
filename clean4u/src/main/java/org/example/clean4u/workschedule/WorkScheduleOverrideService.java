@@ -27,10 +27,10 @@ public class WorkScheduleOverrideService {
 
     @Transactional
     public WorkScheduleOverride saveOverride(@Valid WorkScheduleRequest.SaveDTO saveDTO) {
-        Employee originalEntity = employeeRepository.findById(saveDTO.getEmployeeId())
+        Employee originalEntity = employeeRepository.findByIdAndApproved(saveDTO.getEmployeeId())
                 .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
 
-        Employee overrideEntity = employeeRepository.findById(saveDTO.getOverrideId())
+        Employee overrideEntity = employeeRepository.findByIdAndApproved(saveDTO.getOverrideId())
                 .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
 
         WorkScheduleOverride workScheduleOverride = saveDTO.toSickEntity(originalEntity, overrideEntity);

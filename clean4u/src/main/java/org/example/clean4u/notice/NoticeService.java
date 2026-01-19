@@ -134,6 +134,13 @@ public class NoticeService {
         }
         notice.update(dto); // 제목, 내용만
 
+        if (!dto.getDeleteFileIds().isEmpty()) {
+            List<NoticeFile> deleteTargets = noticeFileRepository.findAllById(dto.getDeleteFileIds());
+
+            deleteFiles(deleteTargets);
+            notice.removeFiles(deleteTargets);
+        }
+
         updateNoticeFiles(notice.getId(), dto, sessionUser);
         return new NoticeResponse.DetailDTO(notice);
     }

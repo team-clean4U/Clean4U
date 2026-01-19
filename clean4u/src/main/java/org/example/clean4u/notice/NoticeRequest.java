@@ -41,11 +41,5 @@ public class NoticeRequest {
         private String content;
         private List<Long> deleteFileIds = new ArrayList<>();
         private List<MultipartFile> newAttachments = new ArrayList<>();
-
-    }
-
-    @Data
-    public static class ImageUploadDTO {
-        List<MultipartFile> uploadImages;
     }
 }

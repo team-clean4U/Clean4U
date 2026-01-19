@@ -55,20 +55,26 @@ public class Notice {
     }
 
     public void addNoticeFile(NoticeFile noticeFile) {
+        if (noticeFile == null) return;
+
         this.noticeFiles.add(noticeFile);
         noticeFile.setNotice(this);
     }
 
     public void addNoticeFiles(List<NoticeFile> files) {
-        if (files != null && !files.isEmpty()) { return; }
-
-        for (NoticeFile file : files) {
-            this.noticeFiles.addAll(files);
+        if (files == null || files.isEmpty()) { return; }
+        for (NoticeFile file: files) {
+            addNoticeFile(file);
         }
     }
 
     public void clearFiles() {
         this.noticeFiles.clear();
+    }
+
+    public void removeFiles(List<NoticeFile> files) {
+        if (files == null || files.isEmpty()) return;
+        this.noticeFiles.removeAll(files);
     }
 
 }

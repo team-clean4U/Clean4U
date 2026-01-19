@@ -33,7 +33,9 @@
                             </label>
                         </div>
                         <input type="file" id="attachments" name="attachments" hidden multiple>
-                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>
+                        <div class="file-list" id="attachment-list">
+                            <span id="noFile" class="image-label"> 선택된 파일 없음 </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,4 +50,4 @@
 {{> layout/footer}}
 
 <script src="/js/notice/notice-summernote.js"></script>
-<script src="/js/notice/notice-file.js"></script>
+<script src="/js/notice/save.js"></script>
