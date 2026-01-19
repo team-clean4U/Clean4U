@@ -4,7 +4,7 @@
 
 <div class="notice-container">
     <div class="notice-container-content">
-        <form id="updateForm">
+        <form id="updateForm" enctype="multipart/form-data">
             <div class="notice-header">
                 <label class="notice-label">
                     <i class="fa-solid fa-bullhorn"></i>제목:
@@ -33,15 +33,20 @@
                                 </span>
                             </label>
                         </div>
-                        <input type="file" id="attachments" name="attachments" hidden multiple>
-                            <div class="file-list">
+                        <input type="file" id="attachments" name="newAttachments" hidden multiple>
+                            <div class="file-list" id="fileList">
+                                <input type="hidden" name="deleteFileIds" id="deleteFileIds">
                             {{#notice.attachments}}
-                                <span id="fileName" class="image-label">{{originalName}}</span>
+                                <span class="image-label-file" data-file-id="{{fileId}}">{{originalName}}
+                                    <i class="fa-solid fa-x remove-file"></i>
+                                </span>
                             {{/notice.attachments}}
+                                <span id="newFile"></span>
+                                <span id="noFile" class="image-label"
+                                      style="{{#notice.attachments}}display:none;{{/notice.attachments}}
+                                              {{^notice.attachments}}display:block;{{/notice.attachments}}"
+                                > 첨부파일 없음 </span>
                             </div>
-                        {{^notice.attachments}}
-                            <span id="fileName" class="image-label"> 첨부파일 없음</span>
-                        {{/notice.attachments}}
                     </div>
                 </div>
             </div>
@@ -56,5 +61,5 @@
 {{> layout/footer}}
 
 <script src="/js/notice/update.js"></script>
-<script src="/js/notice/notice-summernote.js"></script>
 <script src="/js/notice/notice-file.js"></script>
+<script src="/js/notice/notice-summernote.js"></script>
