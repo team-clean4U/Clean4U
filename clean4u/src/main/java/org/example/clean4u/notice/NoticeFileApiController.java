@@ -17,18 +17,18 @@ import java.nio.file.Path;
 @RequestMapping
 public class NoticeFileApiController {
 
-    private final NoticeService noticeService;
+    private final NoticeFileService noticeFileService;
 
     @GetMapping("/api/v1/files/{fileId}")
     public ResponseEntity<Resource> download(@PathVariable Long fileId) {
-        NoticeFile file = noticeService.getFileInfo(fileId); // 파일 조회
+        NoticeFile file = noticeFileService.getFileInfo(fileId); // 파일 조회
 
-        Path path = noticeService.getFile(file); // 파일 경로
+        Path path = noticeFileService.getFile(file); // 파일 경로
 
         Resource resource = new PathResource(path); // Resource 변환
 
         // 헤더 생성
-        HttpHeaders headers = noticeService.createDownloadHeaders(file, path);
+        HttpHeaders headers = noticeFileService.createDownloadHeaders(file, path);
 
         return ResponseEntity.ok()
                 .headers(headers)
