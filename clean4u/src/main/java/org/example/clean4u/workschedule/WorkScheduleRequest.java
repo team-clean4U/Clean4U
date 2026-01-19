@@ -37,7 +37,7 @@ public class WorkScheduleRequest {
 
         public WorkScheduleOverride toSickEntity(Employee originalEmployee, Employee overrideEmployee) {
             LocalTime start = overrideStartTime != null ? overrideStartTime : LocalTime.of(9, 0);
-            LocalTime end = overrideEndTime != null ? overrideStartTime : LocalTime.of(18, 0);
+            LocalTime end = overrideEndTime != null ? overrideEndTime : LocalTime.of(18, 0);
             return new WorkScheduleOverride(date, originalEmployee, overrideEmployee, start, end);
         }
     }

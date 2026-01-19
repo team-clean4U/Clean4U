@@ -103,8 +103,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/notices/new",
                         "/notices/*/edit",
                         "/api/v1/admin/option-chart",
-                        "/api/v1/category-revenue-chart",
-                        "/api/v1/monthly-trend-chart"
+                        "/api/v1/admin/category-revenue-chart",
+                        "/api/v1/admin/monthly-trend-chart"
                 );
     }
 

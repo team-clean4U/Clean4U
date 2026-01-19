@@ -93,19 +93,6 @@ public class EmployeeController {
         return "user/dashboard-employee";
     }
 
-    @GetMapping("/schedules/employees")
-    public String search(
-            @RequestParam(required = false) String keyword,
-            Model model
-    ) {
-        List<EmployeeResponse.SimpleDTO> employeeList = workScheduleService.searchByName(keyword);
-        model.addAttribute("employeeList", employeeList);
-        model.addAttribute("keyword", keyword != null ? keyword : "");
-        model.addAttribute("additionalCss", Arrays.asList("/css/employee-search.css"));
-
-        return "employee/employee-search";
-    }
-
     @GetMapping("/employees/me")
     public String update(Model model, HttpSession session) {
         Employee sessionUser = (Employee) session.getAttribute("sessionUser");

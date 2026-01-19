@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.AuthService;
 import org.example.clean4u.employee.Employee;
+import org.example.clean4u.employee.EmployeeResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,20 @@ public class WorkScheduleController {
     private final WorkScheduleOverrideService workScheduleOverrideService;
     private final AuthService authService;
 
-    @PostMapping("/schedules")
+    @GetMapping("/schedules/employees")
+    public String search(
+            @RequestParam(required = false) String keyword,
+            Model model
+    ) {
+        List<EmployeeResponse.SimpleDTO> employeeList = workScheduleService.searchByName(keyword);
+        model.addAttribute("employeeList", employeeList);
+        model.addAttribute("keyword", keyword != null ? keyword : "");
+        model.addAttribute("additionalCss", Arrays.asList("/css/employee-search.css"));
+
+        return "employee/employee-search";
+    }
+
+    @PostMapping("/schedules/new")
     public String saveProc(@Valid WorkScheduleRequest.SaveDTO saveDTO) {
 
         if (saveDTO.isSick()) {
@@ -65,7 +79,7 @@ public class WorkScheduleController {
         return "workschedule/schedule-list-form";
     }
 
-    @GetMapping("/schedules/{employeeId:\\d+}/new")
+    @GetMapping("/schedules/{employeeId}/new")
     public String saveForm(
             @PathVariable Long employeeId,
             @RequestParam(required = false) ScheduleReason reason,

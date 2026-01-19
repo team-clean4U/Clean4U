@@ -8,6 +8,7 @@ import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.employee.Employee;
 import org.example.clean4u.employee.EmployeeRepository;
 import org.example.clean4u.employee.EmployeeResponse;
+import org.example.clean4u.employee.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,10 @@ public class WorkScheduleService {
     public WorkSchedule saveNormal(@Valid WorkScheduleRequest.SaveDTO saveDTO) {
         Employee employeeEntity = employeeRepository.findById(saveDTO.getEmployeeId())
                 .orElseThrow(() -> new Exception404("해당 ID의 직원이 존재하지 않습니다."));
+
+        if (employeeEntity.getUserStatus() != UserStatus.APPROVED) {
+            throw new Exception400("가입 승인되지 않은 직원입니다.");
+        }
 
         if (workScheduleRepository.findByEmployeeId(saveDTO.getEmployeeId()).isPresent()) {
             throw new Exception400("이미 스케줄이 등록된 직원입니다.");
