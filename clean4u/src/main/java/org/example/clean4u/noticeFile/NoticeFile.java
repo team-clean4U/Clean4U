@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "notice_file")
+@Table(name = "notice_file_tb")
 @Data
 @NoArgsConstructor
 public class NoticeFile {
