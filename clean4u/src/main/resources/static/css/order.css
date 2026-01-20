@@ -121,6 +121,13 @@ input.has-value {
     background: var(--color-blue);
     cursor: pointer;
     font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.image-row {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
 }
 
 .laundry-add {
@@ -543,12 +550,14 @@ input.has-value {
     border-radius: 10px;
     color: var(--color-gray);
     width: 100%;
-    max-width: 500px;
+    max-width: 100%;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 0.5rem 0.7rem;
+    flex: 1;
+    margin-left: 0.7rem;
 }
 
 .status-badge.status-refund {

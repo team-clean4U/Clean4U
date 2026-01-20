@@ -44,17 +44,20 @@
                                placeholder="메모를 입력하세요(선택)" class="update-value">
                     </div>
                     <div class="update-item last">
-                        <label class="update-label">
+                        <label class="update-label" style="flex-shrink: 0; width: 100px;">
                             <i class="fa-solid fa-image"></i>
                             사진 추가
                         </label>
                         <input type="file" id="laundryImage" name="laundryImage" accept="image/*" hidden>
-                        <label for="laundryImage" class="btn image-add">
-                            <span id="imageLabel">
-                                <i class="fa-solid fa-upload"></i>
-                                파일 선택</span>
-                        </label>
-                        <span id="fileName" class="image-label"> 선택된 파일 없음</span>
+                        <div class="image-row">
+                            <label for="laundryImage" class="btn image-add">
+                                <span id="imageLabel">
+                                    <i class="fa-solid fa-upload"></i>
+                                    파일 선택
+                                </span>
+                            </label>
+                            <span id="fileName" class="image-label"> 선택된 파일 없음</span>
+                        </div>
                     </div>
                 </div>
 
