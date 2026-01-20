@@ -154,7 +154,7 @@ public class PaymentService {
     }
 
     private String generateMerchantUid(Long orderId) {
-        return "order_" + orderId + "_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().substring(0, 8);
+        return "order_" + orderId + "_" + UUID.randomUUID().toString().substring(0, 8);
     }
 
     public PageResponse<PaymentResponse.ListDTO> paymentList(int page, int size, PaymentRequest.SearchDTO searchDTO) {
