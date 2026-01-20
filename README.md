@@ -1,4 +1,4 @@
-🧺 Clean4U - 세탁소 운영 관리 시스템
+## 🧺 Clean4U - 세탁소 운영 관리 시스템
 <img src="read-me-images/logo.jpg" width="300" />
 
 ## 🚀 프로젝트 개요
