@@ -86,6 +86,10 @@ public class AuthService {
         Employee employeeEntity = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new Exception404("해당 ID의 직원을 찾을 수 없습니다."));
 
+        if (employeeEntity.getId().equals(employeeId) && employeeEntity.isAdmin()) {
+            throw new Exception400("ADMIN 계정은 삭제할 수 없습니다.");
+        }
+
         employeeEntity.setActive(false);
     }
 
