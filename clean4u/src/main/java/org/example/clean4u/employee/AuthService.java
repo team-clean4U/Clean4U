@@ -5,6 +5,7 @@ import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.response.PageResponse;
 import org.example.clean4u.workschedule.WorkScheduleOverrideRepository;
+import org.example.clean4u.workschedule.WorkScheduleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class AuthService {
     private final EmployeeRepository employeeRepository;
+    private final WorkScheduleRepository workScheduleRepository;
     private final WorkScheduleOverrideRepository workScheduleOverrideRepository;
 
     public List<EmployeeResponse.JoinListDTO> joinList() {
@@ -89,6 +91,9 @@ public class AuthService {
         if (employeeEntity.getId().equals(employeeId) && employeeEntity.isAdmin()) {
             throw new Exception400("ADMIN 계정은 삭제할 수 없습니다.");
         }
+
+        workScheduleRepository.deleteByEmployeeId(employeeEntity.getId());
+        workScheduleOverrideRepository.deleteByEmployeeId(employeeEntity.getId());
 
         employeeEntity.setActive(false);
     }
