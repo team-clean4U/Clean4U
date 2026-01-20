@@ -5,11 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
             e.preventDefault();
             const formData = new FormData(form);
             const id = window.location.pathname.match(/\/(\d+)\/edit/)[1];
+            const isActiveCheckbox = document.getElementById("isActive");
             const data = {
                 name: formData.get("name"),
                 category: formData.get("category"),
                 basePrice: parseInt(formData.get("basePrice")) || 0,
-                description: formData.get("description") || ""
+                description: formData.get("description") || "",
+                isActive: isActiveCheckbox ? isActiveCheckbox.checked : true
             };
             
             try {

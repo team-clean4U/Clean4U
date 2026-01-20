@@ -7,12 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const id = window.location.pathname.match(/\/(\d+)\/edit/)[1];
 
             const historyTypeValue = formData.get("historyType");
+            const isActiveCheckbox = document.getElementById("isActive");
             const data = {
                 name: formData.get("name"),
                 stockQuantity: parseInt(formData.get("stockQuantity")) || 0,
                 unit: formData.get("unit"),
                 safetyStock: parseInt(formData.get("safetyStock")) || 0,
-                isActive: formData.get("isActive") === "true",
+                isActive: isActiveCheckbox ? isActiveCheckbox.checked : true,
                 historyType: historyTypeValue && historyTypeValue.trim() !== "" ? historyTypeValue : null,
                 memo: formData.get("memo")
             };
