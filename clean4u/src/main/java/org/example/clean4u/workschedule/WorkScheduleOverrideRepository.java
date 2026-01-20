@@ -3,6 +3,7 @@ package org.example.clean4u.workschedule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -32,4 +33,8 @@ public interface WorkScheduleOverrideRepository extends JpaRepository<WorkSchedu
     long countTodayOverrides ();
 
     Page<WorkScheduleOverride> findByDate(LocalDate date, Pageable pageable);
+
+    @Modifying
+    @Query("DELETE FROM WorkScheduleOverride w WHERE w.originalEmployee.id = :id OR w.overrideEmployee.id = :id")
+    void deleteByEmployeeId (@Param("id") Long id);
 }

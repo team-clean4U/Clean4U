@@ -30,4 +30,6 @@ public interface WorkScheduleRepository extends JpaRepository<WorkSchedule, Long
     @Query("SELECT w FROM WorkSchedule w " +
             "JOIN FETCH w.employee WHERE w.id = :id")
     Optional<WorkSchedule> findByIdWithEmployee(@Param("id") Long id);
+
+    void deleteByEmployeeId (Long employeeId);
 }
