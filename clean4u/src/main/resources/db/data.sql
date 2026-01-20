@@ -966,6 +966,7 @@ VALUES
     (76, 'DRYING', 3, '2025-11-23 06:48:00'),
     (76, 'COMPLETED', 3, '2025-11-24 06:48:00');
 
+
 -- 결제 데이터 삽입
 INSERT INTO payment_tb (order_id, imp_uid, merchant_uid, amount, payment_status, created_at, updated_at)
 VALUES
@@ -1056,7 +1057,7 @@ VALUES
     (1, 'RECEIVED', 5000, '2026-01-18', '미결제 주문', 3, true, '2026-01-18 09:00:00', '2026-01-18 09:00:00'),
     (3, 'RECEIVED', 6000, '2026-01-18', '미결제 주문', 4, true, '2026-01-18 14:30:00', '2026-01-18 14:30:00'),
     (5, 'RECEIVED', 8000, '2026-01-18', '미결제 주문', 5, true, '2026-01-18 16:00:00', '2026-01-18 16:00:00'),
-    (2, 'RECEIVED', 3000, '2026-01-19', '결제 완료 주문', 4, false, '2026-01-19 10:00:00', '2026-01-19 10:00:00');
+    (2, 'WASHING', 3000, '2026-01-19', '결제 완료 주문', 4, false, '2026-01-19 10:00:00', '2026-01-19 13:00:00');
 
 INSERT INTO order_item_tb (order_id, laundry_item_id, quantity, created_at, updated_at)
 VALUES
@@ -1098,7 +1099,8 @@ VALUES
     (82, 'RECEIVED', 3, '2026-01-18 00:00:00'),
     (83, 'RECEIVED', 4, '2026-01-18 05:30:00'),
     (84, 'RECEIVED', 5, '2026-01-18 07:00:00'),
-    (85, 'RECEIVED', 4, '2026-01-19 01:00:00');
+    (85, 'RECEIVED', 4, '2026-01-19 10:00:00'),
+    (85, 'WASHING', 2, '2026-01-19 13:00:00');
 
 INSERT INTO payment_tb (order_id, imp_uid, merchant_uid, amount, payment_status, created_at, updated_at)
 VALUES
