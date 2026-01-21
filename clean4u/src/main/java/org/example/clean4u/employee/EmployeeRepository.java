@@ -12,7 +12,8 @@ import java.util.Optional;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.name LIKE concat('%', :keyword, '%') AND e.userStatus = 'APPROVED' " +
+            "WHERE e.name LIKE concat('%', :keyword, '%') AND e.userStatus = 'APPROVED'" +
+            "AND e.isActive = true " +
             "ORDER BY e.name DESC")
     List<Employee> findByNameContaining(@Param("keyword") String name);
 
@@ -21,33 +22,36 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("SELECT e FROM Employee e WHERE e.userStatus = 'PENDING' ORDER BY e.createdAt")
     List<Employee> findAllByOrderByCreatedAtDesc();
 
-    @Query("SELECT e FROM Employee e WHERE e.id = :id AND e.userStatus = 'APPROVED'")
+    @Query("SELECT e FROM Employee e WHERE e.id = :id AND e.userStatus = 'APPROVED' AND e.isActive = true ")
     Optional<Employee> findByIdAndApproved(@Param("id") Long id);
 
     Long countByUserStatus(UserStatus status);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.userStatus = 'APPROVED'" +
+            "WHERE e.userStatus = 'APPROVED' AND e.isActive = true " +
             "ORDER BY e.createdAt DESC")
     Page<Employee> findAllEmployee(Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.name LIKE concat('%', :keyword, '%') AND e.userStatus = 'APPROVED' " +
+            "WHERE e.name LIKE concat('%', :keyword, '%') AND e.userStatus = 'APPROVED'" +
+            "AND e.isActive = true " +
             "ORDER BY e.name DESC")
     Page<Employee> findByNameContaining(@Param("keyword") String name, Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.name LIKE CONCAT('%', :keyword, '%') AND e.userStatus = 'APPROVED' " +
-            "OR e.email LIKE CONCAT('%', :keyword, '%') " +
+            "WHERE e.name LIKE CONCAT('%', :keyword, '%') AND e.userStatus = 'APPROVED'" +
+            "AND e.isActive = true " +
+            "OR e.email LIKE CONCAT('%', :keyword, '%') AND e.isActive = true " +
             "ORDER BY e.createdAt DESC")
     Page<Employee> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.email LIKE CONCAT('%', :keyword, '%') AND e.userStatus = 'APPROVED' " +
+            "WHERE e.email LIKE CONCAT('%', :keyword, '%') AND e.userStatus = 'APPROVED'" +
+            "AND e.isActive = true " +
             "ORDER BY e.email DESC")
     Page<Employee> findByEmailContaining(@Param("keyword") String keyword, Pageable pageable);
 
-    @Query("SELECT COUNT(e) FROM Employee e ")
+    @Query("SELECT COUNT(e) FROM Employee e WHERE e.isActive = true ")
     long countAllEmployees();
 
     @Query(value =

@@ -11,7 +11,6 @@ import org.hibernate.annotations.Where;
 import java.sql.Timestamp;
 
 @Entity
-@Where(clause = "is_active = true")
 @Data
 @NoArgsConstructor
 @Table(name = "employee_tb")
