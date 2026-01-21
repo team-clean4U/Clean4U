@@ -26,11 +26,7 @@ public class NoticeFileApiController {
 
     @GetMapping("/api/v1/files/{fileId}")
     public ResponseEntity<Resource> download(@PathVariable Long fileId) throws IOException {
-        NoticeFile file = noticeFileService.getFileInfo(fileId); // 파일 조회
-
-//        Path path = noticeFileService.getFile(file); // 파일 경로
-
-//        Resource resource = new PathResource(path); // Resource 변환
+        NoticeFile file = noticeFileService.getFileInfo(fileId); // 파일
         Resource resource = noticeFileService.getFileResource(file); // Resource 변환
 
         // 헤더 생성
