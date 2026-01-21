@@ -68,12 +68,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Object[]> findRevenueByCategory();
 
     @Query(value =
-            "SELECT DATE_FORMAT(order_date, '%Y-%m') AS order_month, " +
+            "SELECT YEAR(order_date), MONTH(order_date), " +
             "COUNT(id) AS order_count, " +
             "SUM(total_price) AS monthly_revenue " +
             "FROM order_tb " +
             "WHERE status != 'CANCELLED' " +
-            "GROUP BY DATE_FORMAT(order_date, '%Y-%m') " +
-            "ORDER BY order_month ASC", nativeQuery = true)
+            "GROUP BY YEAR(order_date), MONTH(order_date) " +
+            "ORDER BY 1 ASC, 2 ASC", nativeQuery = true)
     List<Object[]> findMonthSalesTrend();
 }

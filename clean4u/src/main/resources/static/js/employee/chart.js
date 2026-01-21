@@ -134,7 +134,6 @@ fetch("/api/v1/admin/category-revenue-chart")
 fetch("/api/v1/admin/monthly-trend-chart")
     .then(res => res.json())
     .then(trendData => {
-        // trendData 예: [['2023-10', 45, 1200000], ['2023-11', 52, 1500000], ...]
         const labels = trendData.map(t => t[0]); // 년-월
         const counts = trendData.map(t => t[1]); // 주문 건수
         const revenues = trendData.map(t => t[2]); // 매출액
