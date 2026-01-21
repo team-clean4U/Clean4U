@@ -46,12 +46,14 @@ spring:
 
   sql:
     init:
+#      mode: always
       mode: never
-      data-locations:
-        - classpath:db/data.sql
+#      data-locations:
+#        - classpath:db/data.sql
 
   jpa:
     hibernate:
+#      ddl-auto: create
       ddl-auto: update
     show-sql: true
     properties:
