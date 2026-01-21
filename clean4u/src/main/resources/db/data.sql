@@ -177,22 +177,30 @@ Clean4U에서 프리미엄 세탁 서비스를 새롭게 런칭했습니다.
 연휴 중 비상 상황 발생 시 관리자 연락 필수입니다.
 
 문의: 관리자', 1, '2025-12-15 00:00:00'),
-    ('설 연휴 휴무 안내',
-     '<p><span style=\"font-size: 20px;\">안녕하세요. Clean4U 입니다.</span></p><p><span style=\"font-size: 20px;\">설 연휴를 맞아 휴무 안내드리오니</span></p><p><span style=\"font-size: 20px;\">자세한 사항은 첨부파일을 참고해주시기 바랍니다.</span></p><p><br></p><p><span style=\"font-size: 20px;\">감사합니다.</span></p><p><br></p><p><img src=\"/images/notice/5a558998-6cf8-4aa6-bc83-4e3eb60ed2bf_Clean4U logo.png\" style=\"width: 50%;\"><br></p>',
-     '2', '2026-01-20 14:18:20.831607');
+       ('설 연휴 영업 일정 안내', '안녕하세요. Clean4U 세탁소입니다.
+항상 저희 세탁소를 이용해 주셔서 감사합니다.
+
+설 연휴 기간 동안 영업 일정이 아래와 같이 변경되오니 이용에 참고 부탁드립니다.
+
+휴무일: 2월 9일(일) ~ 2월 11일(화)
+
+정상 영업 재개: 2월 12일(수) 오전 9시
+
+연휴 전·후에는 세탁 물량 증가로 인해 완성까지 시간이 다소 지연될 수 있는 점 양해 부탁드립니다.
+급한 세탁물은 미리 맡겨주시면 감사하겠습니다.
+
+앞으로도 더 깨끗하고 정성스러운 세탁 서비스로 보답하겠습니다.
+감사합니다.
+
+Clean4U 세탁소 드림
+
+문의: 관리자
+ <img src = "/uploads/notice/clean4uLogo.png" style = "width: 50%;">', 1, '2026-01-20 00:00:00');
 
 INSERT INTO notice_file_tb
 (notice_id, original_name, stored_name, content_type, file_size, file_path, created_at)
 VALUES
-    (1, '운영시간변경안내.pdf', 'notice_1_001.pdf', 'application/pdf', 245678, '/uploads/notice/notice_1_001.pdf', '2025-12-10 10:05:00'),
-
-    (2, '프리미엄서비스_안내서.pdf', 'notice_2_001.pdf', 'application/pdf', 312450, '/uploads/notice/notice_2_001.pdf', '2025-12-15 09:10:00'),
-
-    (3, '가격조정표.xlsx', 'notice_3_001.png', 'image/png', 128900, '/uploads/notice/notice_3_001.png', '2025-12-20 14:40:00'),
-
-    (4, '시스템점검안내.png', 'notice_4_001.png', 'image/png', 85432, '/uploads/notice/notice_4_001.png', '2025-12-25 00:10:00'),
-
-    (10, '20260120 공지내용.pdf', '346311a2-392b-4ca5-bed3-d54afde868da_20260120 공지내용.pdf', 'application/pdf', '98206', 'C:\uploads\files\346311a2-392b-4ca5-bed3-d54afde868da_20260120 공지내용.pdf','2026-01-20 14:18:13.617311');
+    (10, '20260120공지내용.pdf', '20260120공지내용.pdf', 'application/pdf', 98206, '/uploads/file/20260120공지내용.pdf', '2026-01-19 10:05:00');
 
 INSERT INTO supply_item_history_tb (supply_item_id, type, quantity, stock_before, stock_after, memo, employee_id,
                                     created_at)
