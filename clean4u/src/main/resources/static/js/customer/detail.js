@@ -34,6 +34,6 @@ async function deleteCustomer(id) {
             }, 100);
         }
     } catch (error) {
-        alert("삭제 중 오류가 발생했습니다.");
+        alert("주문 이력이 있는 고객은 삭제할 수 없습니다.\n" + "비활성화를 사용해주세요. ");
     }
 }
