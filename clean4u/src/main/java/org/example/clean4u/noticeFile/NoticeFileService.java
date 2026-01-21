@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.clean4u._core.errors.exception.Exception400;
 import org.example.clean4u._core.errors.exception.Exception404;
 import org.example.clean4u._core.errors.exception.Exception500;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -56,26 +59,36 @@ public class NoticeFileService {
         }
     }
 
+    public Resource getFileResource(NoticeFile file) {
+        String dbPath = file.getFilePath();
+        if (dbPath.startsWith("/")) {
+            dbPath = dbPath.substring(1);
+        }
+
+        String fileName = Paths.get(dbPath).getFileName().toString();
+        Path externalPath = Paths.get("C:/uploads/files").resolve(fileName);
+        Resource resource = new FileSystemResource(externalPath);
+
+        if (!resource.exists()) {
+            Path internalPath = Paths.get(System.getProperty("user.dir"), "src/main/resources/static", dbPath);
+            resource = new FileSystemResource(internalPath);
+        }
+
+        if (!resource.exists()) {
+            resource = new ClassPathResource("static/" + dbPath);
+        }
+
+        if (!resource.exists()) {
+            throw new Exception500("파일을 찾을 수 없습니다: " + dbPath);
+        }
+        return resource;
+    }
+
     public NoticeFile getFileInfo(Long fileId) {
         NoticeFile info = noticeFileRepository.findById(fileId)
                 .orElseThrow(() -> new Exception404("해당 파일이 없습니다"));
 
         return info;
-    }
-
-    public Path getFile(NoticeFile file) {
-        String filePath = file.getFilePath();
-        if (filePath == null || filePath.isEmpty()) {
-            throw new Exception500("파일 경로가 없습니다");
-        }
-
-        Path path = Paths.get(filePath);
-
-        if (!Files.exists(path) || !Files.isReadable(path)) {
-            throw new Exception500("서버 내부 오류가 발생했습니다");
-        }
-
-        return path;
     }
 
     public HttpHeaders createDownloadHeaders(NoticeFile file, Path path) {
