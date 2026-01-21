@@ -59,14 +59,14 @@ public class NoticeFile {
     }
 
     public static NoticeFile createNoticeFile(MultipartFile file, String storedName, String filePath) {
-        Path fullPath = Paths.get(filePath).resolve(storedName);
+        String savedPath = "/uploads/file/" + storedName;
 
         return NoticeFile.builder()
                 .originalName(file.getOriginalFilename())
                 .storedName(storedName)
                 .contentType(file.getContentType())
                 .fileSize(file.getSize())
-                .filePath(fullPath.toString())
+                .filePath(savedPath)
                 .build();
     }
 }
