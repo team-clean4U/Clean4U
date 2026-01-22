@@ -556,7 +556,6 @@ java -jar build/libs/clean4u-0.0.1-SNAPSHOT.jar
 
 ### IDE 설정
 - IntelliJ IDEA 권장
-- Lombok 플러그인 설치 필요
 - Java 17 SDK 설정
 
 ### 데이터베이스 설정
