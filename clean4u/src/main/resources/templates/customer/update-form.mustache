@@ -5,7 +5,7 @@
 <div class="update-container">
     <div class="update-container-content">
         <div class="update-card">
-            <form action="/customers/{{customer.customerId}}/edit" id="updateForm">
+            <form id="updateForm">
                 <div class="update-header">
                     <i class="fa-solid fa-user"></i>
                     <input type="text" name="name" placeholder="고객 이름을 입력해주세요." value="{{customer.name}}"
@@ -68,8 +68,7 @@
     </div>
 </div>
 
-<script src="/js/phone-format.js"></script>
-<script src="/js/customer/customer.js"></script>
 <script src="/js/customer/update.js"></script>
+<script src="/js/phone-format.js"></script>
 
 {{> layout/footer}}
