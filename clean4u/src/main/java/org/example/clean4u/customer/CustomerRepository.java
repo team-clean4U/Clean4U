@@ -3,6 +3,8 @@ package org.example.clean4u.customer;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,8 +18,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c " +
             "WHERE c.name LIKE concat('%', :keyword, '%')")
     Page<Customer> findByNameContaining(@Param("keyword") String name, Pageable pageable);
-
-    Page<Customer> findByPhoneContaining(@Param("keyword")String keyword, Pageable pageable);
 
     Page<Customer> findCustomersByGrade(@Param("keyword") Grade grade, Pageable pageable);
 
@@ -64,4 +64,11 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByPhone(String phone);
 
     boolean existsByPhoneAndIdNot(String phone, Long customerId);
+
+    @Query("SELECT c.id FROM Customer c " +
+            "LEFT JOIN Order o ON c.id = o.customer.id " +
+            "WHERE c.isActive = true " +
+            "GROUP BY c.id " +
+            "HAVING MAX(coalesce(o.orderDate, c.createdAt)) < :twoYearAgo")
+    List<Long> findNotOrderOverYear(@Param("twoYearAgo") LocalDate twoYearAgo);
 }
