@@ -39,10 +39,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Page<Employee> findByNameContaining(@Param("keyword") String name, Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
-            "WHERE e.name LIKE CONCAT('%', :keyword, '%') AND e.userStatus = 'APPROVED'" +
-            "AND e.isActive = true " +
-            "OR e.email LIKE CONCAT('%', :keyword, '%') AND e.isActive = true " +
-            "ORDER BY e.createdAt DESC")
+            "WHERE (e.name LIKE CONCAT('%', :keyword, '%') OR e.email LIKE CONCAT('%', :keyword, '%'))" +
+            "AND e.userStatus = 'APPROVED'" +
+            "AND e.isActive = true ")
     Page<Employee> searchByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT e FROM Employee e " +
@@ -51,7 +50,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ORDER BY e.email DESC")
     Page<Employee> findByEmailContaining(@Param("keyword") String keyword, Pageable pageable);
 
-    @Query("SELECT COUNT(e) FROM Employee e WHERE e.isActive = true ")
+    @Query("SELECT COUNT(e) FROM Employee e WHERE e.userStatus = 'APPROVED' AND e.isActive = true ")
     long countAllEmployees();
 
     @Query(value =
