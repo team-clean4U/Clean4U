@@ -43,7 +43,7 @@ public class Customer {
     @Column(name = "memo", length = 1000)
     private String memo;
 
-    @Column(name = "isActive", nullable = false)
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
     @CreationTimestamp
