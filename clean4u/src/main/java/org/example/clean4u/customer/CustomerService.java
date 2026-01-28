@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,6 +109,23 @@ public class CustomerService {
         customer.deactivate();
 
         return new CustomerResponse.CustomerStatusDTO(customer);
+    }
+
+    @Transactional
+    public void processInactiveCustomers() {
+        LocalDate twoYearAgo = LocalDate.now().minusYears(2);
+
+        List<Long> ids = customerRepository.findNotOrderOverYear(twoYearAgo);
+
+        if (ids != null && !ids.isEmpty()) {
+            for (Long id : ids) {
+                try {
+                    this.deactivateCustomer(id);
+                } catch (Exception e) {
+                    System.out.println("고객ID: " + id + " 처리 중 오류 발생: " + e.getMessage());
+                }
+            }
+        }
     }
 
     @Transactional
