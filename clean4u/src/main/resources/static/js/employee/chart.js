@@ -134,9 +134,9 @@ fetch("/api/v1/admin/category-revenue-chart")
 fetch("/api/v1/admin/monthly-trend-chart")
     .then(res => res.json())
     .then(trendData => {
-        const labels = trendData.map(t => t[0]); // 년-월
-        const counts = trendData.map(t => t[1]); // 주문 건수
-        const revenues = trendData.map(t => t[2]); // 매출액
+        const labels = trendData.map(t => `${t[0]}-${String(t[1]).padStart(2, '0')}`); // 년-월
+        const counts = trendData.map(t => t[2]); // 주문 건수
+        const revenues = trendData.map(t => t[3]); // 매출액
 
         const data = {
             labels: labels,
@@ -166,12 +166,35 @@ fetch("/api/v1/admin/monthly-trend-chart")
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                  tooltip: {
+                      callbacks: {
+                          label: function (context) {
+                              const index = context.dataIndex;
+                              const datasetLabel = context.dataset.label;
+
+                              if (datasetLabel === '매출액') {
+                                  const rawValue = revenues[index];
+                                  return `매출액: ${rawValue.toLocaleString('ko-KR')}원`;
+                              } else {
+                                  const rawCount = counts[index];
+                                  return `주문 건수: ${rawCount}건`;
+                              }
+                          }
+                      }
+                  }
+                },
                 scales: {
                     'y-revenue': {
                         type: 'linear',
                         position: 'left',
-                        title: { display: true, text: '매출액 (원)' },
-                        beginAtZero: true
+                        title: { display: true, text: '매출액 (만원)' },
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return (value / 10000).toLocaleString() + '만';
+                            }
+                        }
                     },
                     'y-count': {
                         type: 'linear',
