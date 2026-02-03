@@ -24,6 +24,7 @@ public class MailService {
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
+            helper.setFrom("Clean4U <ecde4499@gmail.com>");
             helper.setTo(email);
             helper.setSubject("[Clean4U] 회원가입 이메일 전송");
             helper.setText("<h3>인증번호는 [" + code + "] 입니다<h3>", true);
