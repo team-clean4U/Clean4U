@@ -37,15 +37,15 @@
                             <div class="file-list" id="fileList">
                                 <input type="hidden" name="deleteFileIds" id="deleteFileIds">
                             {{#notice.attachments}}
-                                <span class="image-label-file" data-file-id="{{fileId}}">{{originalName}}
+                                <div class="image-label-file" data-file-id="{{fileId}}">{{originalName}}
                                     <i class="fa-solid fa-x remove-file"></i>
-                                </span>
+                                </div>
                             {{/notice.attachments}}
-                                <span id="newFile"></span>
-                                <span id="noFile" class="image-label"
+                                <div id="newFile"></div>
+                                <div id="noFile" class="image-label"
                                       style="{{#notice.attachments}}display:none;{{/notice.attachments}}
                                               {{^notice.attachments}}display:block;{{/notice.attachments}}"
-                                > 첨부파일 없음 </span>
+                                > 첨부파일 없음 </div>
                             </div>
                     </div>
                 </div>

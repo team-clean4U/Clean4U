@@ -48,7 +48,9 @@
                 </div>
                 <div class="notice-detail-item">
                     <i class="fa-solid fa-message"></i>
-                    <p class="detail-value content">{{{notice.content}}}</p>
+                    <div class="notice-text-wrapper">
+                        <p class="detail-value content content-area">{{{notice.content}}}</p>
+                    </div>
                 </div>
                 <div class="detail-item last">
                     <span class="detail-label">
@@ -57,7 +59,7 @@
                     </span>
                     <div class="detail-value-file">
                         {{#notice.attachments}}
-                        <div class="file-item image-label">
+                        <div class="image-label">
                             <i class="fa-solid fa-paperclip"></i>
                             <a href="/api/v1/files/{{fileId}}">
                                 {{originalName}}
@@ -97,6 +99,5 @@
 </div>
 
 {{> layout/footer}}
-
 
 <script src="/js/notice/delete.js"></script>
