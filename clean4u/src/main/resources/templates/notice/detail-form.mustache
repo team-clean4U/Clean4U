@@ -48,7 +48,9 @@
                 </div>
                 <div class="notice-detail-item">
                     <i class="fa-solid fa-message"></i>
-                    <p class="detail-value content">{{{notice.content}}}</p>
+                    <div class="notice-text-wrapper">
+                        <p class="detail-value content content-area">{{{notice.content}}}</p>
+                    </div>
                 </div>
                 <div class="detail-item last">
                     <span class="detail-label">
@@ -97,6 +99,5 @@
 </div>
 
 {{> layout/footer}}
-
 
 <script src="/js/notice/delete.js"></script>
