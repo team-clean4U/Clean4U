@@ -16,7 +16,6 @@ fileInput.addEventListener("change", function () {
     Array.from(files).forEach(file => {
         const div = document.createElement("div");
         div.classList.add("image-label-file", "new-file-label")
-        div.style.marginBottom = "8px";
         div.style.color = "blue";
         div.innerHTML = `${file.name}<i class="fa-solid fa-x remove-file" style=""></i>`;
         newFile.appendChild(div);
